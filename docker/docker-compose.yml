@@ -1,0 +1,44 @@
+version: '3.0'
+
+services:
+
+    nginx:
+        image: nginx:latest
+        volumes:
+            - ./nginx/conf.d:/etc/nginx/conf.d
+            - ../:/var/app/
+        ports:
+            - 9000:80
+        depends_on:
+            -   app
+
+    app:
+        build:
+            context: .
+            dockerfile: App/Dockerfile
+        volumes:
+            - ../:/var/app/
+        depends_on:
+            - db
+
+    db:
+        image: postgres:latest
+        environment:
+            POSTGRES_DB: "schedule"
+            POSTGRES_USER: "schedule"
+            POSTGRES_PASSWORD: "root"
+        ports:
+            - 5432:5432
+        volumes:
+            -   ../pgsql/data:/var/lib/postgresql/data
+
+    pgadmin4:
+        image: elestio/pgadmin:latest
+        environment:
+            PGADMIN_DEFAULT_EMAIL: 'fakysgg@gmail.com'
+            PGADMIN_DEFAULT_PASSWORD: 'root'
+        depends_on:
+            - db
+        ports:
+            - "5050:80"
+
