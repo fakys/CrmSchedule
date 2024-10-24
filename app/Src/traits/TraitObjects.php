@@ -8,10 +8,10 @@ trait TraitObjects{
     {
         if(!self::$objects){
             if($called){
-                $obj = new (get_class())($data);
+                $obj = new (get_called_class())($data);
                 self::$objects= $obj;
             }else{
-                $obj = new (get_called_class())($data);
+                $obj = new (get_class())($data);
                 self::$objects= $obj;
             }
         }
