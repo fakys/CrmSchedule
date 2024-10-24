@@ -4,7 +4,6 @@ WORKDIR /var/app
 
 RUN apt-get update && apt-get install -y \
     apt-utils \
-    libpng-dev \
     libjpeg62-turbo-dev \
     git \
     zip unzip \
@@ -13,8 +12,11 @@ RUN apt-get update && apt-get install -y \
 
 RUN docker-php-ext-configure gd --with-jpeg --with-freetype \
     && docker-php-ext-install gd \
-    && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install zip
+
+RUN apt-get update \
+    && apt-get install -y libpq-dev \
+    && docker-php-ext-install pgsql pdo_pgsql pdo
 
 COPY App/php.ini /usr/local/etc/php/conf.d/php.ini
 
