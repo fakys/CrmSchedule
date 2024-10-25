@@ -24,7 +24,7 @@ class ModuleRoute
     }
     public function getModuleRoute()
     {
-        $modules = $this->config[$this->main_module];
+        $modules = $this->config['modules'][$this->main_module];
         foreach ($modules as $module) {
             $path = $this->config['base_path']."/{$this->main_module}/$module/{$this->config['web_path']}";
             $namespace = $this->config['base_namespace']."\\{$this->main_module}\\controllers";
