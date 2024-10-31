@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    dd(\App\Src\BackendHelper::getFullModule());
+    $repos = new \App\Src\modules\repository\Repository();
+    dd($repos->getFullRepositories());
     return 1;
 });

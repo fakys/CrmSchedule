@@ -21,4 +21,14 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     {
         return 'Модуль отвечающий за основную БЛ проекта';
     }
+
+    public static function repositories(): array
+    {
+        return [];
+    }
+
+    public static function operations(): array
+    {
+        return [];
+    }
 }
