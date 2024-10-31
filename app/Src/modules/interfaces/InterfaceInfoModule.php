@@ -8,4 +8,7 @@ interface InterfaceInfoModule{
     public static function getRuNameModule():string;
 
     public static function getDescriptionModule():string;
+
+    public static function repositories():array;
+    public static function operations():array;
 }
