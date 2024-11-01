@@ -28,11 +28,29 @@ class InfoModuleModel{
         $path = $this->config['base_path'];
         foreach ($this->config['modules'] as $module_name => $modules){
             foreach ($modules as $module){
-                $module_path = "$path/$module_name/$module/InfoModule.php";
-                if(file_exists($module_path)){
-                    return "{$this->config['base_namespace']}\\$module_name\\$module\\InfoModule";
+                if($name_module == $module){
+                    $module_path = "$path/$module_name/$module/InfoModule.php";
+                    if(file_exists($module_path)){
+                        return "{$this->config['base_namespace']}\\$module_name\\$module\\InfoModule";
+                    }
                 }
             }
         }
+        return null;
+    }
+
+    public function getFullInfoModules()
+    {
+        $arr_modules = [];
+        $path = $this->config['base_path'];
+        foreach ($this->config['modules'] as $module_name => $modules){
+            foreach ($modules as $module){
+                $module_path = "$path/$module_name/$module/InfoModule.php";
+                if(file_exists($module_path)){
+                    $arr_modules[$module] = "{$this->config['base_namespace']}\\$module_name\\$module\\InfoModule";
+                }
+            }
+        }
+        return $arr_modules;
     }
 }

@@ -14,4 +14,9 @@ class BackendHelper{
     {
         return  InfoModuleModel::objects()->getInfoModuleByName($module);
     }
+
+    public static function getFullModule()
+    {
+        return  InfoModuleModel::objects()->getFullInfoModules();
+    }
 }

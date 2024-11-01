@@ -10,5 +10,6 @@ interface InterfaceInfoModule{
     public static function getDescriptionModule():string;
 
     public static function repositories():array;
+
     public static function operations():array;
 }
