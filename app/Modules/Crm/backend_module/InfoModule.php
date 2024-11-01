@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\backend_module;
 
+use App\Modules\Crm\backend_module\componnets\repositories\TestRepository;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 
@@ -24,7 +25,9 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 
     public static function repositories(): array
     {
-        return [];
+        return [
+            TestRepository::class
+        ];
     }
 
     public static function operations(): array

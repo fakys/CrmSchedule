@@ -16,10 +16,13 @@ class RepositoriesContext
     public function getRepository($name, $arguments)
     {
         foreach ($this->repositories as $repository){
-            $data_repository = $repository->$name($arguments);
+            if(method_exists($repository, $name)){
+                return (new $repository())->$name($arguments);
+            }
         }
+        return null;
     }
     public function __call($name, $arguments){
-
+        $this->getRepository($name, $arguments);
     }
 }

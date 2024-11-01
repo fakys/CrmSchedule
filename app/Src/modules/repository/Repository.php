@@ -10,7 +10,7 @@ class Repository
         $modules = BackendHelper::getFullModule();
         $arr_repositories = [];
         foreach ($modules as $module){
-            $repository = array_merge($arr_repositories, $module::repositories());;
+            $arr_repositories = array_merge($arr_repositories, $module::repositories());
         }
         return new RepositoriesContext($arr_repositories);
     }
