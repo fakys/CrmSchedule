@@ -2,10 +2,12 @@
 namespace App\Src\modules\repository;
 
 use App\Src\BackendHelper;
+use App\Src\traits\TraitObjects;
 
 class Repository
 {
-    public function getFullRepositories():RepositoriesContext
+    use TraitObjects;
+    public function getFullRepositories()
     {
         $modules = BackendHelper::getFullModule();
         $arr_repositories = [];
