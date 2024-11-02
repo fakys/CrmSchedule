@@ -6,6 +6,7 @@ use App\Modules\Crm\backend_module\componnets\repositories\Test2Repository;
 use App\Modules\Crm\backend_module\componnets\repositories\TestRepository;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
+use Illuminate\Support\Facades\Config;
 
 class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 {
@@ -41,6 +42,6 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     }
     public static function runConfig()
     {
-
+        Config::set('view.paths', array(__DIR__.'/views'));
     }
 }
