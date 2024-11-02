@@ -12,4 +12,5 @@ interface InterfaceInfoModule{
     public static function repositories():array;
 
     public static function operations():array;
+    public static function runConfig():array;
 }

@@ -39,4 +39,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
             TestOperation::class,
         ];
     }
+    public static function runConfig()
+    {
+
+    }
 }
