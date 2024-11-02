@@ -31,7 +31,23 @@ class InfoModuleModel{
                 if($name_module == $module){
                     $module_path = "$path/$module_name/$module/InfoModule.php";
                     if(file_exists($module_path)){
-                        return "{$this->config['base_namespace']}\\$module_name\\$module\\InfoModule";
+                        return new ("{$this->config['base_namespace']}\\$module_name\\$module\\InfoModule")();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public function getNamespaceModuleByName(string $name_module)
+    {
+        $path = $this->config['base_path'];
+        foreach ($this->config['modules'] as $module_name => $modules){
+            foreach ($modules as $module){
+                if($name_module == $module){
+                    $module_path = "$path/$module_name/$module/InfoModule.php";
+                    if(file_exists($module_path)){
+                        return "{$this->config['base_namespace']}\\$module_name\\$module";
                     }
                 }
             }

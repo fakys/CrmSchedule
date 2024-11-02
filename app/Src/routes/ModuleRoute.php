@@ -1,6 +1,7 @@
 <?php
 namespace App\Src\routes;
 
+use App\Src\modules\InfoModuleModel;
 use App\Src\traits\TraitObjects;
 
 class ModuleRoute
@@ -29,6 +30,7 @@ class ModuleRoute
             $path = $this->config['base_path']."/{$this->main_module}/$module/{$this->config['web_path']}";
             $namespace = $this->config['base_namespace']."\\{$this->main_module}\\controllers";
             if(file_exists($path)){
+                InfoModuleModel::objects()->getInfoModuleByName($module)->runConfig();
                 $this->route::namespace($namespace)->group($path);
             }
         }
