@@ -1,9 +1,6 @@
 <?php
 namespace App\Modules\Crm\backend_module;
 
-use App\Modules\Crm\backend_module\componnets\operations\TestOperation;
-use App\Modules\Crm\backend_module\componnets\repositories\Test2Repository;
-use App\Modules\Crm\backend_module\componnets\repositories\TestRepository;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
@@ -29,15 +26,12 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function repositories(): array
     {
         return [
-            TestRepository::class,
-            Test2Repository::class
         ];
     }
 
     public static function operations(): array
     {
         return [
-            TestOperation::class,
         ];
     }
     public static function runConfig()
