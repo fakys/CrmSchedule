@@ -6,7 +6,8 @@ return [
     'web_path'=>"routes/web.php",
     'modules'=>[
         'Crm'=>[
-            'backend_module'
+            'backend_module',
+            'interface'
         ],
         'Api'=>[]
     ],
