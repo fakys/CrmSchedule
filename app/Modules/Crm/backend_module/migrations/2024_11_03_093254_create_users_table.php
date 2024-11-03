@@ -28,7 +28,6 @@ return new class extends Migration
             $table->string('email')->nullable()->unique();
             $table->string('number_phone')->nullable()->unique();
             $table->text('photo')->nullable();
-            $table->bigInteger('user_id');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
@@ -39,7 +38,6 @@ return new class extends Migration
             $table->string('passport_number')->nullable();
             $table->string('snils')->nullable();
             $table->text('address')->nullable();
-            $table->bigInteger('user_id');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

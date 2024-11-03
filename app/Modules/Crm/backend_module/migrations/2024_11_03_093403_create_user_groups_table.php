@@ -31,19 +31,15 @@ return new class extends Migration
 
         Schema::create('groups_statuses', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_group_id')->unsigned();
-            $table->bigInteger('status_id')->unsigned();
-            $table->foreign('user_group_id')->references('id')->on('user_groups')->onDelete('cascade');
-            $table->foreign('status_id')->references('id')->on('statuses')->onDelete('cascade');
+            $table->foreignId('user_group_id')->references('id')->on('user_groups')->onDelete('cascade');
+            $table->foreignId('status_id')->references('id')->on('statuses')->onDelete('cascade');
             $table->timestamps();
         });
 
         Schema::create('groups_users', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_group_id')->unsigned();
-            $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_group_id')->references('id')->on('user_groups')->onDelete('cascade');
-            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('user_group_id')->references('id')->on('user_groups')->onDelete('cascade');
+            $table->foreignId('users_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
