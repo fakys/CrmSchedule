@@ -2,6 +2,9 @@
 namespace App\Modules\Crm\system_settings\controllers;
 
 use App\Modules\Crm\system_settings\InfoModule;
+use App\Modules\Crm\system_settings\models\SystemSetting;
+use App\Src\BackendHelper;
+use Illuminate\Support\Facades\Validator;
 
 class SettingsController{
 
@@ -11,6 +14,16 @@ class SettingsController{
     }
     public function actionSystemSettings()
     {
+        $setting = BackendHelper::getOperations()->getСurrentSystemSettings();
+        $systemName = config('app.name');
+        if($setting){
+            $setting = json_decode($setting->toArray()['settings']);
+
+            if($setting->system_name){
+                $systemName = $setting->system_name;
+            }
+        }
+        $title = 'Настройки системы';
         $allTimezones = [
             'Europe/Kaliningrad' => '+2',
             'Europe/Moscow' => '+3',
@@ -24,11 +37,26 @@ class SettingsController{
             'Asia/Magadan'=> '+11',
             'Asia/Kamchatka' => '+12',
         ];
-        $systemName = config('app.name');
+
         $systemLang = [
             'ru'=>'Русский',
             'en'=>'English'
         ];
-        return view('settings.system_settings', compact('allTimezones', 'systemName', 'systemLang'));
+        return view('settings.system_settings',
+            compact('title', 'allTimezones', 'systemName', 'systemLang', 'setting'));
+    }
+
+    public function setSystemSettings()
+    {
+        $model = new SystemSetting();
+        $model->load(request()->post());
+        $validate = Validator::make($model->getData(), $model->rules());
+        if(request()->post() && $validate->validate()){
+            $settings = json_encode($model->getData());
+            BackendHelper::getOperations()->createSystemSettings(
+                ['name'=>SystemSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>1, 'active'=>true]
+            );
+        }
+        return redirect()->route('system_settings.settings');
     }
 }

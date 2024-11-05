@@ -1,6 +1,8 @@
 <?php
 namespace App\Modules\Crm\system_settings;
 
+use App\Modules\Crm\system_settings\operations\SystemSettingsOperations;
+use App\Modules\Crm\system_settings\repositories\SystemSettingRepository;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
@@ -26,12 +28,14 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function repositories(): array
     {
         return [
+            SystemSettingRepository::class
         ];
     }
 
     public static function operations(): array
     {
         return [
+            SystemSettingsOperations::class
         ];
     }
     public static function runConfig()

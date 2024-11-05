@@ -54,3 +54,9 @@
 .rm-group-container{
     padding-bottom: 25px;
 }
+.btn-main{
+    background: var(--c-main-white-blue);
+    border: 1px solid var(--c-main-white-blue);
+    color: var(--c-main-white);
+    border-radius:3px;
+}

@@ -16,7 +16,7 @@ class RepositoriesContext
         return $this->repositories;
     }
 
-    public function getRepository($name, $arguments)
+    protected function getRepository($name, $arguments = [])
     {
         foreach ($this->repositories as $repository) {
             if (method_exists($repository, $name)) {
@@ -28,6 +28,6 @@ class RepositoriesContext
 
     public function __call($name, $arguments)
     {
-        $this->getRepository($name, $arguments);
+        return $this->getRepository($name, $arguments);
     }
 }

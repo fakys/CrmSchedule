@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('system_settings', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('settings');
+            $table->boolean('active')->default(false);
+            $table->foreignId('create_user_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -21,7 +25,7 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {
-        Schema::dropIfExists('system_settings');
-    }
+{
+    Schema::dropIfExists('system_settings');
+}
 };

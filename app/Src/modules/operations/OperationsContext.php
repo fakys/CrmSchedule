@@ -16,7 +16,7 @@ class OperationsContext
         return $this->operations;
     }
 
-    public function getOperation($name, $arguments)
+    protected function getOperation($name, $arguments = [])
     {
         foreach ($this->operations as $operation) {
             if (method_exists($operation, $name)) {
@@ -28,6 +28,6 @@ class OperationsContext
 
     public function __call($name, $arguments)
     {
-        $this->getOperation($name, $arguments);
+        return $this->getOperation($name, $arguments);
     }
 }

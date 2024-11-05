@@ -9,4 +9,12 @@ Route::get('/settings/system-settings',
     [
         \App\Modules\Crm\system_settings\controllers\SettingsController::class,
         'actionSystemSettings'
-    ])->name('system_settings.settings');
+    ]
+)->name('system_settings.settings');
+
+Route::post('/settings/set-system-settings',
+    [
+        \App\Modules\Crm\system_settings\controllers\SettingsController::class,
+        'setSystemSettings'
+    ]
+)->name('system_settings.set-settings');
