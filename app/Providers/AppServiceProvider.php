@@ -12,6 +12,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->loadViewsFrom(__DIR__ . '/../views/layouts/', 'layout');
+        $this->loadViewsFrom(__DIR__ . '/../Src/Html/views', 'Html');
     }
 
     /**

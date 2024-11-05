@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Src;
 
 use App\Src\modules\InfoModuleModel;
@@ -8,7 +9,8 @@ use App\Src\modules\operations\OperationsContext;
 use App\Src\modules\repository\RepositoriesContext;
 use App\Src\modules\repository\Repository;
 
-class BackendHelper{
+class BackendHelper
+{
 
     /**
      * @param string $module
@@ -16,18 +18,18 @@ class BackendHelper{
      */
     public static function getModule(string $module)
     {
-        return  InfoModuleModel::objects()->getInfoModuleByName($module);
+        return InfoModuleModel::objects()->getInfoModuleByName($module);
     }
 
     public static function getFullModule()
     {
-        return  InfoModuleModel::objects()->getFullInfoModules();
+        return InfoModuleModel::objects()->getFullInfoModules();
     }
 
     /**
      * @return RepositoriesContext
      */
-    public static function getRepositories():RepositoriesContext
+    public static function getRepositories(): RepositoriesContext
     {
         return Repository::objects()->getFullRepositories();
     }
@@ -35,7 +37,7 @@ class BackendHelper{
     /**
      * @return OperationsContext
      */
-    public static function getOperations():OperationsContext
+    public static function getOperations(): OperationsContext
     {
         return Operation::objects()->getFullOperations();
     }

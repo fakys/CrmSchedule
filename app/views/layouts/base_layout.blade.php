@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="{{asset('assets/layouts/css/adminlte.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/layouts/css/base_layout.css')}}">
     <link rel="stylesheet" href="{{asset('assets/plugins/css/all.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/plugins/Html/css/styles.css')}}">
+    @yield('css_files')
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -31,7 +33,8 @@
                 <div class="navbar-search-block">
                     <form class="form-inline">
                         <div class="input-group input-group-sm">
-                            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                            <input class="form-control form-control-navbar" type="search" placeholder="Search"
+                                   aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-navbar" type="submit">
                                     <i class="fas fa-search"></i>
@@ -142,7 +145,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-white-blue elevation-4">
         <!-- Brand Logo -->
-        <a href="#" class="brand-link main-link">
+        <a href="{{route('interface.index')}}" class="brand-link main-link">
             <span class="">CRM</span>
         </a>
 
@@ -150,7 +153,8 @@
         <div class="sidebar">
             <!-- Sidebar Menu -->
             <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
                     <li class="nav-item menu-is-opening menu-open rm-group-container">
                         <a href="#" class="nav-link rm-group">
                             <i class="fa fa-cogs nav-icon" aria-hidden="true"></i>
@@ -161,7 +165,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item rm-level-2">
-                                <a href="#" class="nav-link">
+                                <a href="{{route('system_settings.settings')}}" class="nav-link">
                                     <i class="fa fa-cog" aria-hidden="true"></i>
                                     <p>Настройки системы</p>
                                 </a>
@@ -372,6 +376,7 @@
 
         <!-- Main content -->
         <div class="content">
+            @yield('content')
         </div>
         <!-- /.content -->
     </div>
@@ -402,5 +407,7 @@
 <script src="{{asset('assets/plugins/js/bootstrap.min.js')}}"></script>
 <!-- AdminLTE -->
 <script src="{{asset('assets/layouts/js/adminlte.js')}}"></script>
+
+@yield('js_files')
 </body>
 </html>
