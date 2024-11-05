@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Crm\interface;
+namespace App\Modules\Crm\system_settings;
 
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;

@@ -19,6 +19,9 @@ RUN apt-get update \
     && apt-get install -y libpq-dev \
     && docker-php-ext-install pgsql pdo_pgsql pdo
 
+RUN pecl install redis \
+    && docker-php-ext-enable redis
+
 COPY App/php.ini /usr/local/etc/php/conf.d/php.ini
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
