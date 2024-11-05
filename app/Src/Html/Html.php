@@ -19,5 +19,9 @@ class Html
     public static function checkbox($name, $label,  $value=''){
         return view('Html::form_inputs.checkbox', ['name'=>$name, 'label'=>$label, 'value'=>$value]);
     }
+    public static function js_table($fields, $data)
+    {
+        return view('Html::tables.js_table', ['fields'=>$fields, 'data'=>$data]);
+    }
 
 }
