@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AdminLTE 3 | Dashboard 3</title>
     <link rel="stylesheet" href="{{asset('assets/layouts/css/adminlte.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/layouts/css/base_layout.css')}}">
     <link rel="stylesheet" href="{{asset('assets/plugins/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/plugins/Html/css/styles.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/layouts/css/base_layout.css')}}">
     @yield('css_files')
 </head>
 <body class="hold-transition sidebar-mini">
@@ -56,7 +56,7 @@
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <a href="#" class="dropdown-item">
                         <div class="media">
-                            <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                            <img src="#" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                             <div class="media-body">
                                 <h3 class="dropdown-item-title">
                                     Brad Diesel
@@ -70,7 +70,7 @@
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">
                         <div class="media">
-                            <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                            <img src="#" alt="User Avatar" class="img-size-50 img-circle mr-3">
                             <div class="media-body">
                                 <h3 class="dropdown-item-title">
                                     John Pierce
@@ -85,7 +85,7 @@
                     <a href="#" class="dropdown-item">
                         <!-- Message Start -->
                         <div class="media">
-                            <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                            <img src="#" alt="User Avatar" class="img-size-50 img-circle mr-3">
                             <div class="media-body">
                                 <h3 class="dropdown-item-title">
                                     Nora Silvester
@@ -101,7 +101,6 @@
                     <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
                 </div>
             </li>
-            <!-- Notifications Dropdown Menu -->
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
@@ -171,7 +170,7 @@
                                 </a>
                             </li>
                             <li class="nav-item rm-level-2">
-                                <a href="#" class="nav-link">
+                                <a href="{{route('modules_settings.settings')}}" class="nav-link">
                                     <i class="fa fa-sitemap" aria-hidden="true"></i>
                                     <p>Модули</p>
                                 </a>

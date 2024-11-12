@@ -3,18 +3,19 @@
 use App\Modules\Crm\system_settings\InfoModule;
 use Illuminate\Support\Facades\Route;
 
-(new InfoModule)->runConfig();
+(new InfoModule())->runConfig();
+$module = InfoModule::getNameModule();
 
-Route::get('/settings/system-settings',
+Route::get("/$module/settings",
     [
         \App\Modules\Crm\system_settings\controllers\SettingsController::class,
         'actionSystemSettings'
     ]
-)->name('system_settings.settings');
+)->name("$module.settings");
 
-Route::post('/settings/set-system-settings',
+Route::post("/$module/settings",
     [
         \App\Modules\Crm\system_settings\controllers\SettingsController::class,
         'setSystemSettings'
     ]
-)->name('system_settings.set-settings');
+)->name("$module.set-settings");

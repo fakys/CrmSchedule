@@ -59,4 +59,44 @@
     border: 1px solid var(--c-main-white-blue);
     color: var(--c-main-white);
     border-radius:3px;
+    padding: 2px;
 }
+.btn-main:hover{
+    color: white;
+    cursor: pointer;
+}
+.cursor-pointer, .custom-control-label{
+    cursor: pointer;
+}
+.nav-tabs{
+    border-bottom:1px solid var(--c-main-white-blue);
+}
+.nav-tabs .nav-item .nav-link{
+    color: black;
+}
+.nav-tabs .nav-item .nav-link:hover{
+    color: black;
+    border: 1px solid #f4f6f9;
+    border-bottom:1px solid var(--c-main-white-blue);
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+    border:1px solid var(--c-main-white-blue);
+    border-bottom: 1px solid #f4f6f9;
+    color: black;
+}
+.nav-tabs .nav-link.active:hover{
+    border:1px solid var(--c-main-white-blue);
+    border-bottom: 1px solid #f4f6f9;
+    color: black;
+}
+.alert-main{
+    background: rgba(17, 230, 61, 0.4);
+    display: flex;
+}
+.btn-close{
+    color: white;
+    border: none;
+    background: none;
+    margin-left: auto;
+}
+

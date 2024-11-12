@@ -5,8 +5,8 @@ use App\Modules\Crm\system_settings\InfoModule;
 use App\Modules\Crm\system_settings\models\SystemSetting;
 use App\Src\BackendHelper;
 use Illuminate\Support\Facades\Validator;
-
-class SettingsController{
+use Illuminate\Routing\Controller;
+class SettingsController extends Controller{
 
     public function __construct()
     {

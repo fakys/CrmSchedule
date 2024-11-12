@@ -8,7 +8,8 @@ return [
         'Crm'=>[
             'backend_module',
             'interface',
-            'system_settings'
+            'system_settings',
+            'modules_settings',
         ],
         'Api'=>[]
     ],

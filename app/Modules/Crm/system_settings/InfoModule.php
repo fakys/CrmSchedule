@@ -12,17 +12,17 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 
     public static function getNameModule(): string
     {
-        return 'interface';
+        return 'system_settings';
     }
 
     public static function getRuNameModule(): string
     {
-        return 'Модуль интерфейса';
+        return 'Модуль настроек системы';
     }
 
     public static function getDescriptionModule(): string
     {
-        return 'Модуль отвечающий за отображение главного интерфейса';
+        return 'Модуль отвечающий за настройки системы';
     }
 
     public static function repositories(): array
