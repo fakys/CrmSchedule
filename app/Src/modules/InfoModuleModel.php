@@ -2,6 +2,7 @@
 
 namespace App\Src\modules;
 
+use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\traits\TraitObjects;
 
 class InfoModuleModel
@@ -9,6 +10,7 @@ class InfoModuleModel
     use TraitObjects;
 
     private $config;
+    private $context_module;
 
     public function __construct()
     {
@@ -20,6 +22,17 @@ class InfoModuleModel
         return self::objects([], true)->getFullInfoModule();
     }
 
+    /**
+     * @return InterfaceInfoModule
+     */
+    public function getContextModule($module)
+    {
+        if(self::objects()->context_module){
+            return self::objects()->context_module;
+        }
+        return $this->getInfoModuleByName($module);
+    }
+
     public function getFullInfoModule()
     {
         return [
@@ -29,6 +42,10 @@ class InfoModuleModel
         ];
     }
 
+    /**
+     * @param string $name_module
+     * @return InterfaceInfoModule
+     */
     public function getInfoModuleByName(string $name_module)
     {
         $path = $this->config['base_path'];

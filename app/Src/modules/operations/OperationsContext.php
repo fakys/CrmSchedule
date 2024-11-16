@@ -2,6 +2,8 @@
 
 namespace App\Src\modules\operations;
 
+use Mockery\Exception;
+
 class OperationsContext
 {
     public array $operations;
@@ -23,7 +25,7 @@ class OperationsContext
                 return (new $operation())->$name($arguments);
             }
         }
-        return null;
+        throw new Exception("Операция не найдена", 500);
     }
 
     public function __call($name, $arguments)

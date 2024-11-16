@@ -13,6 +13,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . '/../views/layouts/', 'layout');
         $this->loadViewsFrom(__DIR__ . '/../Src/Html/views', 'Html');
+        context()->StartProvider();
     }
 
     /**

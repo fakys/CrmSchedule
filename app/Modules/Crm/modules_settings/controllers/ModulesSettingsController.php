@@ -4,6 +4,7 @@ namespace App\Modules\Crm\modules_settings\controllers;
 use App\Modules\Crm\modules_settings\InfoModule;
 use App\Src\BackendHelper;
 use Illuminate\Routing\Controller;
+use Mockery\Exception;
 
 class ModulesSettingsController extends Controller{
 

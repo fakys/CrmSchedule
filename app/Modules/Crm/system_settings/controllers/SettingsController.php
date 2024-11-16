@@ -4,6 +4,7 @@ namespace App\Modules\Crm\system_settings\controllers;
 use App\Modules\Crm\system_settings\InfoModule;
 use App\Modules\Crm\system_settings\models\SystemSetting;
 use App\Src\BackendHelper;
+use App\Src\Context;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller;
 class SettingsController extends Controller{
@@ -14,6 +15,7 @@ class SettingsController extends Controller{
     }
     public function actionSystemSettings()
     {
+        dd(context()->GetModule()->GetNameModule());
         $setting = BackendHelper::getOperations()->getСurrentSystemSettings();
         $systemName = config('app.name');
         if($setting){

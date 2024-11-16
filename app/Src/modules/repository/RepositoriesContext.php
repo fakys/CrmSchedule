@@ -2,6 +2,8 @@
 
 namespace App\Src\modules\repository;
 
+use Mockery\Exception;
+
 class RepositoriesContext
 {
     public array $repositories;
@@ -23,7 +25,7 @@ class RepositoriesContext
                 return (new $repository())->$name($arguments);
             }
         }
-        return null;
+        throw new Exception("Репозиторий не найден", 500);
     }
 
     public function __call($name, $arguments)

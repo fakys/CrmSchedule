@@ -1,6 +1,15 @@
 <?php
 
+use App\Src\Context;
 use Illuminate\Http\Request;
+
+// Импортируем composer autoload
+require __DIR__.'/../vendor/autoload.php';
+
+//создаем контекст
+/**
+ * @return Context
+ */
 
 define('LARAVEL_START', microtime(true));
 
@@ -8,9 +17,13 @@ define('LARAVEL_START', microtime(true));
 if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
     require $maintenance;
 }
-
-// Register the Composer autoloader...
-require __DIR__.'/../vendor/autoload.php';
+/**
+ * @return Context
+ */
+function context()
+{
+    return Context::GetContext(Request::capture());
+}
 
 // Bootstrap Laravel and handle the request...
 (require_once __DIR__.'/../bootstrap/app.php')
