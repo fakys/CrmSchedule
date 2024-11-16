@@ -16,21 +16,14 @@ class ConfigModulesOperations extends Operation
         }
         return $full_modules;
     }
-
-    public function getDataModuleInNotConfigModules()
+    public function getInfoModuleSettings()
     {
         $modules = BackendHelper::getRepositories()->getFullModuleSettings();
-        $config_modules = $this->getFullConfigModules();
-        $not_in_modules_status = [];
-        foreach ($modules as $module) {
-            if (!in_array($module->name, $config_modules)) {
-                $not_in_modules_status[] = [
-                    'status_module' => $module->active,
-                    'module' => BackendHelper::getModule($module->name)
-                ];
-            }
+        $info_modules = [];
+        foreach ($modules as $name_module=>$module) {
+            $info_modules[]=['module'=>BackendHelper::getModule($module->name),'status_module'=>$module->active];
         }
-        return $not_in_modules_status;
+        return $info_modules;
     }
 
 }

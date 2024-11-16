@@ -9,13 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller;
 class SettingsController extends Controller{
 
-    public function __construct()
-    {
-        (new InfoModule())->runConfig();
-    }
     public function actionSystemSettings()
     {
-        dd(context()->GetModule()->GetNameModule());
         $setting = BackendHelper::getOperations()->getСurrentSystemSettings();
         $systemName = config('app.name');
         if($setting){

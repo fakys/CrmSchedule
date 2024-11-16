@@ -37,7 +37,7 @@ abstract class AbstractContext{
         if($name_module){
             return InfoModuleModel::objects()->getContextModule($name_module);
         }else{
-            throw new Exception("Модуль не найден. Вероятнее всего url был создан неверно, пример верного url 'module_name/url'", 500);
+            throw new Exception("Модуль не найден. Вероятнее всего url был создан неверно, пример верного url 'module_name/url'", 404);
         }
     }
 

@@ -3,7 +3,6 @@
 use App\Modules\Crm\system_settings\InfoModule;
 use Illuminate\Support\Facades\Route;
 
-(new InfoModule())->runConfig();
 $module = InfoModule::getNameModule();
 
 Route::get("/$module/settings",

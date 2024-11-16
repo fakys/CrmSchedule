@@ -19,7 +19,7 @@
     <label>{{$label}}</label>
     <select name="{{$name}}[]" class="form-control select2" multiple style="width: 100%;" >
         @foreach($data as $key=>$module)
-        <option value="{{$module}}">{{$module}}</option>
+        <option value="{{$module->GetNameModule()}}">{{$module->GetNameModule()}}</option>
         @endforeach
     </select>
 </div>

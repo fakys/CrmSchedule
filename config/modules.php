@@ -10,6 +10,7 @@ return [
             'interface',
             'system_settings',
             'modules_settings',
+            'users_interface'
         ],
         'Api'=>[]
     ],

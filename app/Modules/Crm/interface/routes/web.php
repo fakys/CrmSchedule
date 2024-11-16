@@ -2,12 +2,12 @@
 
 use App\Modules\Crm\interface\InfoModule;
 use Illuminate\Support\Facades\Route;
-(new InfoModule())->runConfig();
+$module = InfoModule::getNameModule();
 
-Route::get('/', [
+Route::get("$module/", [
     \App\Modules\Crm\interface\controllers\InterfaceController::class , 'actionIndex'
-])->name('interface.index');
+])->name("$module.index");
 
-Route::get('/interface/users', [
+Route::get("/$module/users", [
     \App\Modules\Crm\interface\controllers\UsersInterfaceController::class , 'actionUsers'
-])->name('interface.users');
+])->name("$module.users");

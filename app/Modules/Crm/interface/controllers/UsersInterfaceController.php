@@ -7,11 +7,6 @@ use App\Modules\Crm\interface\InfoModule;
 
 class UsersInterfaceController extends Controller
 {
-    public function __construct()
-    {
-        (new InfoModule())->runConfig();
-    }
-
     public function actionUsers()
     {
         $fields = [

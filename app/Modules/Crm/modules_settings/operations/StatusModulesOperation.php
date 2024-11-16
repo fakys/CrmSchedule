@@ -16,14 +16,18 @@ class StatusModulesOperation extends Operation
     public function getDataModuleInNotStatusModules()
     {
         $modules = BackendHelper::getRepositories()->getFullModuleSettings();
+        $arr_module = [];
+        foreach ($modules as $module) {
+            $arr_module[] = $module->name;
+        }
         $config_modules = BackendHelper::getOperations()->getFullConfigModules();
         $not_in_modules_status = [];
-        foreach ($modules as $module) {
-            if (in_array($module->name, $config_modules)) {
-                $not_in_modules_status[] = [
-                    'status_module' => $module->active,
-                    'module' => BackendHelper::getModule($module->name)
-                ];
+        foreach ($config_modules as $module) {
+            if (!in_array($module, $arr_module)) {
+                $info_module = BackendHelper::getModule($module);
+                if($info_module){
+                    $not_in_modules_status[] = $info_module;
+                }
             }
         }
         return $not_in_modules_status;

@@ -7,21 +7,15 @@ use Illuminate\Routing\Controller;
 use Mockery\Exception;
 
 class ModulesSettingsController extends Controller{
-
-    public function __construct()
-    {
-        (new InfoModule())->runConfig();
-    }
     public function actionModulesSettings()
     {
-        $config_module = BackendHelper::getOperations()->getDataModuleInNotStatusModules();
-        $modules = BackendHelper::getOperations()->getDataModuleInNotStatusModules($config_module);
+        $modules = BackendHelper::getOperations()->getInfoModuleSettings();
         return view('settings.modules_settings', compact('modules'));
     }
 
     public function actionAddModule()
     {
-        $full_modules = BackendHelper::getOperations()->getDataModuleInNotConfigModules();
+        $full_modules = BackendHelper::getOperations()->getDataModuleInNotStatusModules();
         return view('settings.add_module', compact('full_modules'));
     }
     public function saveModule()
