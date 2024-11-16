@@ -43,7 +43,7 @@ abstract class AbstractContext{
 
     protected function StartScheduleProvider()
     {
-        $module = $this->GetContextModule()->GetNameModule();
+        $module = $this->GetContextModule();
         $request = $this->request;
         (new ScheduleProvider($request, $module))->register();
     }

@@ -32,4 +32,13 @@ class StatusModulesOperation extends Operation
         }
         return $not_in_modules_status;
     }
+
+    public function checkStatusModule($name_module)
+    {
+        $module = BackendHelper::getRepositories()->getModules(['name'=>$name_module[0]]);
+        if($module&&$module[0]->active){
+            return true;
+        }
+        return false;
+    }
 }
