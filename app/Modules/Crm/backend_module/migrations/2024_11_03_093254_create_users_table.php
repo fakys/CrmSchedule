@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('email')->nullable()->unique();
             $table->string('number_phone')->nullable()->unique();
             $table->text('photo')->nullable();
+            $table->date('birthday')->nullable();
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

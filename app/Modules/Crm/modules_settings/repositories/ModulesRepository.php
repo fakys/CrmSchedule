@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\modules_settings\repositories;
 
 use App\Entity\StatusModules;
+use App\Entity\UserInfo;
 use App\Src\modules\repository\Repository;
 
 class ModulesRepository extends Repository {

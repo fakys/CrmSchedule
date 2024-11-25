@@ -1,0 +1,28 @@
+.tabs-button{
+    padding: 5px;
+    border-radius: 5px;
+    height: 75px;
+    cursor: pointer;
+    background: #F9F9F9;
+}
+.tabs-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 15px;
+    justify-content: center;
+}
+.text-tabs-btn{
+    text-align: center;
+    font-size: 14px;
+    color: gray;
+}
+.tabs-btn-icon{
+    font-size: 25px;
+    text-align: center;
+}
+
+.title{
+    color: white;
+    background: var(--c-main-white-blue);
+}

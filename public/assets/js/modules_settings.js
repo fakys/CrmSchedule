@@ -38,6 +38,5 @@ $(document).ready(function (){
     })
     setInterval(function(){
         $('.alert-main').addClass('d-none')
-        console.log(123)
     }, 10000);
 })

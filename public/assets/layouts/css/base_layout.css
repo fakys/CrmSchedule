@@ -99,4 +99,6 @@
     background: none;
     margin-left: auto;
 }
-
+.pointer{
+    cursor: pointer;
+}

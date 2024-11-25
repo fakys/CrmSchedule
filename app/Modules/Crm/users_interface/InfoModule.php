@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\users_interface;
 
+use App\Modules\Crm\users_interface\repositories\UsersRepositories;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
@@ -26,6 +27,7 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function repositories(): array
     {
         return [
+            UsersRepositories::class
         ];
     }
 

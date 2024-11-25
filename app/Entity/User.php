@@ -45,4 +45,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function getInfo()
+    {
+        return $this->hasOne(UserInfo::class, 'user_id', 'id')->get()?
+            $this->hasOne(UserInfo::class, 'user_id', 'id')->get()[0]
+            :[];
+    }
+
+    public function getDocument()
+    {
+        return $this->hasOne(UserDocumet::class, 'user_id', 'id')->get()?
+            $this->hasOne(UserDocumet::class, 'user_id', 'id')->get()[0]
+            :[];
+    }
 }
