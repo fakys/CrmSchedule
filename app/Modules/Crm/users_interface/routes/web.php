@@ -20,3 +20,7 @@ Route::post("$module/tabs/get-user-tabs", [
     \App\Modules\Crm\users_interface\controllers\TabsController::class,
     'getUserInfoTabs'
 ])->name("$module.tabs.user_tabs");
+Route::post("$module/tabs/get-edit-user-tabs", [
+    \App\Modules\Crm\users_interface\controllers\TabsController::class,
+    'getEditUserInfoTabs'
+])->name("$module.tabs.edit_user_tabs");

@@ -15,15 +15,29 @@ class TabsController extends Controller{
     {
         $data = [];
         if(isset(request()['id'])){
+            $user = BackendHelper::getRepositories()->getUserById(request()['id']);
+            $data = [
+                'user'=>$user,
+                'info'=>$user->getInfo(),
+                'documents'=>$user->getDocument(),
 
+            ];
         }
-        $user = BackendHelper::getRepositories()->getUserById(1);
-        $data = [
-            'user'=>$user,
-            'info'=>$user->getInfo(),
-            'documents'=>$user->getDocument(),
-
-        ];
         return view('tabs.user_info_tabs', ['data' => $data]);
+    }
+
+    public function getEditUserInfoTabs()
+    {
+        $data = [];
+        if(isset(request()['id'])){
+            $user = BackendHelper::getRepositories()->getUserById(request()['id']);
+            $data = [
+                'user'=>$user,
+                'info'=>$user->getInfo(),
+                'documents'=>$user->getDocument(),
+
+            ];
+        }
+        return view('tabs.edit_user_info_tabs', ['data' => $data]);
     }
 }

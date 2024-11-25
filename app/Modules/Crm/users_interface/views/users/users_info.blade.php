@@ -1,7 +1,7 @@
 @extends("layout::base_layout")
 
 @section('content')
-<div class="container">
+<div class="container pb-4">
     {{App\Src\Html\Html::js_table($title,[
     'name'=>'Логин', 'fio'=>'ФИО', 'email'=>'Email',
     'number_phone'=>'Мобильный телефон', 'inn'=>'ИНН',

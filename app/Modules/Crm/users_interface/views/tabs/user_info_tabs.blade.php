@@ -27,11 +27,11 @@
                         <div class="col">Email</div>
                         <div class="col">{{isset($data['info']->email)?$data['info']->email:"Нет данных"}}</div>
                     </div>
-                    <div class="row pb-2">
+                    <div class="row pb-3">
                         <div class="col">Номер телефона</div>
                         <div class="col">{{isset($data['info']->number_phone)?$data['info']->number_phone:"Нет данных"}}</div>
                     </div>
-                    <div class="row pb-2">
+                    <div class="row pb-3">
                         <div class="col">Дата рождения</div>
                         <div class="col">{{isset($data['info']->brichday)?date("d.m.Y", $data['info']->brichday):"Нет данных"}}</div>
                     </div>

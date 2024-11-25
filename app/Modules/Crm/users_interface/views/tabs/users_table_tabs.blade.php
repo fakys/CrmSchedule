@@ -9,7 +9,7 @@
                 Информация о пользователе
             </div>
         </div>
-        <div class="tabs-button" id="edit_users_info_tabs">
+        <div class="tabs-button" id="edit_users_info_tabs" data-url="{{route('users_interface.tabs.edit_user_tabs')}}">
             <div class="tabs-btn-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
             <div class="text-tabs-btn">
                 Редактировать пользователя
