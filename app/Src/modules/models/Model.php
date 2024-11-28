@@ -50,4 +50,9 @@ class Model{
         $this->data = $data;
         $this->checkBool();
     }
+
+    public function getErrors()
+    {
+        return $this->errors;
+    }
 }

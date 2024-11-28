@@ -24,3 +24,7 @@ Route::post("$module/tabs/get-edit-user-tabs", [
     \App\Modules\Crm\users_interface\controllers\TabsController::class,
     'getEditUserInfoTabs'
 ])->name("$module.tabs.edit_user_tabs");
+Route::post("$module/tabs/set-edit-user-tabs", [
+    \App\Modules\Crm\users_interface\controllers\TabsController::class,
+    'setEditUserInfoTabs'
+])->name("$module.tabs.set_edit_user_tabs");

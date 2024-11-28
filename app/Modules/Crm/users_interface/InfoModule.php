@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\users_interface;
 
+use App\Modules\Crm\users_interface\operations\UsersOperation;
 use App\Modules\Crm\users_interface\repositories\UsersRepositories;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
@@ -34,6 +35,7 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function operations(): array
     {
         return [
+            UsersOperation::class
         ];
     }
     public static function runConfig()

@@ -102,3 +102,21 @@
 .pointer{
     cursor: pointer;
 }
+.save-alert{
+    display: flex;
+    position: fixed;
+    top: 30px;
+    transition-duration: 0.4s;
+    z-index: 99999;
+    right: -330px;
+}
+.save-alert-active{
+    right: 30px;
+}
+.btn-close-save-alert{
+    margin-left: 10px;
+    cursor: pointer;
+}
+.massage-save-alert{
+    font-size: 18px;
+}

@@ -27,11 +27,15 @@
     background: var(--c-main-white-blue);
 }
 .save-btn{
-    padding: 0px 5px;
+    padding: 5px;
     display: flex;
     align-items: center;
 }
 .edit-form-group{
     display: flex;
     gap: 5px;
+}
+.error-block{
+    color: red;
+    font-size: 12px;
 }

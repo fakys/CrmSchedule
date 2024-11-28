@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\users_interface\controllers;
 
+use App\Entity\UserInfo;
 use App\Src\BackendHelper;
 use Illuminate\Routing\Controller;
 

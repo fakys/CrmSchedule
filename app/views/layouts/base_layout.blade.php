@@ -176,16 +176,16 @@
                                 </a>
                             </li>
                             <li class="nav-item rm-level-2">
-                                <a href="#" class="nav-link">
+                                <div class="nav-link">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                     <p>
                                         Пользователи
                                         <i class="right fas fa-angle-left"></i>
                                     </p>
-                                </a>
+                                </div>
                                 <ul class="nav nav-treeview" style="display: none;">
                                     <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{route('users_interface.users_info')}}" class="nav-link">
                                             <p>Пользователи</p>
                                         </a>
                                     </li>
@@ -375,6 +375,16 @@
 
         <!-- Main content -->
         <div class="content">
+            <div class="save-alert">
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <div class="massage-save-alert">
+
+                    </div>
+                    <div class="btn-close-save-alert">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
             @yield('content')
         </div>
         <!-- /.content -->
@@ -402,6 +412,7 @@
 
 <!-- jQuery -->
 <script src="{{asset('assets/plugins/js/jquery.min.js')}}"></script>
+<script src="{{asset('assets/js/base.js')}}"></script>
 <!-- Bootstrap -->
 <script src="{{asset('assets/plugins/js/bootstrap.min.js')}}"></script>
 <!-- AdminLTE -->

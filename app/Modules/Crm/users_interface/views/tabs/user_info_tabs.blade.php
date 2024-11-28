@@ -29,11 +29,11 @@
                     </div>
                     <div class="row pb-3">
                         <div class="col">Номер телефона</div>
-                        <div class="col">{{isset($data['info']->number_phone)?$data['info']->number_phone:"Нет данных"}}</div>
+                        <div class="col">+7 {{isset($data['info']->number_phone)?$data['info']->number_phone:"Нет данных"}}</div>
                     </div>
                     <div class="row pb-3">
                         <div class="col">Дата рождения</div>
-                        <div class="col">{{isset($data['info']->brichday)?date("d.m.Y", $data['info']->brichday):"Нет данных"}}</div>
+                        <div class="col">{{isset($data['info']->birthday)?$data['info']->birthday:"Нет данных"}}</div>
                     </div>
                 </div>
             </div>
@@ -48,11 +48,11 @@
                     </div>
                     <div class="row pb-3">
                         <div class="col">Серия</div>
-                        <div class="col">{{isset($data['documents']->pssport_series)?$data['documents']->pssport_series:"Нет данных"}}</div>
+                        <div class="col">{{isset($data['documents']->passport_series)?$data['documents']->passport_series:"Нет данных"}}</div>
                     </div>
                     <div class="row pb-3">
                         <div class="col">Номер</div>
-                        <div class="col">{{isset($data['documents']->pssport_number)?$data['documents']->pssport_number:"Нет данных"}}</div>
+                        <div class="col">{{isset($data['documents']->passport_number)?$data['documents']->passport_number:"Нет данных"}}</div>
                     </div>
                     <div class="row pb-3">
                         <div class="col">СНИЛС</div>

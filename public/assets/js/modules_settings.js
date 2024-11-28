@@ -18,6 +18,7 @@ $(document).ready(function (){
     })
 
     $(".save-modules-settings").on('click', function (){
+        $('.save-alert').removeClass('save-alert-active')
         let settings = $(".modules-settings-checkbox");
         let csrf = $('input[name="_token"]').val()
         let data = {'_token': csrf, 'data':[]};
@@ -32,7 +33,11 @@ $(document).ready(function (){
             method: 'post',
             data: data,
             success: function(data){
-                $('.alert-main').removeClass('d-none')
+                $('.save-alert').addClass('save-alert-active')
+                $(".massage-save-alert").text('Данные успешно сохранены !')
+                setInterval(function(){
+                    $('.save-alert').removeClass('save-alert-active')
+                }, 10000);
             }
         });
     })
