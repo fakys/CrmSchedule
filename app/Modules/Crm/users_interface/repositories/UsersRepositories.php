@@ -52,4 +52,19 @@ class UsersRepositories extends Repository {
         $info = UserDocumet::where(['user_id'=>$id])->first();
         return $info->update($data[0]['value']);
     }
+
+    public function saveAccessUser($data)
+    {
+        if(isset($data[0])){
+            $id = $data[0]['id'];
+            $user = BackendHelper::getRepositories()->getUserById($id);
+            if($user){
+                $model = $data[0]['model'];
+                $user->username = $model->username;
+                $user->password = $model->password;
+                return $user->save();
+            }
+        }
+        return false;
+    }
 }

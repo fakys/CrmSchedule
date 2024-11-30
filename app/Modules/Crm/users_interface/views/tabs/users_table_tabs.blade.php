@@ -15,6 +15,12 @@
                 Редактировать пользователя
             </div>
         </div>
+        <div class="tabs-button" id="access_tabs" data-url="{{route('users_interface.tabs.get_access_tabs')}}">
+            <div class="tabs-btn-icon"><i class="fa fa-unlock-alt" aria-hidden="true"></i></div>
+            <div class="text-tabs-btn">
+                Доступ
+            </div>
+        </div>
         <div class="tabs-button" id="users_role_tabs">
             <div class="tabs-btn-icon"><i class="fa fa-address-card" aria-hidden="true"></i></div>
             <div class="text-tabs-btn">

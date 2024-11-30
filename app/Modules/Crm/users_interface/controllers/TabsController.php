@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\users_interface\controllers;
 
+use App\Modules\Crm\users_interface\model\AccessTab;
 use App\Modules\Crm\users_interface\model\EditUserTabs;
 use App\Src\BackendHelper;
 use Illuminate\Routing\Controller;
@@ -60,8 +61,35 @@ class TabsController extends Controller{
                 }
                 return true;
             }elseif ($model->getErrors()){
-                return 213213;
                 abort(422, $model->getErrors()[request()->post()['field']]);
+            }
+        }
+        abort(422, 'Ошибка обновления');
+    }
+
+    /**
+     * Таб Изменения доступа
+     */
+    public function getAccessTabs()
+    {
+        $id = request()->post('id');
+        $user = BackendHelper::getRepositories()->getUserById($id);
+        return view('tabs.access_tabs', compact('user'));
+    }
+
+    /**
+     * Action для сохранения доступов
+     */
+    public function setAccessTabs()
+    {
+        $data = request()->post('data');
+        $id = request()->post('data')['id'];
+        $model = new AccessTab();
+        $model->load($data);
+        $validate = Validator::make($model->getData(), $model->rules());
+        if($validate->validate()){
+            if(BackendHelper::getRepositories()->saveAccessUser(['id'=>$id, 'model'=>$model])){
+                return true;
             }
         }
         abort(422, 'Ошибка обновления');

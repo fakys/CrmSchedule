@@ -371,12 +371,12 @@
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
-        <!-- /.content-header -->
 
         <!-- Main content -->
         <div class="content">
-            <div class="save-alert">
-                <div class="alert alert-success d-flex align-items-center" role="alert">
+            <!-- alert -->
+            <div class="base-alert">
+                <div class="alert d-flex align-items-center" role="alert">
                     <div class="massage-save-alert">
 
                     </div>
@@ -385,6 +385,8 @@
                     </div>
                 </div>
             </div>
+            <script src="{{asset('assets/js/alert.js')}}"></script>
+
             @yield('content')
         </div>
         <!-- /.content -->
@@ -412,6 +414,8 @@
 
 <!-- jQuery -->
 <script src="{{asset('assets/plugins/js/jquery.min.js')}}"></script>
+
+
 <script src="{{asset('assets/js/base.js')}}"></script>
 <!-- Bootstrap -->
 <script src="{{asset('assets/plugins/js/bootstrap.min.js')}}"></script>

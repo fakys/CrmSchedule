@@ -33,15 +33,17 @@ $(document).ready(function (){
             method: 'post',
             data: data,
             success: function(data){
-                $('.save-alert').addClass('save-alert-active')
-                $(".massage-save-alert").text('Данные успешно сохранены !')
-                setInterval(function(){
-                    $('.save-alert').removeClass('save-alert-active')
-                }, 10000);
+                success_alert('Данные успешно сохранены !')
+            },
+            error: function (err){
+                let error = err.responseJSON.message
+                if(error){
+                    error_alert(error)
+                }else {
+                    error_alert('Ошибка сохранения !')
+                }
+
             }
         });
     })
-    setInterval(function(){
-        $('.alert-main').addClass('d-none')
-    }, 10000);
 })

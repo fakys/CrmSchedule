@@ -102,16 +102,20 @@
 .pointer{
     cursor: pointer;
 }
-.save-alert{
+.base-alert{
     display: flex;
     position: fixed;
     top: 30px;
-    transition-duration: 0.4s;
     z-index: 99999;
-    right: -330px;
-}
-.save-alert-active{
     right: 30px;
+}
+.base-alert .alert{
+    transition-duration:0.3s;
+    transform: translate(530px, 0px);
+}
+
+.base-alert .alert-success, .base-alert .alert-danger{
+    transform: translate(0px, 0px);
 }
 .btn-close-save-alert{
     margin-left: 10px;
