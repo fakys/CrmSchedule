@@ -6,10 +6,8 @@ use Illuminate\Http\Request;
 // Импортируем composer autoload
 require __DIR__.'/../vendor/autoload.php';
 
-//создаем контекст
-/**
- * @return Context
- */
+
+
 
 define('LARAVEL_START', microtime(true));
 
@@ -17,6 +15,7 @@ define('LARAVEL_START', microtime(true));
 if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
     require $maintenance;
 }
+//создаем контекст
 /**
  * @return Context
  */

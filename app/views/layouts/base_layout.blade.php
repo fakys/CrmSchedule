@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard 3</title>
+    <title>{{isset($title)?$title:'CRM'}}</title>
     <link rel="stylesheet" href="{{asset('assets/layouts/css/adminlte.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/plugins/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/plugins/Html/css/styles.css')}}">
@@ -371,7 +371,8 @@
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
-
+        <!-- jQuery -->
+        <script src="{{asset('assets/plugins/js/jquery.min.js')}}"></script>
         <!-- Main content -->
         <div class="content">
             <!-- alert -->
@@ -411,10 +412,6 @@
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
-
-<!-- jQuery -->
-<script src="{{asset('assets/plugins/js/jquery.min.js')}}"></script>
-
 
 <script src="{{asset('assets/js/base.js')}}"></script>
 <!-- Bootstrap -->

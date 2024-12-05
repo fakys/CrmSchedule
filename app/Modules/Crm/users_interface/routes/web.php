@@ -37,7 +37,23 @@ Route::post("$module/tabs/get-access-tabs", [
     'getAccessTabs'
 ])->name("$module.tabs.get_access_tabs");
 
-    Route::post("$module/tabs/set-access-tabs", [
-        \App\Modules\Crm\users_interface\controllers\TabsController::class,
-        'setAccessTabs'
-    ])->name("$module.tabs.set_access_tabs");
+Route::post("$module/tabs/set-access-tabs", [
+    \App\Modules\Crm\users_interface\controllers\TabsController::class,
+    'setAccessTabs'
+])->name("$module.tabs.set_access_tabs");
+
+Route::post("$module/tabs/get-role-tabs", [
+    \App\Modules\Crm\users_interface\controllers\TabsController::class,
+    'getUserGroupsTabs'
+])->name("$module.tabs.get_role_tabs");
+
+
+Route::get("$module/user-groups-info", [
+    \App\Modules\Crm\users_interface\controllers\UserGroupsController::class,
+    'actionUserGroupsInfo'
+])->name("$module.user_groups_info");
+
+Route::get("$module/user-groups-add", [
+    \App\Modules\Crm\users_interface\controllers\UserGroupsController::class,
+    'actionUserGroupsAdd'
+])->name("$module.user_groups_add");

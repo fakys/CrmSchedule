@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\users_interface;
 
 use App\Modules\Crm\users_interface\operations\UsersOperation;
+use App\Modules\Crm\users_interface\repositories\UserGroupsRepositories;
 use App\Modules\Crm\users_interface\repositories\UsersRepositories;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
@@ -28,7 +29,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function repositories(): array
     {
         return [
-            UsersRepositories::class
+            UsersRepositories::class,
+            UserGroupsRepositories::class
         ];
     }
 

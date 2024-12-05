@@ -9,6 +9,8 @@ class ScheduleProvider extends AbstractScheduleProvider implements InterfaceProv
 
     public function register()
     {
-        $this->module->RunConfig();
+        if($this->module){
+            $this->module->RunConfig();
+        }
     }
 }

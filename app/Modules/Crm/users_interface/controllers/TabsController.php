@@ -94,4 +94,13 @@ class TabsController extends Controller{
         }
         abort(422, 'Ошибка обновления');
     }
+
+    /**
+     * Таб групп пользователя
+     */
+    public function getUserGroupsTabs()
+    {
+        $users_groups = BackendHelper::getRepositories()->getAllUsersGroup();
+        return view('tabs.user_groups', compact('users_groups'));
+    }
 }

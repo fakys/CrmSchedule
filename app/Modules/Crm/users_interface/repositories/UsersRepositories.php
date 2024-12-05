@@ -23,13 +23,16 @@ class UsersRepositories extends Repository {
         return $users;
     }
 
+    public function getUserList($data)
+    {
+        $users = User::where($data[0])->get();
+        return $users;
+    }
+
     public function getUserById($id)
     {
-        $user = User::where(['id'=>$id[0]])->get();
-        if($user){
-            return $user[0];
-        }
-        return [];
+        $user = User::where(['id'=>$id[0]])->fist();
+        return $user;
     }
 
     public function updateUsersById($id, $data)
