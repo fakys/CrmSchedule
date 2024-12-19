@@ -89,6 +89,9 @@
     border-bottom: 1px solid #f4f6f9;
     color: black;
 }
+.nav-link{
+    cursor: pointer;
+}
 .alert-main{
     background: rgba(17, 230, 61, 0.4);
     display: flex;

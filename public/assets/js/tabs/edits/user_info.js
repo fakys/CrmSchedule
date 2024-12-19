@@ -21,8 +21,7 @@ $(document).ready(function (){
                     method: 'post',
                     data:{'_token': csrf, 'field':field, 'value':value, 'id':context_id},
                     success: function(data){
-                        $('.save-alert').addClass('save-alert-active')
-                        $(".massage-save-alert").text('Данные успешно сохранены !')
+                        success_alert('Данные успешно сохранены !');
                         setInterval(function(){
                             $('.save-alert').removeClass('save-alert-active')
                         }, 10000);

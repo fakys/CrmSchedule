@@ -2,6 +2,7 @@
 namespace App\Src\abstract;
 
 use App\Providers\ScheduleProvider;
+use App\Src\access\models\AccessModel;
 use App\Src\BackendHelper;
 use App\Src\helpers\StrHelper;
 use App\Src\modules\InfoModuleModel;
@@ -10,6 +11,12 @@ use Mockery\Exception;
 
 abstract class AbstractContext{
     protected static $context;
+
+    /**
+     * @var AccessModel[]
+     */
+    protected $accesses=[];
+
     /**
      * @var $request Request
      */
@@ -46,5 +53,18 @@ abstract class AbstractContext{
         $module = $this->GetContextModule();
         $request = $this->request;
         (new ScheduleProvider($request, $module))->register();
+    }
+
+    protected function setAccessContext($access)
+    {
+        if($access){
+            $this->accesses[] = $access;
+
+        }
+    }
+
+    protected function getAccessesContext()
+    {
+        return $this->accesses;
     }
 }

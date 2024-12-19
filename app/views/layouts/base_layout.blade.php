@@ -195,7 +195,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{route('users_interface.user_groups_info')}}" class="nav-link">
                                             <p>Группы</p>
                                         </a>
                                     </li>

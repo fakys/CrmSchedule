@@ -12,6 +12,7 @@ class UserGroupsController extends Controller{
     }
     public function actionUserGroupsAdd()
     {
-        return view('user_groups.add_user_groups', ['title'=>'Группы пользователей']);
+        $access = BackendHelper::getOperations()->getAccessForForm();
+        return view('user_groups.add_user_groups', ['title'=>'Группы пользователей', 'access' => $access]);
     }
 }

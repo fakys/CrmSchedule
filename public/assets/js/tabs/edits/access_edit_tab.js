@@ -40,8 +40,9 @@ $(document).ready(function (){
                 method: 'post',
                 data: {'_token': csrf, 'data': data},
                 success: function (data) {
-                    console.log(data)
                     success_alert('Данные успешно сохранены !')
+                    $("#access_password_confirm").val('')
+                    $("#access_password").val('')
                 },
                 error: function (err) {
                     let error = err.responseJSON.message
