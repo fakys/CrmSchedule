@@ -22,7 +22,7 @@ class OperationsContext
     {
         foreach ($this->operations as $operation) {
             if (method_exists($operation, $name)) {
-                return (new $operation())->$name($arguments);
+                return call_user_func_array([new $operation (), $name], $arguments);
             }
         }
         throw new Exception("Операция не найдена", 500);

@@ -6,10 +6,10 @@ use App\Src\modules\operations\Operation;
 
 class StatusModulesOperation extends Operation
 {
-    public function updateStatusModules(array $data)
+    public function updateStatusModules($data)
     {
-        foreach ($data[0] as $module) {
-            BackendHelper::getRepositories()->updateStatusModules($module);
+        foreach ($data as $module) {
+            BackendHelper::getRepositories()->updateStatusModules($module['name']);
         }
         return true;
     }
@@ -35,7 +35,7 @@ class StatusModulesOperation extends Operation
 
     public function checkStatusModule($name_module)
     {
-        $module = BackendHelper::getRepositories()->getModules(['name'=>$name_module[0]]);
+        $module = BackendHelper::getRepositories()->getModules(['name'=>$name_module]);
         if($module->count()&&$module[0]->active){
             return true;
         }

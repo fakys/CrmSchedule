@@ -22,7 +22,7 @@ class RepositoriesContext
     {
         foreach ($this->repositories as $repository) {
             if (method_exists($repository, $name)) {
-                return (new $repository())->$name($arguments);
+                return call_user_func_array([new $repository (), $name], $arguments);
             }
         }
         throw new Exception("Репозиторий не найден", 500);

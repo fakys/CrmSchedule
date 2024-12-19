@@ -25,48 +25,42 @@ class UsersRepositories extends Repository {
 
     public function getUserList($data)
     {
-        $users = User::where($data[0])->get();
+        $users = User::where($data)->get();
         return $users;
     }
 
     public function getUserById($id)
     {
-        $user = User::where(['id'=>$id[0]])->fist();
+        $user = User::where(['id'=>$id])->first();
         return $user;
     }
 
     public function updateUsersById($id, $data)
     {
-        $user = BackendHelper::getRepositories()->getUserById($id[0]);
+        $user = BackendHelper::getRepositories()->getUserById($id);
         foreach($data as $field => $value){
 
         }
     }
 
-    public function updateUsersInfoById($data)
+    public function updateUsersInfoById($id, $value)
     {
-        $id = $data[0]['id'];
         $info = UserInfo::where(['user_id'=>$id])->first();
-        return $info->update($data[0]['value']);
+        return $info->update($value);
     }
-    public function updateUsersDocumentById($data)
+    public function updateUsersDocumentById($id, $value)
     {
-        $id = $data[0]['id'];
         $info = UserDocumet::where(['user_id'=>$id])->first();
-        return $info->update($data[0]['value']);
+        return $info->update($value);
     }
 
-    public function saveAccessUser($data)
+    public function saveAccessUser($id, $model)
     {
-        if(isset($data[0])){
-            $id = $data[0]['id'];
-            $user = BackendHelper::getRepositories()->getUserById($id);
-            if($user){
-                $model = $data[0]['model'];
-                $user->username = $model->username;
-                $user->password = $model->password;
-                return $user->save();
-            }
+        $user = BackendHelper::getRepositories()->getUserById($id);
+        if ($user) {
+            $user->username = $model->username;
+            $user->password = $model->password;
+            return $user->save();
         }
         return false;
     }

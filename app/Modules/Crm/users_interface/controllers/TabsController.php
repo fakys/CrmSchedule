@@ -56,8 +56,7 @@ class TabsController extends Controller{
             $validate = Validator::make($model->getData(), $model->rules());
             if($validate->validate() && $model->customValidate()) {
                 if(isset(request()->post()['id'])&&$model->getData()){
-                    return BackendHelper::getOperations()->UpdateFullUser(['id'=>request()->post()['id'],
-                        'value'=>$model->getData()]);
+                    return BackendHelper::getOperations()->UpdateFullUser(request()->post()['id'],  $model->getData());
                 }
                 return true;
             }elseif ($model->getErrors()){
@@ -88,7 +87,7 @@ class TabsController extends Controller{
         $model->load($data);
         $validate = Validator::make($model->getData(), $model->rules());
         if($validate->validate()){
-            if(BackendHelper::getRepositories()->saveAccessUser(['id'=>$id, 'model'=>$model])){
+            if(BackendHelper::getRepositories()->saveAccessUser($id, $model)){
                 return true;
             }
         }

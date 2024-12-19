@@ -5,14 +5,14 @@ use App\Entity\SystemSetting;
 use App\Src\modules\repository\Repository;
 
 class SystemSettingRepository extends Repository{
-    public function getSystemSettingsById($data)
+    public function getSystemSettingsById($id)
     {
-        return SystemSetting::find($data['id']);
+        return SystemSetting::find($id);
     }
 
     public function getSystemSettings($data)
     {
-        return SystemSetting::where($data[0])->get();
+        return SystemSetting::where($data)->get();
     }
 
     public function getActiveSystemSettings()
@@ -30,9 +30,8 @@ class SystemSettingRepository extends Repository{
         ])->orderBy('id', 'desc')->first();
     }
 
-    public function saveActiveSystemSettings(array $setting)
+    public function saveActiveSystemSettings($setting)
     {
-        $setting = $setting[0];
         $setting->active = true;
         $setting->save();
         return $setting;
@@ -45,6 +44,6 @@ class SystemSettingRepository extends Repository{
 
     public static function setSystemSettings($data)
     {
-        return SystemSetting::create($data[0]);
+        return SystemSetting::create($data);
     }
 }

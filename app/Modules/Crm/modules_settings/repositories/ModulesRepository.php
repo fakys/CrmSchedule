@@ -13,18 +13,16 @@ class ModulesRepository extends Repository {
 
     public function createStatusModules($arg)
     {
-        return StatusModules::create($arg[0]);
+        return StatusModules::create($arg);
     }
     public function getModules($arg)
     {
-        return StatusModules::where($arg[0])->get();
+        return StatusModules::where($arg)->get();
     }
 
-    public function updateStatusModules(array $data)
+    public function updateStatusModules($name, $status)
     {
-        $name = $data[0]['name'];
-        $status = $data[0]['status'];
-        $module = StatusModules::where(['name'=>$name])->get()->first();
+        $module = StatusModules::where(['name'=>$name, 'active'=>$status])->get()->first();
         $module->active = $status;
         return $module->save();
     }
