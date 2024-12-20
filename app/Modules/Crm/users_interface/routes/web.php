@@ -76,3 +76,16 @@ AccessRoute::access("{$module}_user_groups_add")->route(
     ])->name("$module.user_groups_add")
 );
 
+AccessRoute::access("{$module}_create_user_groups")->route(
+    Route::post("$module/create-user-groups", [
+        \App\Modules\Crm\users_interface\controllers\UserGroupsController::class,
+        'createUserGroups'
+    ])->name("$module.create_user_groups")
+);
+
+AccessRoute::access("{$module}_tabs_set_users_group_tabs")->route(
+    Route::post("$module/tabs/set-users-group-tabs", [
+        \App\Modules\Crm\users_interface\controllers\UserGroupsController::class,
+        'setUsersGroupTabs'
+    ])->name("$module.create_user_groups")
+);

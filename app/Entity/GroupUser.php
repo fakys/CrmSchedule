@@ -3,13 +3,11 @@ namespace App\Entity;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserGroup extends Model
+class GroupUser extends Model
 {
-    public $table = 'user_groups';
+    public $table = 'groups_users';
     protected $fillable = [
-        'name',
-        'accesses',
-        'description',
-        'active'
+        'user_group_id',
+        'users_id',
     ];
 }

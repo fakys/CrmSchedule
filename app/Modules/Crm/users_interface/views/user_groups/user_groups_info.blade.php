@@ -3,20 +3,20 @@
 @section('content')
 <div class="container pb-4">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex">
             <div class="h4">
                 {{$title}}
+            </div>
+            <div class="ml-auto">
+                <div class="d-flex justify-content-end">
+                    <a href="{{route('users_interface.user_groups_add')}}" class="btn btn-primary p-1">
+                        Добавить <i class="fa fa-plus" aria-hidden="true"></i>
+                    </a>
+                </div>
             </div>
         </div>
         <div class="card-body">
             <div class="d-flex flex-column justify-content-center">
-                <div>
-                    <div class="d-flex justify-content-end">
-                        <a href="{{route('users_interface.user_groups_add')}}" class="btn btn-primary p-1">
-                            Добавить <i class="fa fa-plus" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </div>
                 @if($user_groups->count())
                 <table class="table">
                     <tbody>

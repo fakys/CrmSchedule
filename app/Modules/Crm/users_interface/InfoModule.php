@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\users_interface;
 
 use App\Modules\Crm\users_interface\operations\UserAccessOperation;
+use App\Modules\Crm\users_interface\operations\UsersGroupOperations;
 use App\Modules\Crm\users_interface\operations\UsersOperation;
 use App\Modules\Crm\users_interface\repositories\UserGroupsRepositories;
 use App\Modules\Crm\users_interface\repositories\UsersRepositories;
@@ -39,9 +40,11 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     {
         return [
             UsersOperation::class,
-            UserAccessOperation::class
+            UserAccessOperation::class,
+            UsersGroupOperations::class
         ];
     }
+
     public static function runConfig()
     {
         Config::set('view.paths', array(__DIR__.'/views'));

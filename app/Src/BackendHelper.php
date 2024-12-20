@@ -2,6 +2,8 @@
 
 namespace App\Src;
 
+use App\Modules\Crm\backend_module\interfaces\OperationsInterface;
+use App\Modules\Crm\backend_module\interfaces\RepositoryInterface;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\operations\Operation;
@@ -11,7 +13,6 @@ use App\Src\modules\repository\Repository;
 
 class BackendHelper
 {
-
     /**
      * @param string $module
      * @return InterfaceInfoModule
@@ -27,7 +28,7 @@ class BackendHelper
     }
 
     /**
-     * @return RepositoriesContext
+     * @return RepositoryInterface
      */
     public static function getRepositories(): RepositoriesContext
     {
@@ -35,7 +36,7 @@ class BackendHelper
     }
 
     /**
-     * @return OperationsContext
+     * @return OperationsInterface
      */
     public static function getOperations(): OperationsContext
     {

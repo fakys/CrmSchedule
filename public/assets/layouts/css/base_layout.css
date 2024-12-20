@@ -142,3 +142,7 @@
 .gap-1{
     gap: 2px;
 }
+.error{
+    color: var(--danger);
+    font-size: 12px;
+}

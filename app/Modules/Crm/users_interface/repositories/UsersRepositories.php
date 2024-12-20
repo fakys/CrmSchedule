@@ -39,8 +39,9 @@ class UsersRepositories extends Repository {
     {
         $user = BackendHelper::getRepositories()->getUserById($id);
         foreach($data as $field => $value){
-
+            $user->$field = $value;
         }
+        return $user->save();
     }
 
     public function updateUsersInfoById($id, $value)

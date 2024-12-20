@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\Crm\users_interface\controllers;
 
-use App\Modules\Crm\users_interface\model\AccessTab;
+use App\Modules\Crm\users_interface\model\UserAddGroups;
 use App\Modules\Crm\users_interface\model\EditUserTabs;
 use App\Src\BackendHelper;
 use Illuminate\Routing\Controller;
@@ -83,7 +83,7 @@ class TabsController extends Controller{
     {
         $data = request()->post('data');
         $id = request()->post('data')['id'];
-        $model = new AccessTab();
+        $model = new UserAddGroups();
         $model->load($data);
         $validate = Validator::make($model->getData(), $model->rules());
         if($validate->validate()){
@@ -100,6 +100,7 @@ class TabsController extends Controller{
     public function getUserGroupsTabs()
     {
         $users_groups = BackendHelper::getRepositories()->getAllUsersGroup();
-        return view('tabs.user_groups', compact('users_groups'));
+        $user_in_group = BackendHelper::getRepositories()->getUserGroupsByUserId(request()->post('id'));
+        return view('tabs.user_groups', compact('users_groups', 'user_in_group'));
     }
 }

@@ -36,7 +36,6 @@ class Html
 
     public static function select_duallistbox_multiple($label, $name,$data = [] , $value = [], $class = '')
     {
-
         return view('Html::form_inputs.select_search_multiple', ['name'=>$name, 'label'=>$label, 'data'=>$data, 'value'=>$value, 'class'=>$class]);
     }
 
