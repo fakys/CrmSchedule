@@ -15,24 +15,9 @@ return new class extends Migration
         Schema::create('user_groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->text('accesses');
             $table->boolean('active')->default(true);
             $table->string('description')->nullable();
-            $table->timestamps();
-        });
-
-        Schema::create('statuses', function (Blueprint $table) {
-            $table->id();
-            $table->string('status_name')->unique();
-            $table->string('url')->nullable();
-            $table->string('description')->nullable();
-            $table->boolean('active')->default(true);
-            $table->timestamps();
-        });
-
-        Schema::create('groups_statuses', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_group_id')->references('id')->on('user_groups')->onDelete('cascade');
-            $table->foreignId('status_id')->references('id')->on('statuses')->onDelete('cascade');
             $table->timestamps();
         });
 
@@ -50,8 +35,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('groups_users');
-        Schema::dropIfExists('groups_statuses');
         Schema::dropIfExists('user_groups');
-        Schema::dropIfExists('statuses');
     }
 };
