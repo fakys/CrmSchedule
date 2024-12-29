@@ -7,10 +7,13 @@ use App\Src\BackendHelper;
 use App\Src\helpers\StrHelper;
 use App\Src\modules\InfoModuleModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 
 abstract class AbstractContext{
     protected static $context;
+
+    protected $context_user;
 
     /**
      * @var AccessModel[]
@@ -59,7 +62,6 @@ abstract class AbstractContext{
     {
         if($access){
             $this->accesses[] = $access;
-
         }
     }
 

@@ -1,9 +1,9 @@
 <?php
 namespace App\Src;
 
+use App\Entity\User;
 use App\Src\abstract\AbstractContext;
 use App\Src\access\models\AccessModel;
-use http\Env\Request;
 
 class Context extends AbstractContext
 {
@@ -39,5 +39,19 @@ class Context extends AbstractContext
     public function getAccesses()
     {
         return $this->getAccessesContext();
+    }
+
+    public function setUser(User $user)
+    {
+        $this->context_user = $user;
+    }
+
+    /**
+     * Вернет текущего пользователя
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->context_user;
     }
 }

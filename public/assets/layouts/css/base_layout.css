@@ -146,3 +146,15 @@
     color: var(--danger);
     font-size: 12px;
 }
+.fixed-center{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgb(163, 163, 163, 30%);
+    z-index: 99999999;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

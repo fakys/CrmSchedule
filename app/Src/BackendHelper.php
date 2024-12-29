@@ -4,6 +4,7 @@ namespace App\Src;
 
 use App\Modules\Crm\backend_module\interfaces\OperationsInterface;
 use App\Modules\Crm\backend_module\interfaces\RepositoryInterface;
+use App\Src\access\AccessRoute;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\operations\Operation;
@@ -41,5 +42,26 @@ class BackendHelper
     public static function getOperations(): OperationsContext
     {
         return Operation::objects()->getFullOperations();
+    }
+
+    /**
+     * Получает access по uri
+     * @param string $uri
+     * @return access\models\AccessModel|false
+     */
+    public static function getAccess(string $uri)
+    {
+        return AccessRoute::getByUriAccess($uri);
+    }
+
+    /**
+     * Проверяет есть ли у пользователя роль
+     * @param $access
+     * @param $user_id
+     * @return bool
+     */
+    public static function checkAccess($access, $user_id)
+    {
+        return AccessRoute::checkUserByAccess($access, $user_id);
     }
 }

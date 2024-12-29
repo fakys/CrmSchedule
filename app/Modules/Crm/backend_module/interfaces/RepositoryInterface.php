@@ -67,13 +67,6 @@ interface RepositoryInterface{
     public function addUserInGroup($user_id, $group_id);
 
     /**
-     * Возвращает группу пользователей по id
-     * @param $id
-     * @return UserGroup
-     */
-    public function getUsersGroupById($id);
-
-    /**
      * Проверяет есть ли пользователь в группе
      * @param $user_id
      * @param $group_id
@@ -86,5 +79,35 @@ interface RepositoryInterface{
      * @param $user_id
      * @return GroupUser[]
      */
-    public function getUserGroupsByUserId($user_id);
+    public function getGroupsUserByUserId($user_id);
+
+    /**
+     * Возвращает группы пользователей по id
+     * @param $id
+     * @return UserGroup
+     */
+    public function getUsersGroupById($id);
+
+    /**
+     * Создает группу пользователей
+     * @param string $name
+     * @param string $access
+     * @return bool
+     */
+    public function updateUserGroup($group_id, $name, $access, $active = true, $description = '');
+
+    /**
+     * Создает группу пользователей
+     * @param string $name
+     * @param string $access
+     * @return bool
+     */
+    public function createUsersGroup($name, $access, $active = true, $description ='');
+
+    /**
+     * Удаляет группу пользователей по id
+     * @param $id
+     * @return bool|null
+     */
+    public function deleteUserGroupById($id);
 }

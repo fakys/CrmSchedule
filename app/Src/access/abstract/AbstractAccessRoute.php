@@ -2,6 +2,9 @@
 namespace App\Src\access\abstract;
 
 use App\Src\access\models\AccessModel;
+use App\Src\BackendHelper;
+use App\Src\helpers\StrHelper;
+use function Symfony\Component\Translation\t;
 
 abstract class AbstractAccessRoute
 {
@@ -78,5 +81,27 @@ abstract class AbstractAccessRoute
     public function __destruct()
     {
         $this->setAccessInContext();
+    }
+
+    public static function getByUriAccess($uri)
+    {
+        $uri = StrHelper::delete_first_slash($uri);
+        $accesses = context()->getAccesses();
+        foreach ($accesses as $access) {
+            if($access->getRoute()->uri() == $uri) {
+                return $access;
+            }
+        }
+        return false;
+    }
+
+    public static function checkUserByAccess($access, $user_id)
+    {
+        $user = BackendHelper::getRepositories()->getUserById($user_id);
+        $user_accesses = BackendHelper::getOperations()->getFullAccessByUserId($user->id);
+        if($user && in_array($access, $user_accesses)) {
+            return true;
+        }
+        return false;
     }
 }

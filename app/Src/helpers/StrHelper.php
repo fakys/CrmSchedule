@@ -15,4 +15,9 @@ class StrHelper{
         }
         return false;
     }
+
+    public static function delete_first_slash($uri)
+    {
+        return substr($uri, 0, 1) == '/' ? substr($uri, 1) : $uri;
+    }
 }

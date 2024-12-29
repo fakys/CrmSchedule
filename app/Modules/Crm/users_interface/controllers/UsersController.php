@@ -12,4 +12,10 @@ class UsersController extends Controller{
         $data = BackendHelper::getRepositories()->getFullUsersInfo();
         return view('users.users_info', ['data' => $data, 'title'=>'Пользователи']);
     }
+
+    public function checkUserAccess()
+    {
+        $url = request()->post('links');
+        return BackendHelper::getOperations()->hasAccessesByUrl($url);
+    }
 }

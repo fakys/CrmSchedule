@@ -1,7 +1,9 @@
 <?php
 namespace App\Modules\Crm\users_interface\controllers;
 use App\Modules\Crm\users_interface\model\UserAddGroups;
+use App\Modules\Crm\users_interface\model\UsersGroup;
 use App\Src\BackendHelper;
+use App\Src\helpers\ArrayHelper;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,7 +26,7 @@ class UserGroupsController extends Controller{
      */
     public function createUserGroups()
     {
-        $model = new UserAddGroups();
+        $model = new UsersGroup();
         $model->load(request()->post());
         $validate = Validator::make($model->getData(), $model->rules());
         if($validate->validate()){
@@ -44,4 +46,65 @@ class UserGroupsController extends Controller{
         $model->load(request()->post());
         return BackendHelper::getOperations()->addUserInGroups($model->user_id, $model->groups);
     }
+
+    /**
+     * Страничка редактирования групп пользователей
+     * @param $user_group_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|void
+     */
+    public function actionEditUserGroups()
+    {
+        if(request()->get('group_id')){
+            $group_id = request()->get('group_id');
+            $group = BackendHelper::getRepositories()->getUsersGroupById($group_id);
+            if($group){
+                $access = BackendHelper::getOperations()->getAccessForForm();
+                $access_data = ArrayHelper::valueIsKey($group->getAccesses());
+                return view('user_groups.add_user_groups', [
+                    'title'=>'Группы пользователей',
+                    'access' => $access,
+                    'access_data' => $access_data,
+                    'group' => $group
+                ]);
+            }
+        }
+        abort(404);
+    }
+
+
+    /**
+     * Таб для обновления групп пользователей
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function editUserGroups()
+    {
+        if(request()->post('group_id')){
+            $model = new UsersGroup();
+            $model->load(request()->post());
+            $validate = Validator::make($model->getData(), $model->rules());
+            if($validate->validate()){
+                BackendHelper::getRepositories()->updateUserGroup(
+                    request()->post('group_id'),
+                    $model->name, $model->getAccesses(),
+                    $model->active, $model->description
+                );
+            }
+            return redirect()->route('users_interface.user_groups_info');
+        }
+        abort(404);
+    }
+
+    /**
+     * Удаляет группу пользователей по id
+     */
+    public function deleteUserGroups()
+    {
+        $group_id = request()->post('group_id');
+        if($group_id){
+            return BackendHelper::getRepositories()->deleteUserGroupById($group_id);
+        }
+        abort(409);
+    }
 }
+
+

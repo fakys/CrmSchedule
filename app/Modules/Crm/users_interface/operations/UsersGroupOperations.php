@@ -16,7 +16,7 @@ class UsersGroupOperations extends Operation
      */
     public function addUserInGroups($userId, $groups)
     {
-        $user_groups = BackendHelper::getRepositories()->getUserGroupsByUserId($userId);
+        $user_groups = BackendHelper::getRepositories()->getGroupsUserByUserId($userId);
         if($groups){
             foreach ($groups as $group_id) {
                 $group_by_id = BackendHelper::getRepositories()->getUsersGroupById($group_id);

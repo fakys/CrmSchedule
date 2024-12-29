@@ -10,4 +10,9 @@ class GroupUser extends Model
         'user_group_id',
         'users_id',
     ];
+
+    public function getUserGroup()
+    {
+        return $this->hasOne(UserGroup::class, 'user_group_id', 'id')->get();
+    }
 }

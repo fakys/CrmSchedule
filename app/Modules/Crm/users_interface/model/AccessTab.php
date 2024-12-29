@@ -6,6 +6,8 @@ use App\Src\modules\models\Model;
 
 class AccessTab extends Model implements InterfaceModel
 {
+    const APPROVED = 'approved';
+    const REJECTED = 'rejected';
 
     public function fields(): array
     {

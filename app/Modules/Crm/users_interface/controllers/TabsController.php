@@ -100,7 +100,7 @@ class TabsController extends Controller{
     public function getUserGroupsTabs()
     {
         $users_groups = BackendHelper::getRepositories()->getAllUsersGroup();
-        $user_in_group = BackendHelper::getRepositories()->getUserGroupsByUserId(request()->post('id'));
+        $user_in_group = BackendHelper::getRepositories()->getGroupsUserByUserId(request()->post('id'));
         return view('tabs.user_groups', compact('users_groups', 'user_in_group'));
     }
 }

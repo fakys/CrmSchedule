@@ -11,6 +11,8 @@
     @yield('css_files')
 </head>
 <body class="hold-transition sidebar-mini">
+@csrf
+<div id="access_route" data-url="{{route('users_interface.check_accesses')}}"></div>
 <div class="wrapper">
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <ul class="navbar-nav">
@@ -411,8 +413,9 @@
 </div>
 <!-- ./wrapper -->
 
+<!-- Accesses -->
+<script src="{{asset('assets/js/accesses.js')}}"></script>
 <!-- REQUIRED SCRIPTS -->
-
 <script src="{{asset('assets/js/base.js')}}"></script>
 <!-- Bootstrap -->
 <script src="{{asset('assets/plugins/js/bootstrap.min.js')}}"></script>

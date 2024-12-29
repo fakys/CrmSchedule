@@ -12,4 +12,12 @@ class UserGroup extends Model
         'description',
         'active'
     ];
+
+    public function getAccesses()
+    {
+        if($this->accesses){
+            return json_decode($this->accesses, 1);
+        }
+        return [];
+    }
 }

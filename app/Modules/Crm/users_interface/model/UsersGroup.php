@@ -21,7 +21,6 @@ class UsersGroup extends Model implements InterfaceModel
     {
         return [
             'name'=>['required','string', 'min:3', 'max:55'],
-            'description'=>['string', 'min:3', 'max:255']
         ];
     }
 
