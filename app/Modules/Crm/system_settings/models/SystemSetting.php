@@ -11,29 +11,22 @@ class SystemSetting extends Model implements InterfaceModel
     public function fields(): array
     {
         return [
-            'site_tome_zone',
-            'db_tome_zone',
-            'system_name',
-            'system_lang',
-            'use_cash'
+            'system_users',
+            'system_user_groups',
         ];
     }
 
     public function rules(): array
     {
         return [
-            'site_tome_zone'=>['required','string'],
-            'db_tome_zone'=>['required','string'],
-            'system_name'=>['required','string'],
-            'system_lang'=>['required','string'],
-            'use_cash'=>['required','boolean'],
+            'system_users'=>['array'],
+            'system_user_groups'=>['array'],
         ];
     }
 
     public function boolean(): array
     {
         return [
-            'use_cash',
         ];
     }
 

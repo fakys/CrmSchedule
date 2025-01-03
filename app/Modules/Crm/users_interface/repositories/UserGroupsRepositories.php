@@ -8,6 +8,10 @@ use App\Src\modules\repository\Repository;
 
 class UserGroupsRepositories extends Repository
 {
+    /**
+     * Возвращает все группы пользователей
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function getAllUsersGroup()
     {
         return UserGroup::all();

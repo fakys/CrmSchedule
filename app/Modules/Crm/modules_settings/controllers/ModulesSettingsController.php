@@ -3,6 +3,7 @@ namespace App\Modules\Crm\modules_settings\controllers;
 
 use App\Modules\Crm\modules_settings\InfoModule;
 use App\Src\BackendHelper;
+use App\Src\helpers\ArrayHelper;
 use Illuminate\Routing\Controller;
 use Mockery\Exception;
 
@@ -15,7 +16,7 @@ class ModulesSettingsController extends Controller{
 
     public function actionAddModule()
     {
-        $full_modules = BackendHelper::getOperations()->getDataModuleInNotStatusModules();
+        $full_modules = ArrayHelper::valueIsKey(BackendHelper::getOperations()->getDataModuleInNotStatusModules());
         return view('settings.add_module', compact('full_modules'));
     }
     public function saveModule()

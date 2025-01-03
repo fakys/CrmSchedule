@@ -166,7 +166,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item rm-level-2">
-                                <a href="{{route('system_settings.settings')}}" class="nav-link">
+                                <a href="{{route('system_settings.crm_settings')}}" class="nav-link">
                                     <i class="fa fa-cog" aria-hidden="true"></i>
                                     <p>Настройки системы</p>
                                 </a>

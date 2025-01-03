@@ -110,4 +110,16 @@ interface RepositoryInterface{
      * @return bool|null
      */
     public function deleteUserGroupById($id);
+
+    /**
+     * Возвращает все группы пользователей
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllUsersGroup();
+
+    /**
+     * Возвращает всех активных пользователей
+     * @return \Illuminate\Database\Eloquent\Collect
+     */
+    public function getAllActiveUsers();
 }

@@ -5,6 +5,22 @@ use App\Src\access\AccessRoute;
 use Illuminate\Support\Facades\Route;
 
 $module = InfoModule::getNameModule();
+AccessRoute::access("{$module}_crm_settings")->route(
+    Route::get("/$module/crm-settings",
+        [
+            \App\Modules\Crm\system_settings\controllers\SettingsController::class,
+            'actionCRMSettings'
+        ]
+    )->name("$module.crm_settings")
+);
+
+Route::post("/$module/settings",
+    [
+        \App\Modules\Crm\system_settings\controllers\SettingsController::class,
+        'setCrmSettings'
+    ]
+)->name("$module.set-settings");
+
 AccessRoute::access("{$module}_settings")->route(
     Route::get("/$module/settings",
         [
@@ -14,12 +30,9 @@ AccessRoute::access("{$module}_settings")->route(
     )->name("$module.settings")
 );
 
-AccessRoute::access("{$module}_set_settings")->route(
-    Route::post("/$module/settings",
-        [
-            \App\Modules\Crm\system_settings\controllers\SettingsController::class,
-            'setSystemSettings'
-        ]
-    )->name("$module.set-settings")
-);
-
+Route::post("/$module/set-system-settings",
+    [
+        \App\Modules\Crm\system_settings\controllers\SettingsController::class,
+        'setSystemSettings'
+    ]
+)->name("$module.set_system_settings");

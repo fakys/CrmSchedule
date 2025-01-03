@@ -23,6 +23,18 @@ class UsersRepositories extends Repository {
         return $users;
     }
 
+    /**
+     * Возвращает всех активных пользователей
+     * @return \Illuminate\Database\Eloquent\Collect
+     */
+    public function getAllActiveUsers()
+    {
+        $users = DB::select(
+            "SELECT * FROM users WHERE afk=false and blocked=false and deleted=false");
+
+        return $users;
+    }
+
     public function getUserList($data)
     {
         $users = User::where($data)->get();
