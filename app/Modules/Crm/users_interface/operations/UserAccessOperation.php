@@ -49,7 +49,7 @@ class UserAccessOperation extends Operation {
         $data_access = [];
 
         foreach ($full_access as $access) {
-            if(in_array(route($access->getRoute()->getName()), $url)){
+            if($access->getRoute() && in_array(route($access->getRoute()->getName()), $url)){
                 if(in_array($access->getAccess(), $user_access)){
                     $data_access[route($access->getRoute()->getName())] = AccessTab::APPROVED;
                 }else{

@@ -15,18 +15,18 @@ class SystemSettingRepository extends Repository{
         return SystemSetting::where($data)->get();
     }
 
-    public function getActiveSystemSettings()
+    public function getActiveSystemSettings($name)
     {
         return SystemSetting::where([
-            'name'=> \App\Modules\Crm\system_settings\models\SystemSetting::getSettingName(),
+            'name'=> $name,
             'active'=>true
             ])->orderBy('id', 'desc')->first();
     }
 
-    public function getLastSystemSettings()
+    public function getLastSystemSettings($name)
     {
         return SystemSetting::where([
-            'name'=> \App\Modules\Crm\system_settings\models\SystemSetting::getSettingName()
+            'name'=> $name
         ])->orderBy('id', 'desc')->first();
     }
 

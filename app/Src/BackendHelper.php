@@ -4,13 +4,15 @@ namespace App\Src;
 
 use App\Modules\Crm\backend_module\interfaces\OperationsInterface;
 use App\Modules\Crm\backend_module\interfaces\RepositoryInterface;
-use App\Src\access\AccessRoute;
+use App\Modules\Crm\system_settings\models\CrmSetting;
+use App\Src\access\ContextAccessRoute;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\operations\Operation;
 use App\Src\modules\operations\OperationsContext;
 use App\Src\modules\repository\RepositoriesContext;
 use App\Src\modules\repository\Repository;
+use App\Src\modules\settings\Settings;
 
 class BackendHelper
 {
@@ -51,7 +53,7 @@ class BackendHelper
      */
     public static function getAccess(string $uri)
     {
-        return AccessRoute::getByUriAccess($uri);
+        return ContextAccessRoute::getByUriAccess($uri);
     }
 
     /**
@@ -62,6 +64,27 @@ class BackendHelper
      */
     public static function checkAccess($access, $user_id)
     {
-        return AccessRoute::checkUserByAccess($access, $user_id);
+        return ContextAccessRoute::objects()->checkUserByAccess($access, $user_id);
+    }
+
+    /**
+     * Проверяет есть ли у пользователя роль по имени роута
+     * @param $name
+     * @return bool
+     */
+    public static function checkAccessByNameRoute($name)
+    {
+        return ContextAccessRoute::objects()->checkAccessByNameRoute($name);
+    }
+
+    /**
+     * Получает настройки по названию
+     * @param $name
+     * @return Settings
+     */
+    public static function getSystemSettings($name)
+    {
+        $settings = new Settings(BackendHelper::getOperations()->getСurrentSystemSettings($name));
+        return $settings;
     }
 }

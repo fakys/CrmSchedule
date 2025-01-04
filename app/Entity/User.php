@@ -56,4 +56,25 @@ class User extends Authenticatable
             $this->hasOne(UserDocumet::class, 'user_id', 'id')->get()[0]
             :[];
     }
+
+    public function getGroupsUser()
+    {
+        return $this->hasOne(GroupUser::class, 'users_id', 'id')->get();
+    }
+
+    /**
+     * Возвращает все группы пользователя в массиве
+     * @return UserGroup[]
+     */
+    public function getUserGroups()
+    {
+        $groups_user = $this->hasOne(GroupUser::class, 'users_id', 'id')->get();
+        $groups = [];
+        if($groups_user){
+            foreach($groups_user as $group){
+                $groups[] =  UserGroup::where(['id'=>$group->group_id])->first();
+            }
+        }
+        return $groups;
+    }
 }

@@ -22,7 +22,7 @@ interface OperationsInterface
      * Берет текущие системные настройки
      * @return mixed
      */
-    public function getСurrentSystemSettings();
+    public function getСurrentSystemSettings($name);
 
     /**
      * Возвращает все доступы пользователя по id

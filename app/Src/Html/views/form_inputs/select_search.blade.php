@@ -19,7 +19,11 @@
     <label>{{$label}}</label>
     <select name="{{$name}}[]" class="form-control select2" multiple style="width: 100%;" >
         @foreach($data as $key=>$val)
-        <option value="{{$key}}">{{$val}}</option>
+            @if(in_array($key, $value))
+                <option value="{{$key}}" selected>{{$val}}</option>
+            @else
+                <option value="{{$key}}">{{$val}}</option>
+            @endif
         @endforeach
     </select>
 </div>

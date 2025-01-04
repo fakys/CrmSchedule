@@ -11,10 +11,16 @@
                 <form method="post" class="form" action="{{route('system_settings.set_system_settings')}}">
                     @csrf
                     <div>
-                        {{\App\Src\Html\Html::select_search('Системные пользователи', 'system_users', $users)}}
+                        {{\App\Src\Html\Html::select_search('Системные пользователи', 'system_users', $users, $settings_users)}}
+                        @error('system_users')
+                        <div class="error">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div>
-                        {{\App\Src\Html\Html::select_search('Системные группы', 'system_user_groups', $groups)}}
+                        {{\App\Src\Html\Html::select_search('Системные группы', 'system_user_groups', $groups, $settings_group)}}
+                        @error('system_user_groups')
+                        <div class="error">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div>
                         <input type="submit" class="btn-main" value="Сохранить">

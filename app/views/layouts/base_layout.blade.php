@@ -156,27 +156,32 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
+                    @if(\App\Src\BackendHelper::checkAccess('navbar_arm_supervisor', context()->getUser()->id))
                     <li class="nav-item menu-is-opening menu-open rm-group-container">
-                        <a href="#" class="nav-link rm-group">
+                        <div class="nav-link rm-group">
                             <i class="fa fa-cogs nav-icon" aria-hidden="true"></i>
                             <p class="name-rm-layout text-nowrap">
                                 РМ Руководителя
                                 <i class="right fas fa-angle-left"></i>
                             </p>
-                        </a>
+                        </div>
                         <ul class="nav nav-treeview">
+                            @if(\App\Src\BackendHelper::checkAccessByNameRoute('system_settings.crm_settings'))
                             <li class="nav-item rm-level-2">
                                 <a href="{{route('system_settings.crm_settings')}}" class="nav-link">
                                     <i class="fa fa-cog" aria-hidden="true"></i>
                                     <p>Настройки системы</p>
                                 </a>
                             </li>
-                            <li class="nav-item rm-level-2">
-                                <a href="{{route('modules_settings.settings')}}" class="nav-link">
-                                    <i class="fa fa-sitemap" aria-hidden="true"></i>
-                                    <p>Модули</p>
-                                </a>
-                            </li>
+                            @endif
+                            @if(\App\Src\BackendHelper::checkAccessByNameRoute('modules_settings.settings'))
+                                <li class="nav-item rm-level-2">
+                                    <a href="{{route('modules_settings.settings')}}" class="nav-link">
+                                        <i class="fa fa-sitemap" aria-hidden="true"></i>
+                                        <p>Модули</p>
+                                    </a>
+                                </li>
+                            @endif
                             <li class="nav-item rm-level-2">
                                 <div class="nav-link">
                                     <i class="fa fa-user" aria-hidden="true"></i>
@@ -186,26 +191,33 @@
                                     </p>
                                 </div>
                                 <ul class="nav nav-treeview" style="display: none;">
+                                    @if(\App\Src\BackendHelper::checkAccessByNameRoute('users_interface.users_info'))
                                     <li class="nav-item rm-level-3">
                                         <a href="{{route('users_interface.users_info')}}" class="nav-link">
                                             <p>Пользователи</p>
                                         </a>
                                     </li>
+                                    @endif
                                     <li class="nav-item rm-level-3">
                                         <a href="#" class="nav-link">
                                             <p>Роли</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="{{route('users_interface.user_groups_info')}}" class="nav-link">
-                                            <p>Группы</p>
-                                        </a>
-                                    </li>
+                                    @if(\App\Src\BackendHelper::checkAccessByNameRoute('system_settings.crm_settings'))
+                                        <li class="nav-item rm-level-3">
+                                            <a href="{{route('users_interface.user_groups_info')}}"
+                                               class="nav-link">
+                                                <p>Группы</p>
+                                            </a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item menu-is-opening menu-open rm-group-container">
+                    @endif
+                    @if(\App\Src\BackendHelper::checkAccess('navbar_arm_teacher', context()->getUser()->id))
+                        <li class="nav-item menu-is-opening menu-open rm-group-container">
                         <a href="#" class="nav-link rm-group">
                             <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                             <p class="name-rm-layout text-nowrap">
@@ -348,6 +360,7 @@
                             </li>
                         </ul>
                     </li>
+                    @endif
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

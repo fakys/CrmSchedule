@@ -18,13 +18,13 @@ class SystemSettingsOperations extends Operation{
         return BackendHelper::getRepositories()->setSystemSettings($name);
     }
 
-    public function getСurrentSystemSettings()
+    public function getСurrentSystemSettings($name)
     {
-        $setting = BackendHelper::getRepositories()->getActiveSystemSettings();
+        $setting = BackendHelper::getRepositories()->getActiveSystemSettings($name);
         if($setting){
             return $setting;
         }
-        $setting = BackendHelper::getRepositories()->getLastSystemSettings();
+        $setting = BackendHelper::getRepositories()->getLastSystemSettings($name);
         if($setting){
             return BackendHelper::getRepositories()->saveActiveSystemSettings($setting);
         }

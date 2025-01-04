@@ -9,9 +9,13 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller;
 class SettingsController extends Controller{
 
+    /**
+     * Страница настроек CRM
+     * @return mixed
+     */
     public function actionCRMSettings()
     {
-        $setting = BackendHelper::getOperations()->getСurrentSystemSettings();
+        $setting = BackendHelper::getOperations()->getСurrentSystemSettings(CrmSetting::getSettingName());
         $systemName = config('app.name');
         if($setting){
             $setting = json_decode($setting->toArray()['settings']);
@@ -51,17 +55,24 @@ class SettingsController extends Controller{
         if(request()->post() && $validate->validate()){
             $settings = json_encode($model->getData());
             BackendHelper::getOperations()->createSystemSettings(
-                ['name'=>SystemSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>1, 'active'=>true]
+                ['name'=>CrmSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>1, 'active'=>true]
             );
         }
         return redirect()->route('system_settings.crm_settings');
     }
 
+    /**
+     * Страница системных настроек
+     * @return mixed
+     */
     public function actionSystemSettings()
     {
         $groups = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllUsersGroup(), 'name', 'id');
         $users = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllActiveUsers(), 'username', 'id');
-        return view('settings.system_settings', ['groups'=>$groups, 'users'=>$users]);
+        $settings = BackendHelper::getSystemSettings(SystemSetting::getSettingName());
+        $settings_group = ArrayHelper::arrayInt($settings->system_user_groups);
+        $settings_users = ArrayHelper::arrayInt($settings->system_users);
+        return view('settings.system_settings', ['groups'=>$groups, 'users'=>$users, 'settings_group'=>$settings_group, 'settings_users'=>$settings_users]);
     }
 
     public function setSystemSettings()
@@ -69,7 +80,7 @@ class SettingsController extends Controller{
         $model = new SystemSetting();
         $model->load(request()->post());
         $validate = Validator::make($model->getData(), $model->rules());
-        if(request()->post() && $validate->validate()){
+        if($validate->validate() || (!$validate->validate() && !$model->getData())){
             $settings = json_encode($model->getData());
             BackendHelper::getOperations()->createSystemSettings(
                 ['name'=>SystemSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>1, 'active'=>true]

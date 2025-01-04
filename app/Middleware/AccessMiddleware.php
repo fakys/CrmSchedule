@@ -13,7 +13,7 @@ class AccessMiddleware
     {
         $user = Auth::user();
         $access = BackendHelper::getAccess($request->getRequestUri());
-        if (!$user || !$access || $user->username = 'system_user') {
+        if (!$user || !$access) {
             return $next($request);
         }
         if(BackendHelper::checkAccess($access->getAccess(), $user->id)){

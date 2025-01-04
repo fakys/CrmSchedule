@@ -122,4 +122,25 @@ interface RepositoryInterface{
      * @return \Illuminate\Database\Eloquent\Collect
      */
     public function getAllActiveUsers();
+
+    /**
+     * возвращает актуальные настройки системы
+     * @param $name
+     * @return mixed
+     */
+    public function getActiveSystemSettings($name);
+
+    /**
+     * возвращает последние настройки системы
+     * @param $name
+     * @return mixed
+     */
+    public function getLastSystemSettings($name);
+
+    /**
+     * делает переданные настройки актуальными
+     * @param $settings
+     * @return mixed
+     */
+    public function saveActiveSystemSettings($settings);
 }
