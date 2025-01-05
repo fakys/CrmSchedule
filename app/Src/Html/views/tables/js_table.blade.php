@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="{{asset('assets/plugins/js_data/css/dataTables.bootstrap4.min.css')}}">
 <div class="container">
     <div class="card">
-        <div class="card-header b-main">Результаты по запросу "{{$title}}"</div>
         <div class="card-body">
             <table id="example2" class="table table-bordered table-hover" data-url="{{$url}}">
                 @csrf
@@ -29,27 +28,27 @@
     </div>
 </div>
 
-@section('js_files')
-    <script src="{{asset('assets/plugins/js_data/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('assets/plugins/js_data/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('assets/plugins/js_data/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('assets/plugins/js_data/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{asset('assets/plugins/js_data/js/js_table.js')}}"></script>
-    <script>
-        $(function () {
-            $("#example1").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
+
+<script src="{{asset('assets/plugins/js_data/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('assets/plugins/js_data/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('assets/plugins/js_data/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('assets/plugins/js_data/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('assets/plugins/js_data/js/js_table.js')}}"></script>
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
         });
-    </script>
-@endsection
+    });
+</script>
+

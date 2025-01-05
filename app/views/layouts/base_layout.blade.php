@@ -198,11 +198,13 @@
                                         </a>
                                     </li>
                                     @endif
-                                    <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Роли</p>
-                                        </a>
-                                    </li>
+                                    @if(\App\Src\BackendHelper::checkAccessByNameRoute('users_interface.accesses'))
+                                        <li class="nav-item rm-level-3">
+                                            <a href="{{route('users_interface.accesses')}}" class="nav-link">
+                                                <p>Доступы</p>
+                                            </a>
+                                        </li>
+                                    @endif
                                     @if(\App\Src\BackendHelper::checkAccessByNameRoute('system_settings.crm_settings'))
                                         <li class="nav-item rm-level-3">
                                             <a href="{{route('users_interface.user_groups_info')}}"

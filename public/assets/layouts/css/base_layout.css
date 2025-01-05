@@ -158,3 +158,35 @@
     justify-content: center;
     align-items: center;
 }
+
+.search-group{
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    justify-content: space-between;
+}
+.search-group input{
+    width: 180px;
+    height: 25px;
+}
+.search-group .selection{
+    display: flex;
+    justify-content: right;
+}
+
+.search-group .select2-container .select2-selection--multiple{
+    width: 180px;
+    height: 25px;
+    min-height: 25px;
+}
+.search-group .select2-container--default .select2-selection--multiple .select2-selection__rendered{
+    height: 25px;
+    min-height: 25px;
+    margin-top: 3px;
+}
+.search-group .select2-container--default .select2-selection--multiple .select2-selection__choice{
+    font-size: 12px;
+}
+.search-group .select2-dropdown{
+    width: 180px;
+}

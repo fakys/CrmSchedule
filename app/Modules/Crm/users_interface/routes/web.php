@@ -12,6 +12,14 @@ AccessRoute::access("{$module}_users_info")->route(
         'actionUsersInfo'
     ])->name("$module.users_info")
 );
+
+AccessRoute::access("{$module}_users_info_search")->route(
+    Route::post("$module/users-info-search", [
+        \App\Modules\Crm\users_interface\controllers\UsersController::class,
+        'actionUsersInfo'
+    ])->name("$module.users_info_search")
+);
+
 AccessRoute::access("{$module}_tabs_users_tabs")->route(
     Route::post("$module/tabs/users-tabs", [
         \App\Modules\Crm\users_interface\controllers\TabsController::class,
@@ -123,3 +131,12 @@ AccessRoute::access("{$module}_delete_user_groups")->route(
         ]
     )->name("$module.delete_user_groups")
 );
+
+AccessRoute::access("{$module}_action_accesses")->route(
+    Route::get("/$module/accesses",
+        [
+            \App\Modules\Crm\users_interface\controllers\AccessesController::class,
+            'actionAccesses'
+        ]
+    )->name("$module.accesses")
+)->description("страница всех доступов");

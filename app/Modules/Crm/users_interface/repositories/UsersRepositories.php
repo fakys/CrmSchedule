@@ -10,7 +10,8 @@ use App\Src\BackendHelper;
 use App\Src\modules\repository\Repository;
 use Illuminate\Support\Facades\DB;
 
-class UsersRepositories extends Repository {
+class UsersRepositories extends Repository
+{
     public function getFullUsersInfo()
     {
         $users = DB::select(
@@ -21,6 +22,60 @@ class UsersRepositories extends Repository {
                 join users_documents as u_doc on u_doc.user_id = users.id");
 
         return $users;
+    }
+
+    public function getFullUsersInfoSearch($data)
+    {
+        $login = isset($data['login']) ? $data['login'] : null;
+        $fio = isset($data['fio']) ? $data['fio'] : null;
+        $number = isset($data['number']) ? $data['number'] : null;
+        $email = isset($data['email']) ? $data['email'] : null;
+        $inn = isset($data['inn']) ? $data['inn'] : null;
+        $groups = isset($data['groups']) ? implode(',', $data['groups']) : null;
+        $arr_params = [];
+        $sql_arr = [];
+
+        $sql = "SELECT users.id, username as name,
+                u_info.last_name|| ' ' || u_info.first_name || ' ' || u_info.patronymic as fio, u_info.email,
+                u_info.number_phone, u_doc.inn, u_doc.snils, to_char(u_info.birthday, 'DD.MM.YYYY') as birthday FROM users
+                join users_info as u_info on u_info.user_id = users.id
+                join users_documents as u_doc on u_doc.user_id = users.id";
+
+        if ($login) {
+            $sql_arr[] = "users.username = :login";
+            $arr_params[':login'] = $login;
+        }
+        if ($number) {
+            $sql_arr[] = "u_info.number_phone = :number ";
+            $arr_params[':number'] = $number;
+        }
+
+        if ($fio) {
+            $sql_arr[] = "u_info.last_name|| ' ' || u_info.first_name || ' ' || u_info.patronymic = :fio ";
+            $arr_params[':fio'] = $fio;
+        }
+
+        if ($email) {
+            $sql_arr[] = "u_info.email = :email ";
+            $arr_params[':email'] = $email;
+        }
+
+        if ($inn) {
+            $sql_arr[] = "u_doc.inn = :inn ";
+            $arr_params[':inn'] = $inn;
+        }
+
+        if ($groups) {
+            $sql_arr[] = "(SELECT count(id) from groups_users as g_use
+            where g_use.users_id = users.id AND g_use.user_group_id in (:groups))>=1";
+            $arr_params[':groups'] = $groups;
+        }
+
+        if ($login || $fio || $number || $email || $inn || $groups) {
+            $sql .= " WHERE ".implode(" AND ", $sql_arr);
+        }
+
+        return DB::select($sql, $arr_params);
     }
 
     /**

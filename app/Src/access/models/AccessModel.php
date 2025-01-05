@@ -10,6 +10,8 @@ class AccessModel{
 
     protected string $redirect_route;
 
+    protected $description;
+
     public function setAccess(string $access): AccessModel
     {
         $this->access = $access;
@@ -26,6 +28,11 @@ class AccessModel{
     public function setRedirectRoute(string $route): AccessModel
     {
         $this->redirect_route = $route;
+        return $this;
+    }
+
+    public function setDescription($description){
+        $this->description = $description;
         return $this;
     }
 
@@ -52,5 +59,10 @@ class AccessModel{
     public function getRedirectRoute()
     {
         return $this->redirect_route;
+    }
+
+
+    public function getDescription(){
+        return $this->description;
     }
 }

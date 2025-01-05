@@ -47,6 +47,12 @@ abstract class AbstractAccessRoute
         return $this;
     }
 
+    public function setDescription(string $description)
+    {
+        $this->access->setDescription($description);
+        return $this;
+    }
+
     /**
      * Сохраняет роут
      * @return $this

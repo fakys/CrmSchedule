@@ -21,9 +21,15 @@ class AccessRoute extends AbstractAccessRoute
         return $this;
     }
 
-    public function redirect(string $route)
+    public function redirect(string $name_route)
     {
-        $this->setAccess($route);
+        $this->setRedirect($name_route);
+        return $this;
+    }
+
+    public function description(string $description)
+    {
+        $this->setDescription($description);
         return $this;
     }
 }
