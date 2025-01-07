@@ -13,6 +13,11 @@ class StatusModulesOperation extends Operation
         }
         return true;
     }
+
+    /**
+     * Возвращает не добавленные модули
+     * @return array
+     */
     public function getDataModuleInNotStatusModules()
     {
         $modules = BackendHelper::getRepositories()->getFullModuleSettings();
@@ -26,7 +31,7 @@ class StatusModulesOperation extends Operation
             if (!in_array($module, $arr_module)) {
                 $info_module = BackendHelper::getModule($module);
                 if($info_module){
-                    $not_in_modules_status[] = $info_module;
+                    $not_in_modules_status[] = $info_module->getNameModule();
                 }
             }
         }

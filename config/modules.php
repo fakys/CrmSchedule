@@ -15,6 +15,9 @@ return [
             'modules_settings',
             'users_interface',
             'auth',
+            'lessons',
+            'schedule',
+            'student_groups'
         ],
         'Api'=>[]
     ],

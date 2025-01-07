@@ -2,6 +2,8 @@
 namespace App\Modules\Crm\backend_module\interfaces;
 
 use App\Entity\GroupUser;
+use App\Entity\Specialty;
+use App\Entity\StudentGroup;
 use App\Entity\User;
 use App\Entity\UserDocumet;
 use App\Entity\UserGroup;
@@ -175,4 +177,23 @@ interface RepositoryInterface{
      * @return array
      */
     public function getFullUsersInfoSearch($data);
+
+    /**
+     * Создание специальности
+     * @return Specialty|null
+     */
+    public function createSpecialty($number, $name, $description = '');
+
+    /**
+     * Возвращает все специальности
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllSpecialties();
+
+
+    /**
+     * Создание студенческой группы
+     * @return StudentGroup|null
+     */
+    public function createStudentGroup($number, $name, $specialty_id = '');
 }

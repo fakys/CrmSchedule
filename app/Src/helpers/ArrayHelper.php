@@ -1,7 +1,6 @@
 <?php
 namespace App\Src\helpers;
 
-use function Webmozart\Assert\Tests\StaticAnalysis\integer;
 
 class ArrayHelper
 {

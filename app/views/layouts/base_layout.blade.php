@@ -229,6 +229,21 @@
                                                 <p>Добавить пользователя</p>
                                             </a>
                                         </li>
+                                        <li class="nav-item rm-level-3">
+                                            <a href="{{route('student_groups.add_group')}}" class="nav-link">
+                                                <p>Добавить группу</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item rm-level-3">
+                                            <a href="{{route('student_groups.add_specialty')}}" class="nav-link">
+                                                <p>Добавить специальность</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item rm-level-3">
+                                            <a href="#" class="nav-link">
+                                                <p>Добавить предмет</p>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                         </ul>
@@ -271,6 +286,28 @@
                                     <li class="nav-item rm-level-3">
                                         <a href="#" class="nav-link">
                                             <p>Изменить расписание</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item rm-level-2">
+                                <a href="#" class="nav-link">
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <p>
+                                        Предметы
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview" style="display: none;">
+                                    <li class="nav-item rm-level-3">
+                                        <a href="#" class="nav-link">
+                                            <p>Все предметы</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item rm-level-3">
+                                        <a href="#" class="nav-link">
+                                            <p>Отчет по предметам</p>
                                         </a>
                                     </li>
                                 </ul>

@@ -47,4 +47,10 @@ interface OperationsInterface
      * @throws \Exception
      */
     public function addUser($data);
+
+    /**
+     * Возвращает не добавленные модули
+     * @return array
+     */
+    public function getDataModuleInNotStatusModules();
 }
