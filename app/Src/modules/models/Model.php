@@ -45,6 +45,10 @@ class Model{
         return null;
     }
 
+    public function __set($name, $data){
+        $this->data[$name] = $data;
+    }
+
     public function load($data)
     {
         $this->data = $data;

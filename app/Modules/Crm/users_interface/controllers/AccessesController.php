@@ -1,9 +1,6 @@
 <?php
 namespace App\Modules\Crm\users_interface\controllers;
 
-use App\Modules\Crm\users_interface\model\UserAddGroups;
-use App\Modules\Crm\users_interface\model\EditUserTabs;
-use App\Src\BackendHelper;
 use Illuminate\Routing\Controller;
 
 class AccessesController extends Controller{

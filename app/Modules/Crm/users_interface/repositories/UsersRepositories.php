@@ -24,6 +24,11 @@ class UsersRepositories extends Repository
         return $users;
     }
 
+    /**
+     * Выдает информацию по пользователю с поиском
+     * @param $data
+     * @return array
+     */
     public function getFullUsersInfoSearch($data)
     {
         $login = isset($data['login']) ? $data['login'] : null;
@@ -131,5 +136,64 @@ class UsersRepositories extends Repository
             return $user->save();
         }
         return false;
+    }
+
+    /**
+     * Репозиторий создает пользователя
+     * @param $data
+     * @return User|null
+     */
+    public function createUser($data)
+    {
+        $user = new User();
+        $user->username = $data['username'];
+        $user->password = $data['password'];
+        if($user->save()){
+            return $user;
+        }
+        return null;
+    }
+
+    /**
+     * Репозиторий создает информацию пользователя
+     * @param $data
+     * @param $user_id
+     * @return UserInfo
+     */
+    public function createUserInfo($data, $user_id)
+    {
+        $user_info = new UserInfo();
+        $user_info->first_name = $data['first_name'];
+        $user_info->last_name = $data['last_name'];
+        $user_info->patronymic = $data['patronymic'];
+        $user_info->email = $data['email'];
+        $user_info->number_phone = $data['number_phone'];
+        $user_info->birthday = $data['birthday'];
+        $user_info->photo = $data['photo'];
+        $user_info->user_id = $user_id;
+        if($user_info->save()){
+            return $user_info;
+        }
+        return null;
+    }
+
+    /**
+     * Репозиторий создает документы пользователя
+     * @param $data
+     * @param $user_id
+     * @return UserDocumet
+     */
+    public function createUserDocument($data, $user_id)
+    {
+        $user_document = new UserDocumet();
+        $user_document->inn = $data['inn'];
+        $user_document->snils = $data['snils'];
+        $user_document->passport_series = $data['passport_series'];
+        $user_document->passport_number = $data['passport_number'];
+        $user_document->user_id = $user_id;
+        if($user_document->save()){
+            return $user_document;
+        }
+        return null;
     }
 }

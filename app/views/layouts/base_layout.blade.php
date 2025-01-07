@@ -215,6 +215,22 @@
                                     @endif
                                 </ul>
                             </li>
+                                <li class="nav-item rm-level-2">
+                                    <div class="nav-link">
+                                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                                        <p>
+                                            Операции
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </div>
+                                    <ul class="nav nav-treeview" style="display: none;">
+                                        <li class="nav-item rm-level-3">
+                                            <a href="{{route('users_interface.add_user')}}" class="nav-link">
+                                                <p>Добавить пользователя</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
                         </ul>
                     </li>
                     @endif
@@ -326,7 +342,7 @@
 
                             <li class="nav-item rm-level-2">
                                 <a href="#" class="nav-link">
-                                    <i class="fa fa-table" aria-hidden="true"></i>
+                                    <i class="fa fa-file" aria-hidden="true"></i>
                                     <p>
                                         Отчеты
                                         <i class="right fas fa-angle-left"></i>

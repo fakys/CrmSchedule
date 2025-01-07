@@ -13,6 +13,20 @@ AccessRoute::access("{$module}_users_info")->route(
     ])->name("$module.users_info")
 );
 
+AccessRoute::access("{$module}_add_user")->route(
+    Route::get("$module/add-user", [
+        \App\Modules\Crm\users_interface\controllers\UsersController::class,
+        'actionAddUser'
+    ])->name("$module.add_user")
+)->description('Страница добавления пользователя');
+
+AccessRoute::access("{$module}_add_user_post")->route(
+    Route::post("$module/add-user-post", [
+        \App\Modules\Crm\users_interface\controllers\UsersController::class,
+        'addUser'
+    ])->name("$module.add_user_post")
+)->description('Ссылка для сохранения добавленного пользователя');
+
 AccessRoute::access("{$module}_users_info_search")->route(
     Route::post("$module/users-info-search", [
         \App\Modules\Crm\users_interface\controllers\UsersController::class,

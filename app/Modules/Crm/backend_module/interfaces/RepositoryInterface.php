@@ -3,7 +3,9 @@ namespace App\Modules\Crm\backend_module\interfaces;
 
 use App\Entity\GroupUser;
 use App\Entity\User;
+use App\Entity\UserDocumet;
 use App\Entity\UserGroup;
+use App\Entity\UserInfo;
 
 interface RepositoryInterface{
     /**
@@ -143,4 +145,34 @@ interface RepositoryInterface{
      * @return mixed
      */
     public function saveActiveSystemSettings($settings);
+
+    /**
+     * Репозиторий создает пользователе
+     * @param $data
+     * @return User|null
+     */
+    public function createUser($data);
+
+    /**
+     * Репозиторий создает информацию пользователя
+     * @param $data
+     * @param $user_id
+     * @return UserInfo|null
+     */
+    public function createUserInfo($data, $user_id);
+
+    /**
+     * Репозиторий создает документы пользователя
+     * @param $data
+     * @param $user_id
+     * @return UserDocumet|null
+     */
+    public function createUserDocument($data, $user_id);
+
+    /**
+     * Выдает информацию по пользователю с поиском
+     * @param $data
+     * @return array
+     */
+    public function getFullUsersInfoSearch($data);
 }

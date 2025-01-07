@@ -1,6 +1,8 @@
 <?php
 namespace App\Modules\Crm\backend_module\interfaces;
 
+use App\Modules\Crm\users_interface\src\UserData;
+
 interface OperationsInterface
 {
     /**
@@ -37,4 +39,12 @@ interface OperationsInterface
      * @return array
      */
     public function hasAccessesByUrl($url);
+
+    /**
+     * Операция добавляет пользователя
+     * @param $data
+     * @return UserData
+     * @throws \Exception
+     */
+    public function addUser($data);
 }

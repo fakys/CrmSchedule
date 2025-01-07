@@ -54,6 +54,9 @@
 .rm-group-container{
     padding-bottom: 25px;
 }
+.btn-main i{
+    font-size: 14px;
+}
 .btn-main{
     background: var(--c-main-white-blue);
     border: 1px solid var(--c-main-white-blue);
@@ -186,6 +189,12 @@
 }
 .search-group .select2-container--default .select2-selection--multiple .select2-selection__choice{
     font-size: 12px;
+    margin: 0px;
+}
+.search-group .select2-container--open .select2-selection--multiple .select2-selection__choice,
+.search-group .select2-container--below .select2-selection--multiple .select2-selection__choice{
+    margin-right: 5px;
+    margin-top: 5px;
 }
 .search-group .select2-dropdown{
     width: 180px;

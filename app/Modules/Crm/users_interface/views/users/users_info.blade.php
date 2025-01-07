@@ -1,9 +1,5 @@
 @extends("layout::base_layout")
 @section('js_files')
-    <script src="{{asset('assets/plugins/js/jquery.inputmask.min.js')}}"></script>
-    <script>
-        $('[data-mask]').inputmask()
-    </script>
     <script src="{{asset('assets/plugins/js/select2.js')}}"></script>
     <script>
         $(document).ready(function (){
@@ -14,6 +10,7 @@
             })
         })
     </script>
+    <script src="{{asset('assets/js/user_interface.js')}}"></script>
 @endsection
 
 @section('css_files')
@@ -32,42 +29,39 @@
                     <div class="col col-12 col-sm-12 col-lg-3">
                         <div class="search-group">
                             <label class="">Логин:</label>
-                            <input type="text" name="login" class="form-control form-control-sm">
+                            <input type="text" name="login" class="form-control form-control-sm search-input" value="{{isset($search_data['login'])?$search_data['login']:''}}">
                         </div>
                         <div class="search-group">
                             <label class="">ФИО:</label>
-                            <input type="text" name="fio" class="form-control form-control-sm">
+                            <input type="text" name="fio" class="form-control form-control-sm search-input" value="{{isset($search_data['fio'])?$search_data['fio']:''}}">
                         </div>
                         <div class="search-group">
-                            <label class="">Номер:</label>
-                            <input type="text" class="form-control form-control-sm"  name="number"
-                                   pattern="Номер телефона..."
-                                   data-inputmask="'mask': ['999-999-9999', '+7 999-999-9999']" data-mask=""
-                                   inputmode="text" value="">
+                            <label>Группы:</label>
+                            <select name="groups[]" class="form-control select2" multiple style="width: 100%;" >
+                                @foreach($users_group as $key=>$val)
+                                    @if(isset($search_data['groups']) && in_array($key, $search_data['groups']))
+                                        <option value="{{$key}}" selected class="option-search">{{$val}}</option>
+                                    @else
+                                        <option value="{{$key}}" class="option-search">{{$val}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-lg-3"></div>
                     <div class="col-12 col-sm-12 col-lg-3">
                         <div class="search-group">
                             <label class="">Email:</label>
-                            <input type="text" name="email" class="form-control form-control-sm">
+                            <input type="text" name="email" class="form-control form-control-sm search-input" value="{{isset($search_data['email'])?$search_data['email']:''}}">
                         </div>
                         <div class="search-group">
                             <label class="">ИНН:</label>
-                            <input type="number" name="inn" class="form-control form-control-sm">
-                        </div>
-                        <div class="search-group">
-                            <label>Группы:</label>
-                            <select name="groups[]" class="form-control select2" multiple style="width: 100%;" >
-                                @foreach($users_group as $key=>$val)
-                                    <option value="{{$key}}">{{$val}}</option>
-                                @endforeach
-                            </select>
+                            <input type="number" name="inn" class="form-control form-control-sm search-input" value="{{isset($search_data['inn'])?$search_data['inn']:''}}">
                         </div>
                     </div>
                 </div>
-                <div class="d-flex">
-                    <input type="submit" class="btn-main ml-auto" value="Найти">
+                <div class="d-flex gap-2">
+                    <div class="btn-main ml-auto clear-btn-user-info"><i class="fa fa-times" aria-hidden="true"></i> Очистить</div><input type="submit" class="btn-main" value="Найти">
                 </div>
             </form>
             <div>
