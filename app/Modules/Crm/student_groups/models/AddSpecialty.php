@@ -26,7 +26,7 @@ class AddSpecialty extends Model implements InterfaceModel
         return [
             'name'=>['required','string'],
             'number'=>['required','string'],
-            'description'=>['text'],
+            'description'=>[],
         ];
     }
 

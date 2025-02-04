@@ -19,7 +19,7 @@ class Html
     public static function checkbox($name, $label = false,  $value='', $class=''){
         return view('Html::form_inputs.checkbox', ['name'=>$name, 'label'=>$label, 'value'=>$value, 'class'=>$class]);
     }
-    public static function js_table( $fields, $data, $url='')
+    public static function js_table($fields, $data, $url='')
     {
         return view('Html::tables.js_table', ['fields'=>$fields, 'data'=>$data, 'url'=>$url]);
     }

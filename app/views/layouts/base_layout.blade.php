@@ -182,7 +182,7 @@
                                     </a>
                                 </li>
                             @endif
-                            <li class="nav-item rm-level-2">
+                            <li class="nav-item rm-level-2 @if(isset($nav_users)) menu-open @endif">
                                 <div class="nav-link">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                     <p>
@@ -190,7 +190,7 @@
                                         <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </div>
-                                <ul class="nav nav-treeview" style="display: none;">
+                                <ul class="nav nav-treeview" @if(isset($nav_users)) style="display: block;" @else style="display: none;" @endif>
                                     @if(\App\Src\BackendHelper::checkAccessByNameRoute('users_interface.users_info'))
                                     <li class="nav-item rm-level-3">
                                         <a href="{{route('users_interface.users_info')}}" class="nav-link">
@@ -215,7 +215,7 @@
                                     @endif
                                 </ul>
                             </li>
-                                <li class="nav-item rm-level-2">
+                                <li class="nav-item rm-level-2 @if(isset($nav_operation)) menu-open @endif">
                                     <div class="nav-link">
                                         <i class="fa fa-cogs" aria-hidden="true"></i>
                                         <p>
@@ -223,7 +223,7 @@
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </div>
-                                    <ul class="nav nav-treeview" style="display: none;">
+                                    <ul class="nav nav-treeview" @if(isset($nav_operation)) style="display: block;" @else style="display: none;" @endif>
                                         <li class="nav-item rm-level-3">
                                             <a href="{{route('users_interface.add_user')}}" class="nav-link">
                                                 <p>Добавить пользователя</p>
@@ -240,7 +240,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-item rm-level-3">
-                                            <a href="#" class="nav-link">
+                                            <a href="{{route('lessons.action_add_subject')}}" class="nav-link">
                                                 <p>Добавить предмет</p>
                                             </a>
                                         </li>
@@ -345,7 +345,7 @@
                                 </ul>
                             </li>
 
-                            <li class="nav-item rm-level-2">
+                            <li class="nav-item rm-level-2  @if(isset($nav_students)) menu-open @endif">
                                 <a href="#" class="nav-link">
                                     <i class="fa fa-users" aria-hidden="true"></i>
                                     <p>
@@ -353,20 +353,15 @@
                                         <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
-                                <ul class="nav nav-treeview" style="display: none;">
+                                <ul class="nav nav-treeview" @if(isset($nav_students)) style="display: block;" @else style="display: none;"  @endif  >
                                     <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{route('student_groups.student_groups_info')}}" class="nav-link">
                                             <p>Группы</p>
                                         </a>
                                     </li>
                                     <li class="nav-item rm-level-3">
                                         <a href="#" class="nav-link">
                                             <p>Специальности</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Профессии</p>
                                         </a>
                                     </li>
                                     <li class="nav-item rm-level-3">
@@ -430,7 +425,11 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard v3</h1>
+                        @if(isset($title))
+                            <h1 class="m-0">{{$title}}</h1>
+                        @else
+                            <h1 class="m-0">CRM</h1>
+                        @endif
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">

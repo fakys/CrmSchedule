@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\lessons;
 
 
+use App\Modules\Crm\lessons\repositories\SubjectsRepository;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
@@ -27,6 +28,7 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function repositories(): array
     {
         return [
+            SubjectsRepository::class,
         ];
     }
 

@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\Route;
 
 $module = InfoModule::getNameModule();
 
+AccessRoute::access($module."_student_groups_info")->route(
+    Route::get("$module/student-groups-info", [StudentGroupsController::class, 'actionStudentGroupsInfo'])
+        ->name("$module.student_groups_info")
+)->description('Страничка просмотра студенческих групп');
+
+AccessRoute::access($module."_search_student_groups_info")->route(
+    Route::post("$module/search-student-groups-info", [StudentGroupsController::class, 'actionStudentGroupsInfo'])
+        ->name("$module.search_student_groups_info")
+)->description('Страничка поиска студенческих групп');
+
+
 AccessRoute::access($module."_add_group")->route(
     Route::get("$module/add-group", [StudentGroupsController::class, 'actionAddGroup'])->name("$module.add_group")
 )->description('Страничка добавления студенческих групп');

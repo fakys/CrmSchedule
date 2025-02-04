@@ -4,6 +4,7 @@ namespace App\Modules\Crm\backend_module\interfaces;
 use App\Entity\GroupUser;
 use App\Entity\Specialty;
 use App\Entity\StudentGroup;
+use App\Entity\Subject;
 use App\Entity\User;
 use App\Entity\UserDocumet;
 use App\Entity\UserGroup;
@@ -196,4 +197,57 @@ interface RepositoryInterface{
      * @return StudentGroup|null
      */
     public function createStudentGroup($number, $name, $specialty_id = '');
+
+    /**
+     * Создает предмет
+     * @param $name
+     * @param $full_name
+     * @param $description
+     * @return Subject|null
+     */
+    public function createSubject($name, $full_name, $description = '');
+
+    /**
+     * Возвращает все группы со специальностями
+     * @return array
+     */
+    public function getStudentGroupsInfo();
+
+    /**
+     * Поиск групп студентов
+     * @return array
+     */
+    public function searchStudentGroups($data);
+
+    /**
+     * Возвращает предметы для таблицы
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getSubjectInfo();
+
+    /**
+     * Получает группу студентов то id
+     * @param $id
+     * @return StudentGroup
+     */
+    public function getStudentGroupById($id);
+
+
+    /**
+     * Обновляет группу студентов по id
+     * @param int $id id группы студентов
+     * @param string $field название поля
+     * @param mixed $value содержимое поля
+     * @return bool
+     */
+    public function updateStudentGroupById($id, $field, $value);
+
+    /**
+     * Обновляет специальность по id
+     * @param $id
+     * @param $field
+     * @param $value
+     * @return mixed
+     */
+    public function updateSpecialtyByStudentGroupId($id, $field, $value);
 }

@@ -154,3 +154,37 @@ AccessRoute::access("{$module}_action_accesses")->route(
         ]
     )->name("$module.accesses")
 )->description("страница всех доступов");
+
+AccessRoute::access("{$module}_get_tab_for_student_groups")->route(
+    Route::post("/$module/get-tab-for-student-groups",
+        [
+            \App\Modules\Crm\users_interface\controllers\TabsController::class,
+            'getTabForStudentGroups'
+        ]
+    )->name("$module.get_tab_for_student_groups")
+)->description("Доступ к табу групп студентов");
+
+AccessRoute::access("{$module}_get_tab_full_info_student_groups")->route(
+    Route::post("/$module/get-tab-full-info-student-groups",
+        [
+            \App\Modules\Crm\users_interface\controllers\TabsController::class,
+            'getFullInfoStudentGroups'
+        ]
+    )->name("$module.tabs.get_tab_full_info_student_groups")
+)->description("Таб информация о группе и специальности");
+
+AccessRoute::access("{$module}_edit_tab_full_info_student_groups")->route(
+    Route::post("/$module/edit-tab-full-info-student-groups",
+        [
+            \App\Modules\Crm\users_interface\controllers\TabsController::class,
+            'editFullInfoStudentGroups'
+        ]
+    )->name("$module.tabs.edit_tab_full_info_student_groups")
+)->description("Таб редактирования информация о группе и специальности");
+
+Route::post("/$module/set-edit-tab-student-groups",
+    [
+        \App\Modules\Crm\users_interface\controllers\TabsController::class,
+        'setEditStudentGroups'
+    ]
+)->name("$module.tabs.set_edit_student_groups");

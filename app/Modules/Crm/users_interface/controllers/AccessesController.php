@@ -28,6 +28,6 @@ class AccessesController extends Controller{
             }
         }
 
-        return view('accesses.index', ['data'=>$data, 'title'=>'Все доступы']);
+        return view('accesses.index', ['data'=>$data, 'title'=>'Все доступы', 'nav_users'=>true]);
     }
 }

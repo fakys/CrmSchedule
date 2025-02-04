@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\student_groups\repositories;
 
 use App\Entity\Specialty;
+use App\Entity\StudentGroup;
 use App\Src\modules\repository\Repository;
 
 class SpecialtiesRepositories extends Repository
@@ -30,5 +31,23 @@ class SpecialtiesRepositories extends Repository
     public function getAllSpecialties()
     {
         return Specialty::all();
+    }
+
+    /**
+     * Обновляет специальность по id группы
+     * @param $id
+     * @param $field
+     * @param $value
+     * @return mixed
+     */
+    public function updateSpecialtyByStudentGroupId($id, $field, $value)
+    {
+        $student_group = StudentGroup::where(['id'=>$id])->first();
+        $specialty = $student_group->getSpecialty()->first();
+        if($specialty){
+            $specialty->$field = $value;
+            return $specialty->save();
+        }
+        return false;
     }
 }

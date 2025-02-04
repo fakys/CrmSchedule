@@ -12,7 +12,9 @@ class UserGroupsController extends Controller{
     public function actionUserGroupsInfo()
     {
         $user_groups = BackendHelper::getRepositories()->getAllUsersGroup();
-        return view('user_groups.user_groups_info', ['title'=>'Группы пользователей', 'user_groups' => $user_groups]);
+        return view('user_groups.user_groups_info', [
+            'title'=>'Группы пользователей', 'user_groups' => $user_groups, 'nav_users'=>true
+        ]);
     }
     public function actionUserGroupsAdd()
     {

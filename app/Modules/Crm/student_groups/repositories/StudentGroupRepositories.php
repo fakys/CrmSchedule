@@ -1,9 +1,9 @@
 <?php
 namespace App\Modules\Crm\student_groups\repositories;
 
-use App\Entity\Specialty;
 use App\Entity\StudentGroup;
 use App\Src\modules\repository\Repository;
+use Illuminate\Support\Facades\DB;
 
 class StudentGroupRepositories extends Repository
 {
@@ -22,5 +22,80 @@ class StudentGroupRepositories extends Repository
             return $group;
         }
         return null;
+    }
+
+    /**
+     * Получает группу студентов то id
+     * @param $id
+     * @return StudentGroup
+     */
+    public function getStudentGroupById($id)
+    {
+        return StudentGroup::where(['id' => $id])->first();
+    }
+
+    /**
+     * Возвращает все группы со специальностями
+     * @return array
+     */
+    public function getStudentGroupsInfo()
+    {
+        $groups = DB::select(
+            "SELECT sg.id, sg.name, sg.number, specialties.name as specialties, specialties.description as specialty_description
+        FROM student_groups sg left join specialties on specialties.id = sg.specialty_id"
+        );
+
+        return $groups;
+    }
+
+    /**
+     * Поиск групп студентов
+     * @return array
+     */
+    public function searchStudentGroups($data)
+    {
+        $number = isset($data['number']) ? $data['number'] : null;
+        $name = isset($data['name']) ? $data['name'] : null;
+        $specialties = isset($data['specialties']) ? $data['specialties'] : null;
+        $arr_params = [];
+        $sql_arr = [];
+
+        $sql = "SELECT sg.id, sg.name, sg.number, specialties.name as specialties, specialties.description as specialty_description
+        FROM student_groups sg left join specialties on specialties.id = sg.specialty_id";
+
+        if ($number || $name || $specialties) {
+            $sql .= " WHERE ";
+        }
+
+        if ($number) {
+            $sql_arr[] = "sg.number = :number";
+            $arr_params[':number'] = $number;
+        }
+
+        if ($name) {
+            $sql_arr[] = "sg.name = :name";
+            $arr_params[':name'] = $name;
+        }
+
+        if ($specialties) {
+            $sql_arr[] = "sg.specialty_id in (:specialties)";
+            $arr_params[':specialties'] = implode(',', $specialties);
+        }
+        $sql .= implode(" AND ", $sql_arr);
+        return DB::select($sql, $arr_params);
+    }
+
+    /**
+     * Обновляет группу студентов по id
+     * @param int $id id группы студентов
+     * @param string $field название поля
+     * @param mixed $value содержимое поля
+     * @return bool
+     */
+    public function updateStudentGroupById($id, $field, $value)
+    {
+        $studentGroup = StudentGroup::where(['id' => $id])->first();
+        $studentGroup->$field = $value;
+        return $studentGroup->save();
     }
 }

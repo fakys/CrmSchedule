@@ -10,7 +10,7 @@
             })
         })
     </script>
-    <script src="{{asset('assets/js/user_interface.js')}}"></script>
+    <script src="{{asset('assets/js/search_form.js')}}"></script>
 @endsection
 
 @section('css_files')

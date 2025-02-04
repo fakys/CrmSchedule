@@ -12,7 +12,7 @@ class SpecialtiesController extends Controller{
 
     public function actionAddSpecialty()
     {
-        return view('specialties.add_specialty');
+        return view('specialties.add_specialty', ['nav_operation'=>true]);
     }
 
     public function addSpecialty()

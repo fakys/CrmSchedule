@@ -1,13 +1,16 @@
 <?php
+
 namespace App\Modules\Crm\users_interface\controllers;
 
 use App\Modules\Crm\users_interface\model\UserAddGroups;
 use App\Modules\Crm\users_interface\model\EditUserTabs;
 use App\Src\BackendHelper;
+use App\Src\helpers\ArrayHelper;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class TabsController extends Controller{
+class TabsController extends Controller
+{
 
     public function getUsersTableTabs()
     {
@@ -17,12 +20,12 @@ class TabsController extends Controller{
     public function getUserInfoTabs()
     {
         $data = [];
-        if(isset(request()['id'])){
+        if (isset(request()['id'])) {
             $user = BackendHelper::getRepositories()->getUserById(request()['id']);
             $data = [
-                'user'=>$user,
-                'info'=>$user->getInfo(),
-                'documents'=>$user->getDocument(),
+                'user' => $user,
+                'info' => $user->getInfo(),
+                'documents' => $user->getDocument(),
 
             ];
         }
@@ -32,12 +35,12 @@ class TabsController extends Controller{
     public function getEditUserInfoTabs()
     {
         $data = [];
-        if(isset(request()['id'])){
+        if (isset(request()['id'])) {
             $user = BackendHelper::getRepositories()->getUserById(request()['id']);
             $data = [
-                'user'=>$user,
-                'info'=>$user->getInfo(),
-                'documents'=>$user->getDocument(),
+                'user' => $user,
+                'info' => $user->getInfo(),
+                'documents' => $user->getDocument(),
 
             ];
         }
@@ -50,16 +53,16 @@ class TabsController extends Controller{
      */
     public function setEditUserInfoTabs()
     {
-        if(request()->post()){
+        if (request()->post()) {
             $model = new EditUserTabs();
-            $model->load([request()->post()['field']=>isset(request()->post()['value'])?request()->post()['value']:'']);
+            $model->load([request()->post()['field'] => isset(request()->post()['value']) ? request()->post()['value'] : '']);
             $validate = Validator::make($model->getData(), $model->rules());
-            if($validate->validate() && $model->customValidate()) {
-                if(isset(request()->post()['id'])&&$model->getData()){
-                    return BackendHelper::getOperations()->UpdateFullUser(request()->post()['id'],  $model->getData());
+            if ($validate->validate() && $model->customValidate()) {
+                if (isset(request()->post()['id']) && $model->getData()) {
+                    return BackendHelper::getOperations()->UpdateFullUser(request()->post()['id'], $model->getData());
                 }
                 return true;
-            }elseif ($model->getErrors()){
+            } elseif ($model->getErrors()) {
                 abort(422, $model->getErrors()[request()->post()['field']]);
             }
         }
@@ -86,8 +89,8 @@ class TabsController extends Controller{
         $model = new UserAddGroups();
         $model->load($data);
         $validate = Validator::make($model->getData(), $model->rules());
-        if($validate->validate()){
-            if(BackendHelper::getRepositories()->saveAccessUser($id, $model)){
+        if ($validate->validate()) {
+            if (BackendHelper::getRepositories()->saveAccessUser($id, $model)) {
                 return true;
             }
         }
@@ -102,5 +105,59 @@ class TabsController extends Controller{
         $users_groups = BackendHelper::getRepositories()->getAllUsersGroup();
         $user_in_group = BackendHelper::getRepositories()->getGroupsUserByUserId(request()->post('id'));
         return view('tabs.user_groups', compact('users_groups', 'user_in_group'));
+    }
+
+    /**
+     * Возвращает таб для студенческих групп
+     */
+    public function getTabForStudentGroups()
+    {
+        return view('tabs.student_groups_tab');
+    }
+
+    public function getFullInfoStudentGroups()
+    {
+        if (request()->post()) {
+            $id = request()->post()['id'];
+            $user_group = BackendHelper::getRepositories()->getStudentGroupById($id);
+            $specialty = $user_group->getSpecialty()->get();
+            return view('tabs.get_full_info_student_groups', compact('user_group', 'specialty'));
+        }
+        abort(500);
+    }
+
+    public function editFullInfoStudentGroups()
+    {
+        if (request()->post()) {
+            $id = request()->post()['id'];
+            $user_group = BackendHelper::getRepositories()->getStudentGroupById($id);
+            $specialty = $user_group->getSpecialty()->first();
+            return view('tabs.edit_full_info_student_groups', compact('user_group', 'specialty'));
+        }
+        abort(500);
+    }
+
+    public function setEditStudentGroups()
+    {
+        if (request()->post()) {
+            $table = request()->post('table');
+            if ($table) {
+                switch ($table) {
+                    case 'specialty':
+                        return BackendHelper::getRepositories()->updateSpecialtyByStudentGroupId(
+                            request()->post('id'),
+                            request()->post('field_name'),
+                            request()->post('value')
+                        );
+                    case 'groups':
+                        return BackendHelper::getRepositories()->updateStudentGroupById(
+                            request()->post('id'),
+                            request()->post('field_name'),
+                            request()->post('value')
+                        );
+                }
+            }
+        }
+        abort(500);
     }
 }

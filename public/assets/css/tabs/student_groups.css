@@ -1,18 +1,9 @@
-#users_info_tabs .tabs-btn-icon, #edit_users_info_tabs .tabs-btn-icon{
+#student_groups_info .tabs-btn-icon, #edit_student_groups_info .tabs-btn-icon{
     color: var(--c-blue);
 }
-#users_role_tabs .tabs-btn-icon, #edit_users_role_tabs .tabs-btn-icon{
+#student_groups_schedule .tabs-btn-icon, #edit_student_groups_schedule .tabs-btn-icon{
     color:#198754FF;
 }
-#ban_users .tabs-btn-icon{
-    color: #DC3545FF;
-}
-#activity_users .tabs-btn-icon{
+#student_groups_all_subjects .tabs-btn-icon{
     color: #FD7E14FF;
-}
-#massage_users .tabs-btn-icon{
-    color: #6C757DFF;
-}
-#access_tabs .tabs-btn-icon{
-    color: #8400ff;
 }

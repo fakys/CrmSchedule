@@ -1,22 +1,22 @@
 <?php
-namespace App\Modules\Crm\student_groups\models;
+namespace App\Modules\Crm\lessons\models;
 
 use App\Src\modules\models\InterfaceModel;
 use App\Src\modules\models\Model;
 
 /**
  * @property string $number
- * @property string $name
+ * @property string $full_name
  * @property string $description
  */
-class AddSpecialty extends Model implements InterfaceModel
+class AddSubject extends Model implements InterfaceModel
 {
 
     public function fields(): array
     {
         return [
             'name',
-            'number',
+            'full_name',
             'description',
         ];
     }
@@ -25,8 +25,8 @@ class AddSpecialty extends Model implements InterfaceModel
     {
         return [
             'name'=>['required','string'],
-            'number'=>['required','string'],
-            'description'=>['text'],
+            'full_name'=>['required','string'],
+            'description'=>[],
         ];
     }
 

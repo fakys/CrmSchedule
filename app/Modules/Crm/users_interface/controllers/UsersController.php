@@ -32,7 +32,9 @@ class UsersController extends Controller{
         $users_group = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllUsersGroup(), 'name', 'id');
         return view('users.users_info', ['data' => $data, 'title'=>'Пользователи',
             'users_group'=>$users_group,
-            'search_data'=>$search_data]);
+            'search_data'=>$search_data,
+            'nav_users'=>true
+        ]);
     }
 
     public function checkUserAccess()
@@ -44,7 +46,7 @@ class UsersController extends Controller{
     public function actionAddUser()
     {
         $users_group = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllUsersGroup(), 'name', 'id');
-        return view('users.add_user', compact('users_group'));
+        return view('users.add_user', ['users_group'=>$users_group, 'nav_operation'=>true]);
     }
 
     public function addUser()
