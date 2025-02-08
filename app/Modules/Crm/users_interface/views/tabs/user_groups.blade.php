@@ -2,9 +2,6 @@
     <div class="card-header"><div class="h5">Группы пользователя</div></div>
     <div class="card">
         <div class="card-body d-flex justify-content-center">
-{{--            <?php--}}
-{{--            var_dump(\App\Src\helpers\ArrayHelper::getColumn($user_in_group, 'id'));die();--}}
-{{--            ?>--}}
             {{
                 App\Src\Html\Html::select_duallistbox_multiple('', 'user_groups',
                 \App\Src\helpers\ArrayHelper::getColumn($users_groups, 'name', 'id'),

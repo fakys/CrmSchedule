@@ -23,7 +23,6 @@ $redis = RedisManager::redis();
 try {
     do {
         $schedule = TaskSchedule::setSchedule($redis->get('task_schedule'), $redis);
-
         $schedule->startTasks();
         file_put_contents('last_task.txt', print_r($redis->get('task_schedule'), 1));
         sleep(30);

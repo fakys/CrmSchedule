@@ -27,7 +27,6 @@ class SubjectsController extends Controller{
     public function actionSubjectsInfo()
     {
         $subjects = BackendHelper::getRepositories()->getSubjectInfo();
-
-        return view('subjects.subjects_info', ['subjects'=>$subjects]);
+        return view('subjects.subjects_info', ['subjects'=>$subjects, 'nav_subject'=>true, 'title'=>'Все предметы']);
     }
 }

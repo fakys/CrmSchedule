@@ -160,4 +160,52 @@ class TabsController extends Controller
         }
         abort(500);
     }
+
+    /**
+     * Возвращает таб для предметов
+     */
+    public function getTabForSubjects()
+    {
+        return view('tabs.subjects_tabs');
+    }
+
+    /**
+     * Таб информация о предмете
+     */
+    public function getSubjectInfoTab()
+    {
+        if (request()->post()) {
+            $id = request()->post()['id'];
+            $subject = BackendHelper::getRepositories()->getSubjectById($id);
+            return view('tabs.get_subject_info', compact('subject'));
+        }
+        abort(500);
+    }
+
+    /**
+     * Таб редактирования информации о предмете
+     */
+    public function actionEditSubjectInfoTab()
+    {
+        if (request()->post()) {
+            $id = request()->post()['id'];
+            $subject = BackendHelper::getRepositories()->getSubjectById($id);
+            return view('tabs.edit_subject_info', compact('subject'));
+        }
+        abort(500);
+    }
+
+    /**
+     * Редактирования информации о предмете
+     */
+    public function editSubjectInfoTab()
+    {
+        if (request()->post()) {
+            $id = request()->post('id');
+            $field = request()->post('field');
+            $value = request()->post('value');
+            return BackendHelper::getRepositories()->updateSubjectField($id, $field, $value);
+        }
+        abort(500);
+    }
 }

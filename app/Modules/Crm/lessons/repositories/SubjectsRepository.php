@@ -35,4 +35,30 @@ class SubjectsRepository extends Repository{
     {
         return DB::select("SELECT id, name, full_name, description, created_at FROM subjects ORDER BY id DESC");
     }
+
+    /**
+     * Возвращает предмет по id
+     * @param $id
+     * @return mixed
+     */
+    public function getSubjectById($id)
+    {
+        return Subject::where(['id'=>$id])->first();
+    }
+
+    /**
+     * Обновляет предмет по id и полю
+     * @param $id
+     * @param $field
+     * @param $value
+     * @return bool
+     */
+    public function updateSubjectField($id, $field, $value)
+    {
+        $subject = Subject::where(['id'=>$id])->first();;
+        if ($subject){
+            $subject->$field = $value;
+        }
+        return $subject->save();
+    }
 }

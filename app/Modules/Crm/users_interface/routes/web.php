@@ -182,3 +182,32 @@ Route::post("/$module/set-edit-tab-student-groups",
         'setEditStudentGroups'
     ]
 )->name("$module.tabs.set_edit_student_groups");
+
+Route::post("/$module/get-tab-for-subjects",
+    [
+        \App\Modules\Crm\users_interface\controllers\TabsController::class,
+        'getTabForSubjects'
+    ]
+)->name("$module.get_tab_for_subjects");
+
+Route::post("/$module/get-subject-info-tab",
+    [
+        \App\Modules\Crm\users_interface\controllers\TabsController::class,
+        'getSubjectInfoTab'
+    ]
+)->name("$module.tabs.get_subject_info_tab");
+
+Route::post("/$module/action-edit-subject-info-tab",
+    [
+        \App\Modules\Crm\users_interface\controllers\TabsController::class,
+        'actionEditSubjectInfoTab'
+    ]
+)->name("$module.tabs.action_edit_subject_info_tab");
+
+Route::post("/$module/edit-subject-info-tab",
+    [
+        \App\Modules\Crm\users_interface\controllers\TabsController::class,
+        'editSubjectInfoTab'
+    ]
+)->name("$module.tabs.edit_subject_info_tab");
+

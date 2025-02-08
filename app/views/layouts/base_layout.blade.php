@@ -293,15 +293,15 @@
 
                             <li class="nav-item rm-level-2">
                                 <a href="#" class="nav-link">
-                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <i class="fa fa-book @if(isset($nav_subject)) menu-open @endif" aria-hidden="true"></i>
                                     <p>
                                         Предметы
                                         <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
-                                <ul class="nav nav-treeview" style="display: none;">
+                                <ul class="nav nav-treeview" @if(isset($nav_subject)) style="display: block;" @else style="display: none;" @endif>
                                     <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{route('lessons.subjects_info')}}" class="nav-link">
                                             <p>Все предметы</p>
                                         </a>
                                     </li>

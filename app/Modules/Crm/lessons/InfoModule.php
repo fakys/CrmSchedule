@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\lessons;
 
 
+use App\Modules\Crm\lessons\operations\SubjectOperation;
 use App\Modules\Crm\lessons\repositories\SubjectsRepository;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
@@ -35,6 +36,7 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function operations(): array
     {
         return [
+            SubjectOperation::class
         ];
     }
     public static function runConfig()

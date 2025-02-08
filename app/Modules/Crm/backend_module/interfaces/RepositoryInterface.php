@@ -250,4 +250,20 @@ interface RepositoryInterface{
      * @return mixed
      */
     public function updateSpecialtyByStudentGroupId($id, $field, $value);
+
+    /**
+     * Возвращает предмет по id
+     * @param $id
+     * @return mixed
+     */
+    public function getSubjectById($id);
+
+    /**
+     * Обновляет предмет по id и полю
+     * @param $id
+     * @param $field
+     * @param $value
+     * @return bool
+     */
+    public function updateSubjectField($id, $field, $value);
 }
