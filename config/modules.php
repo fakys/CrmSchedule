@@ -1,6 +1,6 @@
 <?php
 
-return [
+$arr =  [
     'base_namespace'=>"App\\Modules",
     'base_path'=>base_path()."/app/Modules",
     'web_path'=>"routes/web.php",

@@ -2,11 +2,11 @@
 
 namespace App\Src\redis;
 
-use App\Src\traits\TraitObjects;
+//use App\Src\traits\TraitObjects;
 
 class Redis
 {
-    use TraitObjects;
+//    use TraitObjects;
 
     /**
      * @var \Redis $redis
@@ -25,6 +25,7 @@ class Redis
 
     public static function redis(): \Redis
     {
+        return (new self())->redis;
         return self::objects()->redis;
     }
 }
