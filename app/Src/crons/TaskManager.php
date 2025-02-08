@@ -3,9 +3,10 @@
 namespace App\Src\crons;
 
 use App\Src\BackendHelper;
+use App\Src\crons\interfaces\TaskInterface;
 use App\Src\traits\TraitObjects;
 
-class TaskContext{
+class TaskManager{
     use TraitObjects;
 
     protected $tasks;
@@ -14,16 +15,26 @@ class TaskContext{
         $this->tasks = $tasks;
     }
 
+    /**
+     * @param $task_name
+     * @return bool
+     */
+    public function runTask($task_name)
+    {
+        $task = $this->getTaskByName($task_name);
+        return (new $task())->Execute();
+    }
+
 
     /**
      * @param $task_name
-     * @return mixed|null
+     * @return TaskInterface
      */
     public function getTaskByName($task_name)
     {
         foreach ($this->tasks as $task) {
-            if ($task::taskName == $task_name) {
-                return $task;
+            if ($task::taskName() == $task_name) {
+                return new $task();
             }
         }
         return null;

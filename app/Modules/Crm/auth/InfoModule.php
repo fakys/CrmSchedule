@@ -39,4 +39,9 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     {
         Config::set('view.paths', array(__DIR__.'/views'));
     }
+
+    public static function tasks(): array
+    {
+        return  [];
+    }
 }

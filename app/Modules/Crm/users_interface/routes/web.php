@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 $module = InfoModule::getNameModule();
 
 AccessRoute::access("{$module}_users_info")->route(
-    Route::get("$module/users-info", [
+    Route::any("$module/users-info", [
         \App\Modules\Crm\users_interface\controllers\UsersController::class,
         'actionUsersInfo'
     ])->name("$module.users_info")
@@ -27,12 +27,6 @@ AccessRoute::access("{$module}_add_user_post")->route(
     ])->name("$module.add_user_post")
 )->description('Ссылка для сохранения добавленного пользователя');
 
-AccessRoute::access("{$module}_users_info_search")->route(
-    Route::post("$module/users-info-search", [
-        \App\Modules\Crm\users_interface\controllers\UsersController::class,
-        'actionUsersInfo'
-    ])->name("$module.users_info_search")
-);
 
 AccessRoute::access("{$module}_tabs_users_tabs")->route(
     Route::post("$module/tabs/users-tabs", [

@@ -1,26 +1,42 @@
 <?php
 
+
+use App\Src\BackendHelper;
 use App\Src\crons\TaskSchedule;
 use App\Src\redis\RedisManager;
-use App\Src\Context;
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Configuration\ApplicationBuilder;
+
 
 // Импортируем composer autoload
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
-//// Determine if the application is in maintenance mode...
-//if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
-//    require $maintenance;
-//}
-//// Bootstrap Laravel and handle the request...
-//(require_once __DIR__.'/../bootstrap/app.php')
-//    ->handleRequest(Request::capture());
+/**
+ * @var $app ApplicationBuilder
+ */
+$app = require __DIR__ . '/../../bootstrap/app.php';
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+$kernel->bootstrap();
 
-$redis = new RedisManager();
-//RedisManager::redis();
-//if ($redis->ping()) {
-//    $schedule = new TaskSchedule($redis->get('task_schedule'));
-//    $schedule->startTasks();
-//}
 
-var_dump(12312312);
+$redis = RedisManager::redis();
+
+try {
+    do {
+        $schedule = TaskSchedule::setSchedule($redis->get('task_schedule'), $redis);
+
+        $schedule->startTasks();
+        file_put_contents('last_task.txt', print_r($redis->get('task_schedule'), 1));
+        sleep(30);
+
+    }while (true);
+} catch (Exception $exception) {
+}
+
+
+
+
+
+
+
+
+

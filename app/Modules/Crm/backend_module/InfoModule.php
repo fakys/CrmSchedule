@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\backend_module;
 
+use App\Modules\Crm\backend_module\tasks\TestTask;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
@@ -37,5 +38,12 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function runConfig()
     {
         Config::set('view.paths', array(__DIR__.'/views'));
+    }
+
+    public static function tasks(): array
+    {
+        return  [
+            TestTask::class
+        ];
     }
 }

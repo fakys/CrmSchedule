@@ -23,7 +23,7 @@
     <div class="card">
         <div class="card-header">{{$title}}</div>
         <div class="card-body">
-            <form action="{{route('users_interface.users_info_search')}}" method="POST" class="pb-3">
+            <form action="{{route('users_interface.users_info')}}" method="POST" class="pb-3">
                 @csrf
                 <div class="row d-flex justify-content-center">
                     <div class="col col-12 col-sm-12 col-lg-3">

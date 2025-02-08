@@ -2,30 +2,30 @@
 
 namespace App\Src\redis;
 
-//use App\Src\traits\TraitObjects;
+use App\Src\traits\TraitObjects;
 
-class Redis
+class RedisManager
 {
-//    use TraitObjects;
 
-    /**
-     * @var \Redis $redis
-     */
-    public \Redis $redis;
+    use TraitObjects;
+
+    public $redis;
 
     /**
      * @throws \RedisException
      */
     public function __construct()
     {
-        $redis = new \Redis();
-        $redis->connect('redis', 6379);
-        $this->redis = $redis;
+        try {
+            $this->redis = new \Redis();
+            $this->redis->connect('redis', 6379);
+        }catch (\Exception $e){
+            var_dump($e->getMessage());
+        }
     }
 
-    public static function redis(): \Redis
+    public static function redis()
     {
-        return (new self())->redis;
         return self::objects()->redis;
     }
 }

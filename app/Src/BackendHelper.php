@@ -6,6 +6,8 @@ use App\Modules\Crm\backend_module\interfaces\OperationsInterface;
 use App\Modules\Crm\backend_module\interfaces\RepositoryInterface;
 use App\Modules\Crm\system_settings\models\CrmSetting;
 use App\Src\access\ContextAccessRoute;
+use App\Src\crons\TaskManager;
+use App\Src\crons\TaskSchedule;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\operations\Operation;
@@ -86,5 +88,10 @@ class BackendHelper
     {
         $settings = new Settings(BackendHelper::getOperations()->getСurrentSystemSettings($name));
         return $settings;
+    }
+
+    public static function taskCreate($task_name, $args = [])
+    {
+        return TaskSchedule::objects()->taskCreate($task_name, $args);
     }
 }

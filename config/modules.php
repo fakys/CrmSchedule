@@ -1,8 +1,8 @@
 <?php
 
-$arr =  [
+return [
     'base_namespace'=>"App\\Modules",
-    'base_path'=>base_path()."/app/Modules",
+    'base_path'=>__DIR__."/../app/Modules",
     'web_path'=>"routes/web.php",
     'public_modules'=>[
         'auth'

@@ -16,4 +16,6 @@ interface InterfaceInfoModule
     public static function operations(): array;
 
     public static function runConfig();
+
+    public static function tasks(): array;
 }
