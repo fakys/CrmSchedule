@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\backend_module\interfaces;
 
 use App\Entity\GroupUser;
+use App\Entity\PairNumber;
 use App\Entity\Specialty;
 use App\Entity\StudentGroup;
 use App\Entity\Subject;
@@ -274,4 +275,38 @@ interface RepositoryInterface{
      * @return array
      */
     public function getSearchSubjectInfo($searchData);
+
+    /**
+     * Возвращает все последовательности пар
+     * @return PairNumber[]
+     */
+    public function getNumberPair();
+
+    /**
+     * Возвращает последовательность пар по id
+     * @param $id
+     */
+    public function getNumberPairById($id);
+
+    /**
+     * Создает последовательность пар
+     * @param array $data
+     * @return bool
+     */
+    public function addNumberPair($data);
+
+    /**
+     * Обновляет последовательность пар по id
+     * @param $data
+     * @param $id
+     * @return bool
+     */
+    public function updateNumberPairById($data, $id);
+
+    /**
+     * Удаляет последовательность пар по id
+     * @param $id
+     * @return bool
+     */
+    public function deleteNumberPairById($id);
 }

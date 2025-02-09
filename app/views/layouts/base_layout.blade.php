@@ -307,6 +307,11 @@
                                     </li>
                                     <li class="nav-item rm-level-3">
                                         <a href="#" class="nav-link">
+                                            <p>Формат предметов</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item rm-level-3">
+                                        <a href="#" class="nav-link">
                                             <p>Отчет по предметам</p>
                                         </a>
                                     </li>
