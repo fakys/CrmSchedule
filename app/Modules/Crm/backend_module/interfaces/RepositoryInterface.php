@@ -266,4 +266,12 @@ interface RepositoryInterface{
      * @return bool
      */
     public function updateSubjectField($id, $field, $value);
+
+
+    /**
+     * Возвращает предметы для таблицы с поиском
+     * @param $searchData
+     * @return array
+     */
+    public function getSearchSubjectInfo($searchData);
 }

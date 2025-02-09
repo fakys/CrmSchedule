@@ -37,6 +37,36 @@ class SubjectsRepository extends Repository{
     }
 
     /**
+     * Возвращает предметы для таблицы с поиском
+     * @param $searchData
+     * @return array
+     */
+    public function getSearchSubjectInfo($searchData)
+    {
+        $sql = "SELECT id, name, full_name, description, created_at
+                FROM subjects ";
+        $arr_data = [];
+
+        if ($searchData['name'] || $searchData['full_name']) {
+            $sql .= " WHERE";
+        }
+
+        if ($searchData['name']) {
+            $sql .= " name = :name";
+            $arr_data = [':name' => $searchData['name']];
+        }
+
+        if ($searchData['full_name']) {
+            $sql .= " full_name = :full_name";
+            $arr_data = [':full_name' => $searchData['full_name']];
+        }
+
+        $sql .= " ORDER BY id DESC";
+
+        return DB::select($sql, $arr_data);
+    }
+
+    /**
      * Возвращает предмет по id
      * @param $id
      * @return mixed

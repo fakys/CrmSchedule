@@ -22,7 +22,7 @@ Route::post("$module/add-subject/",
     ]
 )->name("$module.add_subject");
 
-Route::get("$module/subjects-info/",
+Route::any("$module/subjects-info/",
     [
         \App\Modules\Crm\lessons\controllers\SubjectsController::class,
         'actionSubjectsInfo'
