@@ -4,7 +4,7 @@ namespace App\Src;
 
 use App\Modules\Crm\backend_module\interfaces\OperationsInterface;
 use App\Modules\Crm\backend_module\interfaces\RepositoryInterface;
-use App\Modules\Crm\system_settings\models\CrmSetting;
+use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Src\access\ContextAccessRoute;
 use App\Src\crons\TaskManager;
 use App\Src\crons\TaskSchedule;

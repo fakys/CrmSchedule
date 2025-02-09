@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\system_settings\controllers;
 
 use App\Modules\Crm\system_settings\models\CrmSetting;
+use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Modules\Crm\system_settings\models\SystemSetting;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
@@ -15,15 +16,13 @@ class SettingsController extends Controller{
      */
     public function actionCRMSettings()
     {
-        $setting = BackendHelper::getOperations()->getСurrentSystemSettings(CrmSetting::getSettingName());
+        $setting = BackendHelper::getSystemSettings(CrmSetting::getSettingName());
         $systemName = config('app.name');
-        if($setting){
-            $setting = json_decode($setting->toArray()['settings']);
 
-            if($setting->system_name){
-                $systemName = $setting->system_name;
-            }
+        if($setting->system_name){
+            $systemName = $setting->system_name;
         }
+
         $title = 'Настройки системы';
         $allTimezones = [
             'Europe/Kaliningrad' => '+2',
@@ -83,9 +82,31 @@ class SettingsController extends Controller{
         if($validate->validate() || (!$validate->validate() && !$model->getData())){
             $settings = json_encode($model->getData());
             BackendHelper::getOperations()->createSystemSettings(
-                ['name'=>SystemSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>1, 'active'=>true]
+                ['name'=>SystemSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>context()->getUser()->id, 'active'=>true]
             );
         }
         return redirect()->route('system_settings.settings');
+    }
+
+    public function actionScheduleSettings()
+    {
+        $settings = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName());
+        $users_groups_settings = $settings->users_groups;
+        $users_groups = BackendHelper::getRepositories()->getAllUsersGroup();
+        return view('settings.schedule_settings', ['users_groups'=>$users_groups, 'users_groups_settings'=>$users_groups_settings]);
+    }
+
+    public function setScheduleSettings()
+    {
+        $model = new ScheduleSetting();
+        $model->load(request()->post());
+        $validate = Validator::make($model->getData(), $model->rules());
+        if($validate->validate() || (!$validate->validate() && !$model->getData())){
+            $settings = json_encode($model->getData());
+            BackendHelper::getOperations()->createSystemSettings(
+                ['name'=>ScheduleSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>context()->getUser()->id, 'active'=>true]
+            );
+        }
+        return redirect()->route('system_settings.schedule_settings');
     }
 }
