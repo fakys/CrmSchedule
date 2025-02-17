@@ -279,13 +279,8 @@
                                         </a>
                                     </li>
                                     <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Добавить расписание</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Изменить расписание</p>
+                                        <a href="{{route('schedule.schedule_manager')}}" class="nav-link">
+                                            <p>Менеджер расписаний</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -303,6 +298,11 @@
                                     <li class="nav-item rm-level-3">
                                         <a href="{{route('lessons.subjects_info')}}" class="nav-link">
                                             <p>Все предметы</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item rm-level-3">
+                                        <a href="{{route('lessons.pair_number')}}" class="nav-link">
+                                            <p>Последовательность пар</p>
                                         </a>
                                     </li>
                                     <li class="nav-item rm-level-3">

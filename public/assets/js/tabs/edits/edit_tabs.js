@@ -14,7 +14,7 @@ $(document).ready(function (){
         if(field){
             let csrf = $('input[name="_token"]').val()
             let url = $('.url-edit-user').data("url")
-            let value = $(`input[name="${field}"]`).val()
+            let value = $('.content-tabs-js-table').find(`input[name="${field}"]`).val()
             if(!value){
                 value = $(`textarea[name="${field}"]`).val()
             }

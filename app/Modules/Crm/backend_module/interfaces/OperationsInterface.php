@@ -53,4 +53,11 @@ interface OperationsInterface
      * @return array
      */
     public function getDataModuleInNotStatusModules();
+
+    /**
+     * Возвращает расписание для менеджера расписаний
+     * @param $data
+     * @return array
+     */
+    public function getScheduleData($data);
 }

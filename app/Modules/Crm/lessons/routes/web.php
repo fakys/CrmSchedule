@@ -38,7 +38,7 @@ AccessRoute::access("{$module}_action_add_subject")->route(
     )->name("$module.pair_number")
 )->description('Последовательность пар');
 
-AccessRoute::access("{$module}_action_add_subject")->route(
+AccessRoute::access("{$module}_action_pair_number")->route(
     Route::get("$module/action-add-pair-number/",
         [
             \App\Modules\Crm\lessons\controllers\LessonsController::class,
@@ -53,7 +53,7 @@ Route::post("$module/add-pair-number/",
         'addNumberPair'
     ]
 )->name("$module.add_pair_number");
-AccessRoute::access("{$module}_action_add_subject")->route(
+AccessRoute::access("{$module}_action_update_pair_number")->route(
     Route::get("$module/action-update-pair-number/",
         [
             \App\Modules\Crm\lessons\controllers\LessonsController::class,
@@ -69,9 +69,11 @@ Route::post("$module/update-pair-number/",
     ]
 )->name("$module.update_pair_number");
 
-Route::post("$module/delete-pair-number/",
-    [
-        \App\Modules\Crm\lessons\controllers\LessonsController::class,
-        'deleteNumberPaid'
-    ]
-)->name("$module.delete_pair_number");
+AccessRoute::access("{$module}_delete_pair_number")->route(
+    Route::post("$module/delete-pair-number/",
+        [
+            \App\Modules\Crm\lessons\controllers\LessonsController::class,
+            'deleteNumberPaid'
+        ]
+    )->name("$module.delete_pair_number")
+)->description('Удаление последовательность пар');

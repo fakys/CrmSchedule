@@ -49,6 +49,15 @@ class StudentGroupRepositories extends Repository
     }
 
     /**
+     * Возвращает все группы студентов
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getFullStudentGroups()
+    {
+        return StudentGroup::all();
+    }
+
+    /**
      * Поиск групп студентов
      * @return array
      */

@@ -85,10 +85,11 @@ class SubjectsRepository extends Repository{
      */
     public function updateSubjectField($id, $field, $value)
     {
-        $subject = Subject::where(['id'=>$id])->first();;
+        $subject = Subject::where(['id'=>$id])->first();
         if ($subject){
-            $subject->$field = $value;
+            $subject->name = $value;
         }
+
         return $subject->save();
     }
 }

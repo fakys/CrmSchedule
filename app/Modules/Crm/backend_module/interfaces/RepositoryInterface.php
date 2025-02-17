@@ -309,4 +309,18 @@ interface RepositoryInterface{
      * @return bool
      */
     public function deleteNumberPairById($id);
+
+    /**
+     * Возвращает все группы студентов
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getFullStudentGroups();
+
+    /**
+     * Возвращает расписание по группе за период для менеджера расписаний
+     * @param $period
+     * @param $group_id
+     * @return array
+     */
+    public function getScheduleByGroupFroManager($period, $group_id);
 }

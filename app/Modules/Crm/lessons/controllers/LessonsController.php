@@ -15,12 +15,19 @@ class LessonsController extends Controller{
     public function actionNumberPair()
     {
         $pair_number = BackendHelper::getRepositories()->getNumberPair();
-        return view('lessons.pair_number', ['pair_number' => $pair_number, 'title'=>'Последовательность пар']);
+        return view('lessons.pair_number', [
+            'pair_number' => $pair_number,
+            'title'=>'Последовательность пар',
+            'nav_subject'=>true
+        ]);
     }
 
     public function actionAddNumberPair()
     {
-        return view('lessons.form_pair_number', ['title'=>'Добавить последовательность пар']);
+        return view('lessons.form_pair_number', [
+            'title'=>'Добавить последовательность пар',
+            'nav_subject'=>true
+        ]);
     }
 
     public function addNumberPair()
@@ -43,7 +50,11 @@ class LessonsController extends Controller{
         if (!$number_pair) {
             abort(404);
         }
-        return view('lessons.form_pair_number', ['title'=>'Добавить последовательность пар', 'number_pair'=>$number_pair]);
+        return view('lessons.form_pair_number', [
+            'title'=>'Добавить последовательность пар',
+            'number_pair'=>$number_pair,
+            'nav_subject'=>true
+        ]);
     }
 
     public function updateNumberPair()
