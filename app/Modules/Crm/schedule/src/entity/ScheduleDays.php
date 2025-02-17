@@ -25,12 +25,15 @@ class ScheduleDays
      * @var \App\Entity\PairNumber[]
      */
     private $pair_numbers;
+    private $group_id;
+    private $group_name;
 
-    public function __construct($date_start, $date_end, $base_schedule)
+    public function __construct($date_start, $date_end, $base_schedule, $group_id = null)
     {
         $this->date_start = $date_start;
         $this->date_end = $date_end;
         $this->base_schedule = $base_schedule;
+        $this->group_id = $group_id;
         $this->pair_numbers = BackendHelper::getRepositories()->getNumberPair();
     }
 
@@ -48,25 +51,38 @@ class ScheduleDays
         }
     }
 
+    private function getGroupName()
+    {
+        if (!$this->group_name){
+            $group_name = BackendHelper::getRepositories()->getStudentGroupById($this->group_id)->number;
+            $this->group_name = $group_name;
+        }
+        return $this->group_name;
+    }
+
     /**
      * Распределяет расписание
      * @param \DateTime $date
      * @param $schedule
      * @return void
      */
-    public function distributesSchedule($date, $schedule = null)
+    private function distributesSchedule($date, $schedule = null)
     {
-        $this->schedule[$date->format('d.m.Y')] = [];
+        $group_name = $this->getGroupName();
+        if (empty($this->schedule[$group_name])) {
+            $this->schedule[$group_name] = [];
+        }
+        $this->schedule[$group_name][$date->format('d.m.Y')] = [];
         if ($this->pair_numbers) {
             foreach ($this->pair_numbers as $pair_number) {
-                $this->schedule[$date->format('d.m.Y')][$pair_number->number] = [
+                $this->schedule[$group_name][$date->format('d.m.Y')][$pair_number->number] = [
                     'name_pair_number' => $pair_number->name,
                     'schedule' => null,
                 ];
             }
 
             if ($schedule) {
-                $this->schedule[$date->format('d.m.Y')][$schedule['pair_number']]['schedule'] = $schedule;
+                $this->schedule[$group_name][$date->format('d.m.Y')][$schedule->pair_number]['schedule'] = $schedule;
             }
         } else {
             throw new \Exception('Отсутствуют последовательность пар');
@@ -74,9 +90,12 @@ class ScheduleDays
     }
 
 
-    private function createBadeScheduleDays()
+    public function createBadeScheduleDays()
     {
-        dd(13123);
+        if ($this->schedule) {
+            return $this->schedule;
+        }
+
         /** хард-код надо будет поменять на настройку */
         $this->setSetting();
         switch ($this->type_weeks) {
@@ -85,11 +104,11 @@ class ScheduleDays
                 $count_days = $this->date_end->diff($this->date_start)->days + 1;
                 $date_schedule = clone $this->date_start;
                 if ($count_days) {
-                    for ($day = 1; $day < $count_days; $day++) {
+                    for ($day = 1; $day <= $count_days; $day++) {
                         /** Флаг что на этот день расписание есть  */
                         $schedule_in_day = false;
                         foreach ($this->base_schedule as $base_schedule) {
-                            $schedule_rep_date = new \DateTime($base_schedule['date_start']);
+                            $schedule_rep_date = new \DateTime($base_schedule->date_start);
                             /** Если есть расписание на этот день */
                             if ($date_schedule->format('Y-m-d') == $schedule_rep_date->format('Y-m-d')) {
                                 $schedule_in_day = true;
@@ -102,12 +121,17 @@ class ScheduleDays
                         }
                         $date_schedule->modify("+1 day");
                     }
-                    dd($this->schedule);
                 }
 
                 break;
             case ScheduleSetting::FIVE_DAY:
                 break;
         }
+        return $this->schedule;
+    }
+
+    public function getSchedule()
+    {
+        return $this->schedule;
     }
 }

@@ -9,7 +9,7 @@ use App\Src\modules\models\Model;
  * @property string $full_name
  * @property string $description
  */
-class ScheduleManager extends Model implements InterfaceModel
+class ScheduleManagerModel extends Model implements InterfaceModel
 {
 
     public function fields(): array

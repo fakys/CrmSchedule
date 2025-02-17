@@ -48,7 +48,7 @@ class ScheduleManager {
 
     public function getSchedule()
     {
-        $this->constructSchedule();
+        return $this->constructSchedule();
     }
 
 
@@ -65,22 +65,24 @@ class ScheduleManager {
         } else {
 
         }
+        return $this->schedule;
     }
 
 
     private function constructScheduleByGroups()
     {
-        $data = [];
         foreach ($this->groups as $group_id) {
             $report_data = BackendHelper::getRepositories()->getScheduleByGroupFroManager($this->date_start, $this->date_end, $group_id);
-            $this->createScheduleDays($report_data);
+            $this->createScheduleDays($report_data, $group_id);
         }
 
     }
 
 
-    private function createScheduleDays($report_data)
+    private function createScheduleDays($report_data, $group_id)
     {
-        $schedule_days = new ScheduleDays($this->date_start, $this->date_end, $report_data);
+        $schedule_days = new ScheduleDays($this->date_start, $this->date_end, $report_data, $group_id);
+        $schedule_days->createBadeScheduleDays();
+        $this->schedule[] = $schedule_days->getSchedule();
     }
 }

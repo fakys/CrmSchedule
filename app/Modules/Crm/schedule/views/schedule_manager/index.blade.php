@@ -41,7 +41,7 @@
                     "Декабрь"
                 ],
                 "firstDay": 1,
-            }, timePickerIncrement: 30 });
+            }});
     </script>
 @endsection
 

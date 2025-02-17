@@ -60,4 +60,11 @@ interface OperationsInterface
      * @return array
      */
     public function getScheduleData($data);
+
+    /**
+     * Возвращает период
+     * @param $period
+     * @return \DateTime[]
+     */
+    public function pacePeriod($period);
 }

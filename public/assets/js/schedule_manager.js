@@ -19,6 +19,7 @@ $(document).ready(function (){
             success: function(data){
                 $('.schedule-manager-menu').empty()
                 $('.schedule-manager-menu').append(data)
+                $('#btn_search_manager').text('Обновить')
             },
             error: function (err){
                 let error = err.responseJSON.message

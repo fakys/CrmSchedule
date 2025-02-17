@@ -24,6 +24,22 @@
                     $users_groups_settings,
                     'users-group-select')
                     }}
+                    <div class="form-group">
+                        <label>Тип по которому будет отображаться расписание</label>
+                        <select name="type_weeks" class="form-control" title="Данная настройка влияет только на отображение расписания">
+                            @foreach($type_weeks as $type=>$name)
+                                @if($settings->type_weeks)
+                                    @if($type==$settings->type_weeks)
+                                        <option value="{{$type}}" selected>{{$name}}</option>
+                                    @else
+                                        <option value="{{$type}}">{{$name}}</option>
+                                    @endif
+                                @else
+                                    <option value="{{$type}}" selected>{{$name}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
                     <div>
                         <input type="submit" class="btn-main" value="Сохранить">
                     </div>

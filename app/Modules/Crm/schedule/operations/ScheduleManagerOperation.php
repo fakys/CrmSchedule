@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\schedule\operations;
 
+use App\Modules\Crm\schedule\src\ScheduleManager;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\Operation;
 
@@ -12,27 +13,10 @@ class ScheduleManagerOperation extends Operation
      */
     public function getScheduleData($data)
     {
-        $period = $data['period'];
+        $period = BackendHelper::getOperations()->pacePeriod($data['period']);
         $groups = isset($data['groups']) ? $data['groups'] : [];
         $specialties = isset($data['specialties']) ? $data['specialties'] : [];
-        $main_data = [];
-
-        if ($groups) {
-            foreach ($groups as $group) {
-                $data_rep = BackendHelper::getRepositories()->getScheduleByGroupFroManager($period, $group);
-                $schedule = [];
-                foreach ($data_rep as $schedule) {
-                    $schedule[] = $schedule;
-                }
-                $main_data[$group] = [
-
-                ];
-            }
-
-        } elseif ($specialties) {
-
-        }
-
-        return [];
+        $manager = new ScheduleManager($period, $groups, $specialties);
+        return $manager->getSchedule();
     }
 }

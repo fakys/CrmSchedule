@@ -93,7 +93,13 @@ class SettingsController extends Controller{
         $settings = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName());
         $users_groups_settings = $settings->users_groups;
         $users_groups = BackendHelper::getRepositories()->getAllUsersGroup();
-        return view('settings.schedule_settings', ['users_groups'=>$users_groups, 'users_groups_settings'=>$users_groups_settings]);
+        $type_weeks = [1 => 'Шестидневка', 2 => 'Пятидневка'];
+        return view('settings.schedule_settings', [
+            'users_groups'=>$users_groups,
+            'users_groups_settings'=>$users_groups_settings,
+            'type_weeks'=>$type_weeks,
+            'settings'=>$settings
+        ]);
     }
 
     public function setScheduleSettings()

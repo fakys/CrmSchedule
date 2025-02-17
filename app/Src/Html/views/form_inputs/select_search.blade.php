@@ -13,10 +13,14 @@
 
 <div class="form-group">
     <label>{{$label}}</label>
-    <select name="{{$name}}[]" class="form-control select2 {{$class}}" multiple style="width: 100%;">
+    <select name="{{$name}}[]" class="form-control select2 {{$class}}" @if($multiple) multiple @endif style="width: 100%;">
         @foreach($data as $key=>$val)
+            @if($value)
             @if(in_array($key, $value))
                 <option value="{{$key}}" selected>{{$val}}</option>
+            @else
+                <option value="{{$key}}">{{$val}}</option>
+            @endif
             @else
                 <option value="{{$key}}">{{$val}}</option>
             @endif

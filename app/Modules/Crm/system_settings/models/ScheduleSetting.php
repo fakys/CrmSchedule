@@ -7,11 +7,14 @@ use App\Src\modules\models\Model;
 
 class ScheduleSetting extends Model implements InterfaceModel
 {
+    const SIX_DAY = 1;
+    const FIVE_DAY = 2;
 
     public function fields(): array
     {
         return [
-            'users_groups'
+            'users_groups',
+            'type_weeks'
         ];
     }
 
@@ -19,6 +22,7 @@ class ScheduleSetting extends Model implements InterfaceModel
     {
         return [
             'users_groups'=>['required', 'array'],
+            'type_weeks' => ['required', 'integer'],
         ];
     }
 

@@ -322,5 +322,5 @@ interface RepositoryInterface{
      * @param $group_id
      * @return array
      */
-    public function getScheduleByGroupFroManager($period, $group_id);
+    public function getScheduleByGroupFroManager($date_start, $date_end, $group_id = null);
 }
