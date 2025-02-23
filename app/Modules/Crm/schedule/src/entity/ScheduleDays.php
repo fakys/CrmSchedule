@@ -69,17 +69,15 @@ class ScheduleDays
     private function distributesSchedule($date, $schedule = null)
     {
         $group_name = $this->getGroupName();
-        if (empty($this->schedule[$group_name])) {
-            $this->schedule[$group_name] = [];
-        }
-        $this->schedule[$group_name][$date->format('d.m.Y')] = [];
         if ($this->pair_numbers) {
             foreach ($this->pair_numbers as $pair_number) {
-                $this->schedule[$group_name][$date->format('d.m.Y')][$pair_number->number] = [
-                    'name_pair_number' => $pair_number->name,
-                    'student_group' => $this->group_id,
-                    'schedule' => null,
-                ];
+                if (empty($this->schedule[$group_name][$date->format('d.m.Y')][$pair_number->number])) {
+                    $this->schedule[$group_name][$date->format('d.m.Y')][$pair_number->number] = [
+                        'name_pair_number' => $pair_number->name,
+                        'student_group' => $this->group_id,
+                        'schedule' => null,
+                    ];
+                }
             }
             if ($schedule) {
                 $this->schedule[$group_name][$date->format('d.m.Y')][$schedule->pair_number]['schedule'] = $schedule;
@@ -122,6 +120,7 @@ class ScheduleDays
                 /** Флаг что на этот день расписание есть  */
                 $schedule_in_day = false;
                 foreach ($this->base_schedule as $base_schedule) {
+                    $schedule_in_day = false;
                     $schedule_rep_date = new \DateTime($base_schedule->date_start);
                     /** Если есть расписание на этот день */
                     if ($date_schedule->format('Y-m-d') == $schedule_rep_date->format('Y-m-d')) {
@@ -136,7 +135,6 @@ class ScheduleDays
                 $date_schedule->modify("+1 day");
             }
         }
-
         return $this->schedule;
     }
 

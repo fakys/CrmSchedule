@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Modules\Crm\schedule\repositories;
 
 use App\Entity\Schedule;
@@ -6,7 +7,8 @@ use App\Src\BackendHelper;
 use App\Src\modules\repository\Repository;
 use Illuminate\Support\Facades\DB;
 
-class ScheduleRepository extends Repository {
+class ScheduleRepository extends Repository
+{
 
 
     public function getScheduleByGroupFroManager($date_start, $date_end, $group_id = null)
@@ -45,11 +47,10 @@ class ScheduleRepository extends Repository {
             LEFT JOIN users_info ON users_info.user_id = lessons.user_id
          WHERE loan_less.date_start >= :date_start AND loan_less.date_start <= :date_end AND s_group.id = :group_id";
 
-        $args_arr = [':date_start'=>$date_start, ':date_end'=>$date_end, ':group_id'=>$group_id];
+        $args_arr = [':date_start' => $date_start, ':date_end' => $date_end, ':group_id' => $group_id];
 
         return DB::select($sql, $args_arr);
     }
-
 
 
     /**
@@ -61,27 +62,43 @@ class ScheduleRepository extends Repository {
      */
     public function getScheduleByDate($date, $group_id, $pair_number_id)
     {
-        $sql = "SELECT * FROM schedules
+        $sql = "SELECT schedules.id as id,
+           schedules.duration_lesson_id,
+           schedules.pair_number_id,
+           schedules.student_group_id,
+           schedules.description
+        FROM schedules
          LEFT JOIN duration_lessons duration ON duration.id = schedules.duration_lesson_id
          WHERE schedules.student_group_id = :group_id AND
                schedules.pair_number_id = :pair_number_id AND
                duration.date_start = :date_start";
 
-        $args_arr = [':group_id'=>$group_id, ':pair_number_id'=>$pair_number_id, ':date_start'=>$date];
+        $args_arr = [':group_id' => $group_id, ':pair_number_id' => $pair_number_id, ':date_start' => $date];
 
         return DB::select($sql, $args_arr);
     }
 
     /**
      * Создает расписание
-     * @param $date_start
-     * @param $date_end
-     * @param $group_id
-     * @return bool
+     * @param $duration_lesson_id
+     * @param $pair_number_id
+     * @param $student_group_id
+     * @param $lessons_id
+     * @param $description
+     * @return Schedule|null
      */
-    public function createSchedule($date_start, $date_end, $group_id = null)
+    public function createSchedule($duration_lesson_id, $pair_number_id, $student_group_id, $lessons_id, $description = '')
     {
         $new_schedule = new Schedule();
+        $new_schedule->duration_lesson_id = $duration_lesson_id;
+        $new_schedule->pair_number_id = $pair_number_id;
+        $new_schedule->student_group_id = $student_group_id;
+        $new_schedule->lessons_id = $lessons_id;
+        $new_schedule->description = $description;
+        if ($new_schedule->save()) {
+            return $new_schedule;
+        }
+        return null;
     }
 
 
@@ -93,7 +110,7 @@ class ScheduleRepository extends Repository {
     public function getSchedulesById($id)
     {
 
-        return Schedule::where(['id'=>$id])->first();
+        return Schedule::where(['id' => $id])->first();
     }
 
     /**
@@ -111,4 +128,15 @@ class ScheduleRepository extends Repository {
         }
         return null;
     }
+
+    /**
+     * Удаляет расписание по id
+     * @param $id
+     * @return bool
+     */
+    public function deleteScheduleById($id)
+    {
+        return Schedule::where(['id' => $id])->first()->delete();
+    }
+
 }

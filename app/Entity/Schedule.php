@@ -38,6 +38,6 @@ class Schedule extends Model
      * @return Lesson|null
      */
     public function getLesson() {
-        return $this->hasOne(Lesson::class, 'id', 'duration_lesson_id')->first();
+        return $this->hasOne(Lesson::class, 'id', 'lessons_id')->first();
     }
 }

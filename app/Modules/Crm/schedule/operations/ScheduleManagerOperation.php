@@ -1,9 +1,16 @@
 <?php
+
 namespace App\Modules\Crm\schedule\operations;
 
+use App\Entity\Lesson;
+use App\Entity\Schedule;
+use App\Modules\Crm\schedule\exceptions\ScheduleEditException;
+use App\Modules\Crm\schedule\src\EditNewScheduleData;
+use App\Modules\Crm\schedule\src\entity\ScheduleUnit;
 use App\Modules\Crm\schedule\src\ScheduleManager;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\Operation;
+use Illuminate\Support\Facades\DB;
 
 class ScheduleManagerOperation extends Operation
 {
@@ -23,11 +30,13 @@ class ScheduleManagerOperation extends Operation
     /**
      * Редактирует расписание
      * @param $newSchedule
+     * @param $searchData
      * @return bool
      *
      */
     public function editSchedule($newSchedule, $searchData)
     {
+        $newSchedule = new EditNewScheduleData($newSchedule);
         $period = BackendHelper::getOperations()->pacePeriod($searchData['period']);
         $data = [];
 
@@ -41,134 +50,118 @@ class ScheduleManagerOperation extends Operation
         }
 
 
-        foreach ($newSchedule as $schedule_old_group => $schedule_group) {
-            foreach ($schedule_group as $schedule_old_date=>$new_schedule_pairs) {
-                foreach ($new_schedule_pairs as $pair_number => $schedule_new) {
-
-                    if (isset($data[$schedule_old_group])) {
-                        BackendHelper::getOperations()
-                            ->saveSchedule($schedule_new['schedule'], $pair_number, $schedule_old_group, $schedule_old_date, $data[$schedule_old_group]);
-                    } else {
-
-                    }
-
-
-                }
+        foreach ($newSchedule->getUnits() as $unit) {
+            if (BackendHelper::getRepositories()
+                ->getScheduleByDate($unit->getOldDate()->format('Y-m-d'), $unit->getOldGroup(), $unit->getOldPairNumber())
+            ) {
+                /** Создаем транзакцию на случай ошибки */
+                DB::transaction(function () use ($unit) {
+                    BackendHelper::getOperations()
+                        ->saveSchedule($unit);
+                });
+            } else {
+                /** Создаем транзакцию на случай ошибки */
+                DB::transaction(function () use ($unit) {
+                    BackendHelper::getOperations()
+                        ->createSchedule($unit);
+                });
             }
+
         }
         return true;
     }
 
     /**
      * Сохраняет новое расписание по старым данным
-     * @param $new_schedule
-     * @param $old_pair_number
-     * @param $old_group_id
-     * @param $old_date
-     * @param $data_report
+     * @param ScheduleUnit $unit
      * @return void
      */
-    public function saveSchedule($new_schedule, $old_pair_number, $old_group_id, $old_date, $data_report)
+    public function saveSchedule($unit)
     {
-        if ($new_schedule) {
-            foreach ($data_report as $schedule_data) {
-                $schedule_date = new \DateTime($schedule_data->date_start);
-                $old_schedule_date = new \DateTime($old_date);
-                $new_schedule_date = new \DateTime($new_schedule['date_start']);
-                $schedule = BackendHelper::getRepositories()->getSchedulesById($schedule_data->id);
-                $lessons = $schedule->getLesson();
-                $duration = $schedule->getDuration();
+        $schedule_data = BackendHelper::getRepositories()->getScheduleByDate(
+            $unit->getOldDate()->format('Y-m-d'),
+            $unit->getOldGroup(),
+            $unit->getOldPairNumber()
+        )[0];
 
-                /** Если это не новое расписание а изменение старого, то удаляем старое расписание */
-                if (
-                    $schedule_date->format('Y-m-d') == $old_schedule_date->format('Y-m-d') &&
-                    $old_pair_number == $schedule_data->pair_number &&
-                    $old_group_id == $schedule_data->group_id
-                ) {
-                    if ($schedule) {
-//                        $schedule->delete();
-                    }
-                }
+        /** @var Schedule $schedule Entity расписания */
+        $schedule = BackendHelper::getRepositories()->getSchedulesById($schedule_data->id);
+        $lessons = $schedule->getLesson();
+        $duration = $schedule->getDuration();
+        /** Дата начала */
+        $schedule_date = new \DateTime($duration->date_start);
 
-                /**
-                 * Если новое расписание пересекается со старым, то изменяем его
-                 * или если на данную дату нет расписания
-                 */
-                if (
-                    $schedule_date->format('Y-m-d') == $new_schedule_date->format('Y-m-d') &&
-                    $new_schedule['pair_number'] == $schedule_data->pair_number &&
-                    $new_schedule['group_id'] == $schedule_data->group_id ||
-                    !BackendHelper::getRepositories()
-                        ->getScheduleByDate($new_schedule_date->format('Y-m-d'), $new_schedule['group_id'], $new_schedule['pair_number'])
-                ) {
+        /**
+         * Если на дату нового расписания ничего не назначено, то изменяем его
+         */
+        $new_schedule_data = BackendHelper::getRepositories()->getScheduleByDate(
+            $unit->getNewDate()->format('Y-m-d'),
+            $unit->getNewGroup(),
+            $unit->getNewPairNumber()
+        );
+        if (
+            !$new_schedule_data ||
+            $new_schedule_data &&
+            $new_schedule_data[0]->id == $schedule_data->id
+        ) {
 
-                    BackendHelper::getOperations()->checkScheduleData(
-                        $new_schedule['group_id'],
-                        $schedule_data->group_id,
-                        'student_group_id',
-                        $schedule
-                    );
-
-                    BackendHelper::getOperations()->checkScheduleData(
-                        $new_schedule['pair_number'],
-                        $schedule_data->pair_id,
-                        'pair_number_id',
-                        $schedule
-                    );
-                    BackendHelper::getOperations()->checkScheduleData(
-                        $new_schedule['schedule_description'],
-                        $schedule_data->schedule_description,
-                        'description',
-                        $schedule
-                    );
-
-
-                    if ($lessons) {
-                        BackendHelper::getOperations()->checkScheduleData(
-                            $new_schedule['subject_id'],
-                            $schedule_data->subject_id,
-                            'subject_id',
-                            $lessons
-                        );
-                        BackendHelper::getOperations()->checkScheduleData(
-                            $new_schedule['user_id'],
-                            $schedule_data->teacher_id,
-                            'user_id',
-                            $lessons
-                        );
-                        BackendHelper::getOperations()->checkScheduleData(
-                            $new_schedule['format_lesson_id'],
-                            $schedule_data->format_id,
-                            'format_lesson_id',
-                            $lessons
-                        );
-                    } else {
-
-                    }
-
-                    if ($duration) {
-                        BackendHelper::getOperations()->checkScheduleData(
-                            $new_schedule['time_start'],
-                            $schedule_data->time_start,
-                            'time_start',
-                            $duration
-                        );
-                        BackendHelper::getOperations()->checkScheduleData(
-                            $new_schedule['time_end'],
-                            $schedule_data->time_end,
-                            'time_end',
-                            $duration
-                        );
-                        BackendHelper::getOperations()->checkScheduleData(
-                            $new_schedule_date->format('Y-m-d'),
-                            $schedule_date->format('Y-m-d'),
-                            'date_start',
-                            $duration
-                        );
-                    }
-
-
-                }
+            BackendHelper::getOperations()->checkScheduleData(
+                $unit->getNewGroup(),
+                $schedule->student_group_id,
+                'student_group_id',
+                $schedule
+            );
+            BackendHelper::getOperations()->checkScheduleData(
+                $unit->getNewPairNumber(),
+                $schedule->pair_number_id,
+                'pair_number_id',
+                $schedule
+            );
+            BackendHelper::getOperations()->checkScheduleData(
+                $unit->getDescription(),
+                $schedule->description,
+                'description',
+                $schedule
+            );
+            if ($lessons) {
+                BackendHelper::getOperations()->checkScheduleData(
+                    $unit->getSubject(),
+                    $lessons->subject_id,
+                    'subject_id',
+                    $lessons
+                );
+                BackendHelper::getOperations()->checkScheduleData(
+                    $unit->getUser(),
+                    $lessons->user_id,
+                    'user_id',
+                    $lessons
+                );
+                BackendHelper::getOperations()->checkScheduleData(
+                    $unit->getFormatPair(),
+                    $lessons->format_lesson_id,
+                    'format_lesson_id',
+                    $lessons
+                );
+            }
+            if ($duration) {
+                BackendHelper::getOperations()->checkScheduleData(
+                    $unit->getTimeStart(),
+                    $duration->time_start,
+                    'time_start',
+                    $duration
+                );
+                BackendHelper::getOperations()->checkScheduleData(
+                    $unit->getTimeEnd(),
+                    $duration->time_end,
+                    'time_end',
+                    $duration
+                );
+                BackendHelper::getOperations()->checkScheduleData(
+                    $unit->getNewDate()->format('Y-m-d'),
+                    $schedule_date->format('Y-m-d'),
+                    'date_start',
+                    $duration
+                );
             }
         }
     }
@@ -184,6 +177,47 @@ class ScheduleManagerOperation extends Operation
         if ($new_data != $old_data) {
             BackendHelper::getRepositories()->updateDataByEntity($new_data, $name_field, $entity);
         }
+    }
+
+    /**
+     * Создает расписание
+     * @param ScheduleUnit $unit
+     * @return bool
+     */
+    public function createSchedule($unit)
+    {
+        /** Создаем предмет */
+        $lesson = BackendHelper::getRepositories()->createLessons($unit->getSubject(), $unit->getFormatPair(), $unit->getUser());
+        if (!$lesson) {
+            throw new ScheduleEditException('Ошибка при создании предмета');
+        }
+
+        /** Длительность в минутах */
+        $duration_minutes = (new \DateTime($unit->getTimeStart()))->diff(new \DateTime($unit->getTimeEnd()))->i;
+        /** Создаем длительность предмета */
+        $duration = BackendHelper::getRepositories()->createDurationLessons(
+            $unit->getNewDate()->format('Y-m-d'),
+            $unit->getTimeStart(),
+            $unit->getTimeEnd(),
+            $duration_minutes
+        );
+        if (!$duration) {
+            throw new ScheduleEditException('Ошибка при создании длительности предмета');
+        }
+
+        $schedule = BackendHelper::getRepositories()->createSchedule(
+            $duration->id,
+            $unit->getNewPairNumber(),
+            $unit->getNewGroup(),
+            $lesson->id,
+            $unit->getDescription()
+        );
+
+        if (!$schedule) {
+            throw new ScheduleEditException('Ошибка при создании расписания');
+        }
+
+        return true;
     }
 
 }

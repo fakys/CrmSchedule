@@ -394,4 +394,23 @@ interface RepositoryInterface{
      */
     public function updateDataByEntity($data, $field_name, $entity);
 
+
+    /**
+     * Удаляет расписание по id
+     * @param $id
+     * @return bool
+     */
+    public function deleteScheduleById($id);
+
+    /**
+     * Создает расписание
+     * @param $duration_lesson_id
+     * @param $pair_number_id
+     * @param $student_group_id
+     * @param $lessons_id
+     * @param $description
+     * @return Schedule|null
+     */
+    public function createSchedule($duration_lesson_id, $pair_number_id, $student_group_id, $lessons_id, $description = '');
+
 }

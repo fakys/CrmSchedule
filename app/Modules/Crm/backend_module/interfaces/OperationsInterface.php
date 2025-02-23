@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\backend_module\interfaces;
 
+use App\Modules\Crm\schedule\src\entity\ScheduleUnit;
 use App\Modules\Crm\users_interface\src\UserData;
 
 interface OperationsInterface
@@ -79,14 +80,11 @@ interface OperationsInterface
 
     /**
      * Сохраняет новое расписание по старым данным
-     * @param $new_schedule
-     * @param $old_pair_number
-     * @param $old_group_id
-     * @param $old_date
+     * @param $unit
      * @param $data_report
      * @return void
      */
-    public function saveSchedule($new_schedule, $old_pair_number, $old_group_id, $old_date, $data_report);
+    public function saveSchedule($unit);
 
     /**
      * @param $new_data
@@ -95,4 +93,11 @@ interface OperationsInterface
      * @return void
      */
     public function checkScheduleData($new_data, $old_data, $name_field, $entity);
+
+    /**
+     * Создает расписание
+     * @param ScheduleUnit $unit
+     * @return bool
+     */
+    public function createSchedule($unit);
 }
