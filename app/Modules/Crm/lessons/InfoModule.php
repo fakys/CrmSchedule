@@ -3,6 +3,7 @@ namespace App\Modules\Crm\lessons;
 
 
 use App\Modules\Crm\lessons\operations\SubjectOperation;
+use App\Modules\Crm\lessons\repositories\LessonFormat;
 use App\Modules\Crm\lessons\repositories\LessonsRepository;
 use App\Modules\Crm\lessons\repositories\SubjectsRepository;
 use App\Src\modules\InfoModuleModel;
@@ -31,7 +32,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     {
         return [
             SubjectsRepository::class,
-            LessonsRepository::class
+            LessonsRepository::class,
+            LessonFormat::class
         ];
     }
 

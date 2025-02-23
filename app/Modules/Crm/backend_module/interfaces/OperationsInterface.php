@@ -67,4 +67,32 @@ interface OperationsInterface
      * @return \DateTime[]
      */
     public function pacePeriod($period);
+
+
+    /**
+     * Редактирует расписание
+     * @param $newSchedule
+     * @return bool
+     *
+     */
+    public function editSchedule($newSchedule, $searchData);
+
+    /**
+     * Сохраняет новое расписание по старым данным
+     * @param $new_schedule
+     * @param $old_pair_number
+     * @param $old_group_id
+     * @param $old_date
+     * @param $data_report
+     * @return void
+     */
+    public function saveSchedule($new_schedule, $old_pair_number, $old_group_id, $old_date, $data_report);
+
+    /**
+     * @param $new_data
+     * @param $old_data
+     * @param $entity
+     * @return void
+     */
+    public function checkScheduleData($new_data, $old_data, $name_field, $entity);
 }

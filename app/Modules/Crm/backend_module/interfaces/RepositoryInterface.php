@@ -1,8 +1,12 @@
 <?php
 namespace App\Modules\Crm\backend_module\interfaces;
 
+use App\Entity\DurationLesson;
+use App\Entity\DurationLessons;
+use App\Entity\FormatLesson;
 use App\Entity\GroupUser;
-use App\Entity\PairNumber;
+use App\Entity\Lesson;
+use App\Entity\Schedule;
 use App\Entity\Specialty;
 use App\Entity\StudentGroup;
 use App\Entity\Subject;
@@ -227,6 +231,12 @@ interface RepositoryInterface{
     public function getSubjectInfo();
 
     /**
+     * Возвращает все предметы
+     * @return Subject[]
+     */
+    public function getFullSubject();
+
+    /**
      * Получает группу студентов то id
      * @param $id
      * @return StudentGroup
@@ -278,7 +288,7 @@ interface RepositoryInterface{
 
     /**
      * Возвращает все последовательности пар
-     * @return PairNumber[]
+     * @return Schedule[]
      */
     public function getNumberPair();
 
@@ -323,4 +333,65 @@ interface RepositoryInterface{
      * @return array
      */
     public function getScheduleByGroupFroManager($date_start, $date_end, $group_id = null);
+
+    /**
+     * Возвращает формат
+     * @return FormatLesson[]
+     */
+    public function getFullFormatLessons();
+
+    /**
+     * Редактирует расписание
+     * @param $newSchedule
+     * @return bool
+     *
+     */
+    public function editSchedule($newSchedule);
+
+    /**
+     * Получает расписание по дате, группе и номеру пары
+     * @param $id
+     * @return Schedule
+     */
+    public function getSchedulesById($id);
+
+    /**
+     * Создает длительность пары
+     * @param $date_start
+     * @param $time_start
+     * @param $time_end
+     * @param string $duration_minutes
+     * @return DurationLesson|null
+     */
+    public function createDurationLessons($date_start, $time_start, $time_end, $duration_minutes = '');
+
+    /**
+     * Получает расписание по данным
+     * @param $date
+     * @param $group_id
+     * @param $pair_number_id
+     * @return array
+     */
+    public function getScheduleByDate($date, $group_id, $pair_number_id);
+
+
+    /**
+     * Создает урок для расписания
+     * @param $subject_id
+     * @param $format_lesson_id
+     * @param $user_id
+     * @return Lesson|null
+     */
+    public function createLessons($subject_id, $format_lesson_id, $user_id);
+
+    /**
+     * Обновляет данные по id и entity
+     * @param $data
+     * @param $field_name
+     * @param $id
+     * @param $entity
+     * @return mixed
+     */
+    public function updateDataByEntity($data, $field_name, $entity);
+
 }

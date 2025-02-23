@@ -20,3 +20,8 @@ Route::post(
     "$module/add-schedule-manager-menu",
     [\App\Modules\Crm\schedule\controllers\AjaxController::class, 'addScheduleManagerMenu']
 )->name("$module.add_schedule_manager_menu");
+
+Route::post(
+    "$module/edit-schedule-manager",
+    [\App\Modules\Crm\schedule\controllers\AjaxController::class, 'editScheduleManager']
+)->name("$module.edit_schedule_manager");

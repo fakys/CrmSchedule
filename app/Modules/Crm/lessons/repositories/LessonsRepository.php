@@ -1,8 +1,13 @@
 <?php
 namespace App\Modules\Crm\lessons\repositories;
 
+use App\Entity\DurationLesson;
+use App\Entity\FormatLesson;
+use App\Entity\Lesson;
 use App\Entity\PairNumber;
+use App\Entity\Schedule;
 use App\Src\modules\repository\Repository;
+use Illuminate\Support\Facades\DB;
 
 class LessonsRepository extends Repository{
 
@@ -71,4 +76,55 @@ class LessonsRepository extends Repository{
         }
         return false;
     }
+
+    /**
+     * Возвращает формат
+     * @return FormatLesson[]
+     */
+    public function getFullFormatLessons()
+    {
+        return FormatLesson::all();
+    }
+
+
+    /**
+     * Создает длительность пары
+     * @param $date_start
+     * @param $time_start
+     * @param $time_end
+     * @param $duration_minutes
+     * @return DurationLesson|null
+     */
+    public function createDurationLessons($date_start, $time_start, $time_end, $duration_minutes = '')
+    {
+        $duration = new DurationLesson();
+        $duration->date_start = $date_start;
+        $duration->time_start = $time_start;
+        $duration->time_end = $time_end;
+        $duration->duration_minutes = $duration_minutes;
+        if ($duration->save()) {
+            return $duration;
+        }
+        return null;
+    }
+
+    /**
+     * Создает урок для расписания
+     * @param $subject_id
+     * @param $format_lesson_id
+     * @param $user_id
+     * @return Lesson|null
+     */
+    public function createLessons($subject_id, $format_lesson_id, $user_id)
+    {
+        $lesson= new Lesson();
+        $lesson->subject_id = $subject_id;
+        $lesson->format_lesson_id = $format_lesson_id;
+        $lesson->user_id = $user_id;
+        if ($lesson->save()) {
+            return $lesson;
+        }
+        return null;
+    }
+
 }

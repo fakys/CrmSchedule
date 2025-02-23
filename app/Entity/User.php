@@ -85,4 +85,13 @@ class User extends Authenticatable
         }
         return $groups;
     }
+
+    public function getFio()
+    {
+        $info = $this->getInfo();
+        if ($info) {
+            return "{$info->last_name} {$info->first_name} {$info->patronymic}";
+        }
+        return '';
+    }
 }

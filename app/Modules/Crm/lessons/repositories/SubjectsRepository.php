@@ -37,6 +37,15 @@ class SubjectsRepository extends Repository{
     }
 
     /**
+     * Возвращает все предметы
+     * @return Subject[]
+     */
+    public function getFullSubject()
+    {
+        return Subject::all();
+    }
+
+    /**
      * Возвращает предметы для таблицы с поиском
      * @param $searchData
      * @return array
