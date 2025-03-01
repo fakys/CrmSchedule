@@ -52,8 +52,6 @@ $(document).ready(function (){
 
             if (count_inputs === inputs.length) {
                 $(block).find('.schedule-pair-number').addClass('schedule-pair-set')
-            } else if (count_inputs>1) {
-                $(block).find('.schedule-pair-number').addClass('schedule-pair-number-error')
             }
         }
     }
@@ -115,7 +113,6 @@ $(document).ready(function (){
 
     $('.btn-save-schedule').on('click', function (){
         let url = $('.url-edit-schedule').data('url')
-        console.log(schedule)
         if ($('.schedule-pair-number-error').length !== 0) {
             if ($('.schedule-pair-number-error').length > 1) {
                 error_alert('Ошибка в расписании за '+$('.schedule-pair-number-error')[0].closest('.schedule-block').data('date'))
@@ -132,10 +129,25 @@ $(document).ready(function (){
                 method: 'post',
                 data: {'_token':csrf, 'schedule':schedule},
                 success: function(data){
-                    console.log(data)
+                    if (data == 1) {
+                        get_add_schedule()
+                    } else {
+                        $('.schedule-errors-block').empty()
+                        $('.schedule-errors-block').append(data)
+                    }
                 },
                 error: function (err){
-                    error_alert(err.responseJSON.message)
+                    let data = null;
+                    try {
+                        data = JSON.parse(err.responseJSON.message);
+                    } catch (e) {
+                        error_alert(err.responseJSON.message)
+                        return false;
+                    }
+
+                    if (data && data.error) {
+
+                    }
                 }
             })
         }

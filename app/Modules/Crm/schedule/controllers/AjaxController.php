@@ -1,6 +1,8 @@
 <?php
 namespace App\Modules\Crm\schedule\controllers;
 
+use App\Modules\Crm\schedule\exceptions\ScheduleEditValidException;
+use App\Modules\Crm\schedule\models\EditScheduleModel;
 use App\Modules\Crm\schedule\models\ScheduleManagerModel;
 use App\Src\BackendHelper;
 use Illuminate\Routing\Controller;
@@ -46,15 +48,26 @@ class AjaxController extends Controller
         abort(500, 'Ошибка сервера');
     }
 
+    /**
+     * @throws ScheduleEditValidException
+     */
     public function editScheduleManager()
     {
         $searchData = request()->session()->get('schedule_manager_request');
-        $new_schedule = request()->post('schedule');
-        $model = new ScheduleManagerModel();
-        if ($new_schedule && $searchData) {
-            BackendHelper::getOperations()->editSchedule($model->deleteEmptySchedule($new_schedule), $searchData);
-            return 213213;
+
+        try {
+            $model = new EditScheduleModel();
+            $model->schedule = request()->post('schedule');
+            if ($model->schedule && $searchData) {
+                if ($model->validate()) {
+                    BackendHelper::getOperations()->editSchedule($model->schedule, $searchData);
+                    return true;
+                }
+            }
+        } catch (ScheduleEditValidException $exp) {
+            return view('schedule_manager.error_page', ['error_schedule'=>$model->error_schedule]);
         }
+
         abort(500, 'Отсутствуют обязательные параметры');
     }
 }

@@ -5,6 +5,7 @@
 </div>
 <div class="url-edit-schedule" data-url="{{route('schedule.edit_schedule_manager')}}"></div>
 <div class="container pt-3">
+    <div class="schedule-errors-block"></div>
     @foreach($schedules as $schedule_group_data)
         <div class="schedule-container">
             <div>
@@ -34,6 +35,7 @@
                                                                 <div class="d-flex gap-3">
                                                                     <div>{{$schedule['schedule']->subject_name}}</div>
                                                                     <div class="fio-teacher-schedule">{{$schedule['schedule']->fio_teacher}}</div>
+                                                                    <div class="time-start-end">{{(new DateTime($schedule['schedule']->time_start))->format('H:i')}} - {{(new DateTime($schedule['schedule']->time_end))->format('H:i')}}</div>
                                                                 </div>
                                                             @else
                                                                 <div>
@@ -83,7 +85,12 @@
                                                                                             <option value="{{$number->id}}">{{$number->name}}</option>
                                                                                         @endif
                                                                                     @else
-                                                                                        <option value="{{$number->id}}">{{$number->name}}</option>
+                                                                                        @if($number_pair == $number->number)
+                                                                                            <option value="{{$number->id}}" selected>{{$number->name}}</option>
+                                                                                        @else
+                                                                                            <option value="{{$number->id}}">{{$number->name}}</option>
+                                                                                        @endif
+
                                                                                     @endif
                                                                                 @endforeach
                                                                             </select>
@@ -130,7 +137,7 @@
                                                                         </div>
                                                                         <div class="form-group d-flex flex-column">
                                                                             <label>Дата начала</label>
-                                                                            <input class="form-control-sm change-input" name="date_start" type="date" value="{{isset($schedule['schedule'])? $schedule['schedule']->date_start : ''}}">
+                                                                            <input class="form-control-sm change-input" name="date_start" type="date" value="{{isset($schedule['schedule'])? $schedule['schedule']->date_start : (new DateTime($date))->format('Y-m-d')}}">
                                                                         </div>
                                                                         <div class="form-group d-flex flex-column">
                                                                             <label>Группа</label>
@@ -144,7 +151,11 @@
                                                                                             <option value="{{$group->id}}">{{$group->number}}</option>
                                                                                         @endif
                                                                                     @else
-                                                                                        <option value="{{$group->id}}">{{$group->number}}</option>
+                                                                                        @if($group_name == $group->number)
+                                                                                            <option value="{{$group->id}}" selected>{{$group->number}}</option>
+                                                                                        @else
+                                                                                            <option value="{{$group->id}}">{{$group->number}}</option>
+                                                                                        @endif
                                                                                     @endif
                                                                                 @endforeach
                                                                             </select>

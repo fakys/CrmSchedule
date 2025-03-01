@@ -50,41 +50,4 @@ class ScheduleManagerModel extends Model implements InterfaceModel
         ];
     }
 
-    /**
-     * Удаляет пустые расписания
-     * @param $schedule
-     * @return array
-     */
-    public function deleteEmptySchedule($schedule)
-    {
-        /** Проходимся по пустым расписаниям */
-        foreach ($schedule as $schedule_old_group => $schedule_group) {
-            foreach ($schedule_group as $schedule_old_date => $new_schedule_pairs) {
-                foreach ($new_schedule_pairs as $pair_number => $schedule_new) {
-                    if (
-                        !$schedule_new['schedule']['date_start'] &&
-                        !$schedule_new['schedule']['format_lesson_id'] != 0 &&
-                        !$schedule_new['schedule']['group_id'] != 0 &&
-                        !$schedule_new['schedule']['pair_number'] != 0 &&
-                        !$schedule_new['schedule']['subject_id'] != 0 &&
-                        !$schedule_new['schedule']['time_end'] &&
-                        !$schedule_new['schedule']['time_start'] &&
-                        !$schedule_new['schedule']['user_id'] != 0
-                    ) {
-                        unset($schedule[$schedule_old_group][$schedule_old_date][$pair_number]);
-                    }
-                }
-            }
-        }
-        /** Если есть пустые даты, убираем и их */
-        foreach ($schedule as $schedule_old_group => $schedule_group) {
-            foreach ($schedule_group as $schedule_old_date => $new_schedule_pairs) {
-                if (!$new_schedule_pairs) {
-                    unset($schedule[$schedule_old_group][$schedule_old_date]);
-                }
-            }
-        }
-
-        return $schedule;
-    }
 }
