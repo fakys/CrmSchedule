@@ -417,7 +417,7 @@ interface RepositoryInterface{
 
     /**
      * Возвращает все семестры
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Semester[]
      */
     public function getAllSemesters();
 

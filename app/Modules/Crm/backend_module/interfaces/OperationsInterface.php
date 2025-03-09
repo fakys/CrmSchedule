@@ -100,4 +100,7 @@ interface OperationsInterface
      * @return bool
      */
     public function createSchedule($unit);
+
+    /** Возвращает семестры для акшена */
+    public function getSemesters();
 }

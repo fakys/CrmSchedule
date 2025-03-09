@@ -21,6 +21,26 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label>Начала учебного года</label>
+                        <input type="number" class="form-control
+                        @error('year_start') is-invalid @enderror" name="year_start"
+                               placeholder="Введите начала учебного года" title="Введите начала учебного года" value="@if(isset($semester)){{($semester->year_start)}}@endif">
+
+                        @error('year_start')
+                        <div class="error">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label>Окончание учебного года</label>
+                        <input type="number" class="form-control
+                        @error('year_end') is-invalid @enderror" name="year_end"
+                               placeholder="Введите окончание учебного года" title="Введите окончание учебного года" value="@if(isset($semester)){{($semester->year_end)}}@endif">
+
+                        @error('year_end')
+                        <div class="error">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label>Дата начала</label>
                         <input type="date" class="form-control
                         @error('date_start') is-invalid @enderror" name="date_start"

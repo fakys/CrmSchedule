@@ -19,7 +19,7 @@ $(document).ready(function (){
             method: 'post',
             data: {'_token':csrf, semesters_id: delete_semesters},
             success: function(data){
-                $("tr[semesters='"+delete_semesters+"']").remove()
+                $("div[semesters='"+delete_semesters+"']").remove()
                 $('.delete-panel-semesters').css({display:'none'})
             },
             error: function (err) {

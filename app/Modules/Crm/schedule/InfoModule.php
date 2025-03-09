@@ -3,6 +3,7 @@ namespace App\Modules\Crm\schedule;
 
 
 use App\Modules\Crm\schedule\operations\ScheduleManagerOperation;
+use App\Modules\Crm\schedule\operations\SemestersOperation;
 use App\Modules\Crm\schedule\operations\TimeOperation;
 use App\Modules\Crm\schedule\repositories\ScheduleRepository;
 use App\Modules\Crm\schedule\repositories\SemestersRepository;
@@ -40,7 +41,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     {
         return [
             ScheduleManagerOperation::class,
-            TimeOperation::class
+            TimeOperation::class,
+            SemestersOperation::class
         ];
     }
     public static function runConfig()

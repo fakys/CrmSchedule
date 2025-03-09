@@ -13,7 +13,7 @@ class SemestersController extends Controller {
     /** Акшен семестров */
     public function actionSemesters()
     {
-        $semesters = BackendHelper::getRepositories()->getAllSemesters();
+        $semesters = BackendHelper::getOperations()->getSemesters();
         $title = 'Семестры';
         return view('semesters.index', compact('semesters','title'));
     }
@@ -63,8 +63,9 @@ class SemestersController extends Controller {
         $semester = BackendHelper::getRepositories()->getSemesterById($semester_id);
         $model = new SemestersModel();
         $model->load(request()->post());
+        $model->id = $semester_id;
         $validate = Validator::make($model->getData(), $model->rules());
-        if ($semester && $validate->validate()) {
+        if ($semester && $validate->validate() && $model->dateValidate()) {
             BackendHelper::getRepositories()->updateSemester($semester->id, $model->getData());
         }
         return redirect(route('schedule.semesters'));

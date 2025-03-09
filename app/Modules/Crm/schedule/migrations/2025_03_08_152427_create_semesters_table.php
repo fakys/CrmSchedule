@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('semesters', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('year_start')->nullable();
+            $table->string('year_end')->nullable();
             $table->dateTime('date_start');
             $table->dateTime('date_end');
             $table->timestamps();

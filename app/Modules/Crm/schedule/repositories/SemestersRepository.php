@@ -30,6 +30,8 @@ class SemestersRepository extends Repository
         $semester->name = $model->name;
         $semester->date_start = (new \DateTime($model->date_start))->format('Y-m-d');
         $semester->date_end = (new \DateTime($model->date_end))->format('Y-m-d');
+        $semester->year_start = $model->year_start;
+        $semester->year_end = $model->year_end;
         if ($semester->save()) {
             return $semester;
         }
