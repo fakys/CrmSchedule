@@ -5,6 +5,7 @@ namespace App\Modules\Crm\schedule;
 use App\Modules\Crm\schedule\operations\ScheduleManagerOperation;
 use App\Modules\Crm\schedule\operations\TimeOperation;
 use App\Modules\Crm\schedule\repositories\ScheduleRepository;
+use App\Modules\Crm\schedule\repositories\SemestersRepository;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
@@ -30,7 +31,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function repositories(): array
     {
         return [
-            ScheduleRepository::class
+            ScheduleRepository::class,
+            SemestersRepository::class
         ];
     }
 

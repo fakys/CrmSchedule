@@ -185,5 +185,5 @@
             </div>
         </div>
     @endforeach
+    <script src="{{asset('assets/js/schedule_table.js')}}"></script>
 </div>
-<script src="{{asset('assets/js/schedule_table.js')}}"></script>

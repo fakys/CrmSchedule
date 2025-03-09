@@ -1,5 +1,5 @@
+
 $(document).ready(function (){
-    let csrf = $("input[name='_token']").val()
 
 
     /** Массив с изначальным расписанием */
@@ -127,7 +127,7 @@ $(document).ready(function (){
             $.ajax({
                 url: url,
                 method: 'post',
-                data: {'_token':csrf, 'schedule':schedule},
+                data: {'_token':$("input[name='_token']").val(), 'schedule':schedule},
                 success: function(data){
                     if (data == 1) {
                         get_add_schedule()

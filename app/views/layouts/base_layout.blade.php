@@ -274,8 +274,8 @@
                                         </a>
                                     </li>
                                     <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Текущее расписание</p>
+                                        <a href="{{route('schedule.semesters')}}" class="nav-link">
+                                            <p>Семестры</p>
                                         </a>
                                     </li>
                                     <li class="nav-item rm-level-3">

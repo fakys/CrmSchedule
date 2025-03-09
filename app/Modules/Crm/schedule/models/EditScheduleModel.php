@@ -128,7 +128,7 @@ class EditScheduleModel extends Model implements InterfaceModel
                         continue;
                     }
 
-                    if ($setting_weekend == ScheduleSetting::SIX_DAY) {
+                    if ($setting_weekend == ScheduleSetting::FIVE_DAY) {
                         if ($date_start->format('w') == 0 || $date_start->format('w') == 6) {
                             $this->error_schedule[$group_name][$schedule_old_date][$pair_number] = 'Дата выпадает на выходные';
                             continue;
@@ -160,12 +160,15 @@ class EditScheduleModel extends Model implements InterfaceModel
                             $pair_number_entity = BackendHelper::getRepositories()->getNumberPairById($pair);
 
                             if (
-                                ($time_start >= $valid_time_start && $time_end <= $valid_time_end)
+                                ($time_start >= $valid_time_start && $time_end >= $valid_time_end && $time_start <= $valid_time_end) ||
+                                ($time_start <= $valid_time_start && $time_end >= $valid_time_end) ||
+                                ($time_start <= $valid_time_start && $time_end <= $valid_time_end && $time_end >= $valid_time_start)
                             ) {
                                 $this->error_schedule[$group_name][$schedule_old_date][$pair_number] =
                                     "Время начала и время окончания пересекаются с {$pair_number_entity->number} парой";
                                 break;
                             }
+
                         }
                     }
                 }

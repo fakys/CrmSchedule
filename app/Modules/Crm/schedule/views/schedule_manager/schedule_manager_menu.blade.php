@@ -1,4 +1,5 @@
 <div class="p-3">
+    @csrf
     <div class="d-none link-add-schedule" data-url="{{route('schedule.add_schedule_manager_menu')}}"></div>
     {{\App\Src\Html\Html::nav_tabs([
     ['name'=>'Расписание', 'id'=>'schedule', 'active'=>true],

@@ -1,5 +1,3 @@
-let csrf = $("input[name='_token']").val()
-
 function get_add_schedule() {
     $('.menu-container-data').empty()
     let url = $('.link-add-schedule').data('url')
@@ -8,7 +6,7 @@ function get_add_schedule() {
         $.ajax({
             url: url,
             method: 'post',
-            data: {'_token':csrf},
+            data: {'_token':document.querySelector('input[name="_token"]').value},
             success: function(data){
                 $('.menu-container-data').empty()
                 $('.menu-container-data').append(data)
@@ -26,9 +24,6 @@ function get_add_schedule() {
 }
 
 $(document).ready(function (){
-
-
-
     $(".nav-tabs-link").on('click', function () {
         for (let i of $(".nav-tabs-link")) {
             $(i).removeClass('active')

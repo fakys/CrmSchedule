@@ -7,6 +7,7 @@ use App\Entity\FormatLesson;
 use App\Entity\GroupUser;
 use App\Entity\Lesson;
 use App\Entity\Schedule;
+use App\Entity\Semester;
 use App\Entity\Specialty;
 use App\Entity\StudentGroup;
 use App\Entity\Subject;
@@ -14,6 +15,7 @@ use App\Entity\User;
 use App\Entity\UserDocumet;
 use App\Entity\UserGroup;
 use App\Entity\UserInfo;
+use App\Modules\Crm\schedule\models\SemestersModel;
 
 interface RepositoryInterface{
     /**
@@ -413,4 +415,38 @@ interface RepositoryInterface{
      */
     public function createSchedule($duration_lesson_id, $pair_number_id, $student_group_id, $lessons_id, $description = '');
 
+    /**
+     * Возвращает все семестры
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllSemesters();
+
+    /**
+     * @param SemestersModel $model
+     * @return Semester|bool
+     */
+    public function createSemester($model);
+
+    /**
+     * Удаляет сестер
+     * @param $id
+     * @return false
+     */
+    public function deleteSemesterById($id);
+
+    /**
+     * Возвращает семестр по id
+     * @param $id
+     * @return mixed
+     */
+    public function getSemesterById($id);
+
+    /**
+     * Обновляет по id
+     * @param $id
+     * @param $field
+     * @param $value
+     * @return void
+     */
+    public function updateSemester($id, $data);
 }
