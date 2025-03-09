@@ -50,4 +50,9 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     {
         return  [];
     }
+
+    public static function mangers(): array
+    {
+        return [];
+    }
 }

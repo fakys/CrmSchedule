@@ -12,6 +12,7 @@ use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\operations\Operation;
 use App\Src\modules\operations\OperationsContext;
+use App\Src\modules\plugins\mangers\MangerHelper;
 use App\Src\modules\repository\RepositoriesContext;
 use App\Src\modules\repository\Repository;
 use App\Src\modules\settings\Settings;
@@ -27,6 +28,9 @@ class BackendHelper
         return InfoModuleModel::objects()->getInfoModuleByName($module);
     }
 
+    /**
+     * @return InterfaceInfoModule[]
+     */
     public static function getFullModule()
     {
         return InfoModuleModel::objects()->getFullInfoModules();
@@ -93,5 +97,16 @@ class BackendHelper
     public static function taskCreate($task_name, $args = [])
     {
         return TaskSchedule::objects()->taskCreate($task_name, $args);
+    }
+
+    /**
+     * Возвращает менеджер по имени
+     * @param $name
+     * @return modules\plugins\mangers\AbstractManger
+     * @throws modules\exceptions\BackendException
+     */
+    public static function getManager($name)
+    {
+        return MangerHelper::getManegeByName($name);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Src\modules\interfaces;
 
+use App\Src\modules\plugins\mangers\AbstractManger;
+
 interface InterfaceInfoModule
 {
 
@@ -18,4 +20,9 @@ interface InterfaceInfoModule
     public static function runConfig();
 
     public static function tasks(): array;
+
+    /**
+     * @return AbstractManger[]
+     */
+    public static function mangers(): array;
 }

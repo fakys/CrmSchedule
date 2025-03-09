@@ -46,4 +46,9 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
             TestTask::class
         ];
     }
+
+    public static function mangers(): array
+    {
+        return [];
+    }
 }
