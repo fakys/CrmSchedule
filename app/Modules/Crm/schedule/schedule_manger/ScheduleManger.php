@@ -1,10 +1,12 @@
 <?php
 namespace App\Modules\Crm\schedule\schedule_manger;
 
-use App\Modules\Crm\schedule\schedule_manger\plugins\TestPlugin;
-use App\Modules\Crm\schedule\schedule_manger\plugins\TestPluginOne;
+use App\Modules\Crm\schedule\schedule_manger\plugins\BaseSchedulePlugin;
+use App\Modules\Crm\schedule\schedule_manger\plugins\HolidaysPlugin;
+use App\Modules\Crm\schedule\schedule_manger\plugins\WeekendsPlugin;
 use App\Src\modules\plugins\mangers\AbstractManger;
 
+/** Менеджер возвращает расписание */
 class ScheduleManger extends AbstractManger{
 
     public static function mangerName()
@@ -15,6 +17,10 @@ class ScheduleManger extends AbstractManger{
     public function plugins()
     {
         return [
+            BaseSchedulePlugin::class,
+            WeekendsPlugin::class,
+            HolidaysPlugin::class,
+            WeekendsPlugin::class
         ];
     }
 }

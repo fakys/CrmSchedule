@@ -12,6 +12,7 @@ class ScheduleController extends Controller{
 
     public function actionScheduleManager()
     {
+        BackendHelper::getManager('schedule_manger')->Execute();
         $student_group = ArrayHelper::getColumn(BackendHelper::getRepositories()->getFullStudentGroups(), 'name', 'id');
         $specialties = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllSpecialties(), 'name', 'id');
         $session_data = request()->session()->get('schedule_manager_request');

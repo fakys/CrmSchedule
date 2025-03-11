@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Src\modules\plugins;
-use App\Src\modules\plugins\mangers\AbstractManger;
-use App\Src\modules\plugins\mangers\MangerHelper;
+
+use App\Src\modules\plugins\mangers\PluginsMangerContext;
 
 abstract class AbstractPlugin
 {
-    /** @var MangerHelper $plugin_context */
+    /** @var PluginsMangerContext $plugin_context */
     protected $context;
     public function __construct($plugin_context)
     {
@@ -35,6 +35,12 @@ abstract class AbstractPlugin
     public function __call($method, $arguments)
     {
         return call_user_func_array([$this->context, $method], $arguments);
+    }
+
+    /** Метод для пополнения массивов из контекста */
+    public function appendArrProperty($property, $append, $key= null)
+    {
+        $this->context->appendArr($property, $append, $key);
     }
 
     /** Сохраняет результат цепочки */

@@ -1,6 +1,6 @@
 <?php
 namespace App\Modules\Crm\schedule\exceptions;
 
-class ScheduleEditException extends \Exception{
+class ScheduleManagerException extends \Exception{
 
 }

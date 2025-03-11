@@ -6,6 +6,7 @@ use App\Entity\DurationLessons;
 use App\Entity\FormatLesson;
 use App\Entity\GroupUser;
 use App\Entity\Lesson;
+use App\Entity\PairNumber;
 use App\Entity\Schedule;
 use App\Entity\Semester;
 use App\Entity\Specialty;
@@ -290,7 +291,7 @@ interface RepositoryInterface{
 
     /**
      * Возвращает все последовательности пар
-     * @return Schedule[]
+     * @return PairNumber[]
      */
     public function getNumberPair();
 
@@ -449,4 +450,31 @@ interface RepositoryInterface{
      * @return void
      */
     public function updateSemester($id, $data);
+
+    /**
+     * Возвращает специальность по id
+     * @return Specialty
+     */
+    public function getSpecialtyById($id);
+
+    /**
+     * Получает план расписания
+     * @param $group_id
+     * @param $semester_id
+     * @return array
+     */
+    public function getPlanScheduleByGroupFroManager($group_id, $semester_id);
+
+    /**
+     * @param \DateTime $start
+     * @param \DateTime $end
+     * @return Semester[]
+     */
+    public function getSemestersByPeriod($start, $end);
+
+    /**
+     * Возвращает последовательность пар по номеру
+     * @param $number
+     */
+    public function getPairByNumber($number);
 }

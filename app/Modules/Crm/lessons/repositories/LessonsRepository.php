@@ -30,6 +30,15 @@ class LessonsRepository extends Repository{
     }
 
     /**
+     * Возвращает последовательность пар по номеру
+     * @param $number
+     */
+    public function getPairByNumber($number)
+    {
+        return PairNumber::where(['number'=>$number])->first();
+    }
+
+    /**
      * Создает последовательность пар
      * @param array $data
      * @return bool

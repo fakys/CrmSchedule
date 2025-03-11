@@ -1,8 +1,8 @@
 <?php
 namespace App\Src\modules\plugins\mangers;
 
+use App\Src\modules\exceptions\BackendException;
 use App\Src\modules\plugins\AbstractPlugin;
-use App\Src\modules\plugins\exceptions\BackendException;
 
 class PluginsMangerContext{
     private $property;
@@ -66,5 +66,18 @@ class PluginsMangerContext{
     public function getPluginResult()
     {
         return $this->result;
+    }
+
+    public function appendArr($property, $append, $key)
+    {
+        if (empty($this->property[$property])) {
+            $this->property[$property] = [];
+        }
+
+        if (!$key) {
+            $this->property[$property][] = $append;
+        } else {
+            $this->property[$property][$key] = $append;
+        }
     }
 }

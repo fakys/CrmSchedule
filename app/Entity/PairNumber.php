@@ -4,6 +4,7 @@ namespace App\Entity;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property $id
  * @property $name
  * @property $number
  */

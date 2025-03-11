@@ -3,6 +3,7 @@ namespace App\Modules\Crm\schedule\controllers;
 
 use App\Modules\Crm\schedule\exceptions\ScheduleEditValidException;
 use App\Modules\Crm\schedule\models\EditScheduleModel;
+use App\Modules\Crm\schedule\models\ScheduleManagerModel;
 use App\Modules\Crm\schedule\models\SemestersModel;
 use App\Src\BackendHelper;
 use Illuminate\Routing\Controller;
@@ -13,7 +14,7 @@ class AjaxController extends Controller
 
     public function scheduleManagerMenu()
     {
-        $model = new SemestersModel();
+        $model = new ScheduleManagerModel();
         $model->load(request()->post());
         $validate = Validator::make($model->getData(), $model->rules());
 

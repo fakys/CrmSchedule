@@ -73,4 +73,17 @@ class SemestersRepository extends Repository
         }
         return $semester->save();
     }
+
+    /**
+     * @param \DateTime $start
+     * @param \DateTime $end
+     * @return void
+     */
+    public function getSemestersByPeriod($start, $end)
+    {
+        return Semester::where([
+            ['date_start', '<=', $start->format('Y-m-d H:i:s')],
+            ['date_end', '>=', $end->format('Y-m-d H:i:s')]
+        ])->orderBy('year_end')->get();
+    }
 }

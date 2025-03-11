@@ -3,40 +3,49 @@ namespace App\Modules\Crm\schedule\src\schedule_manager\entity;
 
 use App\Entity\PairNumber;
 use App\Modules\Crm\schedule\exceptions\ScheduleManagerException;
+use GuzzleHttp\Test\StrClass;
 
-/** Сущность для работы с номерами пар */
-class PairNumberEntity
+/** Сущность для плана пар из репозитория */
+class PlanScheduleEntity
 {
     /**
-     * @var array
+     * @var StrClass[]
      */
-    private $pairNumbers;
+    private $planSchedule;
 
     /**
-     * @param PairNumber[] $pairNumbers
+     * @param array $planSchedule
      */
-    public function __construct($pairNumbers)
+    public function __construct($planSchedule)
     {
-        if (!$pairNumbers) {
-            throw new ScheduleManagerException('Отсутствуют номера пар');
-        }
-        foreach ($pairNumbers as $pairNumber) {
-            $this->pairNumbers[] = ['id' => $pairNumber->id,'number' => $pairNumber->number, 'name'=>$pairNumber->name];
-        }
-
+        $this->planSchedule = $planSchedule;
     }
 
-    public function getPairNumbers()
+    /**
+     * Возвращает план расписания по данным
+     * @param $group_id
+     * @param $semester
+     * @param $pair_number
+     * @param $week_day
+     * @return array
+     */
+    public function getPlanScheduleByData($group_id, $semester_id, $pair_number, $week_day)
     {
-        return $this->pairNumbers;
-    }
-
-    public function getPairByNumber($number)
-    {
-        foreach ($this->pairNumbers as $pairNumber) {
-            if ($pairNumber['number'] == $number) {
-                return $pairNumber;
+        foreach ($this->planSchedule as $planSchedule) {
+            if (
+                $planSchedule->group_id == $group_id &&
+                $planSchedule->semester_id == $semester_id &&
+                $planSchedule->pair_number == $pair_number &&
+                $planSchedule->week_day == $week_day
+            ) {
+                return $planSchedule;
             }
         }
+    }
+
+
+    public function getSchedule()
+    {
+        return $this->planSchedule;
     }
 }

@@ -18,4 +18,12 @@ class Specialty extends Model{
         'name',
         'description',
     ];
+
+    /**
+     * @return StudentGroup[]
+     */
+    public function getGroups()
+    {
+        return $this->hasMany(StudentGroup::class, 'specialty_id', 'id');
+    }
 }

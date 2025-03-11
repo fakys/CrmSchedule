@@ -1,80 +1,46 @@
 <?php
-namespace App\Modules\Crm\schedule\src\entity;
+namespace App\Modules\Crm\schedule\src\schedule_manager;
 
 class ScheduleUnit
 {
-    private $old_date;
-    private $new_date;
-    private $old_pair_number_id;
-    private $new_pair_number_id;
-    private $old_group_id;
-    private $new_group_id;
+    private $date;
+    private $pair_number;
+    private $group_id;
     private $time_start;
     private $time_end;
     private $subject_id;
     private $user_id;
     private $format_pair_id;
     private $description;
+    private $semester;
 
 
-    /** Дата до изменения в расписании */
-    public function setOldDate($old_date)
+    public function setDate(\DateTime $date)
     {
-        $this->old_date = new \DateTime($old_date);
+        $this->date = $date;
     }
 
     /**
      * @return \DateTime
      */
-    public function getOldDate() {
-        return $this->old_date;
+    public function getDate() {
+        return $this->date;
     }
 
-    /** Дата после изменения в расписании */
-    public function setNewDate($new_date) {
-        $this->new_date = new \DateTime($new_date);
+    public function setPairNumber($pair_number_id){
+        $this->pair_number = $pair_number_id;
+    }
+    public function getPairNumber(){
+        return $this->pair_number;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getNewDate() {
-        return $this->new_date;
+    public function setGroup($group_id){
+        $this->group_id = $group_id;
+    }
+    public function getGroup(){
+        return $this->group_id;
     }
 
-    /** Номер пары до изменения в расписании */
-    public function setOldPairNumber($old_pair_number_id){
-        $this->old_pair_number_id = $old_pair_number_id;
-    }
-    public function getOldPairNumber(){
-        return $this->old_pair_number_id;
-    }
-
-    /** Номер пары после изменения в расписании */
-    public function setNewPairNumber($new_pair_number_id){
-        $this->new_pair_number_id = $new_pair_number_id;
-    }
-    public function getNewPairNumber(){
-        return $this->new_pair_number_id;
-    }
-
-    /** Номер группы до изменения в расписании */
-    public function setOldGroup($old_group_id){
-        $this->old_group_id = $old_group_id;
-    }
-    public function getOldGroup(){
-        return $this->old_group_id;
-    }
-
-    /** Номер группы после изменения в расписании */
-    public function setNewGroup($new_group_id){
-        $this->new_group_id = $new_group_id;
-    }
-    public function getNewGroup(){
-        return $this->new_group_id;
-    }
-
-    /** Новое время начала */
     public function setTimeStart($time_start){
         $this->time_start = $time_start;
     }
@@ -82,7 +48,6 @@ class ScheduleUnit
         return $this->time_start;
     }
 
-    /** Новое время окончания */
     public function setTimeEnd($time_end){
         $this->time_end = $time_end;
     }
@@ -90,7 +55,6 @@ class ScheduleUnit
         return $this->time_end;
     }
 
-    /** Новый предмет */
     public function setSubject($subject_id){
         $this->subject_id = $subject_id;
     }
@@ -98,7 +62,6 @@ class ScheduleUnit
         return $this->subject_id;
     }
 
-    /** Новый преподаватель */
     public function setUser($user_id){
         $this->user_id = $user_id;
     }
@@ -106,7 +69,6 @@ class ScheduleUnit
         return $this->user_id;
     }
 
-    /** Новый формат пары */
     public function setFormatPair($format_pair_id){
         $this->format_pair_id = $format_pair_id;
     }
@@ -114,12 +76,21 @@ class ScheduleUnit
         return $this->format_pair_id;
     }
 
-    /** Новое описание */
     public function setDescription($description){
         $this->description = $description;
     }
     public function getDescription(){
         return $this->description;
+    }
+
+    public function getSemester()
+    {
+        return $this->semester;
+    }
+
+    public function setSemester($semester_id)
+    {
+       $this->semester = $semester_id;
     }
 
 }

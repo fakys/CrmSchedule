@@ -34,6 +34,16 @@ class SpecialtiesRepositories extends Repository
     }
 
     /**
+     * Возвращает специальность по id
+     * @return Specialty
+     */
+    public function getSpecialtyById($id)
+    {
+        return Specialty::where(['id'=>$id])->first();
+    }
+
+
+    /**
      * Обновляет специальность по id группы
      * @param $id
      * @param $field
