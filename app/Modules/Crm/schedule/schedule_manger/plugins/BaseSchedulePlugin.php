@@ -10,7 +10,6 @@ use App\Modules\Crm\schedule\src\schedule_manager\entity\PlanScheduleEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\SemesterEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\Schedule;
 use App\Modules\Crm\schedule\src\schedule_manager\ScheduleUnit;
-use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Src\BackendHelper;
 use App\Src\modules\plugins\AbstractPlugin;
 
@@ -38,9 +37,6 @@ class BaseSchedulePlugin extends AbstractPlugin
     {
         $this->initSearchData();
         $this->createSchedule();
-
-        $settings = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName());
-        $this->type_weeks = $settings->type_weeks;
 
         /** Заполняем сущности */
         $this->pair_numbers = new PairNumberEntity(BackendHelper::getRepositories()->getNumberPair());
@@ -79,23 +75,8 @@ class BaseSchedulePlugin extends AbstractPlugin
         $count_days = $this->searchData->getDateStart()->diff($this->searchData->getDateEnd())->days + 1;
         $date_schedule = clone $this->searchData->getDateStart();
         for ($day = 1; $day <= $count_days; $day++) {
-
             /** Получаем текущий семестр */
             $semester = $this->semesters->getSemesterByDate($date_schedule);
-            /** Пропускаем выходные дни */
-            if ($this->type_weeks == ScheduleSetting::SIX_DAY && $date_schedule->format('w') == 0) {
-                $date_schedule->modify("+1 day");
-                continue;
-            } elseif (
-                $this->type_weeks == ScheduleSetting::FIVE_DAY &&
-                (
-                    $date_schedule->format('w') == 6 ||
-                    $date_schedule->format('w') == 0
-                )
-            ) {
-                $date_schedule->modify("+1 day");
-                continue;
-            }
 
             foreach ($this->searchData->getGroupsId() as $group) {
                 for ($pair_number = 1; $pair_number <= count($this->pair_numbers->getPairNumbers()); $pair_number++) {
@@ -113,7 +94,8 @@ class BaseSchedulePlugin extends AbstractPlugin
             }
             $date_schedule->modify("+1 day");
         }
-        dd($this->schedule);
+        $this->setResult($this->schedule);
+        return $this->schedule;
     }
 
     /**

@@ -14,6 +14,9 @@ class ScheduleUnit
     private $description;
     private $semester;
 
+    /** @var bool $weekday */
+    private $weekday = false;
+
 
     public function setDate(\DateTime $date)
     {
@@ -91,6 +94,16 @@ class ScheduleUnit
     public function setSemester($semester_id)
     {
        $this->semester = $semester_id;
+    }
+
+    public function getWeekday()
+    {
+        return $this->weekday;
+    }
+
+    public function setWeekday($weekday)
+    {
+        $this->weekday = $weekday;
     }
 
 }
