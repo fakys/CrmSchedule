@@ -51,6 +51,9 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * @return UserInfo|array
+     */
     public function getInfo()
     {
         return $this->hasOne(UserInfo::class, 'user_id', 'id')->get()?
@@ -58,6 +61,9 @@ class User extends Authenticatable
             :[];
     }
 
+    /**
+     * @return UserDocumet|array
+     */
     public function getDocument()
     {
         return $this->hasOne(UserDocumet::class, 'user_id', 'id')->get()?

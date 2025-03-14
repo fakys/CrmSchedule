@@ -6,6 +6,11 @@ use App\Src\modules\plugins\AbstractPlugin;
 abstract class AbstractManger{
 
     /**
+     * @var PluginsMangerContext $context
+     */
+    private $context;
+
+    /**
      * Название менеджера
      * @return string
      */
@@ -20,8 +25,9 @@ abstract class AbstractManger{
     /** Запускает цепочку */
     public function Execute()
     {
-        $context = new PluginsMangerContext($this->plugins());
-        $context->start();
+        $this->context = new PluginsMangerContext($this->plugins());
+        $this->context->start();
+        return $this;
     }
 
     /**
@@ -33,8 +39,13 @@ abstract class AbstractManger{
         foreach($this->plugins() as $plugin){
             if ($plugin->pluginName() == $name) {
                 $context = new PluginsMangerContext([$plugin]);
-                return $context->start();
+                $context->start();
             }
         }
+    }
+
+    public function getResult()
+    {
+        return $this->context->getPluginResult();
     }
 }

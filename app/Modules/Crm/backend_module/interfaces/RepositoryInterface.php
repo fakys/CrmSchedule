@@ -268,7 +268,7 @@ interface RepositoryInterface{
     /**
      * Возвращает предмет по id
      * @param $id
-     * @return mixed
+     * @return Subject
      */
     public function getSubjectById($id);
 
@@ -438,7 +438,7 @@ interface RepositoryInterface{
     /**
      * Возвращает семестр по id
      * @param $id
-     * @return mixed
+     * @return Semester
      */
     public function getSemesterById($id);
 
@@ -477,4 +477,10 @@ interface RepositoryInterface{
      * @param $number
      */
     public function getPairByNumber($number);
+
+    /**
+     * Возвращает формат по id
+     * @return FormatLesson
+     */
+    public function getFormatLessonsById($id);
 }

@@ -95,6 +95,14 @@ class LessonsRepository extends Repository{
         return FormatLesson::all();
     }
 
+    /**
+     * Возвращает формат по id
+     * @return FormatLesson[]
+     */
+    public function getFormatLessonsById($id)
+    {
+        return FormatLesson::where(['id'=>$id])->first();
+    }
 
     /**
      * Создает длительность пары

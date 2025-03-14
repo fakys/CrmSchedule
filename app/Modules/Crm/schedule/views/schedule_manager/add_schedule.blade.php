@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\Modules\Crm\schedule\src\schedule_manager\ScheduleUnit $unit
+ */
+?>
+
 <link rel="stylesheet" href="{{asset('assets/css/schedule_style.css')}}">
 
 <div class="btn-save-manager-container">
@@ -9,10 +15,10 @@
     @foreach($schedules as $schedule_group_data)
         <div class="schedule-container">
             <div>
-                @foreach($schedule_group_data as $group_name => $schedule_group)
+                @foreach($schedule_group_data['semester_data'] as $group_id => $schedule_group)
                     <div class="card card-primary">
                         <div class="container-header-schedule">
-                            <div class="schedule-name-group">{{$group_name}}</div>
+                            <div class="schedule-name-group">{{$schedule_group['group_number']}}</div>
 
                             <div class="card-tools close-btn-schedule-menu">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
@@ -22,20 +28,20 @@
                         <div class="card-body">
 
                             <div class="schedule-data-container">
-                                @foreach($schedule_group as $date=>$schedule_data)
+                                @foreach($schedule_group['group_data'] as $date=>$schedule_data)
                                     <div>
                                         <div class="d-flex pb-3"><div class="schedule-date">{{$date}}</div></div>
                                         <div class="schedule-pair-data-container">
-                                            @foreach($schedule_data as $number_pair=>$schedule)
-                                                <div class="schedule-block" data-date="{{$date}}" data-pair_number="{{$number_pair}}" data-student_group="{{$schedule['student_group']}}">
+                                            @foreach($schedule_data as $unit)
+                                                <div class="schedule-block" data-date="{{$unit->getDate()->format('Y-m-d')}}" data-pair_number="{{$unit->getPairNumber()}}" data-student_group="{{$unit->getGroup()}}">
                                                     <div class="d-flex gap-4 schedule-row">
-                                                        <div class="schedule-pair-number">{{$number_pair}}</div>
+                                                        <div class="schedule-pair-number">{{$unit->getPairNumber()}}</div>
                                                         <div class="name-subject-container">
-                                                            @if(isset($schedule['schedule']))
+                                                            @if(!$unit->isEmpty())
                                                                 <div class="d-flex gap-3">
-                                                                    <div>{{$schedule['schedule']->subject_name}}</div>
-                                                                    <div class="fio-teacher-schedule">{{$schedule['schedule']->fio_teacher}}</div>
-                                                                    <div class="time-start-end">{{(new DateTime($schedule['schedule']->time_start))->format('H:i')}} - {{(new DateTime($schedule['schedule']->time_end))->format('H:i')}}</div>
+                                                                    <div>{{$unit->getSubjectName()}}</div>
+                                                                    <div class="fio-teacher-schedule">{{$unit->getUserFio()}}</div>
+                                                                    <div class="time-start-end">{{$unit->getTimeStart()->format('H:i')}} - {{$unit->getTimeEnd()->format('H:i')}}</div>
                                                                 </div>
                                                             @else
                                                                 <div>
@@ -57,12 +63,8 @@
                                                                             <select class="form-control-sm change-input" name="subject_id">
                                                                                 <option value="0">Нет данных</option>
                                                                                 @foreach($subjects as $subject)
-                                                                                    @if(isset($schedule['schedule']))
-                                                                                        @if($subject->id === $schedule['schedule']->subject_id)
-                                                                                            <option selected value="{{$subject->id}}">{{$subject->name}}</option>
-                                                                                        @else
-                                                                                            <option value="{{$subject->id}}">{{$subject->name}}</option>
-                                                                                        @endif
+                                                                                    @if($subject->id === $unit->getSubject())
+                                                                                        <option selected value="{{$subject->id}}">{{$subject->name}}</option>
                                                                                     @else
                                                                                         <option value="{{$subject->id}}">{{$subject->name}}</option>
                                                                                     @endif
@@ -78,19 +80,10 @@
                                                                             <select class="form-control-sm change-input" name="pair_number">
                                                                                 <option value="0">Нет данных</option>
                                                                                 @foreach($pair_number as $number)
-                                                                                    @if(isset($schedule['schedule']))
-                                                                                        @if($number->id === $schedule['schedule']->pair_id)
-                                                                                            <option selected value="{{$number->id}}">{{$number->name}}</option>
-                                                                                        @else
-                                                                                            <option value="{{$number->id}}">{{$number->name}}</option>
-                                                                                        @endif
+                                                                                    @if($number->number === $unit->getPairNumber())
+                                                                                        <option selected value="{{$number->id}}">{{$number->name}}</option>
                                                                                     @else
-                                                                                        @if($number_pair == $number->number)
-                                                                                            <option value="{{$number->id}}" selected>{{$number->name}}</option>
-                                                                                        @else
-                                                                                            <option value="{{$number->id}}">{{$number->name}}</option>
-                                                                                        @endif
-
+                                                                                        <option value="{{$number->id}}">{{$number->name}}</option>
                                                                                     @endif
                                                                                 @endforeach
                                                                             </select>
@@ -100,12 +93,8 @@
                                                                             <select class="form-control-sm change-input" name="format_lesson_id">
                                                                                 <option value="0">Нет данных</option>
                                                                                 @foreach($pair_format as $format)
-                                                                                    @if(isset($schedule['schedule']))
-                                                                                        @if($format->id === $schedule['schedule']->format_id)
-                                                                                            <option selected value="{{$format->id}}">{{$format->name}}</option>
-                                                                                        @else
-                                                                                            <option value="{{$format->id}}">{{$format->name}}</option>
-                                                                                        @endif
+                                                                                    @if($format->id === $unit->getFormatPair())
+                                                                                        <option selected value="{{$format->id}}">{{$format->name}}</option>
                                                                                     @else
                                                                                         <option value="{{$format->id}}">{{$format->name}}</option>
                                                                                     @endif
@@ -119,12 +108,8 @@
                                                                             <select class="form-control-sm change-input" name="user_id">
                                                                                 <option value="0">Нет данных</option>
                                                                                 @foreach($users as $user)
-                                                                                    @if(isset($schedule['schedule']))
-                                                                                        @if($user->id === $schedule['schedule']->teacher_id)
-                                                                                            <option selected value="{{$user->id}}">{{$user->getFio()}}</option>
-                                                                                        @else
-                                                                                            <option value="{{$user->id}}">{{$user->getFio()}}</option>
-                                                                                        @endif
+                                                                                    @if($user->id === $unit->getUser())
+                                                                                        <option selected value="{{$user->id}}">{{$user->getFio()}}</option>
                                                                                     @else
                                                                                         <option value="{{$user->id}}">{{$user->getFio()}}</option>
                                                                                     @endif
@@ -133,29 +118,21 @@
                                                                         </div>
                                                                         <div class="form-group d-flex flex-column">
                                                                             <label>Время окончания</label>
-                                                                            <input class="form-control-sm change-input" name="time_end" type="time" value="{{isset($schedule['schedule'])? $schedule['schedule']->time_end : ''}}">
+                                                                            <input class="form-control-sm change-input" name="time_end" type="time" value="{{$unit->getTimeEnd() ? $unit->getTimeEnd()->format("H:i:s") : ''}}">
                                                                         </div>
                                                                         <div class="form-group d-flex flex-column">
                                                                             <label>Дата начала</label>
-                                                                            <input class="form-control-sm change-input" name="date_start" type="date" value="{{isset($schedule['schedule'])? $schedule['schedule']->date_start : (new DateTime($date))->format('Y-m-d')}}">
+                                                                            <input class="form-control-sm change-input" name="date_start" type="date" value="{{$unit->getTimeStart() ? $unit->getTimeStart()->format("H:i:s") : ''}}">
                                                                         </div>
                                                                         <div class="form-group d-flex flex-column">
                                                                             <label>Группа</label>
                                                                             <select class="form-control-sm change-input" name="group_id">
                                                                                 <option value="0">Нет данных</option>
                                                                                 @foreach($student_groups as $group)
-                                                                                    @if(isset($schedule['schedule']))
-                                                                                        @if($group->id === $schedule['schedule']->group_id)
-                                                                                            <option selected value="{{$group->id}}">{{$group->number}}</option>
-                                                                                        @else
-                                                                                            <option value="{{$group->id}}">{{$group->number}}</option>
-                                                                                        @endif
+                                                                                    @if($group->id === $unit->getGroup())
+                                                                                        <option selected value="{{$group->id}}">{{$group->number}}</option>
                                                                                     @else
-                                                                                        @if($group_name == $group->number)
-                                                                                            <option value="{{$group->id}}" selected>{{$group->number}}</option>
-                                                                                        @else
-                                                                                            <option value="{{$group->id}}">{{$group->number}}</option>
-                                                                                        @endif
+                                                                                        <option value="{{$group->id}}">{{$group->number}}</option>
                                                                                     @endif
                                                                                 @endforeach
                                                                             </select>
@@ -177,7 +154,6 @@
                                     </div>
                                 @endforeach
                             </div>
-
                         </div>
                     </div>
                 @endforeach

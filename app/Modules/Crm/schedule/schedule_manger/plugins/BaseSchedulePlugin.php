@@ -48,11 +48,12 @@ class BaseSchedulePlugin extends AbstractPlugin
         foreach ($this->semesters->getSemesters() as $semester) {
             if ($this->searchData->getGroupsId()) {
                 foreach ($this->searchData->getGroupsId() as $group) {
-                    $this->planScheduleRepository = new PlanScheduleEntity(
-                        BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
+                    $this->appendArrProperty('planScheduleRepository',
+                        new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
                             $group,
-                            $semester['id']
-                        )
+                            $semester['id'])
+                        ),
+                        $group
                     );
                 }
             } elseif ($this->searchData->getSpecialtiesId()) {
@@ -60,11 +61,12 @@ class BaseSchedulePlugin extends AbstractPlugin
                     $specialty_obj = BackendHelper::getRepositories()->getSpecialtyById($specialty);
                     $groups = $specialty_obj->getGroups();
                     foreach ($groups as $group) {
-                        $this->planScheduleRepository = new PlanScheduleEntity(
-                            BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
+                        $this->appendArrProperty('planScheduleRepository',
+                            new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
                                 $group,
-                                $semester['id']
-                            )
+                                $semester['id'])
+                            ),
+                            $group
                         );
                     }
                 }
@@ -83,7 +85,7 @@ class BaseSchedulePlugin extends AbstractPlugin
                     $this->addSchedule(
                         clone $date_schedule,
                         $group,
-                        $this->planScheduleRepository->getPlanScheduleByData(
+                        $this->planScheduleRepository[$group]->getPlanScheduleByData(
                             $group,
                             $semester['id'],
                             $pair_number,
@@ -108,7 +110,7 @@ class BaseSchedulePlugin extends AbstractPlugin
         if (!$schedule) {
             $schedule_unit = new ScheduleUnit();
             $schedule_unit->setDate($date);
-            $schedule_unit->setPairNumber((int)$this->getFirstEmptyPairNumberByDate($date)['number']);
+            $schedule_unit->setPairNumber((int)$this->getFirstEmptyPairNumberByDate($date, $group_id)['number']);
             $schedule_unit->setSemester($this->semesters->getSemesterByDate($date)['id']);
             $schedule_unit->setGroup((int)$group_id);
             $this->schedule->addUnit($schedule_unit);
@@ -139,16 +141,17 @@ class BaseSchedulePlugin extends AbstractPlugin
     }
 
     /**
-     * Возвращает первую свободную пару на заданный день
+     * Возвращает первую свободную пару ля группы на заданный день
      * @return PairNumber
      */
-    private function getFirstEmptyPairNumberByDate(\DateTime $date)
+    private function getFirstEmptyPairNumberByDate(\DateTime $date, $group_id)
     {
         /** @var ScheduleUnit[] $schedule */
-        $schedule = $this->getSchedule()->getScheduleUnitByDate($date);
+        $schedule = $this->getSchedule()->getScheduleUnitByDate($date, $group_id);
         $pair_number_count = 1;
         foreach ($schedule as $unit) {
-            if (!$unit->getPairNumber() && $unit->getDate() == $date) {
+
+            if (!$unit->getPairNumber()) {
                 return $this->pair_numbers->getPairByNumber($pair_number_count);
             }
             $pair_number_count++;

@@ -1,6 +1,8 @@
 <?php
 namespace App\Modules\Crm\schedule\src\schedule_manager;
 
+use App\Src\BackendHelper;
+
 class ScheduleUnit
 {
     private $date;
@@ -45,14 +47,14 @@ class ScheduleUnit
     }
 
     public function setTimeStart($time_start){
-        $this->time_start = $time_start;
+        $this->time_start = new \DateTime($time_start);
     }
     public function getTimeStart(){
         return $this->time_start;
     }
 
     public function setTimeEnd($time_end){
-        $this->time_end = $time_end;
+        $this->time_end = new \DateTime($time_end);
     }
     public function getTimeEnd(){
         return $this->time_end;
@@ -65,11 +67,27 @@ class ScheduleUnit
         return $this->subject_id;
     }
 
+    public function getSubjectName()
+    {
+        if ($this->subject_id) {
+            return BackendHelper::getRepositories()->getSubjectById($this->subject_id)->name;
+        }
+    }
+
     public function setUser($user_id){
         $this->user_id = $user_id;
     }
     public function getUser(){
         return $this->user_id;
+    }
+
+    public function getUserFio()
+    {
+        if ($this->user_id) {
+            $user = BackendHelper::getRepositories()->getUserById($this->user_id)->getInfo();
+            return sprintf('%s %s %s', $user->first_name, $user->last_name, $user->email);
+        }
+
     }
 
     public function setFormatPair($format_pair_id){
@@ -106,4 +124,21 @@ class ScheduleUnit
         $this->weekday = $weekday;
     }
 
+
+    public function isEmpty()
+    {
+        if (
+            $this->format_pair_id
+            && $this->semester
+            && $this->user_id
+            && $this->group_id
+            && $this->subject_id
+            && $this->time_end
+            && $this->time_start
+        ) {
+            return false;
+        }
+
+        return true;
+    }
 }

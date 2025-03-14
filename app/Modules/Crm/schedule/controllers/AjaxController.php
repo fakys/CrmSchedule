@@ -4,7 +4,7 @@ namespace App\Modules\Crm\schedule\controllers;
 use App\Modules\Crm\schedule\exceptions\ScheduleEditValidException;
 use App\Modules\Crm\schedule\models\EditScheduleModel;
 use App\Modules\Crm\schedule\models\ScheduleManagerModel;
-use App\Modules\Crm\schedule\models\SemestersModel;
+use App\Modules\Crm\schedule\src\schedule_manager\return_data_schedule\ScheduleManagerReturnData;
 use App\Src\BackendHelper;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -30,7 +30,8 @@ class AjaxController extends Controller
 
         $searchData = request()->session()->get('schedule_manager_request');
         if (request()->post() && $searchData) {
-            $schedules = BackendHelper::getOperations()->getScheduleData($searchData);
+            $manager = BackendHelper::getManager('schedule_manger')->Execute();
+            $schedules = (new ScheduleManagerReturnData($manager->getResult()))->getSchedule();
             $subjects = BackendHelper::getRepositories()->getFullSubject();
             $pair_number = BackendHelper::getRepositories()->getNumberPair();
             $users = BackendHelper::getRepositories()->getUserList([]);

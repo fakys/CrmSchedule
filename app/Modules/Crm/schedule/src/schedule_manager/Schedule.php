@@ -12,6 +12,9 @@ class Schedule
     }
 
 
+    /**
+     * @return ScheduleUnit[]
+     */
     public function getScheduleUnits()
     {
         return $this->schedule_units;
@@ -19,13 +22,14 @@ class Schedule
 
     /**
      * @param \DateTime $date
+     * @param $group_id
      * @return ScheduleUnit[]
      */
-    public function getScheduleUnitByDate(\DateTime $date)
+    public function getScheduleUnitByDate(\DateTime $date, $group_id)
     {
         $units_by_date = [];
         foreach ($this->schedule_units as $unit) {
-            if ($unit->getDate() === $date) {
+            if ($unit->getDate() == $date && $unit->getGroup() == $group_id) {
                 $units_by_date[] = $unit;
             }
         }
