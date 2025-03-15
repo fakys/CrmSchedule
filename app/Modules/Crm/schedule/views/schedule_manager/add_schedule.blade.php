@@ -30,9 +30,14 @@
                             <div class="schedule-data-container">
                                 @foreach($schedule_group['group_data'] as $date=>$schedule_data)
                                     <div>
-                                        <div class="d-flex pb-3"><div class="schedule-date">{{$date}}</div></div>
+                                        <div class="d-flex pb-3">
+                                            <div class="schedule-date @if($schedule_data['is_weekday']) schedule-date-weekday @endif ">{{$date}}</div>
+                                            @if($schedule_data['is_weekday'])
+                                                <div class="weekday-block"><div class="">Выходной</div></div>
+                                            @endif
+                                        </div>
                                         <div class="schedule-pair-data-container">
-                                            @foreach($schedule_data as $unit)
+                                            @foreach($schedule_data['pair_units'] as $unit)
                                                 <div class="schedule-block" data-date="{{$unit->getDate()->format('Y-m-d')}}" data-pair_number="{{$unit->getPairNumber()}}" data-student_group="{{$unit->getGroup()}}">
                                                     <div class="d-flex gap-4 schedule-row">
                                                         <div class="schedule-pair-number @if(!$unit->isEmpty()) schedule-pair-number-down @endif">{{$unit->getPairNumber()}}</div>
@@ -79,7 +84,7 @@
                                                                         </div>
                                                                         <div class="form-group d-flex flex-column">
                                                                             <label>Время начала</label>
-                                                                            <input class="form-control-sm change-input" name="time_start" type="time" value="{{isset($schedule['schedule'])? $schedule['schedule']->time_start : ''}}">
+                                                                            <input class="form-control-sm change-input" name="time_start" type="time" value="{{$unit->getTimeStart() ? $unit->getTimeStart()->format("H:i:s") : ''}}">
                                                                         </div>
                                                                         <div class="form-group d-flex flex-column">
                                                                             <label>Номер пары</label>
@@ -128,7 +133,7 @@
                                                                         </div>
                                                                         <div class="form-group d-flex flex-column">
                                                                             <label>Дата начала</label>
-                                                                            <input class="form-control-sm change-input" name="date_start" type="date" value="{{$unit->getTimeStart() ? $unit->getTimeStart()->format("H:i:s") : ''}}">
+                                                                            <input class="form-control-sm change-input" name="date_start" type="date" value="{{$unit->getDate()->format("Y-m-d")}}">
                                                                         </div>
                                                                         <div class="form-group d-flex flex-column">
                                                                             <label>Группа</label>
@@ -147,7 +152,7 @@
                                                                     <div class="col-12 d-flex justify-content-center">
                                                                         <div class="form-group d-flex flex-column">
                                                                             <label>Описание</label>
-                                                                            <textarea class="form-control change-input" name="schedule_description">{{isset($schedule['schedule'])? $schedule['schedule']->schedule_description : ''}}</textarea>
+                                                                            <textarea class="form-control change-input" name="schedule_description">{{$unit->getDescription()}}</textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>

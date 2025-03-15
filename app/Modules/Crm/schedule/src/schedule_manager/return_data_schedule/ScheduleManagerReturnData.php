@@ -25,7 +25,7 @@ class ScheduleManagerReturnData
         foreach ($this->schedule->getScheduleUnits() as $unit) {
             $schedule_return_data[$unit->getSemester()]['semester_data']
             [$unit->getGroup()]['group_data']
-            [$unit->getDate()->format('d.m.Y')]
+            [$unit->getDate()->format('d.m.Y')]['pair_units']
             [$unit->getPairNumber()] = $unit;
 
             $schedule_return_data[$unit->getSemester()]['semester_name'] =
@@ -33,6 +33,9 @@ class ScheduleManagerReturnData
 
             $schedule_return_data[$unit->getSemester()]['semester_data'][$unit->getGroup()]['group_number'] =
                 BackendHelper::getRepositories()->getStudentGroupById($unit->getGroup())->number;
+
+            $schedule_return_data[$unit->getSemester()]['semester_data']
+            [$unit->getGroup()]['group_data'][$unit->getDate()->format('d.m.Y')]['is_weekday'] = $unit->getWeekday();
         }
 
         return $schedule_return_data;

@@ -56,9 +56,7 @@ class User extends Authenticatable
      */
     public function getInfo()
     {
-        return $this->hasOne(UserInfo::class, 'user_id', 'id')->get()?
-            $this->hasOne(UserInfo::class, 'user_id', 'id')->get()[0]
-            :[];
+        return $this->hasOne(UserInfo::class, 'user_id', 'id')->first();
     }
 
     /**
@@ -66,9 +64,7 @@ class User extends Authenticatable
      */
     public function getDocument()
     {
-        return $this->hasOne(UserDocumet::class, 'user_id', 'id')->get()?
-            $this->hasOne(UserDocumet::class, 'user_id', 'id')->get()[0]
-            :[];
+        return $this->hasOne(UserDocumet::class, 'user_id', 'id')->first();
     }
 
     public function getGroupsUser()
@@ -98,6 +94,6 @@ class User extends Authenticatable
         if ($info) {
             return "{$info->last_name} {$info->first_name} {$info->patronymic}";
         }
-        return '';
+        return 'Нет данных';
     }
 }

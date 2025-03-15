@@ -37,7 +37,6 @@ class AjaxController extends Controller
             $users = BackendHelper::getRepositories()->getUserList([]);
             $pair_format = BackendHelper::getRepositories()->getFullFormatLessons();
             $student_groups = BackendHelper::getRepositories()->getFullStudentGroups();
-
             return view('schedule_manager.add_schedule', [
                 'schedules' => $schedules,
                 'subjects' => $subjects,

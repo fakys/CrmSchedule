@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\lessons\repositories;
 
 use App\Entity\DurationLesson;
+use App\Entity\FormatLesson;
 use App\Entity\ScheduleTask;
 use App\Entity\Lesson;
 use App\Entity\PairNumber;
@@ -88,20 +89,20 @@ class LessonsRepository extends Repository{
 
     /**
      * Возвращает формат
-     * @return ScheduleTask[]
+     * @return FormatLesson[]
      */
     public function getFullFormatLessons()
     {
-        return ScheduleTask::all();
+        return FormatLesson::all();
     }
 
     /**
      * Возвращает формат по id
-     * @return ScheduleTask[]
+     * @return FormatLesson[]
      */
     public function getFormatLessonsById($id)
     {
-        return ScheduleTask::where(['id'=>$id])->first();
+        return FormatLesson::where(['id'=>$id])->first();
     }
 
     /**
