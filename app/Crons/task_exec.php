@@ -15,22 +15,20 @@ $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
 
+var_dump(date('Y-m-d H:i:s'));
 
+$schedule = new TaskSchedule();
+$task = $schedule->getScheduleTask();
 
-$redis = RedisManager::redis();
-$schedule = TaskSchedule::setSchedule($redis->get('task_schedule'), $redis);
-
-$task_id = $argv[1];
-$task_name = $argv[2];
-
-try {
-    if (TaskManager::getFullTasks()->runTask($task_name)){
-        $schedule->updateStatusTask($task_id, TaskSchedule::DONE_STATUS);
+if ($task) {
+    try {
+        /** Запускаем таск */
+        if (TaskManager::getFullTasks()->runTask($task->task_name)){
+            \App\Src\BackendHelper::getRepositories()->updateTaskScheduleStatus($task, TaskSchedule::DONE_STATUS, date("Y-m-d H:i:s"));
+        }
+        var_dump(1);
+    } catch (Exception $exp) {
+        var_dump($exp->getMessage()." ".$exp->getTraceAsString());
     }
-} catch (Exception $exp) {
-    $schedule->setException($task_id, $exp);
-    $schedule->updateStatusTask($task_id, TaskSchedule::DONE_STATUS);
 }
 
-
-file_put_contents('last_task.txt', print_r(sprintf('task_id = %s task_name = %s date = %s', $task_id, $task_name, date('Y-m-d H:i:s')), true));

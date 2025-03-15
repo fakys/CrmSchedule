@@ -1,1 +1,1 @@
-* * * * * root /usr/local/bin/php /var/app/cron-script.php >> /var/log/cron.log 2>&1
+* * * * * root /usr/local/bin/php /var/app/app/Crons/task_exec.php >> /var/log/cron.log 2>&1

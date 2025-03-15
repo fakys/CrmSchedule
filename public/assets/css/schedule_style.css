@@ -42,10 +42,25 @@
     border-radius: 10px;
 }
 
+.schedule-pair-number-down{
+    padding: 10px 18px;
+    font-size: 20px;
+    background: var(--primary);
+    color: white;
+    border-radius: 10px;
+}
+
 .schedule-pair-number-error-block{
     padding: 10px 18px;
     font-size: 20px;
     background: var(--danger);
+    color: white;
+    border-radius: 10px;
+}
+.schedule-date-week{
+    padding: 10px 18px;
+    font-size: 20px;
+    background: #74c0ff;
     color: white;
     border-radius: 10px;
 }

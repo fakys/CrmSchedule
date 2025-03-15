@@ -8,6 +8,7 @@ use App\Entity\GroupUser;
 use App\Entity\Lesson;
 use App\Entity\PairNumber;
 use App\Entity\Schedule;
+use App\Entity\ScheduleTask;
 use App\Entity\Semester;
 use App\Entity\Specialty;
 use App\Entity\StudentGroup;
@@ -483,4 +484,20 @@ interface RepositoryInterface{
      * @return FormatLesson
      */
     public function getFormatLessonsById($id);
+
+    /**
+     * Добавляет таск в БД
+     * @param array $data массив с данными о таске
+     * @return ScheduleTask|null
+     */
+    public function addTaskSchedule($data);
+
+    /**
+     * Обновляет статус таску и ставит время окончания
+     * @param ScheduleTask $task
+     * @param $status
+     * @param null $time_end
+     * @return mixed
+     */
+    public function updateTaskScheduleStatus($task, $status, $time_end = null);
 }

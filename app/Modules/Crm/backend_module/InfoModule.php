@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\backend_module;
 
+use App\Modules\Crm\backend_module\repositories\TaskRepository;
 use App\Modules\Crm\backend_module\tasks\TestTask;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
@@ -27,6 +28,7 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function repositories(): array
     {
         return [
+            TaskRepository::class
         ];
     }
 

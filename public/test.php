@@ -18,3 +18,7 @@ $kernel->bootstrap();
 
 
 \App\Src\BackendHelper::taskCreate('test_task', []);
+//$schedule = new TaskSchedule();
+//$task = $schedule->getScheduleTask();
+//
+//var_dump($task);

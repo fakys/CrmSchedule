@@ -35,17 +35,23 @@
                                             @foreach($schedule_data as $unit)
                                                 <div class="schedule-block" data-date="{{$unit->getDate()->format('Y-m-d')}}" data-pair_number="{{$unit->getPairNumber()}}" data-student_group="{{$unit->getGroup()}}">
                                                     <div class="d-flex gap-4 schedule-row">
-                                                        <div class="schedule-pair-number">{{$unit->getPairNumber()}}</div>
+                                                        <div class="schedule-pair-number @if(!$unit->isEmpty()) schedule-pair-number-down @endif">{{$unit->getPairNumber()}}</div>
                                                         <div class="name-subject-container">
-                                                            @if(!$unit->isEmpty())
-                                                                <div class="d-flex gap-3">
-                                                                    <div>{{$unit->getSubjectName()}}</div>
-                                                                    <div class="fio-teacher-schedule">{{$unit->getUserFio()}}</div>
-                                                                    <div class="time-start-end">{{$unit->getTimeStart()->format('H:i')}} - {{$unit->getTimeEnd()->format('H:i')}}</div>
-                                                                </div>
+                                                            @if (!$unit->getWeekday())
+                                                                @if(!$unit->isEmpty())
+                                                                    <div class="d-flex gap-3">
+                                                                        <div>{{$unit->getSubjectName()}}</div>
+                                                                        <div class="fio-teacher-schedule">{{$unit->getUserFio()}}</div>
+                                                                        <div class="time-start-end">{{$unit->getTimeStart()->format('H:i')}} - {{$unit->getTimeEnd()->format('H:i')}}</div>
+                                                                    </div>
+                                                                @else
+                                                                    <div>
+                                                                        Нет данных
+                                                                    </div>
+                                                                @endif
                                                             @else
                                                                 <div>
-                                                                    Нет данных
+                                                                    Выходной
                                                                 </div>
                                                             @endif
                                                         </div>

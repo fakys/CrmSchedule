@@ -24,6 +24,9 @@ class RedisManager
         }
     }
 
+    /**
+     * @return \Redis
+     */
     public static function redis()
     {
         return self::objects()->redis;
