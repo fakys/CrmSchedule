@@ -21,6 +21,6 @@ yarn-error.log
 /.idea
 /.vscode
 /.zed
-./pgsql
-./redis
+pgsql
+redis
 storage/framework
