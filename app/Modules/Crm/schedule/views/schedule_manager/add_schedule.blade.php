@@ -42,22 +42,22 @@
                                                     <div class="d-flex gap-4 schedule-row">
                                                         <div class="schedule-pair-number @if(!$unit->isEmpty()) schedule-pair-number-down @endif">{{$unit->getPairNumber()}}</div>
                                                         <div class="name-subject-container">
-                                                            @if (!$unit->getWeekday())
-                                                                @if(!$unit->isEmpty())
-                                                                    <div class="d-flex gap-3">
-                                                                        <div>{{$unit->getSubjectName()}}</div>
-                                                                        <div class="fio-teacher-schedule">{{$unit->getUserFio()}}</div>
-                                                                        <div class="time-start-end">{{$unit->getTimeStart()->format('H:i')}} - {{$unit->getTimeEnd()->format('H:i')}}</div>
-                                                                    </div>
-                                                                @else
+                                                            @if(!$unit->isEmpty())
+                                                                <div class="d-flex gap-3">
+                                                                    <div>{{$unit->getSubjectName()}}</div>
+                                                                    <div class="fio-teacher-schedule">{{$unit->getUserFio()}}</div>
+                                                                    <div class="time-start-end">{{$unit->getTimeStart()->format('H:i')}} - {{$unit->getTimeEnd()->format('H:i')}}</div>
+                                                                </div>
+                                                            @else
+                                                                @if (!$unit->getWeekday())
                                                                     <div>
                                                                         Нет данных
                                                                     </div>
+                                                                @else
+                                                                    <div>
+                                                                        Выходной
+                                                                    </div>
                                                                 @endif
-                                                            @else
-                                                                <div>
-                                                                    Выходной
-                                                                </div>
                                                             @endif
                                                         </div>
                                                     </div>

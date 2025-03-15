@@ -86,4 +86,16 @@ class SemestersRepository extends Repository
             ['date_end', '>=', $end->format('Y-m-d H:i:s')]
         ])->orderBy('year_end')->get();
     }
+
+    /**
+     * @param \DateTime $date
+     * @return void
+     */
+    public function getSemestersByDate($date)
+    {
+        return Semester::where([
+            ['date_start', '<=', $date->format('Y-m-d H:i:s')],
+            ['date_end', '>=', $date->format('Y-m-d H:i:s')]
+        ])->orderBy('year_end')->first();
+    }
 }

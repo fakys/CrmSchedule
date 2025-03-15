@@ -128,17 +128,6 @@ class EditScheduleModel extends Model implements InterfaceModel
                         continue;
                     }
 
-                    if ($setting_weekend == ScheduleSetting::FIVE_DAY) {
-                        if ($date_start->format('w') == 0 || $date_start->format('w') == 6) {
-                            $this->error_schedule[$group_name][$schedule_old_date][$pair_number] = 'Дата выпадает на выходные';
-                            continue;
-                        }
-                    } else {
-                        if ($date_start->format('w') == 0) {
-                            $this->error_schedule[$group_name][$schedule_old_date][$pair_number] = 'Дата выпадает на выходные';
-                            continue;
-                        }
-                    }
 
                     $schedule_by_date = $this->schedule[$schedule_old_group][$schedule_old_date];
                     foreach ( $schedule_by_date as  $pair => $valid_schedule_new) {

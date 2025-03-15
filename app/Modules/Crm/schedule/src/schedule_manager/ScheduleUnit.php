@@ -15,6 +15,7 @@ class ScheduleUnit
     private $format_pair_id;
     private $description;
     private $semester;
+    private $is_base_schedule;
 
     /** @var bool $weekday */
     private $weekday = false;
@@ -124,7 +125,20 @@ class ScheduleUnit
         $this->weekday = $weekday;
     }
 
+    public function isBaseSchedule()
+    {
+        return $this->is_base_schedule;
+    }
 
+    public function setBaseSchedule($is_base_schedule){
+        $this->is_base_schedule = $is_base_schedule;
+    }
+
+
+    /**
+     * Проверяет пустой ли юнит
+     * @return bool
+     */
     public function isEmpty()
     {
         if (

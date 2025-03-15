@@ -3,6 +3,7 @@ namespace App\Modules\Crm\schedule\schedule_manger;
 
 use App\Modules\Crm\schedule\schedule_manger\plugins\BaseSchedulePlugin;
 use App\Modules\Crm\schedule\schedule_manger\plugins\HolidaysPlugin;
+use App\Modules\Crm\schedule\schedule_manger\plugins\SchedulePlugin;
 use App\Modules\Crm\schedule\schedule_manger\plugins\WeekendsPlugin;
 use App\Src\modules\plugins\mangers\AbstractManger;
 
@@ -18,9 +19,9 @@ class ScheduleManger extends AbstractManger{
     {
         return [
             BaseSchedulePlugin::class,
+            SchedulePlugin::class,
             WeekendsPlugin::class,
             HolidaysPlugin::class,
-            WeekendsPlugin::class
         ];
     }
 }

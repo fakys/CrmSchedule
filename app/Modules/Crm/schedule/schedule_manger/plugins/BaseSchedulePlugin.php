@@ -90,7 +90,8 @@ class BaseSchedulePlugin extends AbstractPlugin
                             $semester['id'],
                             $pair_number,
                             $date_schedule->format('w')
-                        )
+                        ),
+                        true
                     );
                 }
             }
@@ -104,8 +105,9 @@ class BaseSchedulePlugin extends AbstractPlugin
      * Добавляет расписание
      * @param \DateTime $date
      * @param null $schedule
+     * @param bool $base_schedule
      */
-    public function addSchedule($date, $group_id, $schedule = null)
+    public function addSchedule($date, $group_id, $schedule, $base_schedule= false)
     {
         if (!$schedule) {
             $schedule_unit = new ScheduleUnit();
@@ -113,12 +115,12 @@ class BaseSchedulePlugin extends AbstractPlugin
             $schedule_unit->setPairNumber((int)$this->getFirstEmptyPairNumberByDate($date, $group_id)['number']);
             $schedule_unit->setSemester($this->semesters->getSemesterByDate($date)['id']);
             $schedule_unit->setGroup((int)$group_id);
+            $schedule_unit->setBaseSchedule($base_schedule);
             $this->schedule->addUnit($schedule_unit);
         } else {
             $schedule_unit = new ScheduleUnit();
             $schedule_unit->setDate($date);
             $schedule_unit->setPairNumber($schedule->pair_number);
-            $schedule_unit->setSemester($schedule->semester_id);
             $schedule_unit->setGroup($schedule->group_id);
             $schedule_unit->setTimeStart($schedule->time_start);
             $schedule_unit->setTimeEnd($schedule->time_end);
@@ -126,6 +128,12 @@ class BaseSchedulePlugin extends AbstractPlugin
             $schedule_unit->setUser($schedule->teacher_id);
             $schedule_unit->setFormatPair($schedule->format_id);
             $schedule_unit->setDescription($schedule->schedule_description);
+            if (isset($schedule->semester_id)) {
+                $schedule_unit->setSemester($schedule->semester_id);
+            } else {
+                $semester = BackendHelper::getRepositories()->getSemestersByDate($date);
+                $schedule_unit->setSemester($semester->id);
+            }
             $this->schedule->addUnit($schedule_unit);
         }
     }

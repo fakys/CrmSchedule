@@ -332,11 +332,12 @@ interface RepositoryInterface{
 
     /**
      * Возвращает расписание по группе за период для менеджера расписаний
-     * @param $period
-     * @param $group_id
+     * @param string $date_start
+     * @param string $date_end
+     * @param $groups_id
      * @return array
      */
-    public function getScheduleByGroupFroManager($date_start, $date_end, $group_id = null);
+    public function getScheduleByGroupFroManager($date_start, $date_end, $groups_id = null);
 
     /**
      * Возвращает формат
@@ -500,4 +501,10 @@ interface RepositoryInterface{
      * @return mixed
      */
     public function updateTaskScheduleStatus($task, $status, $time_end = null);
+
+    /**
+     * @param \DateTime $date
+     * @return Semester
+     */
+    public function getSemestersByDate($date);
 }

@@ -11,7 +11,7 @@ class ScheduleRepository extends Repository
 {
 
 
-    public function getScheduleByGroupFroManager($date_start, $date_end, $group_id)
+    public function getScheduleByGroupFroManager($date_start, $date_end, $groups_id = null)
     {
         $sql = "
          SELECT
@@ -45,9 +45,17 @@ class ScheduleRepository extends Repository
             LEFT JOIN lessons ON lessons.id = schedule.lessons_id
             LEFT JOIN subjects ON subjects.id = lessons.subject_id
             LEFT JOIN users_info ON users_info.user_id = lessons.user_id
-         WHERE loan_less.date_start >= :date_start AND loan_less.date_start <= :date_end AND s_group.id = :group_id";
+         WHERE loan_less.date_start >= :date_start AND loan_less.date_start <= :date_end";
 
-        $args_arr = [':date_start' => $date_start, ':date_end' => $date_end, ':group_id' => $group_id];
+        $args_arr = [':date_start' => $date_start, ':date_end' => $date_end];
+
+        if ($groups_id && is_array($groups_id)) {
+            $sql .= " AND s_group.id in (:group_id)";
+            $args_arr[':group_id'] = implode(',', $groups_id);
+        } elseif ($groups_id) {
+            $sql .= " AND s_group.id in (:group_id)";
+            $args_arr[':group_id'] = $groups_id;
+        }
 
         return DB::select($sql, $args_arr);
     }
