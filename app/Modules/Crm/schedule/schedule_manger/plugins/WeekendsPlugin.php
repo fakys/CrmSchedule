@@ -48,6 +48,5 @@ class WeekendsPlugin extends AbstractPlugin
             $this->setResult($this->schedule);
             return $this->schedule;
         }
-        throw new ScheduleEditException('Базовое расписание не составлено');
     }
 }

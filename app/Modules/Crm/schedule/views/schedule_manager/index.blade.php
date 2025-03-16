@@ -11,23 +11,8 @@
     <script src="{{asset('assets/plugins/js/jquery.inputmask.min.js')}}"></script>
     <script src="{{asset('assets/plugins/js/daterangepicker.js')}}"></script>
     <script>
-        let six_day = false
-        <?php if($setting_weekend == App\Modules\Crm\system_settings\models\ScheduleSetting::SIX_DAY): ?>
-            six_day = true
-        <?php endif;?>
-
         //Date range picker
         $('#period').daterangepicker({
-            isInvalidDate: function(date) {
-                // Получаем день недели (0 - воскресенье, 6 - суббота)
-                var day = date.day();
-                if (six_day) {
-                    return (day === 0);
-                } else {
-                    return (day === 0 || day === 6);
-                }
-
-            },
             "locale": {
                 "format": "DD.MM.YYYY",
                 "separator": " - ",

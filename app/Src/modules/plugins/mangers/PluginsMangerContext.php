@@ -49,12 +49,8 @@ class PluginsMangerContext{
 
     public function start()
     {
-        try {
-            foreach ($this->plugins as $plugin) {
-                $plugin->Execute();
-            }
-        } catch (\Exception $e) {
-            throw new BackendException("Ошибка в плагине: " . $e->getMessage()." ".$e->getTraceAsString());
+        foreach ($this->plugins as $plugin) {
+            $plugin->Execute();
         }
     }
 

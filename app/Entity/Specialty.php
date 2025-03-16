@@ -24,6 +24,6 @@ class Specialty extends Model{
      */
     public function getGroups()
     {
-        return $this->hasMany(StudentGroup::class, 'specialty_id', 'id');
+        return StudentGroup::where(['specialty_id' => $this->id])->get();
     }
 }

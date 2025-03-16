@@ -12,7 +12,8 @@
 <div class="url-edit-schedule" data-url="{{route('schedule.edit_schedule_manager')}}"></div>
 <div class="container pt-3">
     <div class="schedule-errors-block"></div>
-    @foreach($schedules as $schedule_group_data)
+    @if($schedules)
+        @foreach($schedules as $schedule_group_data)
         <div class="schedule-container">
             <div>
                 @foreach($schedule_group_data['semester_data'] as $group_id => $schedule_group)
@@ -172,5 +173,8 @@
             </div>
         </div>
     @endforeach
+    @else
+        <h5>Нет данных</h5>
+    @endif
     <script src="{{asset('assets/js/schedule_table.js')}}"></script>
 </div>

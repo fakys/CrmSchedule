@@ -90,7 +90,7 @@ class BackendHelper
      */
     public static function getSystemSettings($name)
     {
-        $settings = new Settings(BackendHelper::getOperations()->getСurrentSystemSettings($name));
+        $settings = new Settings(BackendHelper::getOperations()->getCurrentSystemSettings($name));
         return $settings;
     }
 

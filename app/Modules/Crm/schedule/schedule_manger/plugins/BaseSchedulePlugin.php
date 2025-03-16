@@ -3,6 +3,9 @@
 namespace App\Modules\Crm\schedule\schedule_manger\plugins;
 
 use App\Entity\PairNumber;
+use App\Entity\Semester;
+use App\Entity\Specialty;
+use App\Entity\StudentGroup;
 use App\Modules\Crm\schedule\exceptions\ScheduleManagerException;
 use App\Modules\Crm\schedule\src\entity\ScheduleSearchData;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PairNumberEntity;
@@ -63,10 +66,23 @@ class BaseSchedulePlugin extends AbstractPlugin
                     foreach ($groups as $group) {
                         $this->appendArrProperty('planScheduleRepository',
                             new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
-                                $group,
+                                $group->id,
                                 $semester['id'])
                             ),
-                            $group
+                            $group->id
+                        );
+                    }
+                }
+            } else {
+                $groups = BackendHelper::getRepositories()->getFullStudentGroups();
+                if ($groups) {
+                    foreach ($groups as $group) {
+                        $this->appendArrProperty('planScheduleRepository',
+                            new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
+                                $group->id,
+                                $semester['id'])
+                            ),
+                            $group->id
                         );
                     }
                 }
@@ -76,11 +92,38 @@ class BaseSchedulePlugin extends AbstractPlugin
         /** Прибавляем 1 т.к время с 00 до 23 и это не считается за день*/
         $count_days = $this->searchData->getDateStart()->diff($this->searchData->getDateEnd())->days + 1;
         $date_schedule = clone $this->searchData->getDateStart();
+
+        $search_group = [];
+        if ($this->searchData->getGroupsId()) {
+            $search_group = $this->searchData->getGroupsId();
+        }else if (!$this->searchData->getGroupsId() && $this->searchData->getSpecialtiesId()) {
+            /** @var Specialty $specialty $ */
+            foreach ($this->searchData->getSpecialtiesId() as $specialty_id) {
+                $specialty = BackendHelper::getRepositories()->getSpecialtyById($specialty_id);
+                if ($specialty) {
+                    $groups = $specialty->getGroups();
+                    if ($groups) {
+                        foreach ($groups as $group) {
+                            $search_group[] = $group->id;
+                        }
+                    }
+                }
+            }
+        } else {
+            dd(1);
+            $groups = BackendHelper::getRepositories()->getFullStudentGroups();
+            if ($groups) {
+                foreach ($groups as $group) {
+                    $search_group[] = $group->id;
+                }
+            }
+        }
+
         for ($day = 1; $day <= $count_days; $day++) {
             /** Получаем текущий семестр */
             $semester = $this->semesters->getSemesterByDate($date_schedule);
 
-            foreach ($this->searchData->getGroupsId() as $group) {
+            foreach ($search_group as $group) {
                 for ($pair_number = 1; $pair_number <= count($this->pair_numbers->getPairNumbers()); $pair_number++) {
                     $this->addSchedule(
                         clone $date_schedule,

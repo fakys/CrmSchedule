@@ -16,7 +16,7 @@ class ScheduleSearchData
         $this->date_start = BackendHelper::getOperations()->pacePeriod($data['period'])[0];
         $this->date_end = BackendHelper::getOperations()->pacePeriod($data['period'])[1];
         $this->groups_id = $data['groups'] ?? null;
-        $this->specialties_id = $data['specialties_id'] ?? null;
+        $this->specialties_id = $data['specialties'] ?? null;
     }
 
     public function getDateStart()

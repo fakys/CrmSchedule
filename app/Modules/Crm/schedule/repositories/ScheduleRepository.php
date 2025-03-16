@@ -50,8 +50,8 @@ class ScheduleRepository extends Repository
         $args_arr = [':date_start' => $date_start, ':date_end' => $date_end];
 
         if ($groups_id && is_array($groups_id)) {
-            $sql .= " AND s_group.id in (:group_id)";
-            $args_arr[':group_id'] = implode(',', $groups_id);
+            $group_str = implode(',', $groups_id);
+            $sql .= " AND s_group.id in ($group_str)";
         } elseif ($groups_id) {
             $sql .= " AND s_group.id in (:group_id)";
             $args_arr[':group_id'] = $groups_id;
