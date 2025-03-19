@@ -279,6 +279,16 @@
                                         </a>
                                     </li>
                                     <li class="nav-item rm-level-3">
+                                        <a href="{{route('schedule_plan.schedule_plan_types')}}" class="nav-link">
+                                            <p>Типы плана расписания</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item rm-level-3">
+                                        <a href="{{route('schedule_plan.schedule_plan')}}" class="nav-link">
+                                            <p>План расписания</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item rm-level-3">
                                         <a href="{{route('schedule.schedule_manager')}}" class="nav-link">
                                             <p>Менеджер расписаний</p>
                                         </a>

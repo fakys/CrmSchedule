@@ -17,7 +17,8 @@ return [
             'auth',
             'lessons',
             'schedule',
-            'student_groups'
+            'student_groups',
+            'schedule_plan'
         ],
         'Api'=>[]
     ],

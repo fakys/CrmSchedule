@@ -1,0 +1,44 @@
+.title-schedule-plan {
+    font-size: 20px;
+}
+
+.plan-schedule-type {
+    display: flex;
+    justify-content: center;
+}
+
+#operation_container {
+    padding-top: 20px;
+}
+.week-day-name{
+    background: var(--primary);
+    color: white;
+    font-size: 20px;
+    width: 40px;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.week-day-container {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.week-form-container{
+    padding: 5px 40px;
+}
+.form-group-week-day {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.form-group-week-day label {
+    margin: 0px;
+}
+#add_week_form {
+    border: 1px solid #e3e3e3;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
