@@ -6,7 +6,7 @@ use App\Modules\Crm\schedule\operations\ScheduleManagerOperation;
 use App\Modules\Crm\schedule\operations\SemestersOperation;
 use App\Modules\Crm\schedule\operations\TimeOperation;
 use App\Modules\Crm\schedule\repositories\ScheduleRepository;
-use App\Modules\Crm\schedule\repositories\SemestersRepository;
+use App\Modules\Crm\schedule\repositories\SchedulePlanType;
 use App\Modules\Crm\schedule\schedule_manger\ScheduleManger;
 use App\Modules\Crm\schedule\src\ScheduleManager;
 use App\Src\modules\InfoModuleModel;
@@ -35,7 +35,7 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     {
         return [
             ScheduleRepository::class,
-            SemestersRepository::class
+            SchedulePlanType::class
         ];
     }
 

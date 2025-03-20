@@ -8,6 +8,7 @@ use App\Entity\GroupUser;
 use App\Entity\Lesson;
 use App\Entity\PairNumber;
 use App\Entity\Schedule;
+use App\Entity\SchedulePlanType;
 use App\Entity\ScheduleTask;
 use App\Entity\Semester;
 use App\Entity\Specialty;
@@ -507,4 +508,34 @@ interface RepositoryInterface{
      * @return Semester
      */
     public function getSemestersByDate($date);
+
+    /**
+     * Создает тип плана расписания
+     * @param string $name
+     * @param string $data
+     * @return SchedulePlanType|false
+     */
+    public function addSchedulePlanType($name, $data);
+
+    /**
+     * Возвращает все типы планов расписания
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function allSchedulePlanType();
+
+    /**
+     * Получает тип плана расписания по id
+     * @param $id
+     * @return SchedulePlanType
+     */
+    public function getSchedulePlanTypeById($id);
+
+    /**
+     * Изменяет тип плана расписания по id
+     * @param $id
+     * @param $name
+     * @param $data
+     * @return bool
+     */
+    public function editSchedulePlanTypeById($id, $name, $data);
 }

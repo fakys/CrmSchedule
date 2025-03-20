@@ -19,6 +19,9 @@
                     <div class="plan-schedule-type">
                         <select class="form-control-sm" id="select_operation_plan_schedule">
                             <option value="add_schedule_plan_type">Добавить тип плана расписания</option>
+                            @foreach($types as $type)
+                                <option value="edit_schedule_plan_type[{{$type->id}}]">{{$type->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="d-flex justify-content-center pt-2"><div class="btn-main" id="btn_search_type_plan">Найти</div></div>

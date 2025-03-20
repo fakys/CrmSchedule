@@ -2,6 +2,8 @@
 namespace App\Modules\Crm\schedule_plan;
 
 
+use App\Modules\Crm\schedule_plan\operation\SchedulePlanType;
+use App\Modules\Crm\schedule_plan\repositories\SchedulePlanTypeRepository;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
@@ -27,12 +29,14 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function repositories(): array
     {
         return [
+            SchedulePlanTypeRepository::class
         ];
     }
 
     public static function operations(): array
     {
         return [
+            SchedulePlanType::class
         ];
     }
     public static function runConfig()

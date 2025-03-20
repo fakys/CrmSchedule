@@ -103,4 +103,11 @@ interface OperationsInterface
 
     /** Возвращает семестры для акшена */
     public function getSemesters();
+
+    /**
+     * Добавляет тип плана расписания
+     * @param array $data
+     * @return true
+     */
+    public function addSchedulePlanType($data);
 }

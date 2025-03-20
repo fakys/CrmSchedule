@@ -35,3 +35,11 @@ Route::post(
     "$module/add-type-schedule",
     [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanTypeController::class, "addSchedulePlanType"]
 )->name("$module.add_type_schedule");
+Route::post(
+    "$module/edit-type-schedule",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanTypeController::class, "editSchedulePlanType"]
+)->name("$module.edit_type_schedule");
+Route::post(
+    "$module/delete-week-type-schedule",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanTypeController::class, "deleteWeekSchedulePlanType"]
+)->name("$module.delete_week_type_schedule");
