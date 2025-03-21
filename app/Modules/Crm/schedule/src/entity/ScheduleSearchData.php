@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\Crm\schedule\src\entity;
 
-use App\Modules\Crm\schedule\exceptions\ScheduleEditException;
+use App\Modules\Crm\schedule\exceptions\SchedulePlanAddException;
 use App\Src\BackendHelper;
 use DateTime;
 

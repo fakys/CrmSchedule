@@ -4,7 +4,7 @@ namespace App\Modules\Crm\schedule\operations;
 
 use App\Entity\Lesson;
 use App\Entity\Schedule;
-use App\Modules\Crm\schedule\exceptions\ScheduleEditException;
+use App\Modules\Crm\schedule\exceptions\SchedulePlanAddException;
 use App\Modules\Crm\schedule\src\EditNewScheduleData;
 use App\Modules\Crm\schedule\src\entity\ScheduleUnit;
 use App\Modules\Crm\schedule\src\ScheduleManager;
@@ -189,7 +189,7 @@ class ScheduleManagerOperation extends Operation
         /** Создаем предмет */
         $lesson = BackendHelper::getRepositories()->createLessons($unit->getSubject(), $unit->getFormatPair(), $unit->getUser());
         if (!$lesson) {
-            throw new ScheduleEditException('Ошибка при создании предмета');
+            throw new SchedulePlanAddException('Ошибка при создании предмета');
         }
 
         /** Длительность в минутах */
@@ -202,7 +202,7 @@ class ScheduleManagerOperation extends Operation
             $duration_minutes
         );
         if (!$duration) {
-            throw new ScheduleEditException('Ошибка при создании длительности предмета');
+            throw new SchedulePlanAddException('Ошибка при создании длительности предмета');
         }
 
         $schedule = BackendHelper::getRepositories()->createSchedule(
@@ -214,7 +214,7 @@ class ScheduleManagerOperation extends Operation
         );
 
         if (!$schedule) {
-            throw new ScheduleEditException('Ошибка при создании расписания');
+            throw new SchedulePlanAddException('Ошибка при создании расписания');
         }
 
         return true;

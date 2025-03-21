@@ -27,6 +27,7 @@
                         </select>
                     </div>
                 </div>
+                <div><div class="btn btn-main">Найти</div><a href="{{route('schedule_plan.add_schedule_plan')}}" class="btn btn-main ml-4">Добавить новое</a></div>
             </div>
         </div>
     </div>

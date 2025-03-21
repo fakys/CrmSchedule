@@ -110,4 +110,27 @@ interface OperationsInterface
      * @return true
      */
     public function addSchedulePlanType($data);
+
+    /**
+     * Возвращает шаблон базового расписания
+     * @param int $plan_type_id
+     * @return array
+     */
+    public function getBaseScheduleTemplate($plan_type_id);
+
+    /**
+     * Форматирует дни недели
+     * @return array
+     */
+    public function formatWeeks($weeks);
+
+    /**
+     * Добавляет план расписания
+     * @param $data
+     * @param $type_id
+     * @param $group_id
+     * @param $semester_id
+     * @return void
+     */
+    public function addSchedulePlan($data, $group_id, $type_id, $semester_id);
 }

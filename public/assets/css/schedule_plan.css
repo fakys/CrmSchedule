@@ -20,6 +20,10 @@
     border-radius: 5px;
 }
 
+.week-end-name {
+    background: var(--secondary);
+}
+
 .week-day-container {
     margin-bottom: 10px;
     display: flex;
@@ -57,4 +61,31 @@
 
 .open-delete-panel-panel-type-schedule-week{
     display: flex;
+}
+#add_plan_schedule_container{
+    background: white;
+}
+.pair-number-container{
+    font-size: 18px;
+    background: var(--primary);
+    color: white;
+}
+.week_number{
+    font-size: 20px;
+    border-bottom: 1px solid var(--primary);
+    margin-bottom: 10px;
+}
+.success-day-plan{
+    background: var(--success);
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 2px;
+    margin-left: 15px;
+}
+.edit-day-plan, .week-end-day-plan{
+    background: var(--secondary);
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 2px;
+    margin-left: 15px;
 }

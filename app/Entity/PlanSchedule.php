@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Таблица базового расписания
- * @property $duration_lesson_id
+ * @property $plan_duration_lesson_id
  * @property $lessons_id
  * @property $semester_id
  * @property $pair_number_id
@@ -13,20 +13,22 @@ use Illuminate\Database\Eloquent\Model;
  * @property $description
  * @property $created_at
  * @property $updated_at
+ * @property $plan_type_id
  */
 class PlanSchedule extends Model
 {
-    public $table = 'schedules';
+    public $table = 'plan_schedule';
 
     protected $fillable = [
-        'duration_lesson_id',
+        'plan_duration_lesson_id',
         'lessons_id',
         'pair_number_id',
         'student_group_id',
         'semester_id',
         'description',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'plan_type_id'
     ];
 
 
@@ -34,7 +36,7 @@ class PlanSchedule extends Model
      * @return PlanDurationLesson|null
      */
     public function getDuration() {
-        return $this->hasOne(PlanDurationLesson::class, 'id', 'duration_lesson_id')->first();
+        return $this->hasOne(PlanDurationLesson::class, 'id', 'plan_duration_lesson_id')->first();
     }
 
     /**

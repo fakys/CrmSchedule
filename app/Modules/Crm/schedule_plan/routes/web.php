@@ -43,3 +43,20 @@ Route::post(
     "$module/delete-week-type-schedule",
     [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanTypeController::class, "deleteWeekSchedulePlanType"]
 )->name("$module.delete_week_type_schedule");
+
+\App\Src\access\AccessRoute::access("$module.add_schedule_plan")->route(
+    Route::get(
+        "$module/add-schedule-plan",
+        [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "addSchedulePlan"]
+    )->name("$module.add_schedule_plan")
+)->description('Страница для добавления плана расписания');
+
+Route::post(
+    "$module/add-schedule-plan-form",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "addPlanScheduleForm"]
+)->name("$module.add_schedule_plan_form");
+
+Route::post(
+    "$module/save-schedule-plan",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "savePlanSchedule"]
+)->name("$module.save_schedule_plan");

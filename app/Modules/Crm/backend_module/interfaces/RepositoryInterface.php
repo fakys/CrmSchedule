@@ -7,6 +7,8 @@ use App\Entity\FormatLesson;
 use App\Entity\GroupUser;
 use App\Entity\Lesson;
 use App\Entity\PairNumber;
+use App\Entity\PlanDurationLesson;
+use App\Entity\PlanSchedule;
 use App\Entity\Schedule;
 use App\Entity\SchedulePlanType;
 use App\Entity\ScheduleTask;
@@ -478,6 +480,7 @@ interface RepositoryInterface{
     /**
      * Возвращает последовательность пар по номеру
      * @param $number
+     * @return PairNumber
      */
     public function getPairByNumber($number);
 
@@ -538,4 +541,36 @@ interface RepositoryInterface{
      * @return bool
      */
     public function editSchedulePlanTypeById($id, $name, $data);
+
+    /**
+     * Создает длительность пары для плана
+     * @param $week_day
+     * @param $time_start
+     * @param $time_end
+     * @param $week_number
+     * @param $duration_minutes
+     * @return PlanDurationLesson|false
+     */
+    public function addPlanDurationLessons($week_day, $time_start, $time_end, $week_number, $duration_minutes = null);
+
+    /**
+     * Создает план расписания
+     * @param $plan_duration_lesson_id
+     * @param $pair_number_id
+     * @param $student_group_id
+     * @param $semester_id
+     * @param $plan_type_id
+     * @param $lessons_id
+     * @param $description
+     * @return PlanSchedule|false
+     */
+    public function addSchedulePlan(
+        $plan_duration_lesson_id,
+        $pair_number_id,
+        $student_group_id,
+        $semester_id,
+        $plan_type_id,
+        $lessons_id,
+        $description = ''
+    );
 }

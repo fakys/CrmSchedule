@@ -24,7 +24,7 @@
                             <div class="d-flex justify-content-center"><div class="add_week_btn btn-main w-25 text-center">Добавить неделю</div></div>
                         </div>
                     </div>
-                    <div class="mt-2 d-flex justify-content-center"><div class="btn-main save-type-week">Создать</div></div>
+                    <div class="mt-2 d-flex justify-content-center"><div class="btn-main save-type-week">Сохранить</div></div>
                 </div>
             </div>
         </div>

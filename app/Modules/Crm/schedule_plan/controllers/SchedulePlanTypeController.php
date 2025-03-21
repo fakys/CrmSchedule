@@ -14,7 +14,7 @@ class SchedulePlanTypeController extends Controller{
     public function actionSchedulePlanType()
     {
         $types = BackendHelper::getRepositories()->allSchedulePlanType();
-        return view('schedule_plan_type.index', ['title'=>'План расписания', 'types'=>$types]);
+        return view('schedule_plan_type.index', ['title'=>'Тип плана расписания', 'types'=>$types]);
     }
 
 

@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\Crm\schedule\schedule_manger\plugins;
 
-use App\Modules\Crm\schedule\exceptions\ScheduleEditException;
+use App\Modules\Crm\schedule\exceptions\SchedulePlanAddException;
 use App\Modules\Crm\schedule\src\entity\ScheduleSearchData;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PairNumberEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PlanScheduleEntity;

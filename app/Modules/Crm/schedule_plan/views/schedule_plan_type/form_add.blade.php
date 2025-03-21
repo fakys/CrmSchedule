@@ -87,7 +87,7 @@
             <div class="form-group">
                 <div class="form-group-week-day">
                     <label for="week_end_0">Выходной</label>
-                    <input type="checkbox" class="form-control-sm weekend-input" @if(isset($week_data['week_end']) && !$week_data['week_end'][0] == 'false')  @else checked @endif  data-week_end="0" id="week_end_0">
+                    <input type="checkbox" class="form-control-sm weekend-input" @if(isset($week_data['week_end']) && $week_data['week_end'][0] == 'false')  @else checked @endif  data-week_end="0" id="week_end_0">
                 </div>
             </div>
         </div>

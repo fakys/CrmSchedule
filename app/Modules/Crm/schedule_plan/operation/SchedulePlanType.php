@@ -19,4 +19,18 @@ class SchedulePlanType extends Operation{
         return true;
     }
 
+    /**
+     * Форматирует дни недели
+     * @return array
+     */
+    public function formatWeeks($weeks)
+    {
+        foreach ($weeks as $number => $week) {
+            $week['week_end'][7] = $week['week_end'][0];
+            unset($week['week_end'][0]);
+            $weeks[$number] = $week;
+        }
+        return $weeks;
+    }
+
 }
