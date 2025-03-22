@@ -79,7 +79,6 @@ class ScheduleRepository extends Repository
              loan_less.time_start as time_start,
              loan_less.time_end as time_end,
              loan_less.duration_minutes as duration_minutes,
-             loan_less.week_day as week_day,
              loan_less.week_number as week_number,
              pair_numbers.id as pair_id,
              pair_numbers.number::integer as pair_number,
@@ -97,7 +96,8 @@ class ScheduleRepository extends Repository
              lessons.format_lesson_id as format_id,
              semesters.id as semester_id,
              users_info.user_id as teacher_id,
-             users_info.last_name || ' ' || users_info.first_name || ' ' || users_info.patronymic as fio_teacher
+             users_info.last_name || ' ' || users_info.first_name || ' ' || users_info.patronymic as fio_teacher,
+             type.plan_type_data as type_prams
          FROM plan_schedule schedule
             LEFT JOIN plan_duration_lessons loan_less ON loan_less.id =  schedule.plan_duration_lesson_id
             LEFT JOIN pair_numbers ON pair_numbers.id = schedule.pair_number_id
@@ -107,6 +107,7 @@ class ScheduleRepository extends Repository
             LEFT JOIN subjects ON subjects.id = lessons.subject_id
             LEFT JOIN users_info ON users_info.user_id = lessons.user_id
             LEFT JOIN semesters ON semesters.id = schedule.semester_id
+            LEFT JOIN schedule_plan_type type on schedule.plan_type_id = type.id
          WHERE s_group.id = :group_id AND semesters.id = :semester_id";
 
         $args_arr = [':group_id' => $group_id, 'semester_id'=>$semester_id];

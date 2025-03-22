@@ -110,7 +110,6 @@ class BaseSchedulePlugin extends AbstractPlugin
                 }
             }
         } else {
-            dd(1);
             $groups = BackendHelper::getRepositories()->getFullStudentGroups();
             if ($groups) {
                 foreach ($groups as $group) {
@@ -130,9 +129,10 @@ class BaseSchedulePlugin extends AbstractPlugin
                         $group,
                         $this->planScheduleRepository[$group]->getPlanScheduleByData(
                             $group,
-                            $semester['id'],
+                            $semester,
                             $pair_number,
-                            $date_schedule->format('w')
+                            $date_schedule->format('w'),
+                            $date_schedule
                         ),
                         true
                     );

@@ -133,4 +133,12 @@ interface OperationsInterface
      * @return void
      */
     public function addSchedulePlan($data, $group_id, $semester_id, $type_id);
+
+    /**
+     * Возвращает текущую неделю по дате от начала семестра
+     * @param \DateTime $current_date
+     * @param \DateTime $semester_start
+     * @return int
+     */
+    public function getCurrentWeek($current_date, $semester_start, $weeks);
 }

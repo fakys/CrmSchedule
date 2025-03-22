@@ -89,7 +89,20 @@ class SchedulePlan extends Operation{
                 }
             }
         }
+    }
 
-
+    /**
+     * Возвращает текущую неделю по дате от начала семестра
+     * @param \DateTime $current_date
+     * @param \DateTime $semester_start
+     * @return int
+     */
+    public function getCurrentWeek($current_date, $semester_start, $weeks)
+    {
+        $count_week = floor($current_date->diff($semester_start)->days/7);
+        if (!$count_week) {
+            $count_week = 1;
+        }
+        return (($count_week-1)%$weeks)+1;
     }
 }
