@@ -1,7 +1,13 @@
 $(document).ready(function (){
+
+    if (is_success_schedule) {
+        $('#select_type_schedule_plan').remove()
+    }
+
     let type_id = $('#select_type_schedule_plan').val()
     let group_id = $('#select_group_schedule_plan').val()
     let semester_id = $('#select_semester_schedule_plan').val()
+
 
     $('.required-input').change(function (){
         let number_week = $(this).data('number_week')
@@ -20,16 +26,20 @@ $(document).ready(function (){
         }
 
         if ($(`.week-end-input-${number_week}-${day_week_number}-${pair_number}`).is(':checked')){
+            $(`.before-success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
             $(`.success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
             $(`.edit-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
             $(`.week-end-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'block'})
         }else if (count_arr.length == $(`.required-input-${number_week}-${day_week_number}-${pair_number}`).length) {
+            $(`.before-success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
             $(`.success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
             $(`.edit-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
         } else if (edit_day) {
+            $(`.before-success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
             $(`.success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
             $(`.edit-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'block'})
         } else {
+            $(`.before-success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
             $(`.edit-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
             $(`.success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'block'})
         }
@@ -64,13 +74,17 @@ $(document).ready(function (){
             }
             main_data[$(input).data('number_week')][$(input).data('day_week_number')][$(input).data('pair_number')][$(input).attr('name')] = $(input).val()
         }
+        let data = {'_token': csrf, 'schedule_data':main_data, 'group_id':group_id, 'semester_id':semester_id};
+        if (!is_success_schedule) {
+            data['type_id'] = type_id
+        }
 
         if (main_data) {
             console.log(main_data)
             $.ajax({
                 url: url,
                 method: 'post',
-                data:{'_token': csrf, 'schedule_data':main_data, 'group_id':group_id, 'type_id':type_id, 'semester_id':semester_id},
+                data:{,
                 success: function(data){
                     console.log(data)
                 },

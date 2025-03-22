@@ -6,6 +6,7 @@ use App\Modules\Crm\schedule_plan\operation\SchedulePlan;
 use App\Modules\Crm\schedule_plan\operation\SchedulePlanType;
 use App\Modules\Crm\schedule_plan\repositories\SchedulePlanRepository;
 use App\Modules\Crm\schedule_plan\repositories\SchedulePlanTypeRepository;
+use App\Modules\Crm\schedule_plan\schedule_plan\SchedulePlanManager;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
@@ -55,6 +56,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 
     public static function mangers(): array
     {
-        return [];
+        return [
+            SchedulePlanManager::class
+        ];
     }
 }

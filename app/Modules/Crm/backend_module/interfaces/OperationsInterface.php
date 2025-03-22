@@ -132,5 +132,5 @@ interface OperationsInterface
      * @param $semester_id
      * @return void
      */
-    public function addSchedulePlan($data, $group_id, $type_id, $semester_id);
+    public function addSchedulePlan($data, $group_id, $semester_id, $type_id);
 }

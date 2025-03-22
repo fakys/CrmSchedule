@@ -554,6 +554,18 @@ interface RepositoryInterface{
     public function addPlanDurationLessons($week_day, $time_start, $time_end, $week_number, $duration_minutes = null);
 
     /**
+     * Обновляет длительность пары для плана
+     * @param $id
+     * @param $week_day
+     * @param $time_start
+     * @param $time_end
+     * @param $week_number
+     * @param $duration_minutes
+     * @return PlanDurationLesson|false
+     */
+    public function updatePlanDurationLessons($id, $week_day, $time_start, $time_end, $week_number, $duration_minutes = null);
+
+    /**
      * Создает план расписания
      * @param $plan_duration_lesson_id
      * @param $pair_number_id
@@ -572,5 +584,26 @@ interface RepositoryInterface{
         $plan_type_id,
         $lessons_id,
         $description = ''
+    );
+
+    /**
+     * Обновление урок для расписания
+     * @param $id
+     * @param $subject_id
+     * @param $format_lesson_id
+     * @param $user_id
+     * @return Lesson|null
+     */
+    public function updateLessons($id, $subject_id, $format_lesson_id, $user_id);
+
+    /**
+     * Обновление описания плана расписания для формы
+     * @param $id
+     * @param $description
+     * @return PlanSchedule|false
+     */
+    public function updateDescriptionSchedulePlan(
+        $id,
+        $description
     );
 }

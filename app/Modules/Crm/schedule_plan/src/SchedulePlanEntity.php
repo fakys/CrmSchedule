@@ -1,80 +1,34 @@
 <?php
 namespace App\Modules\Crm\schedule_plan\src;
 
-class SchedulePlanUnit
+use App\Modules\Crm\schedule_plan\src\SchedulePlanUnit;
+
+class SchedulePlanEntity
 {
-    private $time_start;
-    private $time_end;
-    private $subject_id;
-    private $user_id;
-    private $format_pair_id;
-    private $description;
-    private $semester_id;
-    private $plan_type_id;
+    /** @var SchedulePlanUnit[] $schedule_units */
+    private $schedule_units = [];
 
-    /** время начала */
-    public function setTimeStart($time_start){
-        $this->time_start = $time_start;
-    }
-    public function getTimeStart(){
-        return $this->time_start;
-    }
-
-    /** время окончания */
-    public function setTimeEnd($time_end){
-        $this->time_end = $time_end;
-    }
-    public function getTimeEnd(){
-        return $this->time_end;
-    }
-
-    /** предмет */
-    public function setSubject($subject_id){
-        $this->subject_id = $subject_id;
-    }
-    public function getSubject(){
-        return $this->subject_id;
-    }
-
-    /** преподаватель */
-    public function setUser($user_id){
-        $this->user_id = $user_id;
-    }
-    public function getUser(){
-        return $this->user_id;
-    }
-
-    /** формат пары */
-    public function setFormatPair($format_pair_id){
-        $this->format_pair_id = $format_pair_id;
-    }
-    public function getFormatPair(){
-        return $this->format_pair_id;
-    }
-
-    /** описание */
-    public function setDescription($description){
-        $this->description = $description;
-    }
-    public function getDescription(){
-        return $this->description;
-    }
-
-    public function getSemesterId()
+    public function addUnit(SchedulePlanUnit $unit)
     {
-        return $this->semester_id;
+        $this->schedule_units[] = $unit;
     }
 
-    public function setSemesterId($semester_id){
-        $this->semester_id = $semester_id;
+
+    /**
+     * @return SchedulePlanUnit[]
+     */
+    public function getScheduleUnits()
+    {
+        return $this->schedule_units;
     }
 
-    public function getPlanTypeId(){
-        return $this->plan_type_id;
+    public function getScheduleUnitByData($number_week, $day_week, $pair_number)
+    {
+        foreach ($this->schedule_units as $unit) {
+            if ($unit && $unit->getWeekNumber() == $number_week && $unit->getWeekDay() == $day_week && $unit->getPairId() == $pair_number) {
+                return $unit;
+            }
+        }
+        return null;
     }
-
-    public function setPlanTypeId($plan_type_id){
-        $this->plan_type_id = $plan_type_id;
-    }
-
 }

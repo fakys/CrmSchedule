@@ -37,7 +37,6 @@ class SchedulePlanModel extends Model implements InterfaceModel
         return [
             'schedule_data' => ['required'],
             'group_id' => ['required', 'integer'],
-            'type_id' => ['required', 'integer'],
             'semester_id' => ['required', 'integer'],
         ];
     }
@@ -94,10 +93,6 @@ class SchedulePlanModel extends Model implements InterfaceModel
 
         if (!BackendHelper::getRepositories()->getStudentGroupById($this->group_id)) {
             throw new SchedulePlanAddException('Группа не верна');
-        }
-
-        if (!BackendHelper::getRepositories()->getSchedulePlanTypeById($this->type_id)) {
-            throw new SchedulePlanAddException('Тип плана не верен');
         }
 
         if (!BackendHelper::getRepositories()->getSemesterById($this->semester_id)) {

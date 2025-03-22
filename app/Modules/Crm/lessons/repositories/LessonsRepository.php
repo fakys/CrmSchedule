@@ -145,4 +145,24 @@ class LessonsRepository extends Repository{
         return null;
     }
 
+    /**
+     * Обновление урок для расписания
+     * @param $id
+     * @param $subject_id
+     * @param $format_lesson_id
+     * @param $user_id
+     * @return Lesson|null
+     */
+    public function updateLessons($id, $subject_id, $format_lesson_id, $user_id)
+    {
+        $lesson = Lesson::where(['id'=>$id])->first();
+        $lesson->subject_id = $subject_id;
+        $lesson->format_lesson_id = $format_lesson_id;
+        $lesson->user_id = $user_id;
+        if ($lesson->save()) {
+            return $lesson;
+        }
+        return null;
+    }
+
 }

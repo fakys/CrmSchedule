@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\schedule_plan\schedule_plan;
 
+use App\Modules\Crm\schedule_plan\schedule_plan\plugins\SchedulePlanBasePlugin;
 use App\Src\modules\plugins\mangers\AbstractManger;
 
 class SchedulePlanManager extends AbstractManger  {
@@ -12,6 +13,8 @@ class SchedulePlanManager extends AbstractManger  {
 
     public function plugins()
     {
-
+        return [
+            SchedulePlanBasePlugin::class
+        ];
     }
 }

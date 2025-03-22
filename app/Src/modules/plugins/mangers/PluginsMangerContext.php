@@ -10,6 +10,8 @@ class PluginsMangerContext{
 
     private $result;
 
+    private $attrs;
+
     /**
      * @param AbstractPlugin[] $plugins
      */
@@ -74,6 +76,22 @@ class PluginsMangerContext{
             $this->property[$property][] = $append;
         } else {
             $this->property[$property][$key] = $append;
+        }
+    }
+
+    public function setAttrsInContext($attrs)
+    {
+        return $this->attrs = $attrs;
+    }
+
+    public function setAttr($name, $data)
+    {
+        $this->attrs[$name] = $data;
+    }
+    public function getAttr($name)
+    {
+        if (isset($this->attrs[$name])) {
+            return $this->attrs[$name];
         }
     }
 }

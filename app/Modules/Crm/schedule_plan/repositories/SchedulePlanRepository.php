@@ -32,6 +32,30 @@ class SchedulePlanRepository extends Repository
         return false;
     }
 
+    /**
+     * Обновляет длительность пары для плана
+     * @param $id
+     * @param $week_day
+     * @param $time_start
+     * @param $time_end
+     * @param $week_number
+     * @param $duration_minutes
+     * @return PlanDurationLesson|false
+     */
+    public function updatePlanDurationLessons($id, $week_day, $time_start, $time_end, $week_number, $duration_minutes = null)
+    {
+        $duration = PlanDurationLesson::where(['id'=>$id])->first();
+        $duration->time_start = $time_start;
+        $duration->time_end = $time_end;
+        $duration->week_number = $week_number;
+        $duration->week_day = $week_day;
+        $duration->duration_minutes = $duration_minutes;
+        if ($duration->save()) {
+            return $duration;
+        }
+        return false;
+    }
+
 
     /**
      * Создает план расписания
@@ -62,6 +86,25 @@ class SchedulePlanRepository extends Repository
         $schedule->description = $description;
         $schedule->lessons_id = $lessons_id;
         $schedule->plan_type_id = $plan_type_id;
+        if ($schedule->save()) {
+            return $schedule;
+        }
+        return false;
+    }
+
+    /**
+     * Обновление описания плана расписания для формы
+     * @param $id
+     * @param $description
+     * @return PlanSchedule|false
+     */
+    public function updateDescriptionSchedulePlan(
+        $id,
+        $description
+    )
+    {
+        $schedule = PlanSchedule::where(['id'=>$id])->first();
+        $schedule->description = $description;
         if ($schedule->save()) {
             return $schedule;
         }

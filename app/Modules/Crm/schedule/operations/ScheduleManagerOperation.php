@@ -16,6 +16,8 @@ class ScheduleManagerOperation extends Operation
 {
     /**
      * Возвращает расписание для менеджера расписаний
+     * ОПЕРАЦИЯ УСТАРЕЛА!!!
+     * ИСПОЛЬЗОВАТЬ schedule_manger
      * @return array
      */
     public function getScheduleData($data)
