@@ -110,4 +110,15 @@ class SchedulePlanRepository extends Repository
         }
         return false;
     }
+
+    /**
+     * Получает первое расписание по группе в семестре
+     * @param $group_id
+     * @param $semester_id
+     * @return mixed
+     */
+    public function getFirstPlanSchedule($group_id, $semester_id)
+    {
+        return PlanSchedule::where(['semester_id'=>$semester_id, 'student_group_id'=>$group_id])->first();
+    }
 }

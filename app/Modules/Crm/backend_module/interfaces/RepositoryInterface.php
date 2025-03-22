@@ -606,4 +606,12 @@ interface RepositoryInterface{
         $id,
         $description
     );
+
+    /**
+     * Получает первое расписание по группе в семестре
+     * @param $group_id
+     * @param $semester_id
+     * @return PlanSchedule
+     */
+    public function getFirstPlanSchedule($group_id, $semester_id);
 }

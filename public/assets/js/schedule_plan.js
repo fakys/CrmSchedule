@@ -4,7 +4,7 @@ $(document).ready(function (){
         $('#select_type_schedule_plan').remove()
     }
 
-    let type_id = $('#select_type_schedule_plan').val()
+    let type_id = $('#type_schedule_plan').val()
     let group_id = $('#select_group_schedule_plan').val()
     let semester_id = $('#select_semester_schedule_plan').val()
 
@@ -74,19 +74,14 @@ $(document).ready(function (){
             }
             main_data[$(input).data('number_week')][$(input).data('day_week_number')][$(input).data('pair_number')][$(input).attr('name')] = $(input).val()
         }
-        let data = {'_token': csrf, 'schedule_data':main_data, 'group_id':group_id, 'semester_id':semester_id};
-        if (!is_success_schedule) {
-            data['type_id'] = type_id
-        }
 
         if (main_data) {
-            console.log(main_data)
             $.ajax({
                 url: url,
                 method: 'post',
-                data:{,
+                data:{'_token': csrf, 'schedule_data':main_data, 'group_id':group_id, 'type_id':type_id, 'semester_id':semester_id},
                 success: function(data){
-                    console.log(data)
+                    $('#add_plan_schedule').click()
                 },
                 error: function (err){
                     error_alert(err.responseJSON.message)

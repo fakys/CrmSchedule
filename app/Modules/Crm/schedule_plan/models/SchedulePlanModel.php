@@ -77,6 +77,29 @@ class SchedulePlanModel extends Model implements InterfaceModel
                         )
                     ) {
                         throw new SchedulePlanAddException('Ошибка добавления');
+                    } elseif (new \DateTime($pair["time_start"]) >=new \DateTime($pair["time_end"])) {
+                        throw new SchedulePlanAddException(sprintf(
+                            "Время выставленною не верно Пара №%s Неделя №%s Дунь %s",
+                            $number, $number_week, SchedulePlanTypeModel::WEEK_DAYS[$day_number]));
+                    }
+
+                    foreach ($day_week as $check_pair_number=>$check_pair) {
+                        if ($check_pair_number != $number && $check_pair["time_end"] && $check_pair["time_start"]) {
+                            $valid_time_start = new \DateTime($check_pair["time_start"]);
+                            $valid_time_end = new \DateTime($check_pair["time_end"]);
+                            $time_end = new \DateTime($pair["time_end"]);
+                            $time_start = new \DateTime($pair["time_start"]);
+                            if (
+                                ($time_start >= $valid_time_start && $time_end >= $valid_time_end && $time_start <= $valid_time_end) ||
+                                ($time_start <= $valid_time_start && $time_end >= $valid_time_end) ||
+                                ($time_start <= $valid_time_start && $time_end <= $valid_time_end && $time_end >= $valid_time_start)
+                            ) {
+                                throw new SchedulePlanAddException(sprintf(
+                                    "Время начала пары №%s пересекается с парой №%s Недели №%s Дня %s",
+                                    $check_pair_number, $number,
+                                    $number_week, SchedulePlanTypeModel::WEEK_DAYS[$day_number]));
+                            }
+                        }
                     }
                 }
             }

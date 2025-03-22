@@ -15,36 +15,43 @@ class SchedulePlanController extends Controller
 
     public function actionSchedulePlan()
     {
-        return view('schedule_plan.index', ['title' => 'Плана расписания']);
-    }
-
-    public function addSchedulePlan()
-    {
         $types = BackendHelper::getRepositories()->allSchedulePlanType();
         $groups = BackendHelper::getRepositories()->getFullStudentGroups();
         $semesters = BackendHelper::getRepositories()->getAllSemesters();
-        return view('schedule_plan.add_schedule_plan', [
-            'title' => 'Добавить плана расписания',
+        return view('schedule_plan.index', [
+            'title' => 'Плана расписания',
             'types' => $types,
             'groups' => $groups,
             'semesters' => $semesters
         ]);
     }
 
+    public function checkSchedulePlan()
+    {
+        $semester_id = request()->post('semester_id');
+        $group_id = request()->post('group_id');
+
+        $first_plan = BackendHelper::getRepositories()->getFirstPlanSchedule($group_id, $semester_id);
+        if ($first_plan) {
+            return $first_plan->plan_type_id;
+        } else {
+            return false;
+        }
+    }
+
+    public function getTypeSchedulePlanForm()
+    {
+        $types = BackendHelper::getRepositories()->allSchedulePlanType();
+        return view('schedule_plan.type_schedule_plan_form', ['types' => $types]);
+    }
+
     public function addPlanScheduleForm()
     {
         $plan_type_id = request()->post('plan_type_id');
-        $semester_id = request()->post('semester_id');
-        $group_id = request()->post('group_id');
         $manager = BackendHelper::getManager('schedule_plan_manager');
         $manager->setAttr(request()->post());
         $manager->Execute();
         $schedule_plan_data = $manager->getResult();
-
-        $db_data = BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager($group_id, $semester_id);
-        if ($db_data) {
-            $plan_type_id = $db_data[0]->plan_type_id;
-        }
         $plan_type = BackendHelper::getRepositories()->getSchedulePlanTypeById($plan_type_id);
         $weeks = BackendHelper::getOperations()->formatWeeks($plan_type->getWeeks());
         $users = BackendHelper::getRepositories()->getUserList([]);
