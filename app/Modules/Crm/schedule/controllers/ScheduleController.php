@@ -22,7 +22,8 @@ class ScheduleController extends Controller{
             'student_group' => $student_group,
             'specialties' => $specialties,
             'session_data' => $session_data,
-            'setting_weekend' => $setting_weekend
+            'setting_weekend' => $setting_weekend,
+            'nav_schedule' => true
         ]);
     }
 

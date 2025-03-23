@@ -22,7 +22,8 @@ class SchedulePlanController extends Controller
             'title' => 'Плана расписания',
             'types' => $types,
             'groups' => $groups,
-            'semesters' => $semesters
+            'semesters' => $semesters,
+            'nav_schedule' => true
         ]);
     }
 

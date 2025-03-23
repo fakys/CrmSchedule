@@ -29,7 +29,9 @@ class SchedulePlanBasePlugin extends AbstractPlugin
     {
         $this->init();
         $this->plan_schedule_repository = BackendHelper::getRepositories()
-            ->getPlanScheduleByGroupFroManager($this->group->id, $this->semester->id);
+            ->getPlanScheduleByGroupFroManager(
+                $this->group->id,
+                $this->semester->id);
 
         /** Если расписание составлено, то строим юниты */
         if (empty($this->plan_schedule_repository)) {
@@ -87,7 +89,7 @@ class SchedulePlanBasePlugin extends AbstractPlugin
             $this->schedule_plan = new SchedulePlanEntity();
         }
         $this->plan_type = BackendHelper::getRepositories()->getSchedulePlanTypeById($this->context->getAttr('plan_type_id'));
-        $this->group = BackendHelper::getRepositories()->getSchedulePlanTypeById($this->context->getAttr('group_id'));
-        $this->semester = BackendHelper::getRepositories()->getSchedulePlanTypeById($this->context->getAttr('semester_id'));
+        $this->group = BackendHelper::getRepositories()->getStudentGroupById($this->context->getAttr('group_id'));
+        $this->semester = BackendHelper::getRepositories()->getSemesterById($this->context->getAttr('semester_id'));
     }
 }

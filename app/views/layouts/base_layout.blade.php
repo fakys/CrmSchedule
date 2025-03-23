@@ -259,7 +259,7 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item rm-level-2">
+                            <li class="nav-item rm-level-2 @if(isset($nav_schedule)) menu-open @endif">
                                 <a href="#" class="nav-link">
                                     <i class="fa fa-list-alt" aria-hidden="true"></i>
                                     <p>
@@ -267,7 +267,7 @@
                                         <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
-                                <ul class="nav nav-treeview" style="display: none;">
+                                <ul class="nav nav-treeview" @if(isset($nav_schedule)) style="display: block;" @else style="display: none;" @endif>
                                     <li class="nav-item rm-level-3">
                                         <a href="#" class="nav-link">
                                             <p>Архив</p>
@@ -347,16 +347,6 @@
                                             <p>Расписание преподавателя</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Добавить преподавателя</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Уволенные преподаватели</p>
-                                        </a>
-                                    </li>
                                 </ul>
                             </li>
 
@@ -377,11 +367,6 @@
                                     <li class="nav-item rm-level-3">
                                         <a href="#" class="nav-link">
                                             <p>Специальности</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Расписание групп</p>
                                         </a>
                                     </li>
                                 </ul>
