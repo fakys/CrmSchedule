@@ -50,7 +50,7 @@
                                                                     <div class="time-start-end">{{$unit->getTimeStart()->format('H:i')}} - {{$unit->getTimeEnd()->format('H:i')}}</div>
                                                                 </div>
                                                             @else
-                                                                @if (!$unit->getWeekday())
+                                                                @if (!$unit->getWeekEnd())
                                                                     <div>
                                                                         Нет данных
                                                                     </div>

@@ -35,7 +35,7 @@ class ScheduleManagerReturnData
                 BackendHelper::getRepositories()->getStudentGroupById($unit->getGroup())->number;
 
             $schedule_return_data[$unit->getSemester()]['semester_data']
-            [$unit->getGroup()]['group_data'][$unit->getDate()->format('d.m.Y')]['is_weekday'] = $unit->getWeekday();
+            [$unit->getGroup()]['group_data'][$unit->getDate()->format('d.m.Y')]['is_weekday'] = $unit->getWeekEnd();
         }
 
         return $schedule_return_data;

@@ -57,7 +57,6 @@ $(document).ready(function (){
     }
 
     getScheduleData()
-    schedule = start_data
 
     function getStartSchedule(group_id, date_start, pair_number) {
         return start_data[group_id][date_start][pair_number];
@@ -72,25 +71,36 @@ $(document).ready(function (){
         let start_schedule = getStartSchedule(group_id, date_start, pair_number)
         let inputs = $(block).find('.change-input')
 
-        if (start_schedule['schedule'][obj.attr('name')] !== undefined) {
-            if (start_schedule['schedule'][obj.attr('name')] !== obj.val()) {
-                schedule[group_id][date_start][pair_number]['schedule'][obj.attr('name')] = obj.val()
-                for (let inp of inputs) {
-                    if (
-                        $(inp).val() == 0 &&
-                        $(inp).attr('name') !== 'schedule_description'
-                    ) {
-                        block.find('.schedule-pair-number').removeClass('schedule-pair-number-ready')
-                        block.find('.schedule-pair-number').addClass('schedule-pair-number-error')
-                        return 0
-                    }
-                }
-                block.find('.schedule-pair-number').removeClass('schedule-pair-number-error')
-                block.find('.schedule-pair-number').addClass('schedule-pair-number-ready')
-                return 1
-            }
-
+        if (!schedule[group_id]) {
+            schedule[group_id] = {}
         }
+        if (!schedule[group_id][date_start]) {
+            schedule[group_id][date_start] = {}
+        }
+        if (!schedule[group_id][date_start][pair_number]) {
+            schedule[group_id][date_start][pair_number] = {}
+        }
+        if (!schedule[group_id][date_start][pair_number]['schedule']) {
+            schedule[group_id][date_start][pair_number]['schedule'] = {}
+        }
+
+        for (let inp of inputs) {
+            schedule[group_id][date_start][pair_number]['schedule'][$(inp).attr('name')] = $(inp).val()
+        }
+
+        for (let inp of inputs) {
+            if (
+                $(inp).val() == 0 &&
+                $(inp).attr('name') !== 'schedule_description'
+            ) {
+                block.find('.schedule-pair-number').removeClass('schedule-pair-number-ready')
+                block.find('.schedule-pair-number').addClass('schedule-pair-number-error')
+                return 0
+            }
+        }
+        block.find('.schedule-pair-number').removeClass('schedule-pair-number-error')
+        block.find('.schedule-pair-number').addClass('schedule-pair-number-ready')
+        return 1
 
     }
 
@@ -112,6 +122,7 @@ $(document).ready(function (){
 
 
     $('.btn-save-schedule').on('click', function (){
+        getScheduleData()
         let url = $('.url-edit-schedule').data('url')
         if ($('.schedule-pair-number-error').length !== 0) {
             if ($('.schedule-pair-number-error').length > 1) {
@@ -122,12 +133,11 @@ $(document).ready(function (){
 
             return 0;
         }
-
         if (url) {
             $.ajax({
                 url: url,
                 method: 'post',
-                data: {'_token':$("input[name='_token']").val(), 'schedule':schedule},
+                data: {'_token':$("input[name='_token']").val(), 'schedule':schedule, 'full_data':start_data},
                 success: function(data){
                     if (data == 1) {
                         get_add_schedule()

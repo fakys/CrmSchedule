@@ -7,7 +7,13 @@ class ScheduleUnit
 {
     private $date;
     private $pair_number;
+    /**
+     * @var array $type_plan_params Хранит в себе настройки типа плана расписания
+     */
+    private $type_plan_params;
     private $group_id;
+    private $week_number;
+    private $week_day;
     private $time_start;
     private $time_end;
     private $subject_id;
@@ -18,7 +24,7 @@ class ScheduleUnit
     private $is_base_schedule;
 
     /** @var bool $weekday */
-    private $weekday = false;
+    private $week_end = false;
 
 
     public function setDate(\DateTime $date)
@@ -33,9 +39,14 @@ class ScheduleUnit
         return $this->date;
     }
 
-    public function setPairNumber($pair_number_id){
-        $this->pair_number = $pair_number_id;
+    public function setPairNumber($pair_number){
+        $this->pair_number = $pair_number;
     }
+
+    /**
+     * Возвращает НОМЕР пары
+     * @return int
+     */
     public function getPairNumber(){
         return $this->pair_number;
     }
@@ -115,14 +126,14 @@ class ScheduleUnit
        $this->semester = $semester_id;
     }
 
-    public function getWeekday()
+    public function getWeekEnd()
     {
-        return $this->weekday;
+        return $this->week_end;
     }
 
-    public function setWeekday($weekday)
+    public function setWeekEnd($week_end)
     {
-        $this->weekday = $weekday;
+        $this->week_end = $week_end;
     }
 
     public function isBaseSchedule()
@@ -134,6 +145,42 @@ class ScheduleUnit
         $this->is_base_schedule = $is_base_schedule;
     }
 
+    /**
+     * @param $param_string
+     * @return void
+     */
+    public function setTypePlanParams($param_string)
+    {
+        $this->type_plan_params = json_decode($param_string, 1);
+    }
+
+    /**
+     * @return array
+     */
+    public function getTypePlanParams()
+    {
+        return $this->type_plan_params;
+    }
+
+    public function getWeekNumber()
+    {
+        return $this->week_number;
+    }
+
+    public function setWeekNumber($week_number)
+    {
+        $this->week_number = $week_number;
+    }
+
+    public function setWeekDay($week_day)
+    {
+        $this->week_day = $week_day;
+    }
+
+    public function getWeekDay()
+    {
+        return $this->week_day;
+    }
 
     /**
      * Проверяет пустой ли юнит

@@ -171,6 +171,11 @@ class BaseSchedulePlugin extends AbstractPlugin
             $schedule_unit->setUser($schedule->teacher_id);
             $schedule_unit->setFormatPair($schedule->format_id);
             $schedule_unit->setDescription($schedule->schedule_description);
+            if ($base_schedule) {
+                $schedule_unit->setWeekNumber($schedule->week_number);
+                $schedule_unit->setWeekDay($schedule->week_day);
+                $schedule_unit->setTypePlanParams($schedule->type_prams);
+            }
             if (isset($schedule->semester_id)) {
                 $schedule_unit->setSemester($schedule->semester_id);
             } else {

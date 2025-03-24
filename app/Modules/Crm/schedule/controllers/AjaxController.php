@@ -58,7 +58,7 @@ class AjaxController extends Controller
 
         try {
             $model = new EditScheduleModel();
-            $model->schedule = request()->post('schedule');
+            $model->load(request()->post());
             if ($model->schedule && $searchData) {
                 if ($model->validate()) {
                     BackendHelper::getOperations()->editSchedule($model->schedule, $searchData);
