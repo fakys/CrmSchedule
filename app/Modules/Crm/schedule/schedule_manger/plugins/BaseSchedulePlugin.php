@@ -11,6 +11,7 @@ use App\Modules\Crm\schedule\src\entity\ScheduleSearchData;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PairNumberEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PlanScheduleEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\SemesterEntity;
+use App\Modules\Crm\schedule\src\schedule_manager\entity\units\SemesterUnit;
 use App\Modules\Crm\schedule\src\schedule_manager\Schedule;
 use App\Modules\Crm\schedule\src\schedule_manager\ScheduleUnit;
 use App\Src\BackendHelper;
@@ -119,10 +120,10 @@ class BaseSchedulePlugin extends AbstractPlugin
         }
 
         for ($day = 1; $day <= $count_days; $day++) {
-            /** Получаем текущий семестр */
-            $semester = $this->semesters->getSemesterByDate($date_schedule);
-
             foreach ($search_group as $group) {
+                /** Получаем текущий семестр для группы */
+                $semester = $this->semesters->getSemesterByDate($date_schedule);
+                $this->semesters->loanSemestersUnit($semester, $group);
                 for ($pair_number = 1; $pair_number <= count($this->pair_numbers->getPairNumbers()); $pair_number++) {
                     $this->addSchedule(
                         clone $date_schedule,
@@ -159,6 +160,14 @@ class BaseSchedulePlugin extends AbstractPlugin
             $schedule_unit->setSemester($this->semesters->getSemesterByDate($date)['id']);
             $schedule_unit->setGroup((int)$group_id);
             $schedule_unit->setBaseSchedule($base_schedule);
+            $semester = $this->semesters->getSemesterByDate($date);
+            $semester_unit = $this->semesters->getUnitByGroup($group_id, $semester['id']);
+            if ($semester_unit->getTypePlanParam()) {
+                $schedule_unit->setWeekNumber(
+                    $this->getNumberWeekBySemester($date, $this->semesters->getUnitByGroup($group_id, $this->semesters->getSemesterByDate($date)['id']))
+                );
+            }
+            $schedule_unit->setWeekDay($date->format('w'));
             $this->schedule->addUnit($schedule_unit);
         } else {
             $schedule_unit = new ScheduleUnit();
@@ -171,10 +180,16 @@ class BaseSchedulePlugin extends AbstractPlugin
             $schedule_unit->setUser($schedule->teacher_id);
             $schedule_unit->setFormatPair($schedule->format_id);
             $schedule_unit->setDescription($schedule->schedule_description);
+            $semester = $this->semesters->getSemesterByDate($date);
+            $semester_unit = $this->semesters->getUnitByGroup($group_id, $semester['id']);
             if ($base_schedule) {
                 $schedule_unit->setWeekNumber($schedule->week_number);
                 $schedule_unit->setWeekDay($schedule->week_day);
-                $schedule_unit->setTypePlanParams($schedule->type_prams);
+            } elseif ($semester_unit->getTypePlanParam()) {
+                $schedule_unit->setWeekNumber(
+                    $this->getNumberWeekBySemester($date, $semester_unit)
+                );
+                $schedule_unit->setWeekDay($date->format('w'));
             }
             if (isset($schedule->semester_id)) {
                 $schedule_unit->setSemester($schedule->semester_id);
@@ -231,5 +246,15 @@ class BaseSchedulePlugin extends AbstractPlugin
             throw new ScheduleManagerException('Не найдены данные для поиска');
         }
         $this->searchData = new ScheduleSearchData($data);
+    }
+
+    /**
+     * @param $date
+     * @param SemesterUnit $semester_unit
+     * @return int
+     */
+    public function getNumberWeekBySemester($date, $semester_unit)
+    {
+        return BackendHelper::getOperations()->getCurrentWeek($date, $semester_unit->getDateStart(), count($semester_unit->getTypePlanParam()['weeks']));
     }
 }

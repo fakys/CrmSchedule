@@ -4,6 +4,7 @@ namespace App\Modules\Crm\schedule_plan\repositories;
 
 use App\Entity\SchedulePlanType;
 use App\Src\modules\repository\Repository;
+use Illuminate\Support\Facades\DB;
 
 class SchedulePlanTypeRepository extends Repository
 {
@@ -60,5 +61,26 @@ class SchedulePlanTypeRepository extends Repository
             return true;
         }
         return false;
+    }
+
+    /**
+     * Возвращает план по семестру и группе
+     * @param $semester_id
+     * @param $group_id
+     * @return array
+     */
+    public function getSchedulePlanTypeByGroupSemester($semester_id, $group_id)
+    {
+        $sql = "SELECT
+            type.id,
+            type.name,
+            type.plan_type_data
+         FROM plan_schedule schedule
+         LEFT JOIN schedule_plan_type type on schedule.plan_type_id = type.id
+         WHERE schedule.student_group_id = :group_id AND schedule.semester_id = :semester_id
+         ORDER BY schedule.id DESC LIMIT 1";
+
+        $args_arr = [':group_id'=>$group_id, ':semester_id'=>$semester_id];
+        return DB::selectOne($sql, $args_arr);
     }
 }

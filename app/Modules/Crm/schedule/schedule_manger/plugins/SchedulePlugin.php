@@ -105,7 +105,6 @@ class SchedulePlugin extends AbstractPlugin
                 return true;
             }
         }
-        var_dump(1232);
         $this->addSchedule($date, $group_id, $schedule);
         return true;
     }

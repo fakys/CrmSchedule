@@ -35,9 +35,11 @@ class WeekendsPlugin extends AbstractPlugin
         if ($this->schedule->getScheduleUnits()) {
             /** Устанавливаем выходные */
             foreach ($this->schedule->getScheduleUnits() as $schedule) {
+                $semester = $this->semesters->getUnitByGroup($schedule->getGroup(), $schedule->getSemester());
 
-                if ($schedule->getTypePlanParams()) {
-                    $week_end = $schedule->getTypePlanParams()['weeks'][$schedule->getWeekNumber()];
+                if ($semester->getTypePlanParam() && $schedule->getWeekNumber()) {
+                    $week_ends = $semester->getTypePlanParam()['weeks'][$schedule->getWeekNumber()]['week_end'];
+                    $schedule->setWeekEnd($week_ends[$schedule->getWeekDay()] == 'true');
                 } else {
                     if ($this->type_weeks == ScheduleSetting::FIVE_DAY) {
                         if ($schedule->getDate()->format('w') == 6 || $schedule->getDate()->format('w') == 0) {

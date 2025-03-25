@@ -7,10 +7,6 @@ class ScheduleUnit
 {
     private $date;
     private $pair_number;
-    /**
-     * @var array $type_plan_params Хранит в себе настройки типа плана расписания
-     */
-    private $type_plan_params;
     private $group_id;
     private $week_number;
     private $week_day;
@@ -143,23 +139,6 @@ class ScheduleUnit
 
     public function setBaseSchedule($is_base_schedule){
         $this->is_base_schedule = $is_base_schedule;
-    }
-
-    /**
-     * @param $param_string
-     * @return void
-     */
-    public function setTypePlanParams($param_string)
-    {
-        $this->type_plan_params = json_decode($param_string, 1);
-    }
-
-    /**
-     * @return array
-     */
-    public function getTypePlanParams()
-    {
-        return $this->type_plan_params;
     }
 
     public function getWeekNumber()

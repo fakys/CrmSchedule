@@ -614,4 +614,11 @@ interface RepositoryInterface{
      * @return PlanSchedule
      */
     public function getFirstPlanSchedule($group_id, $semester_id);
+
+    /**
+     * Возвращает план по семестру и группе
+     * @param $semester_id
+     * @param $group_id
+     */
+    public function getSchedulePlanTypeByGroupSemester($semester_id, $group_id);
 }
