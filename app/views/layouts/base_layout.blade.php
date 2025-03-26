@@ -246,6 +246,24 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li class="nav-item rm-level-2 @if(isset($nav_schedule)) menu-open @endif">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-microchip" aria-hidden="true"></i>
+                                        <p>
+                                            Настройка модулей
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview" @if(isset($nav_schedule)) style="display: block;" @else style="display: none;" @endif>
+                                        @if(\App\Src\BackendHelper::getOperations()->checkStatusModule(\App\Modules\Crm\holidays\InfoModule::getNameModule()))
+                                        <li class="nav-item rm-level-3">
+                                            <a href="{{route(\App\Modules\Crm\holidays\InfoModule::getNameModule().'.settings')}}" class="nav-link">
+                                                <p>Праздничныe дни</p>
+                                            </a>
+                                        </li>
+                                        @endif
+                                    </ul>
+                                </li>
                         </ul>
                     </li>
                     @endif

@@ -22,7 +22,7 @@ class ModulesRepository extends Repository {
 
     public function updateStatusModules($name, $status)
     {
-        $module = StatusModules::where(['name'=>$name, 'active'=>$status])->get()->first();
+        $module = StatusModules::where(['name'=>$name])->get()->first();
         $module->active = $status;
         return $module->save();
     }

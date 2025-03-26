@@ -11,12 +11,8 @@ class Settings{
 
     public function __construct($settings)
     {
-        if($settings){
-            $this->settings = $settings;
-            $this->setParams($settings);
-        }else{
-            throw new Exception('Настройки не найдены');
-        }
+        $this->settings = $settings;
+        $this->setParams($settings);
     }
 
     protected function setParams($settings)
@@ -26,6 +22,11 @@ class Settings{
                 $this->params[$key] = $value;
             }
         }
+    }
+
+    public function getSettings()
+    {
+        return $this->params;
     }
 
     public function __get($name)

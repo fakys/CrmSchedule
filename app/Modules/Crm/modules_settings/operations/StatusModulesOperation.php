@@ -9,7 +9,7 @@ class StatusModulesOperation extends Operation
     public function updateStatusModules($data)
     {
         foreach ($data as $module) {
-            BackendHelper::getRepositories()->updateStatusModules($module['name']);
+            BackendHelper::getRepositories()->updateStatusModules($module['name'], $module['status']);
         }
         return true;
     }

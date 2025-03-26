@@ -16,10 +16,10 @@ interface OperationsInterface
 
     /**
      * Добавление настроек
-     * @param $name
+     * @param $data
      * @return mixed
      */
-    public function createSystemSettings($name);
+    public function createSystemSettings($data);
 
     /**
      * Берет текущие системные настройки
@@ -141,4 +141,6 @@ interface OperationsInterface
      * @return int
      */
     public function getCurrentWeek($current_date, $semester_start, $weeks);
+
+    public function checkStatusModule($name_module);
 }

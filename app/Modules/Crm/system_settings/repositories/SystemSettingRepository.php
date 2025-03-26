@@ -42,8 +42,25 @@ class SystemSettingRepository extends Repository{
         return SystemSetting::all();
     }
 
+    /**
+     * Создает настройку
+     * @param $data
+     * @return bool
+     */
     public static function setSystemSettings($data)
     {
-        return SystemSetting::create($data);
+        $settings = new SystemSetting();
+        $settings->name = $data['name'];
+        $settings->active = $data['active'];
+        if (is_array($data['settings'])) {
+            $settings->settings = json_encode($data['settings']);
+        } else {
+            $settings->settings = $data['settings'];
+        }
+        $settings->create_user_id = $data['create_user_id'];
+        if ($settings->save()) {
+            return true;
+        }
+        return false;
     }
 }

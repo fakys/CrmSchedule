@@ -54,7 +54,7 @@ class SettingsController extends Controller{
         if(request()->post() && $validate->validate()){
             $settings = json_encode($model->getData());
             BackendHelper::getOperations()->createSystemSettings(
-                ['name'=>CrmSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>1, 'active'=>true]
+                ['name'=>CrmSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>context()->getUser()->id, 'active'=>true]
             );
         }
         return redirect()->route('system_settings.crm_settings');

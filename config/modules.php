@@ -10,6 +10,7 @@ return [
     'modules'=>[
         'Crm'=>[
             'backend_module',
+            'holidays',
             'interface',
             'system_settings',
             'modules_settings',
