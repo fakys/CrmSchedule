@@ -2,7 +2,7 @@
 namespace App\Modules\Crm\schedule\src\schedule_manager\entity;
 
 use App\Entity\PairNumber;
-use App\Modules\Crm\schedule\exceptions\ScheduleManagerException;
+use App\Modules\Crm\schedule\exceptions\HolidayException;
 
 /** Сущность для работы с номерами пар */
 class PairNumberEntity
@@ -18,7 +18,7 @@ class PairNumberEntity
     public function __construct($pairNumbers)
     {
         if (!$pairNumbers) {
-            throw new ScheduleManagerException('Отсутствуют номера пар');
+            throw new HolidayException('Отсутствуют номера пар');
         }
         foreach ($pairNumbers as $pairNumber) {
             $this->pairNumbers[] = ['id' => $pairNumber->id,'number' => $pairNumber->number, 'name'=>$pairNumber->name];

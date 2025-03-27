@@ -25,6 +25,9 @@ $(document).ready(function (){
             success: function(data){
                 $('#loan_bar').remove()
                 $('#holidays_container_data').append(data)
+            },
+            error: function (err){
+                error_alert(err.responseJSON.message)
             }
         });
     }
@@ -57,6 +60,9 @@ $(document).ready(function (){
             data: {'_token': csrf, 'holidays':data, 'use_settings':$('#use_settings').is(':checked')},
             success: function(data){
                 location.reload();
+            },
+            error: function (err){
+                error_alert(err.responseJSON.message)
             }
         });
     })

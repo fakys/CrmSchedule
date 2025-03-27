@@ -4,23 +4,16 @@
             <div class="card-body">
                <div class="d-flex"><div class="btn btn-danger p-1 pl-2 pr-2 delete-btn ml-auto" data-number="{{$number}}"><i class="fa fa-times" aria-hidden="true"></i></div></div>
                 <div class="form-group">
-                    <div class="form-group">
-                        <label class="p-0">Название праздника</label>
-                        <input type="text" class="form-control input-holidays" placeholder="Введите название праздника" name="name" value="{{$data['name']}}">
-                    </div>
-                    <label>Период праздника</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="far fa-calendar-alt"></i>
-                </span>
-                        </div>
-                        <input type="text" name="period" class="form-control float-right input-holidays" id="period_{{$number}}" value="{{$data['period']}}">
-                    </div>
+                    <label class="p-0">Название праздника</label>
+                    <input type="text" class="form-control input-holidays" placeholder="Введите название праздника" name="name" value="{{$data['name']}}">
+                </div>
+                <div class="form-group d-flex flex-column">
+                    <label class="p-0">Период</label>
+                    <input type="text" id="period_{{$number}}" name="period" class="input-holidays form-control" value="{{$data['period']}}">
                 </div>
                 <div class="form-group d-flex gap-2">
                     <label class="m-0" for="week_end_{{$number}}">Выходные дни</label>
-                    <input type="checkbox" @if($data['period']) checked @endif class="form-control-sm week_end input-holidays" id="week_end_{{$number}}" data-number="{{$number}}" name="week_days">
+                    <input type="checkbox" @if($data['week_days'] === 'true') checked @endif class="form-control-sm week_end input-holidays" id="week_end_{{$number}}" data-number="{{$number}}" name="week_days">
                 </div>
                 <div class="format_container d-none" id="format_container_{{$number}}">
                     <div class="form-group">
@@ -29,7 +22,7 @@
                             @if($data['format'])
                                 <option value="0">Нет данных</option>
                                 @foreach($format as $f)
-                                    @if(in_array($f->id, $data['format']))
+                                    @if($f->id == $data['format'])
                                         <option value="{{$f->id}}" selected>{{$f->name}}</option>
                                     @else
                                         <option value="{{$f->id}}">{{$f->name}}</option>
@@ -63,38 +56,30 @@
             </div>
         </div>
         <script>
-            //Date range picker
-            $('#period_{{$number}}').daterangepicker({
-                "locale": {
-                    "format": "DD.MM.YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Сохранить",
-                    "cancelLabel": "Назад",
-                    "daysOfWeek": [
-                        "Вс",
-                        "Пн",
-                        "Вт",
-                        "Ср",
-                        "Чт",
-                        "Пт",
-                        "Сб"
+            const picker = new Litepicker({
+                element: document.getElementById('period_{{$number}}'),
+                format: 'MM.DD',
+                lang: 'ru', // Указываем язык
+                singleMode: false,
+                locale: {
+                    days: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+                    daysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                    daysMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                    months: [
+                        'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+                        'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
                     ],
-                    "monthNames": [
-                        "Январь",
-                        "Февраль",
-                        "Март",
-                        "Апрель",
-                        "Май",
-                        "Июнь",
-                        "Июль",
-                        "Август",
-                        "Сентябрь",
-                        "Октябрь",
-                        "Ноябрь",
-                        "Декабрь"
+                    monthsShort: [
+                        'Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн',
+                        'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'
                     ],
-                    "firstDay": 1,
-                }});
+                    firstDayOfWeek: 1,
+                    today: 'Сегодня',
+                    clear: 'Очистить',
+                    dateFormat: 'd.m.Y'
+                }
+            });
+            $('#period_{{$number}}').val('{{$data['period']}}')
         </script>
         <script src="{{asset('assets/modules/holidays/holidays_form.js')}}"></script>
     @endforeach
@@ -103,19 +88,12 @@
         <div class="card-body">
             <div class="d-flex"><div class="btn btn-danger p-1 pl-2 pr-2 delete-btn ml-auto" data-number="{{$number}}"><i class="fa fa-times" aria-hidden="true"></i></div></div>
             <div class="form-group">
-                <div class="form-group">
-                    <label class="p-0">Название праздника</label>
-                    <input type="text" class="form-control input-holidays" placeholder="Введите название праздника" name="name">
-                </div>
-                <label>Период праздника</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="far fa-calendar-alt"></i>
-                </span>
-                    </div>
-                    <input type="text" name="period" class="form-control float-right input-holidays" id="period_{{$number}}" value="">
-                </div>
+                <label class="p-0">Название праздника</label>
+                <input type="text" class="form-control input-holidays" placeholder="Введите название праздника" name="name">
+            </div>
+            <div class="form-group d-flex flex-column">
+                <label class="p-0">Период</label>
+                <input type="text" id="period_{{$number}}"  name="period" class="input-holidays form-control">
             </div>
             <div class="form-group d-flex gap-2">
                 <label class="m-0" for="week_end_{{$number}}">Выходные дни</label>
@@ -135,41 +113,32 @@
             </div>
         </div>
     </div>
-    <script>
-        //Date range picker
-        $('#period_{{$number}}').daterangepicker({
-            "locale": {
-                "format": "DD.MM.YYYY",
-                "separator": " - ",
-                "applyLabel": "Сохранить",
-                "cancelLabel": "Назад",
-                "daysOfWeek": [
-                    "Вс",
-                    "Пн",
-                    "Вт",
-                    "Ср",
-                    "Чт",
-                    "Пт",
-                    "Сб"
-                ],
-                "monthNames": [
-                    "Январь",
-                    "Февраль",
-                    "Март",
-                    "Апрель",
-                    "Май",
-                    "Июнь",
-                    "Июль",
-                    "Август",
-                    "Сентябрь",
-                    "Октябрь",
-                    "Ноябрь",
-                    "Декабрь"
-                ],
-                "firstDay": 1,
-            }});
-    </script>
     <script src="{{asset('assets/modules/holidays/holidays_form.js')}}"></script>
+    <script>
+        const picker = new Litepicker({
+            element: document.getElementById('period_{{$number}}'),
+            format: 'MM.DD',
+            lang: 'ru', // Указываем язык
+            singleMode: false,
+            locale: {
+                days: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+                daysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                daysMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                months: [
+                    'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+                    'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+                ],
+                monthsShort: [
+                    'Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн',
+                    'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'
+                ],
+                firstDayOfWeek: 1,
+                today: 'Сегодня',
+                clear: 'Очистить',
+                dateFormat: 'd.m.Y'
+            }
+        });
+    </script>
 @endif
 
 

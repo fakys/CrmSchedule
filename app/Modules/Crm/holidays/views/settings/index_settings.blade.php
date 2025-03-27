@@ -1,7 +1,8 @@
 @extends('layout::base_layout')
 @section('css_files')
     <link rel="stylesheet" href="{{asset('assets/css/holidays.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/plugins/css/daterangepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/plugins/css/litepicker.css')}}">
+    <script src="{{asset('assets/plugins/js/litepicker.js')}}"></script>
 @endsection
 
 @section('content')
@@ -36,8 +37,4 @@
 
 @section('js_files')
     <script src="{{asset('assets/modules/holidays/holidays.js')}}"></script>
-    <script src="{{asset('assets/plugins/js/select2.js')}}"></script>
-    <script src="{{asset('assets/plugins/js/moment.min.js')}}"></script>
-    <script src="{{asset('assets/plugins/js/jquery.inputmask.min.js')}}"></script>
-    <script src="{{asset('assets/plugins/js/daterangepicker.js')}}"></script>
 @endsection

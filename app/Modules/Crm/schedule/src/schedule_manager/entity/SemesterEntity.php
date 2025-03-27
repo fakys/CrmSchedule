@@ -3,7 +3,7 @@ namespace App\Modules\Crm\schedule\src\schedule_manager\entity;
 
 use App\Entity\PairNumber;
 use App\Entity\Semester;
-use App\Modules\Crm\schedule\exceptions\ScheduleManagerException;
+use App\Modules\Crm\schedule\exceptions\HolidayException;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\units\SemesterUnit;
 use App\Src\BackendHelper;
 
@@ -21,7 +21,7 @@ class SemesterEntity
     public function __construct($semesters)
     {
         if (!$semesters) {
-            throw new ScheduleManagerException('Нет семестра на этот период');
+            throw new HolidayException('Нет семестра на этот период');
         }
         foreach ($semesters as $semester) {
             $this->semesters[$semester->id] = [

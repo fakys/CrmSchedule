@@ -22,19 +22,20 @@ class SettingsController extends Controller
         $for_settings = request('for_settings');
         $setting = BackendHelper::getSystemSettings(HolidaySetting::getSettingName())->getSettings();
         $format = BackendHelper::getRepositories()->getFullFormatLessons();
-        return view('settings.holidays_form', compact('number', 'for_settings', 'setting', 'format'));
+        $min_date = new \DateTime();
+        $min_date->setDate($min_date->format('Y'), 1, 1);
+        $max_date = new \DateTime();
+        $max_date->setDate($min_date->format('Y'), 12, 31);
+        return view('settings.holidays_form', compact('number', 'for_settings', 'setting', 'format', 'min_date', 'max_date'));
     }
 
     public function setHolidays()
     {
         $model = new HolidaySetting();
         $model->load(request()->post());
-        $validate = Validator::make($model->getData(), $model->rules());
-        if ($validate->validate()) {
-            return BackendHelper::getOperations()->createSystemSettings(
-                ['name'=>HolidaySetting::getSettingName(), 'settings'=>$model->getData(), 'create_user_id'=>context()->getUser()->id, 'active'=>true]
-            );
-        }
-        abort(403, 'Ошибка валидации');
+        $model->holidayValidate();
+        return BackendHelper::getOperations()->createSystemSettings(
+            ['name'=>HolidaySetting::getSettingName(), 'settings'=>$model->getData(), 'create_user_id'=>context()->getUser()->id, 'active'=>true]
+        );
     }
 }

@@ -2,7 +2,7 @@
 namespace App\Modules\Crm\schedule\src\schedule_manager\entity;
 
 use App\Entity\PairNumber;
-use App\Modules\Crm\schedule\exceptions\ScheduleManagerException;
+use App\Modules\Crm\schedule\exceptions\HolidayException;
 use App\Src\BackendHelper;
 use GuzzleHttp\Test\StrClass;
 

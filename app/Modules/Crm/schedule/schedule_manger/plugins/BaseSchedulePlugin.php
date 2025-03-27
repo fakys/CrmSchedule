@@ -6,7 +6,7 @@ use App\Entity\PairNumber;
 use App\Entity\Semester;
 use App\Entity\Specialty;
 use App\Entity\StudentGroup;
-use App\Modules\Crm\schedule\exceptions\ScheduleManagerException;
+use App\Modules\Crm\schedule\exceptions\HolidayException;
 use App\Modules\Crm\schedule\src\entity\ScheduleSearchData;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PairNumberEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PlanScheduleEntity;
@@ -35,7 +35,7 @@ class BaseSchedulePlugin extends AbstractPlugin
 
     /**
      * @throws \DateMalformedStringException
-     * @throws ScheduleManagerException
+     * @throws HolidayException
      */
     public function Execute()
     {
@@ -232,18 +232,18 @@ class BaseSchedulePlugin extends AbstractPlugin
             return $pair_number;
         }
 
-        throw new ScheduleManagerException('Последовательность пар не настроена');
+        throw new HolidayException('Последовательность пар не настроена');
     }
 
     /**
      * @return void
-     * @throws ScheduleManagerException
+     * @throws HolidayException
      */
     private function initSearchData()
     {
         $data = request()->session()->get('schedule_manager_request');
         if (!$data) {
-            throw new ScheduleManagerException('Не найдены данные для поиска');
+            throw new HolidayException('Не найдены данные для поиска');
         }
         $this->searchData = new ScheduleSearchData($data);
     }

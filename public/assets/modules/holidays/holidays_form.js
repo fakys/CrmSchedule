@@ -6,6 +6,15 @@ $(document).ready(function (){
             $('#format_container_'+$(this).data('number')).removeClass('d-none')
         }
     })
+
+    for (let check_box of $('.week_end')) {
+        if ($(check_box).is(':checked')) {
+            $('#format_container_'+$(check_box).data('number')).addClass('d-none')
+        } else {
+            $('#format_container_'+$(check_box).data('number')).removeClass('d-none')
+        }
+    }
+
     $('.delete-btn').off('click').on('click', function () {
         let number = $(this).data('number')
         if ($(`.delete-menu-container[number=${number}]`).length) {

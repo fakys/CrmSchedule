@@ -21,3 +21,6 @@
 .delete-massage{
     padding-bottom: 10px;
 }
+.litepicker .container__months .month-item-header div>.month-item-year{
+    display: none;
+}
