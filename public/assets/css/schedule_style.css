@@ -128,8 +128,11 @@
 .schedule-date-weekday{
     background: #8e8e8e;
 }
+.schedule-date-holiday{
+    background: #8d64d1;
+}
 
-.weekday-block div {
+.weekday-block div, .holiday-block div {
     border-radius: 5px;
     margin-left: 15px;
     color: white;

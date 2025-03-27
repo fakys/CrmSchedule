@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\schedule\src\schedule_manager;
 
+use App\Modules\Crm\schedule\src\schedule_manager\entity\HolidayEntity;
 use App\Src\BackendHelper;
 
 class ScheduleUnit
@@ -21,6 +22,8 @@ class ScheduleUnit
 
     /** @var bool $weekday */
     private $week_end = false;
+    /** @var HolidayEntity $holiday */
+    private $holiday;
 
 
     public function setDate(\DateTime $date)
@@ -159,6 +162,23 @@ class ScheduleUnit
     public function getWeekDay()
     {
         return $this->week_day;
+    }
+
+    /**
+     * @param HolidayEntity $holiday
+     * @return void
+     */
+    public function setHoliday($holiday)
+    {
+        $this->holiday = $holiday;
+    }
+
+    /**
+     * @return HolidayEntity
+     */
+    public function getHoliday()
+    {
+        return $this->holiday;
     }
 
     /**

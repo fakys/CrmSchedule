@@ -36,6 +36,9 @@ class ScheduleManagerReturnData
 
             $schedule_return_data[$unit->getSemester()]['semester_data']
             [$unit->getGroup()]['group_data'][$unit->getDate()->format('d.m.Y')]['is_weekday'] = $unit->getWeekEnd();
+
+            $schedule_return_data[$unit->getSemester()]['semester_data']
+            [$unit->getGroup()]['group_data'][$unit->getDate()->format('d.m.Y')]['holiday'] = $unit->getHoliday();
         }
 
         return $schedule_return_data;

@@ -32,9 +32,11 @@
                                 @foreach($schedule_group['group_data'] as $date=>$schedule_data)
                                     <div>
                                         <div class="d-flex pb-3">
-                                            <div class="schedule-date @if($schedule_data['is_weekday']) schedule-date-weekday @endif ">{{$date}}</div>
+                                            <div class="schedule-date @if($schedule_data['is_weekday']) schedule-date-weekday @elseif($schedule_data['holiday']) schedule-date-holiday @endif ">{{$date}}</div>
                                             @if($schedule_data['is_weekday'])
                                                 <div class="weekday-block"><div class="">Выходной</div></div>
+                                            @elseif($schedule_data['holiday'])
+                                                <div class="holiday-block"><div class="">Праздничный день</div></div>
                                             @endif
                                         </div>
                                         <div class="schedule-pair-data-container">
@@ -50,13 +52,17 @@
                                                                     <div class="time-start-end">{{$unit->getTimeStart()->format('H:i')}} - {{$unit->getTimeEnd()->format('H:i')}}</div>
                                                                 </div>
                                                             @else
-                                                                @if (!$unit->getWeekEnd())
+                                                                @if ($unit->getWeekEnd())
                                                                     <div>
-                                                                        Нет данных
+                                                                        Выходной
+                                                                    </div>
+                                                                @elseif($unit->getHoliday())
+                                                                    <div>
+                                                                        Праздничный день '{{$unit->getHoliday()->getHolidayName()}}'
                                                                     </div>
                                                                 @else
                                                                     <div>
-                                                                        Выходной
+                                                                        Нет данных
                                                                     </div>
                                                                 @endif
                                                             @endif
