@@ -1,8 +1,8 @@
 @extends('layout::base_layout')
 @section('css_files')
-    <link rel="stylesheet" href="{{asset('assets/css/holidays.css')}}">
     <link rel="stylesheet" href="{{asset('assets/plugins/css/litepicker.css')}}">
     <script src="{{asset('assets/plugins/js/litepicker.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('assets/css/holidays.css')}}">
 @endsection
 
 @section('content')

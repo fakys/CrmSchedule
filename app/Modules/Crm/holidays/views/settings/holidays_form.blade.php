@@ -56,10 +56,10 @@
             </div>
         </div>
         <script>
-            const picker = new Litepicker({
+            new Litepicker({
                 element: document.getElementById('period_{{$number}}'),
                 format: 'MM.DD',
-                lang: 'ru', // Указываем язык
+                lang: 'ru',
                 singleMode: false,
                 locale: {
                     days: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
@@ -115,10 +115,10 @@
     </div>
     <script src="{{asset('assets/modules/holidays/holidays_form.js')}}"></script>
     <script>
-        const picker = new Litepicker({
+        new Litepicker({
             element: document.getElementById('period_{{$number}}'),
             format: 'MM.DD',
-            lang: 'ru', // Указываем язык
+            lang: 'ru',
             singleMode: false,
             locale: {
                 days: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],

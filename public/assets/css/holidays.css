@@ -24,3 +24,6 @@
 .litepicker .container__months .month-item-header div>.month-item-year{
     display: none;
 }
+.litepicker .container__months .month-item-weekdays-row {
+    display: none;
+}
