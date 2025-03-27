@@ -20,3 +20,10 @@ Route::post("$module/holiday-form", [
 Route::post("$module/set-holiday-form", [
     \App\Modules\Crm\holidays\controllers\SettingsController::class , 'setHolidays'
 ])->name("$module.set_holiday_form");
+
+
+\App\Src\access\AccessRoute::access('action_holidays')->route(
+    Route::get("$module/holidays", [
+        \App\Modules\Crm\holidays\controllers\HolidaysController::class , 'actionIndex'
+    ])->name("$module.holidays")
+)->description('страничка для настройки праздничных дней по датам');

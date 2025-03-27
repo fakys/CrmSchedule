@@ -10,5 +10,11 @@ $(document).ready(function (){
             }, 600);
         }
     })
+
+
+    $('.description-settings').on('click', function (){
+        let text = $(this).attr('title')
+        success_alert(text)
+    })
 })
 

@@ -35,7 +35,8 @@
                                             <div class="schedule-date @if($schedule_data['is_weekday']) schedule-date-weekday @elseif($schedule_data['holiday']) schedule-date-holiday @endif ">{{$date}}</div>
                                             @if($schedule_data['is_weekday'])
                                                 <div class="weekday-block"><div class="">Выходной</div></div>
-                                            @elseif($schedule_data['holiday'])
+                                            @endif
+                                            @if($schedule_data['holiday'])
                                                 <div class="holiday-block"><div class="">Праздничный день</div></div>
                                             @endif
                                         </div>

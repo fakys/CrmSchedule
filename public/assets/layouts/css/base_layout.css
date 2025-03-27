@@ -237,3 +237,11 @@
     padding-bottom: 3px;
     border-bottom: 1px solid #dcdcdc;
 }
+.description-settings{
+    cursor: pointer;
+    padding: 2px 7px;
+    font-size: 12px;
+    border-radius: 50%;
+    color: white;
+    background: var(--c-main-white-blue);
+}

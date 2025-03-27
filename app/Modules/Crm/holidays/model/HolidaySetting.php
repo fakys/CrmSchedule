@@ -9,6 +9,8 @@ use App\Src\modules\models\Model;
 /**
  * @property array $holidays
  * @property bool $use_settings
+ * @property int $priority_setting
+ * @property bool $use_priority_setting
  */
 class HolidaySetting extends Model implements InterfaceModel
 {
@@ -18,7 +20,9 @@ class HolidaySetting extends Model implements InterfaceModel
     {
         return [
             'use_settings',
-            'holidays'
+            'holidays',
+            'use_priority_setting',
+            'priority_setting'
         ];
     }
 
