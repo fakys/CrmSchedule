@@ -20,7 +20,7 @@ class Model{
         $bool_field = $this->boolean();
         $data = $this->getData();
         foreach ($bool_field as $field){
-            if(isset($data[$field])){
+            if(isset($data[$field]) && $data[$field] === 'true'){
                 $this->data[$field] = true;
             }else{
                 $this->data[$field] = false;

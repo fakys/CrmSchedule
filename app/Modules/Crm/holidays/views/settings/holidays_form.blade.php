@@ -1,4 +1,4 @@
-@if($for_settings === 'true' && isset($setting['holidays']))
+@if(isset($for_settings) && $for_settings === 'true' && isset($setting['holidays']))
     @foreach($setting['holidays'] as $number=>$data)
         <div class="card holiday-form" number="{{$number}}" data-number="{{$number}}">
             <div class="card-body">

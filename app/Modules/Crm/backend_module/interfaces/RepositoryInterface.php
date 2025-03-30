@@ -5,6 +5,7 @@ use App\Entity\DurationLesson;
 use App\Entity\DurationLessons;
 use App\Entity\FormatLesson;
 use App\Entity\GroupUser;
+use App\Entity\Holiday;
 use App\Entity\Lesson;
 use App\Entity\PairNumber;
 use App\Entity\PlanDurationLesson;
@@ -621,4 +622,22 @@ interface RepositoryInterface{
      * @param $group_id
      */
     public function getSchedulePlanTypeByGroupSemester($semester_id, $group_id);
+
+    /**
+     * Создает запись о празднике
+     * @param $name
+     * @param $date_start
+     * @param $date_end
+     * @param $week_days
+     * @param $format_id
+     * @param $description
+     * @return Holiday|void
+     */
+    public function createHoliday($name, $date_start, $date_end, $week_days, $format_id, $description = null);
+
+    /**
+     * Возвращает все праздничные дни
+     * @return Holiday[]
+     */
+    public function getAllHolidays();
 }

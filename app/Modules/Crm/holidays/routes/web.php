@@ -27,3 +27,13 @@ Route::post("$module/set-holiday-form", [
         \App\Modules\Crm\holidays\controllers\HolidaysController::class , 'actionIndex'
     ])->name("$module.holidays")
 )->description('страничка для настройки праздничных дней по датам');
+
+\App\Src\access\AccessRoute::access('action_holidays')->route(
+    Route::get("$module/add-action-holiday", [
+        \App\Modules\Crm\holidays\controllers\HolidaysController::class , 'actionAddHoliday'
+    ])->name("$module.add_action_holiday")
+)->description('страничка для добавления праздников');
+
+Route::post("$module/add-holiday", [
+    \App\Modules\Crm\holidays\controllers\HolidaysController::class , 'addHoliday'
+])->name("$module.add_holiday");

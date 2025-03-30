@@ -2,10 +2,8 @@
 namespace App\Modules\Crm\holidays\controllers;
 
 use App\Modules\Crm\holidays\model\HolidaySetting;
-use App\Modules\Crm\system_settings\models\CrmSetting;
 use App\Src\BackendHelper;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Validator;
 
 class SettingsController extends Controller
 {
