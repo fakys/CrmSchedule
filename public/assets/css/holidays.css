@@ -27,3 +27,6 @@
 .litepicker .container__months .month-item-weekdays-row {
     display: none;
 }
+.date-card-header{
+    font-size: 20px;
+}

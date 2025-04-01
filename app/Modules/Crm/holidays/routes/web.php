@@ -37,3 +37,19 @@ Route::post("$module/set-holiday-form", [
 Route::post("$module/add-holiday", [
     \App\Modules\Crm\holidays\controllers\HolidaysController::class , 'addHoliday'
 ])->name("$module.add_holiday");
+
+\App\Src\access\AccessRoute::access('edit_action_holidays')->route(
+    Route::get("$module/edit-action-holidays", [
+        \App\Modules\Crm\holidays\controllers\HolidaysController::class , 'actionEditHoliday'
+    ])->name("$module.edit_action_holidays")
+)->description('страничка для редактирования праздников');
+
+Route::post("$module/edit-holidays", [
+    \App\Modules\Crm\holidays\controllers\HolidaysController::class , 'editHoliday'
+])->name("$module.edit_holidays");
+
+\App\Src\access\AccessRoute::access('delete_holidays')->route(
+    Route::post("$module/delete-holidays", [
+        \App\Modules\Crm\holidays\controllers\HolidaysController::class , 'actionDeleteHoliday'
+    ])->name("$module.delete_holidays")
+)->description('страничка для удаления праздников');

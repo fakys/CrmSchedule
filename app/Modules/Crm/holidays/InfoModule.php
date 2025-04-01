@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\holidays;
 
 
+use App\Modules\Crm\holidays\operations\HolidayOperation;
 use App\Modules\Crm\holidays\repositories\HolidayRepository;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
@@ -35,6 +36,7 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function operations(): array
     {
         return [
+            HolidayOperation::class
         ];
     }
     public static function runConfig()

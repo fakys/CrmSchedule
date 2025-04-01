@@ -22,6 +22,7 @@ use App\Entity\UserDocumet;
 use App\Entity\UserGroup;
 use App\Entity\UserInfo;
 use App\Modules\Crm\schedule\models\SemestersModel;
+use App\Modules\Crm\schedule\src\schedule_manager\entity\HolidayEntity;
 
 interface RepositoryInterface{
     /**
@@ -640,4 +641,30 @@ interface RepositoryInterface{
      * @return Holiday[]
      */
     public function getAllHolidays();
+
+    /**
+     * Получает праздник по id
+     * @param $id
+     * @return Holiday
+     */
+    public function getHolidayById($id);
+
+    /**
+     * Обновляет запись о празднике
+     * @param $id
+     * @param $name
+     * @param $period
+     * @param $week_days
+     * @param $format_id
+     * @param $description
+     * @return Holiday|void
+     */
+    public function editHoliday($id, $name, $date_start, $date_end, $week_days, $format_id, $description = null);
+
+    /**
+     * Удаляет праздник по id
+     * @param $id
+     * @return bool|null
+     */
+    public function deleteHoliday($id);
 }

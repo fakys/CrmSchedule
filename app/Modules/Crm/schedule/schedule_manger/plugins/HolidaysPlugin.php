@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\schedule\schedule_manger\plugins;
 
+use App\Entity\Holiday;
 use App\Modules\Crm\schedule\src\entity\ScheduleSearchData;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\HolidayEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PairNumberEntity;
@@ -67,6 +68,4 @@ class HolidaysPlugin extends AbstractPlugin
         $holiday->setHolidayDateEnd($date_end);
         return $holiday;
     }
-
-
 }

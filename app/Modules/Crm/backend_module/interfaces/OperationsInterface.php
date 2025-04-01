@@ -143,4 +143,10 @@ interface OperationsInterface
     public function getCurrentWeek($current_date, $semester_start, $weeks);
 
     public function checkStatusModule($name_module);
+
+    /**
+     * @return array
+     * @throws \DateMalformedStringException
+     */
+    public function getHolidaysForTable();
 }
