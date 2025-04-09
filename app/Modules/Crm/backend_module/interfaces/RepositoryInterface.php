@@ -667,4 +667,11 @@ interface RepositoryInterface{
      * @return bool|null
      */
     public function deleteHoliday($id);
+
+    /**
+     * Возвращает праздники по дате
+     * @param string $date
+     * @return Holiday
+     */
+    public function getHolidayByDate($date);
 }

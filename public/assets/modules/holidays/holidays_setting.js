@@ -75,7 +75,8 @@ $(document).ready(function (){
                 'holidays':data,
                 'use_settings':$('#use_settings').is(':checked'),
                 'priority_setting':$('#priority_setting').val(),
-                'use_priority_setting':$('#use_priority_setting').is(':checked')
+                'use_priority_setting':$('#use_priority_setting').is(':checked'),
+                'replace_no_priority_setting':$('#replace_no_priority_setting').is(':checked')
             },
             success: function(data){
                 location.reload();

@@ -86,4 +86,14 @@ class HolidayRepository extends Repository{
         $holiday = BackendHelper::getRepositories()->getHolidayById($id);
         return $holiday->delete();
     }
+
+    /**
+     * Возвращает праздники по дате
+     * @param string $date
+     * @return Holiday
+     */
+    public function getHolidayByDate($date)
+    {
+        return Holiday::where(['date_start', '<=', $date], ['date_end', '>=', $date])->first();
+    }
 }

@@ -78,7 +78,7 @@ class SchedulePlanBasePlugin extends AbstractPlugin
         $unit->setFormatPair($format_pair_id);
         $unit->setSemesterId($semester_id);
         $unit->setPlanTypeId($plan_type_id);
-        $unit->setWeekEnd($week_day);
+        $unit->setWeekDay($week_day);
         $unit->setWeekNumber($week_number);
         $this->schedule_plan->addUnit($unit);
     }

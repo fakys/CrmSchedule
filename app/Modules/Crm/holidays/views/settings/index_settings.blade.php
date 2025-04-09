@@ -27,13 +27,23 @@
                                 <div class="description-settings" title="Если праздники наслаиваются друг на друга, выбирать приоритетные"><i class="fa fa-question" aria-hidden="true"></i></div>
                             </div>
                         </div>
-                        <div class="form-group" id="priority_setting_container">
-                            <label class="m-0">Приоритет настроек</label>
-                            <select class="form-control" id="priority_setting" name="priority_setting">
-                                <option value="1" @if(isset($setting['priority_setting']) && $setting['priority_setting'] == 1) selected @endif>Общие настройки</option>
-                                <option value="2" @if(isset($setting['priority_setting']) && $setting['priority_setting'] == 2) selected @endif>Настройки по датам</option>
-                            </select>
+                        <div id="priority_setting_container">
+                            <div class="form-group">
+                                <label class="m-0">Приоритет настроек</label>
+                                <select class="form-control" id="priority_setting" name="priority_setting">
+                                    <option value="{{\App\Modules\Crm\holidays\model\HolidaySetting::MAIN_SETTING}}" @if(isset($setting['priority_setting']) && $setting['priority_setting'] == \App\Modules\Crm\holidays\model\HolidaySetting::MAIN_SETTING) selected @endif>Общие настройки</option>
+                                    <option value="{{\App\Modules\Crm\holidays\model\HolidaySetting::DATE_SETTING}}" @if(isset($setting['priority_setting']) && $setting['priority_setting'] == \App\Modules\Crm\holidays\model\HolidaySetting::DATE_SETTING) selected @endif>Настройки по датам</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <div class="d-flex align-items-center gap-3">
+                                    <label class="m-0" for="replace_no_priority_setting">Заменять не приоритетные праздники</label>
+                                    <input type="checkbox" class="form-control-sm" id="replace_no_priority_setting" name="use_priority_setting" @if(isset($setting['replace_no_priority_setting']) && $setting['replace_no_priority_setting'] == 'true') checked @endif>
+                                    <div class="description-settings" title="Если праздники наслаиваются друг на друга, выбирать приоритетные а другой удаляем"><i class="fa fa-question" aria-hidden="true"></i></div>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="card form-group">
                             <div class="card-header">
                                 Праздничныe дни

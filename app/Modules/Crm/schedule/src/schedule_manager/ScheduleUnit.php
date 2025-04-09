@@ -165,7 +165,7 @@ class ScheduleUnit
     }
 
     /**
-     * @param HolidayEntity $holiday
+     * @param HolidayEntity|null $holiday
      * @return void
      */
     public function setHoliday($holiday)

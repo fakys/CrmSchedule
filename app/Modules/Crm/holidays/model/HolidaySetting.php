@@ -11,9 +11,12 @@ use App\Src\modules\models\Model;
  * @property bool $use_settings
  * @property int $priority_setting
  * @property bool $use_priority_setting
+ * @property bool $replace_no_priority_setting
  */
 class HolidaySetting extends Model implements InterfaceModel
 {
+    const MAIN_SETTING = 1;
+    const DATE_SETTING = 2;
     protected $setting;
 
     public function fields(): array
@@ -22,7 +25,8 @@ class HolidaySetting extends Model implements InterfaceModel
             'use_settings',
             'holidays',
             'use_priority_setting',
-            'priority_setting'
+            'priority_setting',
+            'replace_no_priority_setting'
         ];
     }
 
@@ -34,7 +38,10 @@ class HolidaySetting extends Model implements InterfaceModel
 
     public function boolean(): array
     {
-        return [];
+        return [
+            'replace_no_priority_setting',
+            'use_priority_setting'
+        ];
     }
 
     public static function getSettingName(): string

@@ -35,4 +35,22 @@ class Schedule
         }
         return $units_by_date;
     }
+
+    /**
+     * @param \DateTime $date_start
+     * @param \DateTime $date_end
+     * @return ScheduleUnit[]
+     *
+     */
+    public function getScheduleUnitsByPeriod($date_start, $date_end, $group_id)
+    {
+        $units = [];
+        foreach ($this->schedule_units as $unit) {
+            if ($unit->getDate() >= $date_start && $unit->getDate() <= $date_end && $unit->getGroup() == $group_id) {
+                $units[] = $unit;
+            }
+        }
+
+        return $units;
+    }
 }
