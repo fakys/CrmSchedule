@@ -19,6 +19,7 @@ class ScheduleUnit
     private $description;
     private $semester;
     private $is_base_schedule;
+    private $semester_name;
 
     /** @var bool $weekday */
     private $week_end = false;
@@ -123,6 +124,16 @@ class ScheduleUnit
     public function setSemester($semester_id)
     {
        $this->semester = $semester_id;
+    }
+
+    public function setSemesterName($semester_name)
+    {
+        $this->semester_name = $semester_name;
+    }
+
+    public function getSemesterName()
+    {
+        return $this->semester_name;
     }
 
     public function getWeekEnd()

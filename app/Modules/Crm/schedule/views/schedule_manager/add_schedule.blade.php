@@ -16,6 +16,7 @@
         @foreach($schedules as $schedule_group_data)
         <div class="schedule-container">
             <div>
+                <div class="d-flex mb-2"><div class="semester-name">{{$schedule_group_data['semester_name']}}</div></div>
                 @foreach($schedule_group_data['semester_data'] as $group_id => $schedule_group)
                     <div class="card card-primary">
                         <div class="container-header-schedule">

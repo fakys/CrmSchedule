@@ -59,7 +59,6 @@ class SchedulePlugin extends AbstractPlugin
             );
         }
 
-
         foreach ($this->schedule_repositories as $scheduleRepository) {
             $this->updateSchedule(
                 new \DateTime($scheduleRepository->date_start),
@@ -105,7 +104,6 @@ class SchedulePlugin extends AbstractPlugin
                 return true;
             }
         }
-        $this->addSchedule($date, $group_id, $schedule);
         return true;
     }
 }

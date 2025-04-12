@@ -123,6 +123,9 @@ class BaseSchedulePlugin extends AbstractPlugin
             foreach ($search_group as $group) {
                 /** Получаем текущий семестр для группы */
                 $semester = $this->semesters->getSemesterByDate($date_schedule);
+                if (!$semester) {
+                    continue;
+                }
                 $this->semesters->loanSemestersUnit($semester, $group);
                 for ($pair_number = 1; $pair_number <= count($this->pair_numbers->getPairNumbers()); $pair_number++) {
                     $this->addSchedule(
@@ -158,6 +161,7 @@ class BaseSchedulePlugin extends AbstractPlugin
             $schedule_unit->setDate($date);
             $schedule_unit->setPairNumber((int)$this->getFirstEmptyPairNumberByDate($date, $group_id)['number']);
             $schedule_unit->setSemester($this->semesters->getSemesterByDate($date)['id']);
+            $schedule_unit->setSemesterName($this->semesters->getSemesterByDate($date)['name']);
             $schedule_unit->setGroup((int)$group_id);
             $schedule_unit->setBaseSchedule($base_schedule);
             $semester = $this->semesters->getSemesterByDate($date);
@@ -193,9 +197,11 @@ class BaseSchedulePlugin extends AbstractPlugin
             }
             if (isset($schedule->semester_id)) {
                 $schedule_unit->setSemester($schedule->semester_id);
+                $schedule_unit->setSemesterName($schedule->semester_name);
             } else {
                 $semester = BackendHelper::getRepositories()->getSemestersByDate($date);
                 $schedule_unit->setSemester($semester->id);
+                $schedule_unit->setSemesterName($semester->name);
             }
             $this->schedule->addUnit($schedule_unit);
         }

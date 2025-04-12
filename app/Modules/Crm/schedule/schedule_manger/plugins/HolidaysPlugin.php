@@ -37,7 +37,11 @@ class HolidaysPlugin extends AbstractPlugin
         $this->all_holidays = BackendHelper::getRepositories()->getAllHolidays();
         if ($this->schedule) {
             if ($this->holiday_setting->use_settings) {
-                if ($this->holiday_setting->use_priority_setting && $this->holiday_setting->priority_setting) {
+                if (
+                    $this->holiday_setting->use_priority_setting &&
+                    $this->holiday_setting->priority_setting &&
+                    $this->holiday_setting->replace_no_priority_setting
+                ) {
                     switch ($this->holiday_setting->priority_setting) {
                         case HolidaySetting::MAIN_SETTING:
                             foreach ($this->schedule->getScheduleUnits() as $unit) {
@@ -56,14 +60,14 @@ class HolidaysPlugin extends AbstractPlugin
                     switch ($this->holiday_setting->priority_setting){
                         case HolidaySetting::MAIN_SETTING:
                             foreach ($this->schedule->getScheduleUnits() as $unit) {
-                                $this->setHolidaySettings($unit);
                                 $this->setHolidayByDate($unit);
+                                $this->setHolidaySettings($unit);
                             }
                             break;
                         default:
                             foreach ($this->schedule->getScheduleUnits() as $unit) {
+                                $this->setHolidaySettings($unit);
                                  $this->setHolidayByDate($unit);
-                                 $this->setHolidaySettings($unit);
                             }
                             break;
                     }
@@ -84,7 +88,12 @@ class HolidaysPlugin extends AbstractPlugin
         $holiday = new HolidayEntity();
         $holiday->setHolidayName($holiday_data['name']);
         $holiday->setHolidayDescription($holiday_data['description']);
-        $holiday->setHolidayFormatType($holiday_data['format']);
+        if (isset($holiday_data['format'])) {
+            $holiday->setHolidayFormatType($holiday_data['format']);
+        } else {
+            $holiday->setHolidayFormatType($holiday_data['format_id']);
+        }
+
         $holiday->setHolidayDateStart($date_start);
         $holiday->setHolidayDateEnd($date_end);
         return $holiday;
@@ -137,7 +146,7 @@ class HolidaysPlugin extends AbstractPlugin
     }
 
     /**
-     * @param $unit
+     * @param ScheduleUnit $unit
      * @param bool $priority
      * @return void
      */

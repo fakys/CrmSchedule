@@ -62,6 +62,7 @@ class SemesterEntity
      */
     public function loanSemestersUnit($semester, $group_id)
     {
+        if (!$semester) dd($semester);
         $type = BackendHelper::getRepositories()->getSchedulePlanTypeByGroupSemester($semester['id'], $group_id);
         $unit = new SemesterUnit(
             $semester['id'],

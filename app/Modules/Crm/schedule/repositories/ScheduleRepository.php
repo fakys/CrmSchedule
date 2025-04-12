@@ -95,6 +95,7 @@ class ScheduleRepository extends Repository
              subjects.description as subject_description,
              lessons.format_lesson_id as format_id,
              semesters.id as semester_id,
+             semesters.name as semester_name,
              users_info.user_id as teacher_id,
              users_info.last_name || ' ' || users_info.first_name || ' ' || users_info.patronymic as fio_teacher,
              type.plan_type_data as type_prams

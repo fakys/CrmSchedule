@@ -81,10 +81,14 @@ class SemestersRepository extends Repository
      */
     public function getSemestersByPeriod($start, $end)
     {
-        return Semester::where([
-            ['date_start', '<=', $start->format('Y-m-d H:i:s')],
-            ['date_end', '>=', $end->format('Y-m-d H:i:s')]
-        ])->orderBy('year_end')->get();
+        return Semester::where(function ($query) use ($start, $end) {
+            $query->whereBetween('date_start', [$start, $end])
+                ->orWhereBetween('date_end', [$start, $end])
+                ->orWhere(function ($q) use ($start, $end) {
+                    $q->where('date_start', '<=', $start)
+                        ->where('date_end', '>=', $end);
+                });
+        })->get();
     }
 
     /**
