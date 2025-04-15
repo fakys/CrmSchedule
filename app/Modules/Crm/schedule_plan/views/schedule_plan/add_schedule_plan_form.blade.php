@@ -1,6 +1,6 @@
 <?php /** @var \App\Modules\Crm\schedule_plan\src\SchedulePlanEntity $schedule_plan_data */?>
 <script>
-    let is_success_schedule = <?=(bool)$schedule_plan_data->getScheduleUnits()?>
+    let is_success_schedule = <?=($schedule_plan_data->getScheduleUnits())?'true':'false'?>;
 </script>
 <div class="card">
     <div class="card-header">

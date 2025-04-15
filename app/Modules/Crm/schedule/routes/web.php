@@ -66,3 +66,10 @@ Route::post(
         [\App\Modules\Crm\schedule\controllers\SemestersController::class, "semestersEdit"]
     )->name("$module.semester_edit_post")
 )->description('Страница изменения семестра');
+
+\App\Src\access\AccessRoute::access("$module.has_schedule_manager_menu")->route(
+    Route::post(
+        "$module/has-schedule-manager-menu",
+        [\App\Modules\Crm\schedule\controllers\AjaxController::class, "hasScheduleManagerMenu"]
+    )->name("$module.has_schedule_manager_menu")
+)->description('Страница просмотра расписания');

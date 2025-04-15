@@ -287,11 +287,6 @@
                                 </a>
                                 <ul class="nav nav-treeview" @if(isset($nav_schedule)) style="display: block;" @else style="display: none;" @endif>
                                     <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Архив</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item rm-level-3">
                                         <a href="{{route('schedule.semesters')}}" class="nav-link">
                                             <p>Семестры</p>
                                         </a>

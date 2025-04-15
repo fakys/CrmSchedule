@@ -71,4 +71,28 @@ class AjaxController extends Controller
 
         abort(500, 'Отсутствуют обязательные параметры');
     }
+
+
+    public function hasScheduleManagerMenu()
+    {
+        $searchData = request()->session()->get('schedule_manager_request');
+        if (request()->post() && $searchData) {
+            $manager = BackendHelper::getManager('schedule_manger')->Execute();
+            $schedules = (new ScheduleManagerReturnData($manager->getResult()))->getSchedule();
+            $subjects = BackendHelper::getRepositories()->getFullSubject();
+            $pair_number = BackendHelper::getRepositories()->getNumberPair();
+            $users = BackendHelper::getRepositories()->getUserList([]);
+            $pair_format = BackendHelper::getRepositories()->getFullFormatLessons();
+            $student_groups = BackendHelper::getRepositories()->getFullStudentGroups();
+            return view('schedule_manager.has_schedule', [
+                'schedules' => $schedules,
+                'subjects' => $subjects,
+                'pair_number' => $pair_number,
+                'users' => $users,
+                'pair_format' => $pair_format,
+                'student_groups' => $student_groups,
+            ]);
+        }
+        abort(500, 'Ошибка сервера');
+    }
 }

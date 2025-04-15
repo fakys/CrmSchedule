@@ -48,7 +48,9 @@ class EditScheduleModel extends Model implements InterfaceModel
 
     public function validate()
     {
-        $this->hasSchedule();;
+        $this->hasSchedule();
+        $this->schedule = json_decode($this->schedule, true);
+        $this->full_data = json_decode($this->full_data, true);
 
         foreach ($this->schedule as  $schedule_old_group => $schedule_group) {
             $group_name = BackendHelper::getRepositories()->getStudentGroupById($schedule_old_group)->number;
@@ -69,6 +71,15 @@ class EditScheduleModel extends Model implements InterfaceModel
                         )
                     );
                     $date_start = new \DateTime($schedule_new['schedule']['date_start']);
+
+                    if (
+                        !$schedule_new['schedule']['time_start'] &&
+                        !$schedule_new['schedule']['time_end'] &&
+                        !$schedule_new['schedule']['subject_id'] &&
+                        !$schedule_new['schedule']['user_id']
+                    ) {
+                        continue;
+                    }
 
                     if ($time_start >= $time_end) {
                         $this->error_schedule[$group_name][$schedule_old_date][$pair_number] = 'Время начало больше времени окончания';
