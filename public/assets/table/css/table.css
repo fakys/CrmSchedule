@@ -1,0 +1,24 @@
+.crm-table{
+    font-size: 14px;
+}
+.row-container{
+    display: flex;
+    gap: 7px;
+}
+.row-container .sort-table {
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.row-container .sort-desc {
+    color: var(--primary);
+}
+
+.row-container .sort-asc {
+    color: var(--secondary);
+}
+.table-container{
+    overflow: auto;
+}

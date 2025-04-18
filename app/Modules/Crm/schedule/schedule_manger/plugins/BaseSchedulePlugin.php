@@ -6,7 +6,7 @@ use App\Entity\PairNumber;
 use App\Entity\Semester;
 use App\Entity\Specialty;
 use App\Entity\StudentGroup;
-use App\Modules\Crm\schedule\exceptions\HolidayException;
+use App\Modules\Crm\schedule\exceptions\ScheduleManagerException;
 use App\Modules\Crm\schedule\src\entity\ScheduleSearchData;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PairNumberEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PlanScheduleEntity;
@@ -35,7 +35,7 @@ class BaseSchedulePlugin extends AbstractPlugin
 
     /**
      * @throws \DateMalformedStringException
-     * @throws HolidayException
+     * @throws ScheduleManagerException
      */
     public function Execute()
     {
@@ -53,11 +53,11 @@ class BaseSchedulePlugin extends AbstractPlugin
             if ($this->searchData->getGroupsId()) {
                 foreach ($this->searchData->getGroupsId() as $group) {
                     $this->appendArrProperty('planScheduleRepository',
-                        new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
+                        [$group => new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
                             $group,
                             $semester['id'])
-                        ),
-                        $group
+                        )],
+                        $semester['id']
                     );
                 }
             } elseif ($this->searchData->getSpecialtiesId()) {
@@ -66,11 +66,11 @@ class BaseSchedulePlugin extends AbstractPlugin
                     $groups = $specialty_obj->getGroups();
                     foreach ($groups as $group) {
                         $this->appendArrProperty('planScheduleRepository',
-                            new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
+                            [$group->id => new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
                                 $group->id,
                                 $semester['id'])
-                            ),
-                            $group->id
+                            )],
+                            $semester['id']
                         );
                     }
                 }
@@ -79,11 +79,11 @@ class BaseSchedulePlugin extends AbstractPlugin
                 if ($groups) {
                     foreach ($groups as $group) {
                         $this->appendArrProperty('planScheduleRepository',
-                            new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
+                            [$group->id => new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
                                 $group->id,
                                 $semester['id'])
-                            ),
-                            $group->id
+                            )],
+                            $semester['id']
                         );
                     }
                 }
@@ -131,7 +131,7 @@ class BaseSchedulePlugin extends AbstractPlugin
                     $this->addSchedule(
                         clone $date_schedule,
                         $group,
-                        $this->planScheduleRepository[$group]->getPlanScheduleByData(
+                        $this->planScheduleRepository[$semester['id']][$group]->getPlanScheduleByData(
                             $group,
                             $semester,
                             $pair_number,
@@ -238,18 +238,23 @@ class BaseSchedulePlugin extends AbstractPlugin
             return $pair_number;
         }
 
-        throw new HolidayException('Последовательность пар не настроена');
+        throw new ScheduleManagerException('Последовательность пар не настроена');
     }
 
     /**
      * @return void
-     * @throws HolidayException
+     * @throws ScheduleManagerException
      */
     private function initSearchData()
     {
-        $data = request()->session()->get('schedule_manager_request');
+        if ($this->context->getAttr('search_data')) {
+            $data = $this->context->getAttr('search_data');
+        } else {
+            $data = request()->session()->get('schedule_manager_request');
+        }
+
         if (!$data) {
-            throw new HolidayException('Не найдены данные для поиска');
+            throw new ScheduleManagerException('Не найдены данные для поиска');
         }
         $this->searchData = new ScheduleSearchData($data);
     }

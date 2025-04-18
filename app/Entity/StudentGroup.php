@@ -19,8 +19,11 @@ class StudentGroup extends Model{
         'specialty_id',
     ];
 
+    /**
+     * @return Specialty
+     */
     public function getSpecialty()
     {
-        return $this->hasOne(Specialty::class, 'id', 'specialty_id');
+        return $this->hasOne(Specialty::class, 'id', 'specialty_id')->first();
     }
 }

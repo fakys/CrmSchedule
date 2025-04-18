@@ -29,7 +29,7 @@ class Html
         return view('Html::nav_tabs', ['arr'=>$arr]);
     }
 
-    public static function select_search($label, $name,$data = [] , $value = [], $class = '', $multiple = true)
+    public static function select_search($label, $name, $data = [], $value = [], $class = '', $multiple = true)
     {
         return view('Html::form_inputs.select_search', ['name'=>$name, 'label'=>$label, 'data'=>$data, 'value'=>$value, 'class'=>$class, 'multiple'=>$multiple]);
     }

@@ -395,7 +395,7 @@
                                 </a>
                                 <ul class="nav nav-treeview" style="display: none;">
                                     <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{route('reports.report_for_group')}}" class="nav-link">
                                             <p>Отчет по группам (Расширенный)</p>
                                         </a>
                                     </li>
