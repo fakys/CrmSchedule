@@ -7,6 +7,8 @@ use App\Src\modules\models\Model;
 class ReportForGroupModel extends Model implements InterfaceModel
 {
 
+    const REPORT_FOR_GROUP = 'report_for_group';
+
     public function fields(): array
     {
         return [

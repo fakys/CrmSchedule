@@ -10,17 +10,15 @@ class ReportsComponent extends Component
 {
     public $fields;
     public $data;
-    public $search_url;
-    public $export_url;
     public $required_fields;
+    public $task_name;
 
-    public function __construct($fields, $data, $required_fields, $search_url, $export_url = '')
+    public function __construct($fields, $data, $required_fields, $task_name = '')
     {
         $this->fields = $fields;
         $this->data = $data;
-        $this->search_url = $search_url;
-        $this->export_url = $export_url;
         $this->required_fields = $required_fields;
+        $this->task_name = $task_name;
     }
 
 
@@ -30,9 +28,8 @@ class ReportsComponent extends Component
             [
                 'fields'=>$this->fields,
                 'data'=>$this->data,
-                'search_url'=>$this->search_url,
-                'export_url'=>$this->export_url,
                 'required_fields' => $this->required_fields,
+                'task_name' => $this->task_name
             ]
         );
     }

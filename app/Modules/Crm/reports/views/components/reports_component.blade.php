@@ -1,7 +1,7 @@
 <script>
     var required_fields = <?=json_encode($required_fields)?>;
+    var task_name = '{{$task_name}}'
 </script>
-
 <div class="pl-5 pr-5">
     <div class="card">
         <div class="card-body table-container">
@@ -18,9 +18,8 @@
                                 <option value="100">100</option>
                             </select>
                         </div>
-                        <div class="ml-auto">
-                            <button class="btn-main"><i class="fa fa-times" aria-hidden="true"></i> Очистить</button>
-                            <button class="btn-main"><i class="fa fa-file" aria-hidden="true"></i> Экспорт в excel</button>
+                        <div class="ml-auto d-flex align-items-center gap-2">
+                            <button class="btn-main" id="export_btn"><i class="fa fa-file" aria-hidden="true"></i> Экспорт в excel</button>
                             <button class="btn-main" id="search_btn"><i class="fa fa-search" aria-hidden="true"></i> Поиск</button>
                         </div>
                     </div>

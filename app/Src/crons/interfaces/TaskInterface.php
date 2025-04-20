@@ -6,7 +6,7 @@ interface TaskInterface{
      * Тело таска
      * @return bool
      */
-    public function Execute(): bool;
+    public function Execute($args = []): bool;
 
     /**
      * Интервал его повторений

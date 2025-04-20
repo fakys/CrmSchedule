@@ -13,7 +13,7 @@ class TestTask implements TaskInterface
         return 'test_task';
     }
 
-    public function Execute(): bool
+    public function Execute($args = []): bool
     {
         $user = new User();
         $user->username = uniqid();

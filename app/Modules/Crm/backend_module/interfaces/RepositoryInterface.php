@@ -2,7 +2,6 @@
 namespace App\Modules\Crm\backend_module\interfaces;
 
 use App\Entity\DurationLesson;
-use App\Entity\DurationLessons;
 use App\Entity\FormatLesson;
 use App\Entity\GroupUser;
 use App\Entity\Holiday;
@@ -21,9 +20,16 @@ use App\Entity\User;
 use App\Entity\UserDocumet;
 use App\Entity\UserGroup;
 use App\Entity\UserInfo;
+use App\Modules\Crm\backend_module\repositories\TaskRepository;
+use App\Modules\Crm\reports\repositories\ReportsRepository;
 use App\Modules\Crm\schedule\models\SemestersModel;
-use App\Modules\Crm\schedule\src\schedule_manager\entity\HolidayEntity;
 
+
+
+/**
+ * @mixin TaskRepository
+ * @mixin ReportsRepository
+ */
 interface RepositoryInterface{
     /**
      * Возвращает пользователей по условию
@@ -491,22 +497,6 @@ interface RepositoryInterface{
      * @return FormatLesson
      */
     public function getFormatLessonsById($id);
-
-    /**
-     * Добавляет таск в БД
-     * @param array $data массив с данными о таске
-     * @return ScheduleTask|null
-     */
-    public function addTaskSchedule($data);
-
-    /**
-     * Обновляет статус таску и ставит время окончания
-     * @param ScheduleTask $task
-     * @param $status
-     * @param null $time_end
-     * @return mixed
-     */
-    public function updateTaskScheduleStatus($task, $status, $time_end = null);
 
     /**
      * @param \DateTime $date

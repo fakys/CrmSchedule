@@ -12,3 +12,22 @@ AccessRoute::access("{$module}_for_group")->route(
         'actionReportForGroup'
     ])->name("$module.report_for_group")
 );
+
+
+AccessRoute::access("{$module}_export_excel")->route(
+    Route::post("$module/export-excel", [
+        \App\Modules\Crm\reports\controllers\ReportsController::class,
+        'exportReport'
+    ])->name("$module.export_excel")
+);
+
+Route::post("$module/check-export-excel", [
+    \App\Modules\Crm\reports\controllers\ReportsController::class,
+    'checkExport'
+])->name("$module.check_export_excel");
+
+Route::get("$module/download-export-excel", [
+    \App\Modules\Crm\reports\controllers\ReportsController::class,
+    'downloadFile'
+])->name("$module.download_export_excel");
+

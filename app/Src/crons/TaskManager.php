@@ -17,12 +17,18 @@ class TaskManager{
 
     /**
      * @param $task_name
+     * @param $args
      * @return bool
      */
-    public function runTask($task_name)
+    public function runTask($task_name, $args)
     {
         $task = $this->getTaskByName($task_name);
-        return (new $task())->Execute();
+
+        if ($args && json_decode($args, 1)) {
+            return (new $task())->Execute(json_decode($args, 1));
+        } else {
+            return (new $task())->Execute([]);
+        }
     }
 
 

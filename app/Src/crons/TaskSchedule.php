@@ -2,6 +2,7 @@
 
 namespace App\Src\crons;
 
+use App\Entity\ScheduleTask;
 use App\Src\BackendHelper;
 use App\Src\redis\RedisManager;
 use App\Src\traits\TraitObjects;
@@ -29,16 +30,21 @@ class TaskSchedule
      */
     public function taskCreate($task_name, $task_args = [])
     {
-        $json_task = json_encode([
+
+        $task_data = [
             'task_name' => $task_name,
-            'task_args' => $task_args,
+            'args' => $task_args,
             'status' => self::ACTIVE_STATUS, //Статус таска
             'time_create' => date('Y-m-d H:i:s'), //Время его создания
             'time_end' => null, //Время когда он выполнился
             'pid' => null //Номер процесса
-        ]);
+        ];
+
+        $task = BackendHelper::getRepositories()->addTaskSchedule($task_data);
+
+        $task_data['id'] = $task->id;
         /** Заполняем очередь */
-        $this->schedulePush($json_task);
+        $this->schedulePush(json_encode($task_data));
     }
 
 
@@ -64,6 +70,10 @@ class TaskSchedule
             if ($task['status'] === self::ACTIVE_STATUS) {
                 $task['status'] = self::PENDING_STATUS;
                 $task['pid'] = getmypid();
+                $task_schedule = BackendHelper::getRepositories()->getTaskScheduleById($task['id']);
+                if ($task_schedule) {
+                    return BackendHelper::getRepositories()->updateTaskScheduleById($task_schedule->id, $task);
+                }
                 return BackendHelper::getRepositories()->addTaskSchedule($task);
             }
         }

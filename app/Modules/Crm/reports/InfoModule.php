@@ -2,6 +2,8 @@
 namespace App\Modules\Crm\reports;
 
 use App\Modules\Crm\reports\operations\ReportsOperation;
+use App\Modules\Crm\reports\repositories\ReportsRepository;
+use App\Modules\Crm\reports\tasks\ReportForGroupTask;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
@@ -27,7 +29,7 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function repositories(): array
     {
         return [
-
+            ReportsRepository::class
         ];
     }
 
@@ -44,7 +46,9 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 
     public static function tasks(): array
     {
-        return  [];
+        return  [
+            ReportForGroupTask::class
+        ];
     }
 
     public static function mangers(): array

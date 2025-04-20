@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('task_name');
             $table->string('status')->default('done');
+            $table->json('args')->nullable();
             $table->dateTime('start_time');
             $table->dateTime('end_time')->nullable();
             $table->string('pid')->nullable();

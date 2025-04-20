@@ -1,16 +1,19 @@
 <?php
 namespace App\Modules\Crm\reports\operations;
 
+use App\Exports\ExportExcel;
 use App\Modules\Crm\schedule\src\schedule_manager\ScheduleUnit;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\Operation;
+use Illuminate\Support\Facades\Storage;
+
 class ReportsOperation extends Operation {
 
     /** Операция возвращает данные для отчета по группам */
     public function getReportsForGroup($period, $group = [], $specialties = [])
     {
         $manager = BackendHelper::getManager('schedule_manger');
-        $manager->setAttr(['search_data'=>['period'=> $period, 'groups'=> [2]]]);
+        $manager->setAttr(['search_data'=>['period'=> $period, 'groups'=> $group, 'specialties'=> $specialties]]);
         $manager->Execute();
         /** @var ScheduleUnit[] $units */
         $units = $manager->getResult()->getScheduleUnits();
@@ -84,5 +87,23 @@ class ReportsOperation extends Operation {
             }
         }
         return null;
+    }
+
+
+    /**
+     * Проверяет создался ли таск
+     * @param $task_name
+     * @param $user_name
+     * @return false|string
+     */
+    public function checkExportTask($task_name, $user_name)
+    {
+        if (BackendHelper::getRepositories()->hasActiveTask($task_name, $user_name)){
+            return 'created';
+        } elseif (Storage::has(sprintf('reports/%s_%s.%s', $task_name, $user_name, ExportExcel::XLSX))){
+            return 'done';
+        }
+
+        return false;
     }
 }

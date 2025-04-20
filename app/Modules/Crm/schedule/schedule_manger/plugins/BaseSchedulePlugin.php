@@ -23,7 +23,7 @@ use App\Src\modules\plugins\AbstractPlugin;
  * @property Schedule $schedule
  * @property SemesterEntity $semesters
  * @property PairNumberEntity $pair_numbers
- * @property PlanScheduleEntity $planScheduleRepository
+ * @property PlanScheduleEntity[] $planScheduleRepository
  */
 class BaseSchedulePlugin extends AbstractPlugin
 {
@@ -48,43 +48,44 @@ class BaseSchedulePlugin extends AbstractPlugin
             BackendHelper::getRepositories()->getSemestersByPeriod($this->searchData->getDateStart(), $this->searchData->getDateEnd())
         );
 
+        $search_group = [];
         /** Получаем данные из репозитория */
         foreach ($this->semesters->getSemesters() as $semester) {
             if ($this->searchData->getGroupsId()) {
                 foreach ($this->searchData->getGroupsId() as $group) {
-                    $this->appendArrProperty('planScheduleRepository',
-                        [$group => new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
-                            $group,
-                            $semester['id'])
-                        )],
-                        $semester['id']
+                    $search_group[] = $group;
+                    $planScheduleRepository = $this->planScheduleRepository;
+                    $planScheduleRepository[$semester['id']][$group] = new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
+                        $group,
+                        $semester['id'])
                     );
+                    $this->planScheduleRepository = $planScheduleRepository;
                 }
             } elseif ($this->searchData->getSpecialtiesId()) {
                 foreach ($this->searchData->getSpecialtiesId() as $specialty) {
                     $specialty_obj = BackendHelper::getRepositories()->getSpecialtyById($specialty);
                     $groups = $specialty_obj->getGroups();
                     foreach ($groups as $group) {
-                        $this->appendArrProperty('planScheduleRepository',
-                            [$group->id => new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
-                                $group->id,
-                                $semester['id'])
-                            )],
-                            $semester['id']
+                        $search_group[] = $group->id;
+                        $planScheduleRepository = $this->planScheduleRepository;
+                        $planScheduleRepository[$semester['id']][$group->id] = new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
+                            $group->id,
+                            $semester['id'])
                         );
+                        $this->planScheduleRepository = $planScheduleRepository;
                     }
                 }
             } else {
                 $groups = BackendHelper::getRepositories()->getFullStudentGroups();
                 if ($groups) {
                     foreach ($groups as $group) {
-                        $this->appendArrProperty('planScheduleRepository',
-                            [$group->id => new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
-                                $group->id,
-                                $semester['id'])
-                            )],
-                            $semester['id']
+                        $search_group[] = $group->id;
+                        $planScheduleRepository = $this->planScheduleRepository;
+                        $planScheduleRepository[$semester['id']][$group->id] = new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
+                            $group->id,
+                            $semester['id'])
                         );
+                        $this->planScheduleRepository = $planScheduleRepository;
                     }
                 }
             }
@@ -93,31 +94,6 @@ class BaseSchedulePlugin extends AbstractPlugin
         /** Прибавляем 1 т.к время с 00 до 23 и это не считается за день*/
         $count_days = $this->searchData->getDateStart()->diff($this->searchData->getDateEnd())->days + 1;
         $date_schedule = clone $this->searchData->getDateStart();
-
-        $search_group = [];
-        if ($this->searchData->getGroupsId()) {
-            $search_group = $this->searchData->getGroupsId();
-        }else if (!$this->searchData->getGroupsId() && $this->searchData->getSpecialtiesId()) {
-            /** @var Specialty $specialty $ */
-            foreach ($this->searchData->getSpecialtiesId() as $specialty_id) {
-                $specialty = BackendHelper::getRepositories()->getSpecialtyById($specialty_id);
-                if ($specialty) {
-                    $groups = $specialty->getGroups();
-                    if ($groups) {
-                        foreach ($groups as $group) {
-                            $search_group[] = $group->id;
-                        }
-                    }
-                }
-            }
-        } else {
-            $groups = BackendHelper::getRepositories()->getFullStudentGroups();
-            if ($groups) {
-                foreach ($groups as $group) {
-                    $search_group[] = $group->id;
-                }
-            }
-        }
 
         for ($day = 1; $day <= $count_days; $day++) {
             foreach ($search_group as $group) {
