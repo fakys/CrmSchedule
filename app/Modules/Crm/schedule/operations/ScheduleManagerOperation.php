@@ -36,21 +36,9 @@ class ScheduleManagerOperation extends Operation
      * @return bool
      *
      */
-    public function editSchedule($newSchedule, $searchData)
+    public function editSchedule($newSchedule)
     {
         $newSchedule = new EditNewScheduleData($newSchedule);
-        $period = BackendHelper::getOperations()->pacePeriod($searchData['period']);
-        $data = [];
-
-        /** Получаем данные из БД */
-        foreach ($searchData['groups'] as $group) {
-            $data[$group] = BackendHelper::getRepositories()->getScheduleByGroupFroManager(
-                $period[0],
-                $period[1],
-                $group,
-            );
-        }
-
 
         foreach ($newSchedule->getUnits() as $unit) {
             if (BackendHelper::getRepositories()

@@ -78,8 +78,9 @@ class SchedulePlugin extends AbstractPlugin
      */
     public function updateSchedule($date, $group_id, $schedule)
     {
+
         /** @var ScheduleUnit $schedule_unit */
-        foreach ($this->schedule as $schedule_unit) {
+        foreach ($this->schedule->getScheduleUnits() as $schedule_unit) {
             if (
                 $schedule_unit->getDate()->format('Y-m-d') == $date->format('Y-m-d') &&
                 $schedule_unit->getGroup() == $group_id &&

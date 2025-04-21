@@ -54,14 +54,13 @@ class AjaxController extends Controller
      */
     public function editScheduleManager()
     {
-        $searchData = request()->session()->get('schedule_manager_request');
 
         try {
             $model = new EditScheduleModel();
             $model->load(request()->post());
-            if ($model->schedule && $searchData) {
+            if ($model->schedule) {
                 if ($model->validate()) {
-                    BackendHelper::getOperations()->editSchedule($model->schedule, $searchData);
+                    BackendHelper::getOperations()->editSchedule($model->schedule);
                     return true;
                 }
             }

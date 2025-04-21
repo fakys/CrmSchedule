@@ -2,11 +2,13 @@
 namespace App\Modules\Crm\backend_module\interfaces;
 
 use App\Modules\Crm\reports\operations\ReportsOperation;
+use App\Modules\Crm\schedule\operations\ScheduleManagerOperation;
 use App\Modules\Crm\schedule\src\entity\ScheduleUnit;
 use App\Modules\Crm\users_interface\src\UserData;
 
 /**
  * @mixin ReportsOperation
+ * @mixin ScheduleManagerOperation
  */
 interface OperationsInterface
 {
@@ -73,22 +75,6 @@ interface OperationsInterface
      */
     public function pacePeriod($period);
 
-
-    /**
-     * Редактирует расписание
-     * @param $newSchedule
-     * @return bool
-     *
-     */
-    public function editSchedule($newSchedule, $searchData);
-
-    /**
-     * Сохраняет новое расписание по старым данным
-     * @param $unit
-     * @param $data_report
-     * @return void
-     */
-    public function saveSchedule($unit);
 
     /**
      * @param $new_data

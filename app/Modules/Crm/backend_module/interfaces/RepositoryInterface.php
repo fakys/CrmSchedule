@@ -359,14 +359,6 @@ interface RepositoryInterface{
     public function getFullFormatLessons();
 
     /**
-     * Редактирует расписание
-     * @param $newSchedule
-     * @return bool
-     *
-     */
-    public function editSchedule($newSchedule);
-
-    /**
      * Получает расписание по дате, группе и номеру пары
      * @param $id
      * @return Schedule

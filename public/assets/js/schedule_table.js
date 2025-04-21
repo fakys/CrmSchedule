@@ -140,7 +140,7 @@ $(document).ready(function (){
                 data: {'_token':$("input[name='_token']").val(), 'schedule':JSON.stringify(schedule), 'full_data':JSON.stringify(start_data)},
                 success: function(data){
                     if (data == 1) {
-                        get_add_schedule()
+                        get_edit_schedule()
                     } else {
                         $('.schedule-errors-block').empty()
                         $('.schedule-errors-block').append(data)
