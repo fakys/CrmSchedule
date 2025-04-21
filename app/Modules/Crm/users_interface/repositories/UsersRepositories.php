@@ -101,6 +101,14 @@ class UsersRepositories extends Repository
         return $users;
     }
 
+    public function getAllTeachers()
+    {
+        return User::leftJoin('groups_users', 'groups_users.users_id', '=', 'users.id')
+            ->whereIn('groups_users.user_group_id', BackendHelper::getSystemSettings('schedule_settings')->users_groups)
+            ->select('users.id', 'users.username', 'users.password', 'users.deleted', 'users.blocked', 'users.afk')
+            ->get();
+    }
+
     public function getUserById($id)
     {
         $user = User::where(['id'=>$id])->first();

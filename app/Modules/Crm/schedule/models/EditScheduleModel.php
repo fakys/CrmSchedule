@@ -78,6 +78,9 @@ class EditScheduleModel extends Model implements InterfaceModel
                         !$schedule_new['schedule']['subject_id'] &&
                         !$schedule_new['schedule']['user_id']
                     ) {
+                        $schedule = $this->schedule;
+                        unset($schedule[$schedule_old_group][$schedule_old_date][$pair_number]);
+                        $this->schedule = $schedule;
                         continue;
                     }
 

@@ -34,7 +34,7 @@ class AjaxController extends Controller
             $schedules = (new ScheduleManagerReturnData($manager->getResult()))->getSchedule();
             $subjects = BackendHelper::getRepositories()->getFullSubject();
             $pair_number = BackendHelper::getRepositories()->getNumberPair();
-            $users = BackendHelper::getRepositories()->getUserList([]);
+            $users = BackendHelper::getRepositories()->getAllTeachers();
             $pair_format = BackendHelper::getRepositories()->getFullFormatLessons();
             $student_groups = BackendHelper::getRepositories()->getFullStudentGroups();
             return view('schedule_manager.add_schedule', [
@@ -81,7 +81,7 @@ class AjaxController extends Controller
             $schedules = (new ScheduleManagerReturnData($manager->getResult()))->getSchedule();
             $subjects = BackendHelper::getRepositories()->getFullSubject();
             $pair_number = BackendHelper::getRepositories()->getNumberPair();
-            $users = BackendHelper::getRepositories()->getUserList([]);
+            $users = BackendHelper::getRepositories()->getAllTeachers();
             $pair_format = BackendHelper::getRepositories()->getFullFormatLessons();
             $student_groups = BackendHelper::getRepositories()->getFullStudentGroups();
             return view('schedule_manager.has_schedule', [

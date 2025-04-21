@@ -396,12 +396,12 @@
                                 <ul class="nav nav-treeview" style="display: none;">
                                     <li class="nav-item rm-level-3">
                                         <a href="{{route('reports.report_for_group')}}" class="nav-link">
-                                            <p>Отчет по группам (Расширенный)</p>
+                                            <p>Отчет по группам (по семестрам)</p>
                                         </a>
                                     </li>
                                     <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Отчет по преподавателям (Расширенный)</p>
+                                        <a href="{{route('reports.report_for_teachers')}}" class="nav-link">
+                                            <p>Отчет по преподавателям (по семестрам)</p>
                                         </a>
                                     </li>
                                     <li class="nav-item rm-level-3">

@@ -137,7 +137,7 @@ $(document).ready(function (){
             $.ajax({
                 url: url,
                 method: 'post',
-                data: {'_token':$("input[name='_token']").val(), 'schedule':JSON.stringify(start_data), 'full_data':JSON.stringify(start_data)},
+                data: {'_token':$("input[name='_token']").val(), 'schedule':JSON.stringify(schedule), 'full_data':JSON.stringify(start_data)},
                 success: function(data){
                     if (data == 1) {
                         get_add_schedule()

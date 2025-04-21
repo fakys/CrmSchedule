@@ -31,3 +31,9 @@ Route::get("$module/download-export-excel", [
     'downloadFile'
 ])->name("$module.download_export_excel");
 
+AccessRoute::access("{$module}_for_teachers")->route(
+    Route::any("$module/report-for-teachers", [
+        \App\Modules\Crm\reports\controllers\ReportsController::class,
+        'actionReportForTeachers'
+    ])->name("$module.report_for_teachers")
+);

@@ -55,7 +55,7 @@ class SchedulePlanController extends Controller
         $schedule_plan_data = $manager->getResult();
         $plan_type = BackendHelper::getRepositories()->getSchedulePlanTypeById($plan_type_id);
         $weeks = BackendHelper::getOperations()->formatWeeks($plan_type->getWeeks());
-        $users = BackendHelper::getRepositories()->getUserList([]);
+        $users = BackendHelper::getRepositories()->getAllTeachers();
         $pair_format = BackendHelper::getRepositories()->getFullFormatLessons();
         $pair_number = BackendHelper::getRepositories()->getNumberPair();
         $subjects = BackendHelper::getRepositories()->getFullSubject();

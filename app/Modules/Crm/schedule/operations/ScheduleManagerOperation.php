@@ -4,10 +4,10 @@ namespace App\Modules\Crm\schedule\operations;
 
 use App\Entity\Lesson;
 use App\Entity\Schedule;
-use App\Modules\Crm\schedule\exceptions\SchedulePlanAddException;
 use App\Modules\Crm\schedule\src\EditNewScheduleData;
 use App\Modules\Crm\schedule\src\entity\ScheduleUnit;
 use App\Modules\Crm\schedule\src\ScheduleManager;
+use App\Modules\Crm\schedule_plan\exceptions\SchedulePlanAddException;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\Operation;
 use Illuminate\Support\Facades\DB;
@@ -188,8 +188,9 @@ class ScheduleManagerOperation extends Operation
      */
     public function createSchedule($unit)
     {
+        $user_id = $unit->getUser() == 0 ? null : $unit->getUser();
         /** Создаем предмет */
-        $lesson = BackendHelper::getRepositories()->createLessons($unit->getSubject(), $unit->getFormatPair(), $unit->getUser());
+        $lesson = BackendHelper::getRepositories()->createLessons($unit->getSubject(), $unit->getFormatPair(), $user_id);
         if (!$lesson) {
             throw new SchedulePlanAddException('Ошибка при создании предмета');
         }

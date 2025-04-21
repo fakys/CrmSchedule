@@ -112,8 +112,6 @@ $(document).ready(function (){
                     checker()
                 },
                 error: function (err){
-
-
                 }
             });
         } else if ($('#export_btn').attr('file') === 'done'){
