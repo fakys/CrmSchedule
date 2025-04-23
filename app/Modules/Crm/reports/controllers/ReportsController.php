@@ -5,6 +5,7 @@ use App\Exports\ExportExcel;
 use App\Modules\Crm\reports\models\ReportForGroupModel;
 use App\Modules\Crm\reports\models\ReportForTeachers;
 use App\Modules\Crm\reports\tasks\ReportForGroupTask;
+use App\Modules\Crm\reports\tasks\ReportForTeachersTask;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use Exception;
@@ -39,7 +40,7 @@ class ReportsController extends Controller
 
     public function actionReportForTeachers()
     {
-        $task_name = ReportForGroupTask::taskName();
+        $task_name = ReportForTeachersTask::taskName();
         $teachers_data = BackendHelper::getRepositories()->getAllTeachers();
         $teachers = [];
 
@@ -58,8 +59,9 @@ class ReportsController extends Controller
         foreach ($teachers_data as $teacher) {
             $teachers[$teacher->id] = $teacher->getFio();
         }
+        $search_data = request()->session()->get(ReportForTeachers::REPORT_FOR_GROUP);
 
-        return view('reports.report_for_teachers', compact('task_name', 'teachers', 'data'));
+        return view('reports.report_for_teachers', compact('task_name', 'teachers', 'data', 'search_data'));
     }
 
 

@@ -75,7 +75,7 @@
                         <i class="far fa-calendar-alt"></i>
                       </span>
                             </div>
-                            <input type="text" name="period" class="form-control float-right" id="period" value="{{isset($search_data['period'])?$search_data['period']:null}}">
+                            <input type="text" name="period" class="form-control float-right" id="period" value="{{$search_data['period']??''}}">
                         </div>
                     </div>
                 </div>

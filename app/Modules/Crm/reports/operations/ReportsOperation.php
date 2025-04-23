@@ -103,7 +103,9 @@ class ReportsOperation extends Operation {
         foreach ($units as $unit) {
             if (
                 $unit->getTimeStart() && $unit->getTimeEnd() &&
-                $teachers && $unit->getUser() && in_array($unit->getUser(), $teachers)
+                $teachers && $unit->getUser() && in_array($unit->getUser(), $teachers) ||
+                $unit->getTimeStart() && $unit->getTimeEnd() &&
+                !$teachers
             ) {
                 $hours = 0;
                 $diff = $unit->getTimeStart()->diff($unit->getTimeEnd());
@@ -117,10 +119,10 @@ class ReportsOperation extends Operation {
                         $user = BackendHelper::getRepositories()->getUserById($unit->getUser());
 
                         $main_data[] = [
+                            'fio'=>$unit->getUserFio(),
                             'semester_start' => $semester->date_start, 'semester_end' => $semester->date_end,
                             'user_name' => $user->username,
                             'user_id'=>$unit->getUser(), 'semester_id'=>$unit->getSemester(),
-                            'fio'=>$unit->getUserFio(),
                             'semester_name'=>$semester->name,'count_hours_period'=>0,
                             'average_count_hours_week'=>0,
                             'count_hours_semester'=>0
