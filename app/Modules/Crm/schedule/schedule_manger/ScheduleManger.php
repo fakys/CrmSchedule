@@ -19,7 +19,7 @@ class ScheduleManger extends AbstractManger{
     {
         return [
             BaseSchedulePlugin::class,
-            SchedulePlugin::class,
+//            SchedulePlugin::class,
             WeekendsPlugin::class,
             HolidaysPlugin::class,
         ];

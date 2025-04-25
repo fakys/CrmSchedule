@@ -10,6 +10,109 @@ use Illuminate\Support\Facades\DB;
 class ScheduleRepository extends Repository
 {
 
+    /**
+     * Возвращает готовые юниты по дате и группе
+     * @param $date_start
+     * @param $date_end
+     * @param $group_id
+     * @return array
+     */
+    public function getScheduleUnitsByDate($date_start, $date_end, $group_id)
+    {
+        $sql = "WITH max_min_pair_number as  (
+    select
+        min(pair_numbers.number) as min_pair,
+        max(pair_numbers.number) as max_pair
+    from pair_numbers
+)SELECT
+     date,
+     plan_schedule.id AS plan_schedule_id,
+     plan_schedule.plan_duration_lesson_id AS plan_duration_lesson_id,
+     plan_schedule.lessons_id AS lessons_id,
+     plan_schedule.plan_type_id AS plan_type_id,
+     plan_schedule.description AS schedule_description,
+     CASE
+         WHEN d_lessons.id IS NOT NULL THEN d_lessons.time_start
+         ELSE p_d_lessons.time_start
+         END AS schedule_time_start,
+
+     CASE
+         WHEN d_lessons.id IS NOT NULL THEN NULL
+         ELSE p_d_lessons.week_number
+         END AS schedule_week_number,
+     CASE
+         WHEN d_lessons.id IS NOT NULL THEN NULL
+         ELSE p_d_lessons.week_day
+         END AS schedule_week_day,
+     CASE
+         WHEN d_lessons.id IS NOT NULL THEN d_lessons.duration_minutes
+         ELSE p_d_lessons.duration_minutes
+         END AS schedule_duration_minutes,
+     CASE
+         WHEN d_lessons.id IS NOT NULL THEN d_lessons.time_end
+         ELSE p_d_lessons.time_end
+         END AS schedule_time_end,
+     pn.id AS pair_id,
+     pn.name AS pair_name,
+     pn.number AS pair_number,
+     s_group.id AS group_id,
+     s_group.name AS group_name,
+     s_group.number AS group_number,
+     s_group.specialty_id AS specialty_id,
+     specialties.name AS specialty_name,
+     specialties.number AS specialty_number,
+     specialties.description AS specialty_description,
+     current_semester.id as semester_id,
+     current_semester.name as semester_name,
+     current_semester.date_start as semester_start,
+     current_semester.date_end as semester_end,
+     plan_type.name AS type_name,
+     plan_type.plan_type_data AS type_data,
+     lessons.format_lesson_id AS format_lesson_id,
+     lessons.subject_id AS subject_id,
+     lessons.user_id AS teacher_id,
+     format_lessons.name AS format_name,
+     format_lessons.description AS format_description,
+     teachear.username AS username,
+     teachear.blocked AS user_blocked,
+     users_info.first_name || ' ' || users_info.last_name || ' ' || users_info.patronymic AS teacher_fio,
+     users_info.email AS teacher_email,
+     users_info.number_phone AS teacher_number_phone
+FROM generate_series(:date_start::DATE, :date_end::DATE, '1 day'::INTERVAL) AS date
+         CROSS JOIN generate_series((SELECT min_pair FROM max_min_pair_number), (SELECT max_pair FROM max_min_pair_number)) AS pair_number
+         JOIN semesters current_semester on current_semester.id =  (select max(id) as id from semesters s where s.date_start::DATE <= date and s.date_end::DATE >= date)
+    --План расписания
+         LEFT JOIN plan_schedule ON plan_schedule.id = (select max(ps.id) as id FROM plan_schedule ps
+                                                                                         LEFT JOIN plan_duration_lessons ON plan_duration_lessons.id = ps.plan_duration_lesson_id
+                                                                                         LEFT JOIN pair_numbers p_n ON p_n.id = ps.pair_number_id
+                                                        WHERE plan_duration_lessons.week_day = EXTRACT(DOW FROM date)
+                                                          and ps.student_group_id = :group_id and plan_schedule.semester_id = current_semester.id
+                                                          and p_n.number = pair_number)
+
+    --Расписание
+         LEFT JOIN schedules schedule on schedule.id = (select max(sched.id) as id from schedules sched
+                                                                                            LEFT JOIN duration_lessons ON duration_lessons.id = sched.duration_lesson_id
+                                                                                            LEFT JOIN pair_numbers p_n ON p_n.id = sched.pair_number_id
+                                                        WHERE p_n.number = pair_number and date(date) = duration_lessons.date_start::date and sched.student_group_id = :group_id)
+
+         LEFT JOIN plan_duration_lessons p_d_lessons ON p_d_lessons.id = plan_schedule.plan_duration_lesson_id
+         LEFT JOIN duration_lessons d_lessons ON d_lessons.id = schedule.duration_lesson_id
+         LEFT JOIN pair_numbers pn ON pn.number = pair_number
+         LEFT JOIN student_groups s_group ON s_group.id = COALESCE(schedule.student_group_id, plan_schedule.student_group_id, :group_id)
+         LEFT JOIN specialties ON specialties.id = s_group.specialty_id
+         LEFT JOIN schedule_plan_type plan_type ON plan_type.id = plan_schedule.plan_type_id
+         LEFT JOIN lessons ON lessons.id = COALESCE(schedule.lessons_id, plan_schedule.lessons_id)
+         LEFT JOIN format_lessons ON format_lessons.id = lessons.format_lesson_id
+         LEFT JOIN users teachear ON teachear.id = lessons.user_id
+         LEFT JOIN users_info ON users_info.user_id = teachear.id
+WHERE plan_schedule.semester_id = current_semester.id
+    AND p_d_lessons.week_day = EXTRACT(DOW FROM date)
+   OR plan_schedule.id is null
+ORDER BY date DESC;";
+
+        $args_arr = [':date_start' => $date_start, ':date_end' => $date_end, ':group_id'=>$group_id];
+        return DB::select($sql, $args_arr);
+    }
 
     public function getScheduleByGroupFroManager($date_start, $date_end, $groups_id = null)
     {

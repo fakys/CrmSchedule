@@ -23,6 +23,7 @@ use App\Entity\UserInfo;
 use App\Modules\Crm\backend_module\repositories\TaskRepository;
 use App\Modules\Crm\reports\repositories\ReportsRepository;
 use App\Modules\Crm\schedule\models\SemestersModel;
+use App\Modules\Crm\schedule\repositories\ScheduleRepository;
 use App\Modules\Crm\users_interface\repositories\UsersRepositories;
 
 
@@ -30,6 +31,7 @@ use App\Modules\Crm\users_interface\repositories\UsersRepositories;
  * @mixin TaskRepository
  * @mixin ReportsRepository
  * @mixin UsersRepositories
+ * @mixin ScheduleRepository
  *
  */
 interface RepositoryInterface{

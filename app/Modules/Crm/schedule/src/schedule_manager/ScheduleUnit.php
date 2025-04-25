@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Modules\Crm\schedule\src\schedule_manager;
 
 use App\Modules\Crm\schedule\src\schedule_manager\entity\HolidayEntity;
@@ -35,11 +36,13 @@ class ScheduleUnit
     /**
      * @return \DateTime
      */
-    public function getDate() {
+    public function getDate()
+    {
         return $this->date;
     }
 
-    public function setPairNumber($pair_number){
+    public function setPairNumber($pair_number)
+    {
         $this->pair_number = $pair_number;
     }
 
@@ -47,35 +50,48 @@ class ScheduleUnit
      * Возвращает НОМЕР пары
      * @return int
      */
-    public function getPairNumber(){
+    public function getPairNumber()
+    {
         return $this->pair_number;
     }
 
-    public function setGroup($group_id){
+    public function setGroup($group_id)
+    {
         $this->group_id = $group_id;
     }
-    public function getGroup(){
+
+    public function getGroup()
+    {
         return $this->group_id;
     }
 
-    public function setTimeStart($time_start){
-        $this->time_start = new \DateTime($time_start);
+    public function setTimeStart($time_start)
+    {
+        $this->time_start = $time_start ? new \DateTime($time_start) : null;
     }
-    public function getTimeStart(){
+
+    public function getTimeStart()
+    {
         return $this->time_start;
     }
 
-    public function setTimeEnd($time_end){
-        $this->time_end = new \DateTime($time_end);
+    public function setTimeEnd($time_end)
+    {
+        $this->time_end = $time_end ? new \DateTime($time_end) : null;
     }
-    public function getTimeEnd(){
+
+    public function getTimeEnd()
+    {
         return $this->time_end;
     }
 
-    public function setSubject($subject_id){
+    public function setSubject($subject_id)
+    {
         $this->subject_id = $subject_id;
     }
-    public function getSubject(){
+
+    public function getSubject()
+    {
         return $this->subject_id;
     }
 
@@ -86,10 +102,13 @@ class ScheduleUnit
         }
     }
 
-    public function setUser($user_id){
+    public function setUser($user_id)
+    {
         $this->user_id = $user_id;
     }
-    public function getUser(){
+
+    public function getUser()
+    {
         return $this->user_id;
     }
 
@@ -102,17 +121,23 @@ class ScheduleUnit
 
     }
 
-    public function setFormatPair($format_pair_id){
+    public function setFormatPair($format_pair_id)
+    {
         $this->format_pair_id = $format_pair_id;
     }
-    public function getFormatPair(){
+
+    public function getFormatPair()
+    {
         return $this->format_pair_id;
     }
 
-    public function setDescription($description){
+    public function setDescription($description)
+    {
         $this->description = $description;
     }
-    public function getDescription(){
+
+    public function getDescription()
+    {
         return $this->description;
     }
 
@@ -123,7 +148,7 @@ class ScheduleUnit
 
     public function setSemester($semester_id)
     {
-       $this->semester = $semester_id;
+        $this->semester = $semester_id;
     }
 
     public function setSemesterName($semester_name)
@@ -151,7 +176,8 @@ class ScheduleUnit
         return $this->is_base_schedule;
     }
 
-    public function setBaseSchedule($is_base_schedule){
+    public function setBaseSchedule($is_base_schedule)
+    {
         $this->is_base_schedule = $is_base_schedule;
     }
 

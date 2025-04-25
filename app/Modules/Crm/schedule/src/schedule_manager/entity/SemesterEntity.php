@@ -13,7 +13,7 @@ class SemesterEntity
     /** @var array  */
     private $semesters;
     /** @var SemesterUnit[] $units */
-    private $units;
+    private $units = [];
 
     /**
      * @param Semester[] $semesters

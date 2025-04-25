@@ -16,6 +16,7 @@ use App\Modules\Crm\schedule\src\schedule_manager\Schedule;
 use App\Modules\Crm\schedule\src\schedule_manager\ScheduleUnit;
 use App\Src\BackendHelper;
 use App\Src\modules\plugins\AbstractPlugin;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat\Wizard\DateTime;
 
 /**
  * Создает базовое расписание
@@ -49,76 +50,38 @@ class BaseSchedulePlugin extends AbstractPlugin
         );
 
         $search_group = [];
+        $base_schedule = [];
         /** Получаем данные из репозитория */
-        foreach ($this->semesters->getSemesters() as $semester) {
-            if ($this->searchData->getGroupsId()) {
-                foreach ($this->searchData->getGroupsId() as $group) {
-                    $search_group[] = $group;
-                    $planScheduleRepository = $this->planScheduleRepository;
-                    $planScheduleRepository[$semester['id']][$group] = new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
-                        $group,
-                        $semester['id'])
-                    );
-                    $this->planScheduleRepository = $planScheduleRepository;
+        if ($this->searchData->getGroupsId()) {
+            foreach ($this->searchData->getGroupsId() as $group) {
+                $base_schedule[$group] = BackendHelper::getRepositories()
+                    ->getScheduleUnitsByDate($this->searchData->getDateStart(), $this->searchData->getDateEnd(), $group);
+            }
+        } elseif ($this->searchData->getSpecialtiesId()) {
+            foreach ($this->searchData->getSpecialtiesId() as $specialty) {
+                $specialty_obj = BackendHelper::getRepositories()->getSpecialtyById($specialty);
+                $groups = $specialty_obj->getGroups();
+                foreach ($groups as $group) {
+                    $base_schedule[$group->id] = BackendHelper::getRepositories()
+                        ->getScheduleUnitsByDate($this->searchData->getDateStart(), $this->searchData->getDateEnd(), $group->id);
                 }
-            } elseif ($this->searchData->getSpecialtiesId()) {
-                foreach ($this->searchData->getSpecialtiesId() as $specialty) {
-                    $specialty_obj = BackendHelper::getRepositories()->getSpecialtyById($specialty);
-                    $groups = $specialty_obj->getGroups();
-                    foreach ($groups as $group) {
-                        $search_group[] = $group->id;
-                        $planScheduleRepository = $this->planScheduleRepository;
-                        $planScheduleRepository[$semester['id']][$group->id] = new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
-                            $group->id,
-                            $semester['id'])
-                        );
-                        $this->planScheduleRepository = $planScheduleRepository;
-                    }
-                }
-            } else {
-                $groups = BackendHelper::getRepositories()->getFullStudentGroups();
-                if ($groups) {
-                    foreach ($groups as $group) {
-                        $search_group[] = $group->id;
-                        $planScheduleRepository = $this->planScheduleRepository;
-                        $planScheduleRepository[$semester['id']][$group->id] = new PlanScheduleEntity(BackendHelper::getRepositories()->getPlanScheduleByGroupFroManager(
-                            $group->id,
-                            $semester['id'])
-                        );
-                        $this->planScheduleRepository = $planScheduleRepository;
-                    }
+            }
+        } else {
+            $groups = BackendHelper::getRepositories()->getFullStudentGroups();
+            if ($groups) {
+                foreach ($groups as $group) {
+                    $base_schedule[$group->id] = BackendHelper::getRepositories()
+                        ->getScheduleUnitsByDate($this->searchData->getDateStart(), $this->searchData->getDateEnd(), $group->id);
                 }
             }
         }
-
-        /** Прибавляем 1 т.к время с 00 до 23 и это не считается за день*/
-        $count_days = $this->searchData->getDateStart()->diff($this->searchData->getDateEnd())->days + 1;
-        $date_schedule = clone $this->searchData->getDateStart();
-
-        for ($day = 1; $day <= $count_days; $day++) {
-            foreach ($search_group as $group) {
-                /** Получаем текущий семестр для группы */
-                $semester = $this->semesters->getSemesterByDate($date_schedule);
-                if (!$semester) {
-                    continue;
+        foreach ($base_schedule as $group_id => $units_group) {
+            foreach ($units_group as $unit) {
+                if (!$this->semesters->getUnitByGroup($unit->group_id, $unit->semester_id)) {
+                    $this->semesters->loanSemestersUnit($this->semesters->getSemesterByDate(new \DateTime($unit->date)), $group_id);
                 }
-                $this->semesters->loanSemestersUnit($semester, $group);
-                for ($pair_number = 1; $pair_number <= count($this->pair_numbers->getPairNumbers()); $pair_number++) {
-                    $this->addSchedule(
-                        clone $date_schedule,
-                        $group,
-                        $this->planScheduleRepository[$semester['id']][$group]->getPlanScheduleByData(
-                            $group,
-                            $semester,
-                            $pair_number,
-                            $date_schedule->format('w'),
-                            $date_schedule
-                        ),
-                        true
-                    );
-                }
+                $this->addSchedule($unit);
             }
-            $date_schedule->modify("+1 day");
         }
         $this->setResult($this->schedule);
         return $this->schedule;
@@ -127,60 +90,34 @@ class BaseSchedulePlugin extends AbstractPlugin
     /**
      * Добавляет расписание
      * @param \DateTime $date
-     * @param null $schedule
-     * @param bool $base_schedule
      */
-    public function addSchedule($date, $group_id, $schedule, $base_schedule= false)
+    public function addSchedule($unit)
     {
-        if (!$schedule) {
-            $schedule_unit = new ScheduleUnit();
-            $schedule_unit->setDate($date);
-            $schedule_unit->setPairNumber((int)$this->getFirstEmptyPairNumberByDate($date, $group_id)['number']);
-            $schedule_unit->setSemester($this->semesters->getSemesterByDate($date)['id']);
-            $schedule_unit->setSemesterName($this->semesters->getSemesterByDate($date)['name']);
-            $schedule_unit->setGroup((int)$group_id);
-            $schedule_unit->setBaseSchedule($base_schedule);
-            $semester = $this->semesters->getSemesterByDate($date);
-            $semester_unit = $this->semesters->getUnitByGroup($group_id, $semester['id']);
-            if ($semester_unit->getTypePlanParam()) {
-                $schedule_unit->setWeekNumber(
-                    $this->getNumberWeekBySemester($date, $this->semesters->getUnitByGroup($group_id, $this->semesters->getSemesterByDate($date)['id']))
-                );
-            }
-            $schedule_unit->setWeekDay($date->format('w'));
-            $this->schedule->addUnit($schedule_unit);
-        } else {
-            $schedule_unit = new ScheduleUnit();
-            $schedule_unit->setDate($date);
-            $schedule_unit->setPairNumber($schedule->pair_number);
-            $schedule_unit->setGroup($schedule->group_id);
-            $schedule_unit->setTimeStart($schedule->time_start);
-            $schedule_unit->setTimeEnd($schedule->time_end);
-            $schedule_unit->setSubject($schedule->subject_id);
-            $schedule_unit->setUser($schedule->teacher_id);
-            $schedule_unit->setFormatPair($schedule->format_id);
-            $schedule_unit->setDescription($schedule->schedule_description);
-            $semester = $this->semesters->getSemesterByDate($date);
-            $semester_unit = $this->semesters->getUnitByGroup($group_id, $semester['id']);
-            if ($base_schedule) {
-                $schedule_unit->setWeekNumber($schedule->week_number);
-                $schedule_unit->setWeekDay($schedule->week_day);
-            } elseif ($semester_unit->getTypePlanParam()) {
-                $schedule_unit->setWeekNumber(
-                    $this->getNumberWeekBySemester($date, $semester_unit)
-                );
-                $schedule_unit->setWeekDay($date->format('w'));
-            }
-            if (isset($schedule->semester_id)) {
-                $schedule_unit->setSemester($schedule->semester_id);
-                $schedule_unit->setSemesterName($schedule->semester_name);
-            } else {
-                $semester = BackendHelper::getRepositories()->getSemestersByDate($date);
-                $schedule_unit->setSemester($semester->id);
-                $schedule_unit->setSemesterName($semester->name);
-            }
-            $this->schedule->addUnit($schedule_unit);
+        $schedule_unit = new ScheduleUnit();
+        $schedule_unit->setDate(new \DateTime($unit->date));
+        $schedule_unit->setPairNumber($unit->pair_number);
+        $schedule_unit->setGroup($unit->group_id);
+        $schedule_unit->setTimeStart($unit->schedule_time_start);
+        $schedule_unit->setTimeEnd($unit->schedule_time_end);
+        $schedule_unit->setSubject($unit->subject_id);
+        $schedule_unit->setUser($unit->teacher_id);
+        $schedule_unit->setFormatPair($unit->format_lesson_id);
+        $schedule_unit->setDescription($unit->schedule_description);
+        $schedule_unit->setSemester($unit->semester_id);
+        $schedule_unit->setSemesterName($unit->semester_name);
+        if ($unit->schedule_week_day && $unit->schedule_week_number) {
+            $schedule_unit->setWeekNumber($unit->schedule_week_number);
+            $schedule_unit->setWeekDay($unit->schedule_week_day);
+        } else{
+            $schedule_unit->setWeekNumber(
+                $this->getNumberWeekBySemester(new \DateTime($unit->date), $this->semesters->getUnitByGroup(
+                    $unit->group_id,
+                    $unit->semester_id
+                ))
+            );
+            $schedule_unit->setWeekDay((new \DateTime($unit->date))->format('w'));
         }
+        $this->schedule->addUnit($schedule_unit);
     }
 
     private function createSchedule()
@@ -191,30 +128,6 @@ class BaseSchedulePlugin extends AbstractPlugin
     public function getSchedule()
     {
         return $this->schedule;
-    }
-
-    /**
-     * Возвращает первую свободную пару ля группы на заданный день
-     * @return PairNumber
-     */
-    private function getFirstEmptyPairNumberByDate(\DateTime $date, $group_id)
-    {
-        /** @var ScheduleUnit[] $schedule */
-        $schedule = $this->getSchedule()->getScheduleUnitByDate($date, $group_id);
-        $pair_number_count = 1;
-        foreach ($schedule as $unit) {
-
-            if (!$unit->getPairNumber()) {
-                return $this->pair_numbers->getPairByNumber($pair_number_count);
-            }
-            $pair_number_count++;
-        }
-        $pair_number = $this->pair_numbers->getPairByNumber($pair_number_count);
-        if ($pair_number) {
-            return $pair_number;
-        }
-
-        throw new ScheduleManagerException('Последовательность пар не настроена');
     }
 
     /**
@@ -236,7 +149,7 @@ class BaseSchedulePlugin extends AbstractPlugin
     }
 
     /**
-     * @param $date
+     * @param \DateTime $date
      * @param SemesterUnit $semester_unit
      * @return int
      */
