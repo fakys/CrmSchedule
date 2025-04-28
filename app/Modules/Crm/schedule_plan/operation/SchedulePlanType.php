@@ -2,9 +2,9 @@
 namespace App\Modules\Crm\schedule_plan\operation;
 
 use App\Src\BackendHelper;
-use App\Src\modules\operations\Operation;
+use App\Src\modules\operations\AbstractOperation;
 
-class SchedulePlanType extends Operation{
+class SchedulePlanType extends AbstractOperation{
 
     /**
      * Добавляет тип плана расписания
@@ -33,4 +33,8 @@ class SchedulePlanType extends Operation{
         return $weeks;
     }
 
+    public function getName(): string
+    {
+        return 'schedule_plan_type_operation';
+    }
 }

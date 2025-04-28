@@ -3,9 +3,10 @@
 namespace App\Src\modules\operations;
 
 use App\Src\BackendHelper;
+use App\Src\modules\components\AbstractComponents;
 use App\Src\traits\TraitObjects;
 
-class Operation
+abstract class AbstractOperation extends AbstractComponents
 {
     use TraitObjects;
 
@@ -18,4 +19,6 @@ class Operation
         }
         return new OperationsContext($arr_operations);
     }
+
+    abstract public function getName(): string;
 }

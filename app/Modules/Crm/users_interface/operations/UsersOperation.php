@@ -3,9 +3,10 @@ namespace App\Modules\Crm\users_interface\operations;
 
 use App\Modules\Crm\users_interface\src\UserData;
 use App\Src\BackendHelper;
-use App\Src\modules\operations\Operation;
+use App\Src\modules\operations\AbstractOperation;
 
-class UsersOperation extends Operation {
+class UsersOperation extends AbstractOperation {
+
     public function UpdateFullUser($id, $value)
     {
         $fields = [
@@ -72,5 +73,10 @@ class UsersOperation extends Operation {
             }
             throw new \Exception('При создание пользователя, произошла ошибка: ' . $e->getMessage()." ".$e->getTraceAsString());
         }
+    }
+
+    public function getName(): string
+    {
+        return 'users_operation';
     }
 }

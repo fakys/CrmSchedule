@@ -3,10 +3,10 @@ namespace App\Modules\Crm\users_interface\operations;
 
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
-use App\Src\modules\operations\Operation;
+use App\Src\modules\operations\AbstractOperation;
 use Mockery\Exception;
 
-class UsersGroupOperations extends Operation
+class UsersGroupOperations extends AbstractOperation
 {
     /**
      * Добавляет пользователя в группы
@@ -40,5 +40,10 @@ class UsersGroupOperations extends Operation
             }
         }
         return true;
+    }
+
+    public function getName(): string
+    {
+        return 'users_group_operations';
     }
 }

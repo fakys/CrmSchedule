@@ -10,7 +10,8 @@ use App\Src\crons\TaskManager;
 use App\Src\crons\TaskSchedule;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
-use App\Src\modules\operations\Operation;
+use App\Src\modules\kernel\KernelModules;
+use App\Src\modules\operations\AbstractOperation;
 use App\Src\modules\operations\OperationsContext;
 use App\Src\modules\plugins\mangers\MangerHelper;
 use App\Src\modules\repository\RepositoriesContext;
@@ -49,7 +50,7 @@ class BackendHelper
      */
     public static function getOperations(): OperationsContext
     {
-        return Operation::objects()->getFullOperations();
+        return OperationsContext::objects();
     }
 
     /**
@@ -108,5 +109,13 @@ class BackendHelper
     public static function getManager($name)
     {
         return MangerHelper::getManegeByName($name);
+    }
+
+    /**
+     * @return KernelModules
+     */
+    public static function getKernel()
+    {
+        return KernelModules::getKernelModule();
     }
 }

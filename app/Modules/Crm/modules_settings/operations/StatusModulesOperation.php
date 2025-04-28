@@ -2,9 +2,9 @@
 namespace App\Modules\Crm\modules_settings\operations;
 
 use App\Src\BackendHelper;
-use App\Src\modules\operations\Operation;
+use App\Src\modules\operations\AbstractOperation;
 
-class StatusModulesOperation extends Operation
+class StatusModulesOperation extends AbstractOperation
 {
     public function updateStatusModules($data)
     {
@@ -45,5 +45,10 @@ class StatusModulesOperation extends Operation
             return true;
         }
         return false;
+    }
+
+    public function getName(): string
+    {
+        return 'status_modules_operation';
     }
 }

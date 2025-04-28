@@ -5,10 +5,10 @@ use App\Exports\ExportExcel;
 use App\Modules\Crm\schedule\src\schedule_manager\ScheduleUnit;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
-use App\Src\modules\operations\Operation;
+use App\Src\modules\operations\AbstractOperation;
 use Illuminate\Support\Facades\Storage;
 
-class ReportsOperation extends Operation {
+class ReportsOperation extends AbstractOperation {
 
     /** Операция возвращает данные для отчета по группам */
     public function getReportsForGroup($period, $group = [], $specialties = [])
@@ -145,5 +145,10 @@ class ReportsOperation extends Operation {
         }
 
         return false;
+    }
+
+    public function getName(): string
+    {
+        return 'reports_operation';
     }
 }

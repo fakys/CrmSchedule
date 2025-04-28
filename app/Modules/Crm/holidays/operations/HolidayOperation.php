@@ -3,9 +3,9 @@ namespace App\Modules\Crm\holidays\operations;
 
 
 use App\Src\BackendHelper;
-use App\Src\modules\operations\Operation;
+use App\Src\modules\operations\AbstractOperation;
 
-class HolidayOperation extends Operation {
+class HolidayOperation extends AbstractOperation {
 
     /**
      * @return array
@@ -27,5 +27,10 @@ class HolidayOperation extends Operation {
         }
 
         return $main_data;
+    }
+
+    public function getName(): string
+    {
+        return 'holiday_operation';
     }
 }

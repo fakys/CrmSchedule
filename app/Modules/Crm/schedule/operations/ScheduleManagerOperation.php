@@ -9,10 +9,10 @@ use App\Modules\Crm\schedule\src\entity\ScheduleUnit;
 use App\Modules\Crm\schedule\src\ScheduleManager;
 use App\Modules\Crm\schedule_plan\exceptions\SchedulePlanAddException;
 use App\Src\BackendHelper;
-use App\Src\modules\operations\Operation;
+use App\Src\modules\operations\AbstractOperation;
 use Illuminate\Support\Facades\DB;
 
-class ScheduleManagerOperation extends Operation
+class ScheduleManagerOperation extends AbstractOperation
 {
     /**
      * Возвращает расписание для менеджера расписаний
@@ -211,4 +211,8 @@ class ScheduleManagerOperation extends Operation
         return true;
     }
 
+    public function getName(): string
+    {
+        return 'schedule_manager_operation';
+    }
 }

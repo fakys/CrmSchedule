@@ -3,9 +3,9 @@ namespace App\Modules\Crm\schedule_plan\operation;
 
 use App\Modules\Crm\schedule_plan\exceptions\SchedulePlanAddException;
 use App\Src\BackendHelper;
-use App\Src\modules\operations\Operation;
+use App\Src\modules\operations\AbstractOperation;
 
-class SchedulePlan extends Operation{
+class SchedulePlan extends AbstractOperation{
 
     /**
      * Добавляет план расписания
@@ -104,5 +104,10 @@ class SchedulePlan extends Operation{
             $count_week = 1;
         }
         return (($count_week-1)%$weeks)+1;
+    }
+
+    public function getName(): string
+    {
+        return 'schedule_plan_operation';
     }
 }

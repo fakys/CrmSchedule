@@ -3,9 +3,9 @@ namespace App\Modules\Crm\modules_settings\operations;
 
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
-use App\Src\modules\operations\Operation;
+use App\Src\modules\operations\AbstractOperation;
 
-class ConfigModulesOperations extends Operation
+class ConfigModulesOperations extends AbstractOperation
 {
     public function getFullConfigModules()
     {
@@ -26,4 +26,8 @@ class ConfigModulesOperations extends Operation
         return $info_modules;
     }
 
+    public function getName(): string
+    {
+        return 'config_modules_operations';
+    }
 }

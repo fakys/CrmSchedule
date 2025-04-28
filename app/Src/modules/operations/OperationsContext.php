@@ -2,34 +2,30 @@
 
 namespace App\Src\modules\operations;
 
-use Mockery\Exception;
+
+use App\Src\BackendHelper;
+use App\Src\modules\kernel\constructs\ConstructComponents;
+use App\Src\traits\TraitObjects;
 
 class OperationsContext
 {
-    public array $operations;
+    use TraitObjects;
 
-    public function __construct(array $data_operation)
+    public function __call(string $name, array $arguments)
     {
-        $this->operations = $data_operation;
-    }
+        $modules = BackendHelper::getKernel()->getModules();
 
-    public function get(): array
-    {
-        return $this->operations;
-    }
-
-    protected function getOperation($name, $arguments = [])
-    {
-        foreach ($this->operations as $operation) {
-            if (method_exists($operation, $name)) {
-                return call_user_func_array([new $operation (), $name], $arguments);
+        foreach ($modules as $module) {
+            if ($module->getComponents()) {
+                foreach ($module->getComponents() as $component) {
+                    if (
+                        $component->getType() == ConstructComponents::OPERATION_TYPE
+                        && method_exists($component->getComponent(), $name)
+                    ) {
+                        return call_user_func_array([$component->getComponent(), $name], $arguments);
+                    }
+                }
             }
         }
-        throw new Exception("Операция не найдена", 500);
-    }
-
-    public function __call($name, $arguments)
-    {
-        return $this->getOperation($name, $arguments);
     }
 }

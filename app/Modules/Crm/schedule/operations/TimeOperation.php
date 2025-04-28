@@ -1,9 +1,9 @@
 <?php
 namespace App\Modules\Crm\schedule\operations;
 
-use App\Src\modules\operations\Operation;
+use App\Src\modules\operations\AbstractOperation;
 
-class TimeOperation extends Operation{
+class TimeOperation extends AbstractOperation{
 
 
     /**
@@ -17,5 +17,10 @@ class TimeOperation extends Operation{
         $date_1 = trim($arr_period[0]);
         $date_2 = trim($arr_period[1]);
         return [new \DateTime($date_1), new \DateTime($date_2)];
+    }
+
+    public function getName(): string
+    {
+        return 'time_operation';
     }
 }

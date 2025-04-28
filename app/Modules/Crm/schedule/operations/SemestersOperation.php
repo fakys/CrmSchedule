@@ -2,9 +2,9 @@
 namespace App\Modules\Crm\schedule\operations;
 
 use App\Src\BackendHelper;
-use App\Src\modules\operations\Operation;
+use App\Src\modules\operations\AbstractOperation;
 
-class SemestersOperation extends Operation{
+class SemestersOperation extends AbstractOperation{
 
     /** Возвращает семестры для акшена */
     public function getSemesters()
@@ -15,5 +15,10 @@ class SemestersOperation extends Operation{
             $data["$semester->year_start-$semester->year_end"][] = $semester;
         }
         return $data;
+    }
+
+    public function getName(): string
+    {
+        return 'semesters_operation';
     }
 }

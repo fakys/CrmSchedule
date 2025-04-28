@@ -3,8 +3,8 @@ namespace App\Modules\Crm\users_interface\operations;
 
 use App\Modules\Crm\users_interface\model\AccessTab;
 use App\Src\BackendHelper;
-use App\Src\modules\operations\Operation;
-class UserAccessOperation extends Operation {
+use App\Src\modules\operations\AbstractOperation;
+class UserAccessOperation extends AbstractOperation {
 
     public function getAccessForForm()
     {
@@ -59,5 +59,10 @@ class UserAccessOperation extends Operation {
             }
         }
         return $data_access;
+    }
+
+    public function getName(): string
+    {
+        return 'user_access_operation';
     }
 }

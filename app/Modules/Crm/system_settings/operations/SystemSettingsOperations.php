@@ -2,9 +2,10 @@
 namespace App\Modules\Crm\system_settings\operations;
 
 use App\Src\BackendHelper;
-use App\Src\modules\operations\Operation;
+use App\Src\modules\operations\AbstractOperation;
 
-class SystemSettingsOperations extends Operation{
+class SystemSettingsOperations extends AbstractOperation{
+
     public function createSystemSettings($data)
     {
         $system_settings = BackendHelper::getRepositories()
@@ -29,5 +30,10 @@ class SystemSettingsOperations extends Operation{
             return BackendHelper::getRepositories()->saveActiveSystemSettings($setting);
         }
         return null;
+    }
+
+    public function getName(): string
+    {
+        return 'system_settings_operations';
     }
 }

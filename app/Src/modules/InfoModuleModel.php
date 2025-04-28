@@ -14,7 +14,7 @@ class InfoModuleModel
 
     public function __construct()
     {
-        $this->config = config('modules');
+        $this->config = require __DIR__ . '/../../../config/modules.php';
     }
 
     public static function getInfo()
