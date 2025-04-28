@@ -108,7 +108,7 @@ class BaseSchedulePlugin extends AbstractPlugin
         if ($unit->schedule_week_day && $unit->schedule_week_number) {
             $schedule_unit->setWeekNumber($unit->schedule_week_number);
             $schedule_unit->setWeekDay($unit->schedule_week_day);
-        } else{
+        } else {
             $schedule_unit->setWeekNumber(
                 $this->getNumberWeekBySemester(new \DateTime($unit->date), $this->semesters->getUnitByGroup(
                     $unit->group_id,
@@ -155,6 +155,8 @@ class BaseSchedulePlugin extends AbstractPlugin
      */
     public function getNumberWeekBySemester($date, $semester_unit)
     {
-        return BackendHelper::getOperations()->getCurrentWeek($date, $semester_unit->getDateStart(), count($semester_unit->getTypePlanParam()['weeks']));
+        return BackendHelper::getOperations()->getCurrentWeek(
+            $date, $semester_unit->getDateStart(),
+            empty($semester_unit->getTypePlanParam()['weeks']) ? 1 : count($semester_unit->getTypePlanParam()['weeks']));
     }
 }
