@@ -11,8 +11,11 @@ require __DIR__ . '/../../vendor/autoload.php';
  * @var $app ApplicationBuilder
  */
 $app = require __DIR__ . '/../../bootstrap/app.php';
-$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
-$kernel->bootstrap();
+$laravel_kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+$laravel_kernel->bootstrap();
+
+// Инициализация ядра
+require __DIR__.'/../Src/modules/kernel/init_kernel.php';
 
 
 var_dump(date('Y-m-d H:i:s'));

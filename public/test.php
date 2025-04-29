@@ -23,8 +23,9 @@ $kernel->bootstrap();
 
 
 //\App\Src\BackendHelper::taskCreate('test_task', []);
-$schedule = new TaskSchedule();
-$task = $schedule->getScheduleTask();
-//
-//var_dump($task);
-TaskManager::getFullTasks()->runTask('report_for_group_task', '[1,2,3]');
+//$schedule = new TaskSchedule();
+//$task = $schedule->getScheduleTask();
+////
+////var_dump($task);
+//TaskManager::getFullTasks()->runTask('report_for_group_task', '[1,2,3]');
+var_dump(\App\Src\BackendHelper::getTaskByName('test_task')->Execute());

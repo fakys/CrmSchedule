@@ -2,9 +2,11 @@
 namespace App\Modules\Crm\system_settings\repositories;
 
 use App\Entity\SystemSetting;
+use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
 
-class SystemSettingRepository extends Repository{
+class SystemSettingRepository extends AbstractRepositories
+{
     public function getSystemSettingsById($id)
     {
         return SystemSetting::find($id);
@@ -62,5 +64,10 @@ class SystemSettingRepository extends Repository{
             return true;
         }
         return false;
+    }
+
+    public function getName(): string
+    {
+        return 'system_setting_repository';
     }
 }

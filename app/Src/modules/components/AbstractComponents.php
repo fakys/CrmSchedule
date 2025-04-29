@@ -16,4 +16,6 @@ abstract class AbstractComponents
     {
         $this->kernel = $kernel;
     }
+
+    abstract public function getName(): string;
 }

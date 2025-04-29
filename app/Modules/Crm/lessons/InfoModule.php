@@ -32,7 +32,6 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
         return [
             SubjectsRepository::class,
             LessonsRepository::class,
-            LessonFormat::class
         ];
     }
 

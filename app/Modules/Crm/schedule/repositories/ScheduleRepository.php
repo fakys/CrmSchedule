@@ -4,10 +4,11 @@ namespace App\Modules\Crm\schedule\repositories;
 
 use App\Entity\Schedule;
 use App\Src\BackendHelper;
+use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
 use Illuminate\Support\Facades\DB;
 
-class ScheduleRepository extends Repository
+class ScheduleRepository extends AbstractRepositories
 {
 
     /**
@@ -306,4 +307,8 @@ ORDER BY date DESC;";
         return Schedule::where(['id' => $id])->first()->delete();
     }
 
+    public function getName(): string
+    {
+        return 'schedule_repository';
+    }
 }

@@ -2,34 +2,31 @@
 
 namespace App\Src\modules\repository;
 
-use Mockery\Exception;
+use App\Src\BackendHelper;
+use App\Src\modules\exceptions\BackendException;
+use App\Src\modules\kernel\constructs\ConstructComponents;
+use App\Src\traits\TraitObjects;
 
 class RepositoriesContext
 {
-    public array $repositories;
+    use TraitObjects;
 
-    public function __construct(array $data_repositories)
+    public function __call(string $name, array $arguments)
     {
-        $this->repositories = $data_repositories;
-    }
+        $modules = BackendHelper::getKernel()->getModules();
 
-    public function get(): array
-    {
-        return $this->repositories;
-    }
-
-    protected function getRepository($name, $arguments = [])
-    {
-        foreach ($this->repositories as $repository) {
-            if (method_exists($repository, $name)) {
-                return call_user_func_array([new $repository (), $name], $arguments);
+        foreach ($modules as $module) {
+            if ($module->getComponents()) {
+                foreach ($module->getComponents() as $component) {
+                    if (
+                        $component->getType() == ConstructComponents::REPOSITORY_TYPE
+                        && method_exists($component->getComponent(), $name)
+                    ) {
+                        return call_user_func_array([$component->getComponent(), $name], $arguments);
+                    }
+                }
             }
         }
-        throw new Exception("Репозиторий не найден", 500);
-    }
-
-    public function __call($name, $arguments)
-    {
-        return $this->getRepository($name, $arguments);
+        throw new BackendException("Метод $name не найден");
     }
 }

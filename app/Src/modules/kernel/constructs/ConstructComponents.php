@@ -3,6 +3,7 @@
 namespace App\Src\modules\kernel\constructs;
 
 use App\Src\modules\components\AbstractComponents;
+use App\Src\modules\exceptions\BackendException;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\kernel\entity\ComponentsEntity;
 use App\Src\modules\kernel\KernelModules;
@@ -16,6 +17,8 @@ class ConstructComponents
     use TraitObjects;
 
     const OPERATION_TYPE = 'operation';
+    const REPOSITORY_TYPE = 'repository';
+    const TASK_TYPE = 'task';
 
     /**
      * @var KernelModules
@@ -47,10 +50,34 @@ class ConstructComponents
                     $this->components[$obj->getName()] = $obj;
                 }
             }
-//            $module->repositories();
-//            $module->tasks();
+            foreach ($module->getModule()->repositories() as $repository) {
+                $obj = new $repository($this->kernel);
+                if ($obj instanceof AbstractComponents) {
+                    $module->appendComponents(new ComponentsEntity(self::REPOSITORY_TYPE, $obj->getName(), $obj));
+                    $this->components[$obj->getName()] = $obj;
+                }
+            }
+            foreach ($module->getModule()->tasks() as $task) {
+                $obj = new $task($this->kernel);
+                if ($obj instanceof AbstractComponents) {
+                    $module->appendComponents(new ComponentsEntity(self::TASK_TYPE, $obj->getName(), $obj));
+                    $this->components[$obj->getName()] = $obj;
+                }
+            }
 //            $module->mangers();
         }
         return $this;
+    }
+
+    public function getComponentsForKernelByName($name)
+    {
+        foreach ($this->kernel->getModules() ?? [] as $module) {
+            foreach ($module->getComponents() ?? [] as $component) {
+                if ($component->getName() === $name) {
+                    return $component;
+                }
+            }
+        }
+        throw new BackendException("Компонент $name не найден");
     }
 }

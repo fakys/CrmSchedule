@@ -17,6 +17,8 @@ use App\Src\modules\plugins\mangers\MangerHelper;
 use App\Src\modules\repository\RepositoriesContext;
 use App\Src\modules\repository\Repository;
 use App\Src\modules\settings\Settings;
+use App\Src\modules\task\AbstractTask;
+use App\Src\modules\task\TaskContext;
 
 class BackendHelper
 {
@@ -40,9 +42,9 @@ class BackendHelper
     /**
      * @return RepositoryInterface
      */
-    public static function getRepositories(): RepositoriesContext
+    public static function getRepositories()
     {
-        return Repository::objects()->getFullRepositories();
+        return RepositoriesContext::objects();
     }
 
     /**
@@ -117,5 +119,14 @@ class BackendHelper
     public static function getKernel()
     {
         return KernelModules::getKernelModule();
+    }
+
+    /**
+     * @param $name
+     * @return AbstractTask
+     */
+    public static function getTaskByName($name)
+    {
+        return TaskContext::objects()->getTaskFromKernelByName($name);
     }
 }

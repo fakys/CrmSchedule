@@ -2,9 +2,9 @@
 
 namespace App\Src\modules\repository;
 
-use App\Src\traits\TraitObjects;
+use App\Src\modules\components\AbstractComponents;
 
-abstract class AbstractRepositories
+abstract class AbstractRepositories extends AbstractComponents
 {
 
 }

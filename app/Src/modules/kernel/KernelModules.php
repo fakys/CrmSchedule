@@ -20,6 +20,16 @@ class KernelModules
      */
     private $modules;
 
+    /**
+     * @var ConstructComponents
+     */
+    private $construct_components;
+
+    /**
+     * @var ConstructKernelModules
+     */
+    private $construct_kernel_modules;
+
 
     /** Инициализируем ядро */
     public function __construct()
@@ -50,7 +60,8 @@ class KernelModules
      */
     private function constructModules()
     {
-        return ConstructKernelModules::constructModules($this);
+        $this->construct_kernel_modules = ConstructKernelModules::constructModules($this);
+        return $this->construct_kernel_modules;
     }
 
     /**
@@ -58,7 +69,8 @@ class KernelModules
      */
     private function constructModuleComponents()
     {
-        return ConstructComponents::constructComponents($this);
+        $this->construct_components = ConstructComponents::constructComponents($this);
+        return $this->construct_components;
     }
 
     /**

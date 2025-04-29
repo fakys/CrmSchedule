@@ -3,10 +3,11 @@
 namespace App\Modules\Crm\schedule_plan\repositories;
 
 use App\Entity\SchedulePlanType;
+use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
 use Illuminate\Support\Facades\DB;
 
-class SchedulePlanTypeRepository extends Repository
+class SchedulePlanTypeRepository extends AbstractRepositories
 {
     /**
      * Создает тип плана расписания
@@ -82,5 +83,10 @@ class SchedulePlanTypeRepository extends Repository
 
         $args_arr = [':group_id'=>$group_id, ':semester_id'=>$semester_id];
         return DB::selectOne($sql, $args_arr);
+    }
+
+    public function getName(): string
+    {
+        return 'schedule_plan_type_repository';
     }
 }

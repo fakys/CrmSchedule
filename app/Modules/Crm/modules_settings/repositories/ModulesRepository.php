@@ -3,9 +3,10 @@ namespace App\Modules\Crm\modules_settings\repositories;
 
 use App\Entity\StatusModules;
 use App\Entity\UserInfo;
+use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
 
-class ModulesRepository extends Repository {
+class ModulesRepository extends AbstractRepositories {
     public function getFullModuleSettings()
     {
         return StatusModules::all();
@@ -25,5 +26,10 @@ class ModulesRepository extends Repository {
         $module = StatusModules::where(['name'=>$name])->get()->first();
         $module->active = $status;
         return $module->save();
+    }
+
+    public function getName(): string
+    {
+        return 'modules_repository';
     }
 }

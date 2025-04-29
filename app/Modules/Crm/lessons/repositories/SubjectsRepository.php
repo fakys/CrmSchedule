@@ -1,11 +1,14 @@
 <?php
+
 namespace App\Modules\Crm\lessons\repositories;
 
 use App\Entity\Subject;
+use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
 use Illuminate\Support\Facades\DB;
 
-class SubjectsRepository extends Repository{
+class SubjectsRepository extends AbstractRepositories
+{
 
     /**
      * Создает предмет
@@ -21,7 +24,7 @@ class SubjectsRepository extends Repository{
         $subject->full_name = $full_name;
         $subject->description = $description;
 
-        if($subject->save()){
+        if ($subject->save()) {
             return $subject;
         }
         return null;
@@ -82,7 +85,7 @@ class SubjectsRepository extends Repository{
      */
     public function getSubjectById($id)
     {
-        return Subject::where(['id'=>$id])->first();
+        return Subject::where(['id' => $id])->first();
     }
 
     /**
@@ -94,11 +97,16 @@ class SubjectsRepository extends Repository{
      */
     public function updateSubjectField($id, $field, $value)
     {
-        $subject = Subject::where(['id'=>$id])->first();
-        if ($subject){
+        $subject = Subject::where(['id' => $id])->first();
+        if ($subject) {
             $subject->name = $value;
         }
 
         return $subject->save();
+    }
+
+    public function getName(): string
+    {
+        return 'subjects_repository';
     }
 }

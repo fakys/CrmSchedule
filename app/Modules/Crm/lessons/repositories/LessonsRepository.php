@@ -3,14 +3,11 @@ namespace App\Modules\Crm\lessons\repositories;
 
 use App\Entity\DurationLesson;
 use App\Entity\FormatLesson;
-use App\Entity\ScheduleTask;
 use App\Entity\Lesson;
 use App\Entity\PairNumber;
-use App\Entity\Schedule;
-use App\Src\modules\repository\Repository;
-use Illuminate\Support\Facades\DB;
+use App\Src\modules\repository\AbstractRepositories;
 
-class LessonsRepository extends Repository{
+class LessonsRepository extends AbstractRepositories{
 
     /**
      * Возвращает все последовательности пар
@@ -165,4 +162,8 @@ class LessonsRepository extends Repository{
         return null;
     }
 
+    public function getName(): string
+    {
+        return 'lessons_repository';
+    }
 }

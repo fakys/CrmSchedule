@@ -6,10 +6,11 @@ use App\Entity\Schedule;
 use App\Entity\Semester;
 use App\Modules\Crm\schedule\models\SemestersModel;
 use App\Src\BackendHelper;
+use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
 use Illuminate\Support\Facades\DB;
 
-class SemestersRepository extends Repository
+class SemestersRepository extends AbstractRepositories
 {
     /**
      * Возвращает все семестры
@@ -101,5 +102,10 @@ class SemestersRepository extends Repository
             ['date_start', '<=', $date->format('Y-m-d H:i:s')],
             ['date_end', '>=', $date->format('Y-m-d H:i:s')]
         ])->orderBy('year_end')->first();
+    }
+
+    public function getName(): string
+    {
+        return 'semesters_repository';
     }
 }

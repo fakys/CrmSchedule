@@ -3,8 +3,9 @@ namespace App\Modules\Crm\backend_module\tasks;
 
 use App\Entity\User;
 use App\Src\crons\interfaces\TaskInterface;
+use App\Src\modules\task\AbstractTask;
 
-class TestTask implements TaskInterface
+class TestTask extends AbstractTask
 {
 
 
@@ -30,5 +31,10 @@ class TestTask implements TaskInterface
     public static function TimeZone(): string
     {
         return '';
+    }
+
+    public function getName(): string
+    {
+        return 'test_task';
     }
 }

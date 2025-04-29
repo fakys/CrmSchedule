@@ -3,9 +3,10 @@ namespace App\Modules\Crm\student_groups\repositories;
 
 use App\Entity\Specialty;
 use App\Entity\StudentGroup;
+use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
 
-class SpecialtiesRepositories extends Repository
+class SpecialtiesRepositories extends AbstractRepositories
 {
     /**
      * @param array $data
@@ -59,5 +60,10 @@ class SpecialtiesRepositories extends Repository
             return $specialty->save();
         }
         return false;
+    }
+
+    public function getName(): string
+    {
+        return 'specialties_repositories';
     }
 }

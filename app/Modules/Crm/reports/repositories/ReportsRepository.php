@@ -2,10 +2,10 @@
 namespace App\Modules\Crm\reports\repositories;
 
 use App\Entity\ScheduleTask;
-use App\Src\modules\repository\Repository;
+use App\Src\modules\repository\AbstractRepositories;
 use Illuminate\Support\Facades\DB;
 
-class ReportsRepository extends Repository {
+class ReportsRepository extends AbstractRepositories {
 
     /**
      * роверяет есть ли у пользователя активные таски
@@ -112,5 +112,10 @@ class ReportsRepository extends Repository {
 
         $args_arr = [':date_start' => $date_start, ':date_end' => $date_end, ':group_id'=>$group_id];
         return DB::select($sql, $args_arr);
+    }
+
+    public function getName(): string
+    {
+        return 'abstract_repositories';
     }
 }

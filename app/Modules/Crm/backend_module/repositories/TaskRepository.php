@@ -3,9 +3,9 @@ namespace App\Modules\Crm\backend_module\repositories;
 
 
 use App\Entity\ScheduleTask;
-use App\Src\modules\repository\Repository;
+use App\Src\modules\repository\AbstractRepositories;;
 
-class TaskRepository extends Repository{
+class TaskRepository extends AbstractRepositories{
 
     /**
      * Добавляет таск в БД
@@ -71,4 +71,8 @@ class TaskRepository extends Repository{
         }
     }
 
+    public function getName(): string
+    {
+        return 'task_repository';
+    }
 }

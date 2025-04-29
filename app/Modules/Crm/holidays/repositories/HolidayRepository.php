@@ -1,14 +1,14 @@
 <?php
+
 namespace App\Modules\Crm\holidays\repositories;
 
 
 use App\Entity\Holiday;
-use App\Entity\ScheduleTask;
-use App\Modules\Crm\schedule\src\schedule_manager\entity\HolidayEntity;
 use App\Src\BackendHelper;
-use App\Src\modules\repository\Repository;
+use App\Src\modules\repository\AbstractRepositories;
 
-class HolidayRepository extends Repository{
+class HolidayRepository extends AbstractRepositories
+{
 
 
     /**
@@ -50,7 +50,7 @@ class HolidayRepository extends Repository{
      */
     public function getHolidayById($id)
     {
-        return Holiday::where(['id'=>$id])->first();
+        return Holiday::where(['id' => $id])->first();
     }
 
     /**
@@ -95,5 +95,10 @@ class HolidayRepository extends Repository{
     public function getHolidayByDate($date)
     {
         return Holiday::where(['date_start', '<=', $date], ['date_end', '>=', $date])->first();
+    }
+
+    public function getName(): string
+    {
+        return 'holiday_repository';
     }
 }

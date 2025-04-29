@@ -5,9 +5,10 @@ namespace App\Modules\Crm\schedule_plan\repositories;
 use App\Entity\PlanDurationLesson;
 use App\Entity\PlanSchedule;
 use App\Entity\SchedulePlanType;
+use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
 
-class SchedulePlanRepository extends Repository
+class SchedulePlanRepository extends AbstractRepositories
 {
     /**
      * Создает длительность пары для плана
@@ -120,5 +121,10 @@ class SchedulePlanRepository extends Repository
     public function getFirstPlanSchedule($group_id, $semester_id)
     {
         return PlanSchedule::where(['semester_id'=>$semester_id, 'student_group_id'=>$group_id])->first();
+    }
+
+    public function getName(): string
+    {
+        return 'schedule_plan_repository';
     }
 }

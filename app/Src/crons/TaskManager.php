@@ -22,12 +22,12 @@ class TaskManager{
      */
     public function runTask($task_name, $args)
     {
-        $task = $this->getTaskByName($task_name);
+        $task = BackendHelper::getTaskByName($task_name);
 
         if ($args && json_decode($args, 1)) {
-            return (new $task())->Execute(json_decode($args, 1));
+            return $task->Execute(json_decode($args, 1));
         } else {
-            return (new $task())->Execute([]);
+            return $task->Execute([]);
         }
     }
 

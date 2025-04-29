@@ -5,11 +5,12 @@ use App\Entity\User;
 use App\Exports\ExportExcel;
 use App\Src\BackendHelper;
 use App\Src\crons\interfaces\TaskInterface;
+use App\Src\modules\task\AbstractTask;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use function Symfony\Component\Translation\t;
 
-class ReportForGroupTask implements TaskInterface
+class ReportForGroupTask extends AbstractTask
 {
 
     const HEADER = ['Название группы', 'Номер группы',
@@ -72,5 +73,10 @@ class ReportForGroupTask implements TaskInterface
     public static function TimeZone(): string
     {
         return '';
+    }
+
+    public function getName(): string
+    {
+        return 'report_for_group_task';
     }
 }

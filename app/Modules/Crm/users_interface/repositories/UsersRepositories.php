@@ -7,10 +7,11 @@ use App\Entity\User;
 use App\Entity\UserDocumet;
 use App\Entity\UserInfo;
 use App\Src\BackendHelper;
+use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
 use Illuminate\Support\Facades\DB;
 
-class UsersRepositories extends Repository
+class UsersRepositories extends AbstractRepositories
 {
     public function getFullUsersInfo()
     {
@@ -203,5 +204,10 @@ class UsersRepositories extends Repository
             return $user_document;
         }
         return null;
+    }
+
+    public function getName(): string
+    {
+        return 'users_repository';
     }
 }

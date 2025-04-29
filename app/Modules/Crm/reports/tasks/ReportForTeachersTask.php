@@ -5,11 +5,12 @@ use App\Entity\User;
 use App\Exports\ExportExcel;
 use App\Src\BackendHelper;
 use App\Src\crons\interfaces\TaskInterface;
+use App\Src\modules\task\AbstractTask;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use function Symfony\Component\Translation\t;
 
-class ReportForTeachersTask implements TaskInterface
+class ReportForTeachersTask extends AbstractTask
 {
 
     const HEADER =     [
@@ -69,5 +70,10 @@ class ReportForTeachersTask implements TaskInterface
     public static function TimeZone(): string
     {
         return '';
+    }
+
+    public function getName(): string
+    {
+        return 'report_for_teachers_task';
     }
 }

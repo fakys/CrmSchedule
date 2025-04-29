@@ -4,9 +4,10 @@ namespace App\Modules\Crm\users_interface\repositories;
 use App\Entity\GroupUser;
 use App\Entity\UserGroup;
 use App\Src\BackendHelper;
+use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
 
-class UserGroupsRepositories extends Repository
+class UserGroupsRepositories extends AbstractRepositories
 {
     /**
      * Возвращает все группы пользователей
@@ -113,5 +114,10 @@ class UserGroupsRepositories extends Repository
     {
         $group = $this->getUsersGroupById($id);
         return $group->delete();
+    }
+
+    public function getName(): string
+    {
+        return 'user_groups_repositories';
     }
 }

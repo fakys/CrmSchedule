@@ -2,10 +2,11 @@
 namespace App\Modules\Crm\student_groups\repositories;
 
 use App\Entity\StudentGroup;
+use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
 use Illuminate\Support\Facades\DB;
 
-class StudentGroupRepositories extends Repository
+class StudentGroupRepositories extends AbstractRepositories
 {
     /**
      * @param array $data
@@ -106,5 +107,10 @@ class StudentGroupRepositories extends Repository
         $studentGroup = StudentGroup::where(['id' => $id])->first();
         $studentGroup->$field = $value;
         return $studentGroup->save();
+    }
+
+    public function getName(): string
+    {
+        return 'student_group_repositories';
     }
 }
