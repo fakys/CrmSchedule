@@ -1,8 +1,10 @@
 <?php
 
+use App\Src\BackendHelper;
 use App\Src\Context;
 use App\Src\crons\TaskManager;
 use App\Src\crons\TaskSchedule;
+use App\Src\modules\kernel\constructs\ConstructComponents;
 use App\Src\redis\RedisManager;
 use Illuminate\Foundation\Configuration\ApplicationBuilder;
 use Illuminate\Http\Request;
@@ -28,4 +30,4 @@ $kernel->bootstrap();
 ////
 ////var_dump($task);
 //TaskManager::getFullTasks()->runTask('report_for_group_task', '[1,2,3]');
-var_dump(\App\Src\BackendHelper::getTaskByName('test_task')->Execute());
+var_dump(BackendHelper::getKernel()->getComponentsByType(ConstructComponents::CRON_TYPE)[0]->ge);

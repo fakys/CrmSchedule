@@ -36,3 +36,9 @@ RUN chmod 0644 /etc/cron.d/schedule-task-cron && \
     chown root:root /etc/cron.d/schedule-task-cron && \
     touch /var/log/cron.log && \
     chmod 0666 /var/log/cron.log
+
+COPY App/cron/schedule-cron /etc/cron.d/schedule-cron
+RUN chmod 0644 /etc/cron.d/schedule-cron && \
+    chown root:root /etc/cron.d/schedule-cron && \
+    touch /var/log/cron_schedule.log && \
+    chmod 0666 /var/log/cron_schedule.log

@@ -111,12 +111,14 @@ class ConstructComponents
 
     public function getComponentsForKernelByType($type)
     {
+        $data = [];
         foreach ($this->kernel->getModules() ?? [] as $module) {
             foreach ($module->getComponents() ?? [] as $component) {
                 if ($component->getType() === $type) {
-                    return $component;
+                    $data[] = $component;
                 }
             }
         }
+        return $data;
     }
 }

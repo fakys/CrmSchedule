@@ -7,7 +7,7 @@ use App\Src\modules\components\AbstractComponents;
 abstract class AbstractCronSchedule extends AbstractComponents
 {
     /**
-     * Тело таска
+     * Тело крона
      * @return bool
      */
     abstract public function Execute($args = []): bool;
@@ -17,12 +17,6 @@ abstract class AbstractCronSchedule extends AbstractComponents
      * @return string
      */
     abstract public static function TimeZone():string;
-
-    /**
-     * Имя таска
-     * @return string
-     */
-    abstract public static function cronName():string;
 
     /**
      * Время запуска крона

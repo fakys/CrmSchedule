@@ -8,6 +8,7 @@ use App\Src\modules\exceptions\BackendException;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\kernel\constructs\ConstructComponents;
 use App\Src\modules\kernel\constructs\ConstructKernelModules;
+use App\Src\modules\kernel\entity\ComponentsEntity;
 use App\Src\modules\kernel\entity\ModuleEntity;
 
 class KernelModules
@@ -108,7 +109,7 @@ class KernelModules
 
     /**
      * @param $type
-     * @return AbstractCronSchedule[]
+     * @return ComponentsEntity[]
      */
     public function getComponentsByType($type)
     {
