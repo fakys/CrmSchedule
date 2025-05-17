@@ -129,4 +129,15 @@ class BackendHelper
     {
         return TaskContext::objects()->getTaskFromKernelByName($name);
     }
+
+    /**
+     * Проверяет статус модуля
+     * @param $name
+     * @return false|mixed
+     * @throws modules\exceptions\BackendException
+     */
+    public function checkModule($name)
+    {
+        return KernelModules::getKernelModule()->getModulByName($name)->getStatus();
+    }
 }

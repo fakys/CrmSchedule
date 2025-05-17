@@ -7,12 +7,13 @@ use App\Src\modules\interfaces\InterfaceInfoModule;
 class ModuleEntity {
 
     private $module;
-
+    private $status;
     private $components;
 
-    public function __construct($module, $components = []) {
+    public function __construct($module, $status_module = false, $components = []) {
         $this->module = $module;
         $this->components = $components;
+        $this->status = $status_module;
     }
 
     /**
@@ -41,5 +42,13 @@ class ModuleEntity {
     public function appendComponents($components)
     {
         $this->components[] = $components;
+    }
+
+    public function getStatus() {
+        return $this->status;
+    }
+
+    public function setStatus($status) {
+        $this->status = $status;
     }
 }

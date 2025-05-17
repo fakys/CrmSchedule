@@ -3,6 +3,7 @@
 namespace App\Src\modules\kernel;
 
 use App\Src\modules\components\AbstractComponents;
+use App\Src\modules\exceptions\BackendException;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\kernel\constructs\ConstructComponents;
 use App\Src\modules\kernel\constructs\ConstructKernelModules;
@@ -88,5 +89,14 @@ class KernelModules
     public function getModules()
     {
         return $this->modules;
+    }
+
+    public function getModulByName($nameModule)
+    {
+        try {
+            return $this->modules[$nameModule];
+        } catch (\Exception $e) {
+            throw new BackendException("Модуль по названию $nameModule ненайден");
+        }
     }
 }

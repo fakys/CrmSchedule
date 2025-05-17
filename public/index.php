@@ -16,7 +16,13 @@ define('LARAVEL_START', microtime(true));
 if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
     require $maintenance;
 }
-// Инициализация ядра
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+// Инициализация Laravel
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+$kernel->bootstrap();
+
+// Инициализация ядра CRM
 require __DIR__.'/../app/Src/modules/kernel/init_kernel.php';
 //создаем контекст
 /**
@@ -27,6 +33,4 @@ function context()
     return Context::GetContext(Request::capture());
 }
 
-// Bootstrap Laravel and handle the request...
-(require_once __DIR__.'/../bootstrap/app.php')
-    ->handleRequest(Request::capture());
+($app)->handleRequest(Request::capture());

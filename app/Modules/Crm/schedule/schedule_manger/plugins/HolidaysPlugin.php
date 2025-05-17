@@ -33,43 +33,45 @@ class HolidaysPlugin extends AbstractPlugin
 
     public function Execute()
     {
-        $this->holiday_setting = BackendHelper::getSystemSettings('holiday_settings');
-        $this->all_holidays = BackendHelper::getRepositories()->getAllHolidays();
-        if ($this->schedule) {
-            if ($this->holiday_setting->use_settings) {
-                if (
-                    $this->holiday_setting->use_priority_setting &&
-                    $this->holiday_setting->priority_setting &&
-                    $this->holiday_setting->replace_no_priority_setting
-                ) {
-                    switch ($this->holiday_setting->priority_setting) {
-                        case HolidaySetting::MAIN_SETTING:
-                            foreach ($this->schedule->getScheduleUnits() as $unit) {
-                                $this->setHolidayByDate($unit);
-                                $this->setHolidaySettings($unit, true);
-                            }
-                            break;
-                        default:
-                            foreach ($this->schedule->getScheduleUnits() as $unit) {
-                                $this->setHolidaySettings($unit);
-                                $this->setHolidayByDate($unit, true);
-                            }
-                            break;
-                    }
-                } else {
-                    switch ($this->holiday_setting->priority_setting){
-                        case HolidaySetting::MAIN_SETTING:
-                            foreach ($this->schedule->getScheduleUnits() as $unit) {
-                                $this->setHolidayByDate($unit);
-                                $this->setHolidaySettings($unit);
-                            }
-                            break;
-                        default:
-                            foreach ($this->schedule->getScheduleUnits() as $unit) {
-                                $this->setHolidaySettings($unit);
-                                 $this->setHolidayByDate($unit);
-                            }
-                            break;
+        if (BackendHelper::getKernel()->getModulByName('holidays')->getStatus()) {
+            $this->holiday_setting = BackendHelper::getSystemSettings('holiday_settings');
+            $this->all_holidays = BackendHelper::getRepositories()->getAllHolidays();
+            if ($this->schedule) {
+                if ($this->holiday_setting->use_settings) {
+                    if (
+                        $this->holiday_setting->use_priority_setting &&
+                        $this->holiday_setting->priority_setting &&
+                        $this->holiday_setting->replace_no_priority_setting
+                    ) {
+                        switch ($this->holiday_setting->priority_setting) {
+                            case HolidaySetting::MAIN_SETTING:
+                                foreach ($this->schedule->getScheduleUnits() as $unit) {
+                                    $this->setHolidayByDate($unit);
+                                    $this->setHolidaySettings($unit, true);
+                                }
+                                break;
+                            default:
+                                foreach ($this->schedule->getScheduleUnits() as $unit) {
+                                    $this->setHolidaySettings($unit);
+                                    $this->setHolidayByDate($unit, true);
+                                }
+                                break;
+                        }
+                    } else {
+                        switch ($this->holiday_setting->priority_setting){
+                            case HolidaySetting::MAIN_SETTING:
+                                foreach ($this->schedule->getScheduleUnits() as $unit) {
+                                    $this->setHolidayByDate($unit);
+                                    $this->setHolidaySettings($unit);
+                                }
+                                break;
+                            default:
+                                foreach ($this->schedule->getScheduleUnits() as $unit) {
+                                    $this->setHolidaySettings($unit);
+                                    $this->setHolidayByDate($unit);
+                                }
+                                break;
+                        }
                     }
                 }
             }
