@@ -62,4 +62,9 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
             ScheduleManger::class
         ];
     }
+
+    public function components(): array
+    {
+        return [];
+    }
 }

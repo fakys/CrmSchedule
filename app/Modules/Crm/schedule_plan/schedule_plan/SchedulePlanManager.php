@@ -17,4 +17,9 @@ class SchedulePlanManager extends AbstractManger  {
             SchedulePlanBasePlugin::class
         ];
     }
+
+    public function getName():string
+    {
+        return 'schedule_manger';
+    }
 }

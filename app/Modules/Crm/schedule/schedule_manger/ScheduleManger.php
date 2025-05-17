@@ -24,4 +24,9 @@ class ScheduleManger extends AbstractManger{
             HolidaysPlugin::class,
         ];
     }
+
+    public function getName(): string
+    {
+        return 'schedule_manger';
+    }
 }

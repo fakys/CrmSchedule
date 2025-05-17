@@ -58,4 +58,9 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
         return [
         ];
     }
+
+    public function components(): array
+    {
+        return [];
+    }
 }

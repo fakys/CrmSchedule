@@ -19,6 +19,8 @@ class ConstructComponents
     const OPERATION_TYPE = 'operation';
     const REPOSITORY_TYPE = 'repository';
     const TASK_TYPE = 'task';
+    const COMPONENTS_TYPE = 'components';
+    const MANGER_TYPE = 'components';
 
     /**
      * @var KernelModules
@@ -64,7 +66,20 @@ class ConstructComponents
                     $this->components[$obj->getName()] = $obj;
                 }
             }
-//            $module->mangers();
+            foreach ($module->getModule()->components() as $component) {
+                $obj = new $component($this->kernel);
+                if ($obj instanceof AbstractComponents) {
+                    $module->appendComponents(new ComponentsEntity(self::COMPONENTS_TYPE, $obj->getName(), $obj));
+                    $this->components[$obj->getName()] = $obj;
+                }
+            }
+            foreach ($module->getModule()->mangers() as $mangers) {
+                $obj = new $mangers($this->kernel);
+                if ($obj instanceof AbstractComponents) {
+                    $module->appendComponents(new ComponentsEntity(self::MANGER_TYPE, $obj->getName(), $obj));
+                    $this->components[$obj->getName()] = $obj;
+                }
+            }
         }
         return $this;
     }

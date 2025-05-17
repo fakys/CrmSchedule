@@ -99,4 +99,9 @@ class KernelModules
             throw new BackendException("Модуль по названию $nameModule ненайден");
         }
     }
+
+    public function getComponentByName($component_name)
+    {
+        return $this->construct_components->getComponentsForKernelByName($component_name);
+    }
 }

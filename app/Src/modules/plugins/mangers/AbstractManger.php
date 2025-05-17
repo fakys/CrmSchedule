@@ -1,19 +1,21 @@
 <?php
 namespace App\Src\modules\plugins\mangers;
 
+use App\Src\modules\components\AbstractComponents;
 use App\Src\modules\plugins\AbstractPlugin;
 
-abstract class AbstractManger{
+abstract class AbstractManger extends AbstractComponents {
 
-    public function __construct()
+    public function __construct($kernel)
     {
+        parent::__construct($kernel);
         $this->context = new PluginsMangerContext($this->plugins());
     }
 
     /**
      * @var PluginsMangerContext $context
      */
-    private $context;
+    protected $context;
 
     /**
      * Название менеджера

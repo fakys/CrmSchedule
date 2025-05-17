@@ -4,33 +4,18 @@ namespace App\Src;
 
 use App\Modules\Crm\backend_module\interfaces\OperationsInterface;
 use App\Modules\Crm\backend_module\interfaces\RepositoryInterface;
-use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Src\access\ContextAccessRoute;
-use App\Src\crons\TaskManager;
 use App\Src\crons\TaskSchedule;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\kernel\KernelModules;
-use App\Src\modules\operations\AbstractOperation;
 use App\Src\modules\operations\OperationsContext;
-use App\Src\modules\plugins\mangers\MangerHelper;
 use App\Src\modules\repository\RepositoriesContext;
-use App\Src\modules\repository\Repository;
 use App\Src\modules\settings\Settings;
 use App\Src\modules\task\AbstractTask;
-use App\Src\modules\task\TaskContext;
 
 class BackendHelper
 {
-    /**
-     * @param string $module
-     * @return InterfaceInfoModule
-     */
-    public static function getModule(string $module)
-    {
-        return InfoModuleModel::objects()->getInfoModuleByName($module);
-    }
-
     /**
      * @return InterfaceInfoModule[]
      */
@@ -110,7 +95,7 @@ class BackendHelper
      */
     public static function getManager($name)
     {
-        return MangerHelper::getManegeByName($name);
+        return self::getKernel()->getComponentByName($name)->getComponent();
     }
 
     /**
@@ -127,7 +112,7 @@ class BackendHelper
      */
     public static function getTaskByName($name)
     {
-        return TaskContext::objects()->getTaskFromKernelByName($name);
+        return self::getKernel()->getComponentByName($name)->getComponent();
     }
 
     /**
@@ -138,6 +123,6 @@ class BackendHelper
      */
     public function checkModule($name)
     {
-        return KernelModules::getKernelModule()->getModulByName($name)->getStatus();
+        return self::getKernel()->getModulByName($name)->getStatus();
     }
 }

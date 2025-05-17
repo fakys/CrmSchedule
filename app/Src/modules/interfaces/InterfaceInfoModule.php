@@ -25,4 +25,5 @@ interface InterfaceInfoModule
      * @return AbstractManger[]
      */
     public static function mangers(): array;
+    public function components(): array;
 }
