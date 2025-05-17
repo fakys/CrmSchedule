@@ -61,7 +61,12 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
         ];
     }
 
-    public function components(): array
+    public static function components(): array
+    {
+        return [];
+    }
+
+    public static function crons(): array
     {
         return [];
     }

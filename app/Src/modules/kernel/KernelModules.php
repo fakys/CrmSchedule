@@ -3,6 +3,7 @@
 namespace App\Src\modules\kernel;
 
 use App\Src\modules\components\AbstractComponents;
+use App\Src\modules\crons_schedule\AbstractCronSchedule;
 use App\Src\modules\exceptions\BackendException;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\kernel\constructs\ConstructComponents;
@@ -103,5 +104,14 @@ class KernelModules
     public function getComponentByName($component_name)
     {
         return $this->construct_components->getComponentsForKernelByName($component_name);
+    }
+
+    /**
+     * @param $type
+     * @return AbstractCronSchedule[]
+     */
+    public function getComponentsByType($type)
+    {
+        return $this->construct_components->getComponentsForKernelByType($type);
     }
 }

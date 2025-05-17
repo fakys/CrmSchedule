@@ -2,7 +2,6 @@
 namespace App\Modules\Crm\backend_module\tasks;
 
 use App\Entity\User;
-use App\Src\crons\interfaces\TaskInterface;
 use App\Src\modules\task\AbstractTask;
 
 class TestTask extends AbstractTask

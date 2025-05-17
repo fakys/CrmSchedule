@@ -21,6 +21,7 @@ class ConstructComponents
     const TASK_TYPE = 'task';
     const COMPONENTS_TYPE = 'components';
     const MANGER_TYPE = 'components';
+    const CRON_TYPE = 'cron';
 
     /**
      * @var KernelModules
@@ -52,6 +53,7 @@ class ConstructComponents
                     $this->components[$obj->getName()] = $obj;
                 }
             }
+
             foreach ($module->getModule()->repositories() as $repository) {
                 $obj = new $repository($this->kernel);
                 if ($obj instanceof AbstractComponents) {
@@ -59,6 +61,7 @@ class ConstructComponents
                     $this->components[$obj->getName()] = $obj;
                 }
             }
+
             foreach ($module->getModule()->tasks() as $task) {
                 $obj = new $task($this->kernel);
                 if ($obj instanceof AbstractComponents) {
@@ -66,17 +69,27 @@ class ConstructComponents
                     $this->components[$obj->getName()] = $obj;
                 }
             }
-            foreach ($module->getModule()->components() as $component) {
-                $obj = new $component($this->kernel);
-                if ($obj instanceof AbstractComponents) {
-                    $module->appendComponents(new ComponentsEntity(self::COMPONENTS_TYPE, $obj->getName(), $obj));
-                    $this->components[$obj->getName()] = $obj;
-                }
-            }
+
             foreach ($module->getModule()->mangers() as $mangers) {
                 $obj = new $mangers($this->kernel);
                 if ($obj instanceof AbstractComponents) {
                     $module->appendComponents(new ComponentsEntity(self::MANGER_TYPE, $obj->getName(), $obj));
+                    $this->components[$obj->getName()] = $obj;
+                }
+            }
+
+            foreach ($module->getModule()->crons() as $crons) {
+                $obj = new $crons($this->kernel);
+                if ($obj instanceof AbstractComponents) {
+                    $module->appendComponents(new ComponentsEntity(self::CRON_TYPE, $obj->getName(), $obj));
+                    $this->components[$obj->getName()] = $obj;
+                }
+            }
+
+            foreach ($module->getModule()->components() as $component) {
+                $obj = new $component($this->kernel);
+                if ($obj instanceof AbstractComponents) {
+                    $module->appendComponents(new ComponentsEntity(self::COMPONENTS_TYPE, $obj->getName(), $obj));
                     $this->components[$obj->getName()] = $obj;
                 }
             }
@@ -94,5 +107,16 @@ class ConstructComponents
             }
         }
         throw new BackendException("Компонент $name не найден");
+    }
+
+    public function getComponentsForKernelByType($type)
+    {
+        foreach ($this->kernel->getModules() ?? [] as $module) {
+            foreach ($module->getComponents() ?? [] as $component) {
+                if ($component->getType() === $type) {
+                    return $component;
+                }
+            }
+        }
     }
 }

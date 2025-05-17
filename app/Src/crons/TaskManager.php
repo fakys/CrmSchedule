@@ -3,7 +3,7 @@
 namespace App\Src\crons;
 
 use App\Src\BackendHelper;
-use App\Src\crons\interfaces\TaskInterface;
+use App\Src\modules\task\AbstractTask;
 use App\Src\traits\TraitObjects;
 
 class TaskManager{
@@ -34,7 +34,7 @@ class TaskManager{
 
     /**
      * @param $task_name
-     * @return TaskInterface
+     * @return AbstractTask
      */
     public function getTaskByName($task_name)
     {
