@@ -4,6 +4,7 @@ namespace App\Src\crons;
 
 use App\Entity\ScheduleTask;
 use App\Src\BackendHelper;
+use App\Src\rabbit\RabbitMQ;
 use App\Src\redis\RedisManager;
 use App\Src\traits\TraitObjects;
 
@@ -11,15 +12,16 @@ class TaskSchedule
 {
     use TraitObjects;
 
+    const QUEUE = 'task_queue';
     const ACTIVE_STATUS = 'active';
     const PENDING_STATUS = 'pending';
     const DONE_STATUS = 'done';
 
-    private $redis;
+    private $rabbit;
 
     public function __construct()
     {
-        $this->redis = RedisManager::redis();
+        $this->rabbit = new RabbitMQ(self::QUEUE);
     }
 
     /**
@@ -44,18 +46,18 @@ class TaskSchedule
 
         $task_data['id'] = $task->id;
         /** Заполняем очередь */
-        $this->schedulePush(json_encode($task_data));
+        $this->schedulePush($task_data);
     }
 
 
     /**
-     * @param $json_task
+     * @param $task
      * @return void
      * @throws \RedisException
      */
-    private function schedulePush($json_task)
+    private function schedulePush($task)
     {
-        $this->redis->rPush('cron_schedule_task', $json_task);
+        $this->rabbit->appendQueue($task);
     }
 
     /**
@@ -64,9 +66,8 @@ class TaskSchedule
      */
     public function getScheduleTask()
     {
-        $task_json = $this->redis->rPop('cron_schedule_task');
-        if ($task_json) {
-            $task = json_decode($task_json, true);
+        $task = $this->rabbit->getQueue();
+        if ($task) {
             if ($task['status'] === self::ACTIVE_STATUS) {
                 $task['status'] = self::PENDING_STATUS;
                 $task['pid'] = getmypid();

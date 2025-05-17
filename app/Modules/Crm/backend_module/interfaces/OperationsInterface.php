@@ -1,14 +1,12 @@
 <?php
 namespace App\Modules\Crm\backend_module\interfaces;
 
-use App\Modules\Crm\reports\operations\ReportsAbstractOperation;
-use App\Modules\Crm\schedule\operations\ScheduleManagerAbstractOperation;
+use App\Modules\Crm\schedule\operations\ScheduleManagerOperation;
 use App\Modules\Crm\schedule\src\entity\ScheduleUnit;
 use App\Modules\Crm\users_interface\src\UserData;
 
 /**
- * @mixin ReportsAbstractOperation
- * @mixin ScheduleManagerAbstractOperation
+ * @mixin ScheduleManagerOperation
  */
 interface OperationsInterface
 {

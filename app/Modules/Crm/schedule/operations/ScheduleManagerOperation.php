@@ -8,8 +8,10 @@ use App\Modules\Crm\schedule\src\EditNewScheduleData;
 use App\Modules\Crm\schedule\src\entity\ScheduleUnit;
 use App\Modules\Crm\schedule\src\ScheduleManager;
 use App\Modules\Crm\schedule_plan\exceptions\SchedulePlanAddException;
+use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
+use App\Src\redis\RedisManager;
 use Illuminate\Support\Facades\DB;
 
 class ScheduleManagerOperation extends AbstractOperation
@@ -214,5 +216,33 @@ class ScheduleManagerOperation extends AbstractOperation
     public function getName(): string
     {
         return 'schedule_manager_operation';
+    }
+
+
+    /**
+     * Подготавливает расписание
+     * @param \stdClass[] $data
+     */
+    public function preparationScheduleData(array $data)
+    {
+        $schedule = [];
+        foreach ($data as $item) {
+            $schedule[$item->group_id][$item->semester_id][] = $item;
+        }
+        return $schedule;
+    }
+    public function cashSchedule()
+    {
+        $redis = new RedisManager();
+        $settings = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName());
+
+        if (!$redis->redis->get('schedule') && $settings->cash_schedule && $settings->count_minutes_for_cash > 1) {
+            /** Получаем расписание для кеша */
+            $data = BackendHelper::getRepositories()->getScheduleForCash();
+            if ($data) {
+                $schedule = BackendHelper::getOperations()->preparationScheduleData($data);
+                $redis->redis->setex('schedule', $settings->count_minutes_for_cash*60, json_encode($schedule));
+            }
+        }
     }
 }

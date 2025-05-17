@@ -14,7 +14,9 @@ class ScheduleSetting extends Model implements InterfaceModel
     {
         return [
             'users_groups',
-            'type_weeks'
+            'type_weeks',
+            'count_minutes_for_cash',
+            'cash_schedule'
         ];
     }
 
@@ -23,6 +25,7 @@ class ScheduleSetting extends Model implements InterfaceModel
         return [
             'users_groups'=>['required', 'array'],
             'type_weeks' => ['required', 'integer'],
+            'count_minutes_for_cash' => ['integer'],
         ];
     }
 

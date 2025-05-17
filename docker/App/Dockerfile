@@ -16,9 +16,13 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-configure gd --with-jpeg --with-freetype \
     && docker-php-ext-install gd
 
+RUN docker-php-ext-install zip
+
 RUN apt-get update \
     && apt-get install -y libpq-dev \
     && docker-php-ext-install pgsql pdo_pgsql pdo
+
+RUN docker-php-ext-install sockets
 
 RUN pecl install redis \
     && docker-php-ext-enable redis

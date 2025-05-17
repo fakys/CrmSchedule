@@ -18,7 +18,7 @@ class RedisManager
     {
         try {
             $this->redis = new \Redis();
-            $this->redis->connect('redis', 6379);
+            $this->redis->connect(env('REDIS_HOST', 'redis'), env('REDIS_PORT', '6379'));
         }catch (\Exception $e){
             var_dump($e->getMessage());
         }

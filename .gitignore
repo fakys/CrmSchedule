@@ -24,3 +24,5 @@ yarn-error.log
 pgsql
 redis
 storage/framework
+redis.conf
+rabbitmq

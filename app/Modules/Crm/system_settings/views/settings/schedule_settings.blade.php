@@ -4,7 +4,7 @@
 
 @endsection
 @section('js_files')
-
+<script src="{{asset('assets/js/schedule_settings.js')}}"></script>
 @endsection
 
 @section('content')
@@ -39,6 +39,19 @@
                                 @endif
                             @endforeach
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="d-flex align-items-center gap-3">
+                            <label for="cash_schedule">Кешировать расписание</label>
+                            <input type="checkbox" id="cash_schedule" name="cash_schedule" @if($settings->cash_schedule) checked @endif>
+                            <div class="description-settings" title="Кеширование расписания значительно ускорит работу системы"><i class="fa fa-question" aria-hidden="true"></i></div>
+                        </div>
+                    </div>
+                    <div class="form-group d-none" id="cash_container">
+                        <div class="d-flex align-items-center gap-3">
+                            <label for="cash_schedule">как часто кешировать расписание? (В минутах)</label>
+                            <input type="number" id="cash_schedule" name="count_minutes_for_cash" min="5" value="{{$settings->count_minutes_for_cash}}">
+                        </div>
                     </div>
                     <div>
                         <input type="submit" class="btn-main" value="Сохранить">
