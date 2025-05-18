@@ -32,6 +32,7 @@ class ScheduleSetting extends Model implements InterfaceModel
     public function boolean(): array
     {
         return [
+            'cash_schedule'
         ];
     }
 

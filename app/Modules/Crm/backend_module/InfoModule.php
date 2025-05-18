@@ -1,7 +1,6 @@
 <?php
 namespace App\Modules\Crm\backend_module;
 
-use App\Modules\Crm\backend_module\crons\TestCron;
 use App\Modules\Crm\backend_module\repositories\CronRepository;
 use App\Modules\Crm\backend_module\repositories\TaskRepository;
 use App\Modules\Crm\backend_module\tasks\TestTask;
@@ -65,7 +64,6 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function crons(): array
     {
         return [
-            TestCron::class
         ];
     }
 }

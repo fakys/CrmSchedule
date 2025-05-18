@@ -113,9 +113,11 @@ class ConstructComponents
     {
         $data = [];
         foreach ($this->kernel->getModules() ?? [] as $module) {
-            foreach ($module->getComponents() ?? [] as $component) {
-                if ($component->getType() === $type) {
-                    $data[] = $component;
+            if ($module->getStatus()) {
+                foreach ($module->getComponents() ?? [] as $component) {
+                    if ($component->getType() === $type) {
+                        $data[] = $component;
+                    }
                 }
             }
         }

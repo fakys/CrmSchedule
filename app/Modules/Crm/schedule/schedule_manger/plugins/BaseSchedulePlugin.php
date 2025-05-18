@@ -2,10 +2,6 @@
 
 namespace App\Modules\Crm\schedule\schedule_manger\plugins;
 
-use App\Entity\PairNumber;
-use App\Entity\Semester;
-use App\Entity\Specialty;
-use App\Entity\StudentGroup;
 use App\Modules\Crm\schedule\exceptions\ScheduleManagerException;
 use App\Modules\Crm\schedule\src\entity\ScheduleSearchData;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PairNumberEntity;
@@ -14,9 +10,10 @@ use App\Modules\Crm\schedule\src\schedule_manager\entity\SemesterEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\units\SemesterUnit;
 use App\Modules\Crm\schedule\src\schedule_manager\Schedule;
 use App\Modules\Crm\schedule\src\schedule_manager\ScheduleUnit;
+use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Src\BackendHelper;
 use App\Src\modules\plugins\AbstractPlugin;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat\Wizard\DateTime;
+use App\Src\redis\RedisManager;
 
 /**
  * Создает базовое расписание
@@ -25,6 +22,8 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat\Wizard\DateTime;
  * @property SemesterEntity $semesters
  * @property PairNumberEntity $pair_numbers
  * @property PlanScheduleEntity[] $planScheduleRepository
+ * @property RedisManager $redis
+ * @property array cash_schedule
  */
 class BaseSchedulePlugin extends AbstractPlugin
 {
@@ -48,33 +47,68 @@ class BaseSchedulePlugin extends AbstractPlugin
         $this->semesters = new SemesterEntity(
             BackendHelper::getRepositories()->getSemestersByPeriod($this->searchData->getDateStart(), $this->searchData->getDateEnd())
         );
-
-        $search_group = [];
+        $settings = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName());
         $base_schedule = [];
-        /** Получаем данные из репозитория */
-        if ($this->searchData->getGroupsId()) {
-            foreach ($this->searchData->getGroupsId() as $group) {
-                $base_schedule[$group] = BackendHelper::getRepositories()
-                    ->getScheduleUnitsByDate($this->searchData->getDateStart(), $this->searchData->getDateEnd(), $group);
+
+        if ($settings->cash_schedule) {
+            $this->redis = new RedisManager();
+            if (!$this->redis->redis->get('schedule')) { //Если в кеше ничего нет, кешируем
+                BackendHelper::getOperations()->cashSchedule();
             }
-        } elseif ($this->searchData->getSpecialtiesId()) {
-            foreach ($this->searchData->getSpecialtiesId() as $specialty) {
-                $specialty_obj = BackendHelper::getRepositories()->getSpecialtyById($specialty);
-                $groups = $specialty_obj->getGroups();
-                foreach ($groups as $group) {
-                    $base_schedule[$group->id] = BackendHelper::getRepositories()
-                        ->getScheduleUnitsByDate($this->searchData->getDateStart(), $this->searchData->getDateEnd(), $group->id);
+            $this->cash_schedule = json_decode($this->redis->redis->get('schedule'), 1);
+            if ($this->searchData->getGroupsId()) {
+                foreach ($this->searchData->getGroupsId() as $group) {
+                    $base_schedule[$group] = $this->getCashSchedule($group);
                 }
-            }
-        } else {
-            $groups = BackendHelper::getRepositories()->getFullStudentGroups();
-            if ($groups) {
-                foreach ($groups as $group) {
-                    $base_schedule[$group->id] = BackendHelper::getRepositories()
-                        ->getScheduleUnitsByDate($this->searchData->getDateStart(), $this->searchData->getDateEnd(), $group->id);
+            } elseif ($this->searchData->getSpecialtiesId()) {
+                foreach ($this->searchData->getSpecialtiesId() as $specialty) {
+                    $specialty_obj = BackendHelper::getRepositories()->getSpecialtyById($specialty);
+                    $groups = $specialty_obj->getGroups();
+                    foreach ($groups as $group) {
+                        foreach ($this->semesters->getSemesters() as $semester) {
+                            $base_schedule[$group->id][] = $this->cash_schedule[$group->id][$semester['id']];
+                        }
+                    }
+                }
+            } else {
+                $groups = BackendHelper::getRepositories()->getFullStudentGroups();
+                if ($groups) {
+                    foreach ($groups as $group) {
+                        foreach ($this->semesters->getSemesters() as $semester) {
+                            $base_schedule[$group][] = $this->cash_schedule[$group][$semester['id']];
+                        }
+                    }
                 }
             }
         }
+
+        /** Получаем данные из репозитория */
+        if (!$base_schedule) {
+            if ($this->searchData->getGroupsId()) {
+                foreach ($this->searchData->getGroupsId() as $group) {
+                    $base_schedule[$group] = BackendHelper::getRepositories()
+                        ->getScheduleUnitsByDate($this->searchData->getDateStart(), $this->searchData->getDateEnd(), $group);
+                }
+            } elseif ($this->searchData->getSpecialtiesId()) {
+                foreach ($this->searchData->getSpecialtiesId() as $specialty) {
+                    $specialty_obj = BackendHelper::getRepositories()->getSpecialtyById($specialty);
+                    $groups = $specialty_obj->getGroups();
+                    foreach ($groups as $group) {
+                        $base_schedule[$group->id] = BackendHelper::getRepositories()
+                            ->getScheduleUnitsByDate($this->searchData->getDateStart(), $this->searchData->getDateEnd(), $group->id);
+                    }
+                }
+            } else {
+                $groups = BackendHelper::getRepositories()->getFullStudentGroups();
+                if ($groups) {
+                    foreach ($groups as $group) {
+                        $base_schedule[$group->id] = BackendHelper::getRepositories()
+                            ->getScheduleUnitsByDate($this->searchData->getDateStart(), $this->searchData->getDateEnd(), $group->id);
+                    }
+                }
+            }
+        }
+
         foreach ($base_schedule as $group_id => $units_group) {
             foreach ($units_group as $unit) {
                 if (!$this->semesters->getUnitByGroup($unit->group_id, $unit->semester_id)) {
@@ -158,5 +192,21 @@ class BaseSchedulePlugin extends AbstractPlugin
         return BackendHelper::getOperations()->getCurrentWeek(
             $date, $semester_unit->getDateStart(),
             empty($semester_unit->getTypePlanParam()['weeks']) ? 1 : count($semester_unit->getTypePlanParam()['weeks']));
+    }
+
+    private function getCashSchedule($group)
+    {
+        $schedule_base_data = [];
+        foreach ($this->semesters->getSemesters() as $semester) {
+            foreach ($this->cash_schedule[$group][$semester['id']] as $schedule_unit_data) {
+                if (
+                    $this->searchData->getDateStart() <= new \DateTime($schedule_unit_data['date']) &&
+                    new \DateTime($schedule_unit_data['date']) <= $this->searchData->getDateEnd()
+                ) {
+                    $schedule_base_data[] = (object)$schedule_unit_data;
+                }
+            }
+        }
+        return $schedule_base_data;
     }
 }

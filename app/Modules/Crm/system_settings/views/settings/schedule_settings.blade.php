@@ -49,8 +49,8 @@
                     </div>
                     <div class="form-group d-none" id="cash_container">
                         <div class="d-flex align-items-center gap-3">
-                            <label for="cash_schedule">как часто кешировать расписание? (В минутах)</label>
-                            <input type="number" id="cash_schedule" name="count_minutes_for_cash" min="5" value="{{$settings->count_minutes_for_cash}}">
+                            <label>как часто кешировать расписание? (В минутах)</label>
+                            <input type="number" name="count_minutes_for_cash" min="5" value="{{$settings->count_minutes_for_cash}}">
                         </div>
                     </div>
                     <div>

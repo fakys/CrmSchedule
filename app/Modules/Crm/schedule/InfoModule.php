@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\schedule;
 
 
+use App\Modules\Crm\schedule\crons\CashScheduleCron;
 use App\Modules\Crm\schedule\operations\ScheduleManagerOperation;
 use App\Modules\Crm\schedule\operations\SemestersOperation;
 use App\Modules\Crm\schedule\operations\TimeOperation;
@@ -70,6 +71,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 
     public static function crons(): array
     {
-        return [];
+        return [
+            CashScheduleCron::class
+        ];
     }
 }

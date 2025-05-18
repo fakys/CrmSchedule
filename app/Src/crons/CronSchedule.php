@@ -30,7 +30,7 @@ class CronSchedule
             $last_cron = BackendHelper::getRepositories()->getLastCronByName($cron->getComponent()->getName());
             if ($last_cron) {
                 $last_time = new \DateTime($last_cron->start_time);
-                $cron_time = CronExpression::factory($cron->timeStart());
+                $cron_time = CronExpression::factory($cron->getComponent()->timeStart());
                 $next_run_cron = $cron_time->getNextRunDate($last_time);
 
                 if ($next_run_cron <= new \DateTime()) {
