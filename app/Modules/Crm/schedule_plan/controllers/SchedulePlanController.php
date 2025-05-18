@@ -2,8 +2,10 @@
 
 namespace App\Modules\Crm\schedule_plan\controllers;
 
+use App\Modules\Crm\schedule\tasks\CashScheduleTask;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanModel;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
+use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Src\BackendHelper;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -69,6 +71,9 @@ class SchedulePlanController extends Controller
         $model->load(request()->post());
         $validate = Validator::make($model->getData(), $model->rules());
         if($validate->validate() && $model->validatePlan()){
+            if (BackendHelper::getSystemSettings(ScheduleSetting::getSettingName())->cash_schedule) {
+                BackendHelper::taskCreate(CashScheduleTask::TASK_NAME);
+            }
             BackendHelper::getOperations()->addSchedulePlan($model->schedule_data, $model->group_id, $model->semester_id, $model->type_id);
         }
         return 1;

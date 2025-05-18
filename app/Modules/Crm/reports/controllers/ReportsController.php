@@ -40,28 +40,33 @@ class ReportsController extends Controller
 
     public function actionReportForTeachers()
     {
-        $task_name = ReportForTeachersTask::taskName();
-        $teachers_data = BackendHelper::getRepositories()->getAllTeachers();
-        $teachers = [];
+        try {
+            $task_name = ReportForTeachersTask::taskName();
+            $teachers_data = BackendHelper::getRepositories()->getAllTeachers();
+            $teachers = [];
 
 
-        if (request()->post()) {
-            $model = new ReportForTeachers();
-            $model->load(request()->post());
-            $data = BackendHelper::getOperations()->getReportsForTeachers($model->getData()['period'], $model->getData()['teachers'] ?? []);
-            request()->session()->put(ReportForTeachers::REPORT_FOR_GROUP, $model->getData());
-        } else {
-            $current_semester = BackendHelper::getRepositories()->getSemestersByDate(new \DateTime());
-            $data = BackendHelper::getOperations()->getReportsForTeachers($current_semester->date_start." - ".$current_semester->date_end);
+            if (request()->post()) {
+                $model = new ReportForTeachers();
+                $model->load(request()->post());
+                $data = BackendHelper::getOperations()->getReportsForTeachers($model->getData()['period'], $model->getData()['teachers'] ?? []);
+                request()->session()->put(ReportForTeachers::REPORT_FOR_GROUP, $model->getData());
+            } else {
+                $current_semester = BackendHelper::getRepositories()->getSemestersByDate(new \DateTime());
+                $data = BackendHelper::getOperations()->getReportsForTeachers($current_semester->date_start." - ".$current_semester->date_end);
 
+            }
+
+            foreach ($teachers_data as $teacher) {
+                $teachers[$teacher->id] = $teacher->getFio();
+            }
+            $search_data = request()->session()->get(ReportForTeachers::REPORT_FOR_GROUP);
+
+            return view('reports.report_for_teachers', compact('task_name', 'teachers', 'data', 'search_data'));
+        } catch (\Throwable $exception) {
+            dd($exception->getMessage() . $exception->getTraceAsString());
         }
 
-        foreach ($teachers_data as $teacher) {
-            $teachers[$teacher->id] = $teacher->getFio();
-        }
-        $search_data = request()->session()->get(ReportForTeachers::REPORT_FOR_GROUP);
-
-        return view('reports.report_for_teachers', compact('task_name', 'teachers', 'data', 'search_data'));
     }
 
 

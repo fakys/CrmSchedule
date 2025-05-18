@@ -65,18 +65,14 @@ class BaseSchedulePlugin extends AbstractPlugin
                     $specialty_obj = BackendHelper::getRepositories()->getSpecialtyById($specialty);
                     $groups = $specialty_obj->getGroups();
                     foreach ($groups as $group) {
-                        foreach ($this->semesters->getSemesters() as $semester) {
-                            $base_schedule[$group->id][] = $this->cash_schedule[$group->id][$semester['id']];
-                        }
+                        $base_schedule[$group->id] = $this->getCashSchedule($group->id);
                     }
                 }
             } else {
                 $groups = BackendHelper::getRepositories()->getFullStudentGroups();
                 if ($groups) {
                     foreach ($groups as $group) {
-                        foreach ($this->semesters->getSemesters() as $semester) {
-                            $base_schedule[$group][] = $this->cash_schedule[$group][$semester['id']];
-                        }
+                        $base_schedule[$group->id] = $this->getCashSchedule($group->id);
                     }
                 }
             }
