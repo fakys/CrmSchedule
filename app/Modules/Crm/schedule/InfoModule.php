@@ -9,6 +9,7 @@ use App\Modules\Crm\schedule\operations\TimeOperation;
 use App\Modules\Crm\schedule\repositories\ScheduleRepository;
 use App\Modules\Crm\schedule\repositories\SemestersRepository;
 use App\Modules\Crm\schedule\schedule_manger\ScheduleManger;
+use App\Modules\Crm\schedule\tasks\CashScheduleTask;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
@@ -54,7 +55,9 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 
     public static function tasks(): array
     {
-        return  [];
+        return  [
+            CashScheduleTask::class
+        ];
     }
 
     public static function mangers(): array

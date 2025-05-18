@@ -5,6 +5,8 @@ use App\Modules\Crm\schedule\exceptions\ScheduleEditValidException;
 use App\Modules\Crm\schedule\models\EditScheduleModel;
 use App\Modules\Crm\schedule\models\ScheduleManagerModel;
 use App\Modules\Crm\schedule\src\schedule_manager\return_data_schedule\ScheduleManagerReturnData;
+use App\Modules\Crm\schedule\tasks\CashScheduleTask;
+use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Src\BackendHelper;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -37,6 +39,7 @@ class AjaxController extends Controller
             $users = BackendHelper::getRepositories()->getAllTeachers();
             $pair_format = BackendHelper::getRepositories()->getFullFormatLessons();
             $student_groups = BackendHelper::getRepositories()->getFullStudentGroups();
+            $use_cash = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName())->cash_schedule;
             return view('schedule_manager.add_schedule', [
                 'schedules' => $schedules,
                 'subjects' => $subjects,
@@ -44,6 +47,7 @@ class AjaxController extends Controller
                 'users' => $users,
                 'pair_format' => $pair_format,
                 'student_groups' => $student_groups,
+                'use_cash' => $use_cash
             ]);
         }
         abort(500, 'Ошибка сервера');
@@ -54,13 +58,15 @@ class AjaxController extends Controller
      */
     public function editScheduleManager()
     {
-
         try {
             $model = new EditScheduleModel();
             $model->load(request()->post());
             if ($model->schedule) {
                 if ($model->validate()) {
                     BackendHelper::getOperations()->editSchedule($model->schedule);
+                    if (BackendHelper::getSystemSettings(ScheduleSetting::getSettingName())->cash_schedule) {
+                        BackendHelper::taskCreate(CashScheduleTask::TASK_NAME);
+                    }
                     return true;
                 }
             }
@@ -69,6 +75,15 @@ class AjaxController extends Controller
         }
 
         abort(500, 'Отсутствуют обязательные параметры');
+    }
+
+    /**
+     * Проверяет активен ли таск кеширования
+     * @return bool
+     */
+    public function checkCashScheduleTask()
+    {
+        return (bool)BackendHelper::getRepositories()->hasActiveTask(CashScheduleTask::TASK_NAME);
     }
 
 

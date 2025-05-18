@@ -138,7 +138,7 @@ class ReportsOperation extends AbstractOperation {
      */
     public function checkExportTask($task_name, $user_name)
     {
-        if (BackendHelper::getRepositories()->hasActiveTask($task_name, $user_name)){
+        if (BackendHelper::getRepositories()->hasActiveTaskByUserName($task_name, $user_name)){
             return 'created';
         } elseif (Storage::has(sprintf('reports/%s_%s.%s', $task_name, $user_name, ExportExcel::XLSX))){
             return 'done';

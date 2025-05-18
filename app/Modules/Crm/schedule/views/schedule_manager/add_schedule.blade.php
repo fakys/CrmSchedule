@@ -9,6 +9,13 @@
 <div class="btn-save-manager-container">
     <button class="btn-main btn-save-schedule">Сохранить</button>
 </div>
+@if($use_cash)
+    <div id="use_cash" data-url="{{route('schedule.has_schedule_cash_task')}}"></div>
+    <div class="alert alert-success d-none" id="cash_alert">
+        Расписание кешируется, ожидайте изменений
+        <div class="spinner-border spinner-border-sm text-white" role="status"><span class="visually-hidden"></span></div>
+    </div>
+@endif
 <div class="url-edit-schedule" data-url="{{route('schedule.edit_schedule_manager')}}"></div>
 <div class="container pt-3">
     <div class="schedule-errors-block"></div>

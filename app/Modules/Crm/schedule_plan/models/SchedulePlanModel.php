@@ -126,7 +126,7 @@ class SchedulePlanModel extends Model implements InterfaceModel
 
     private function init()
     {
-        $this->users = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllTeachers(), 'id');
+        $this->users = ArrayHelper::getColumn(BackendHelper::getRepositories()->getUserList([]), 'id');
         $this->pair_format = ArrayHelper::getColumn(BackendHelper::getRepositories()->getFullFormatLessons(), 'id');
         $this->pair_number = ArrayHelper::getColumn(BackendHelper::getRepositories()->getNumberPair(), 'id');
         $this->subjects = ArrayHelper::getColumn(BackendHelper::getRepositories()->getFullSubject(), 'id');

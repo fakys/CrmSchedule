@@ -73,3 +73,7 @@ Route::post(
         [\App\Modules\Crm\schedule\controllers\AjaxController::class, "hasScheduleManagerMenu"]
     )->name("$module.has_schedule_manager_menu")
 )->description('Страница просмотра расписания');
+Route::get(
+    "$module/has-schedule-cash-task",
+    [\App\Modules\Crm\schedule\controllers\AjaxController::class, "checkCashScheduleTask"]
+)->name("$module.has_schedule_cash_task");

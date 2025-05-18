@@ -120,6 +120,36 @@ $(document).ready(function (){
         }
     })
 
+    let task_cash = false
+    function hasTaskCashSchedule(){
+        if ($('#use_cash').length) { //Если используется кеширование
+            let url = $('#use_cash').data('url')
+
+            $.ajax({
+                url: url,
+                method: 'get',
+                data: {},
+                success: function (data) {
+                    if (data) {
+                        $('#cash_alert').removeClass('d-none')
+                        task_cash = true;
+                        $('.btn-save-schedule').attr({disabled:true})
+                    } else  {
+                        $('#cash_alert').addClass('d-none')
+
+                        if (task_cash) {
+                            get_edit_schedule()
+                        }
+                        task_cash = false
+                    }
+                }
+            })
+        }
+    }
+    hasTaskCashSchedule()
+    setInterval(() => {
+        hasTaskCashSchedule()
+    }, 15000);
 
     $('.btn-save-schedule').on('click', function (){
         getScheduleData()
@@ -140,7 +170,12 @@ $(document).ready(function (){
                 data: {'_token':$("input[name='_token']").val(), 'schedule':JSON.stringify(schedule), 'full_data':JSON.stringify(start_data)},
                 success: function(data){
                     if (data == 1) {
-                        get_edit_schedule()
+                        if ($('#use_cash').length) { //Если используется кеширование
+                            hasTaskCashSchedule()
+                        } else {
+                            get_edit_schedule()
+                        }
+
                     } else {
                         $('.schedule-errors-block').empty()
                         $('.schedule-errors-block').append(data)

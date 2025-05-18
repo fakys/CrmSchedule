@@ -20,6 +20,6 @@ class SchedulePlanManager extends AbstractManger  {
 
     public function getName():string
     {
-        return 'schedule_manger';
+        return 'schedule_plan_manager';
     }
 }

@@ -231,6 +231,12 @@ class ScheduleManagerOperation extends AbstractOperation
         }
         return $schedule;
     }
+
+    /**
+     * Полностью кеширует расписание
+     * @return void
+     * @throws \RedisException
+     */
     public function cashSchedule()
     {
         $redis = new RedisManager();
@@ -243,6 +249,19 @@ class ScheduleManagerOperation extends AbstractOperation
                 $schedule = BackendHelper::getOperations()->preparationScheduleData($data);
                 $redis->redis->setex('schedule', $settings->count_minutes_for_cash*60, json_encode($schedule));
             }
+        }
+    }
+
+    /**
+     * Удаляет расписание из кеша
+     * @return void
+     * @throws \RedisException
+     */
+    public function deleteCashSchedule()
+    {
+        $redis = new RedisManager();
+        if ($redis->redis->get('schedule')) {
+            $redis->redis->delete('schedule');
         }
     }
 }
