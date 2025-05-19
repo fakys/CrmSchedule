@@ -5,7 +5,8 @@ return [
     'base_path'=>__DIR__."/../app/Modules",
     'web_path'=>"routes/web.php",
     'public_modules'=>[
-        'auth'
+        'auth',
+        'schedule_api'
     ],
     'modules'=>[
         'Crm'=>[
@@ -22,6 +23,8 @@ return [
             'schedule_plan',
             'reports'
         ],
-        'Api'=>[]
+        'RestApi'=>[
+            'schedule_api'
+        ]
     ],
 ];
