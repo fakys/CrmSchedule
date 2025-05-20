@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Route;
 
 $module = InfoModule::getNameModule();
 
-//Route::post("/$module/test", [ScheduleApiController::class, 'getAllSpecialties']);
-Route::post("$module/test", function () {
-    return response()->json(['status' => 'ok']);
-});
+Route::post("/$module/get-all-specialties", [ScheduleApiController::class, 'getAllSpecialties']);
+Route::post("/$module/get-all-students-groups", [ScheduleApiController::class, 'getAllStudentsGroups']);
+Route::post("/$module/get-all-users", [ScheduleApiController::class, 'getAllUsers']);
+Route::post("/$module/get-all-pair-number", [ScheduleApiController::class, 'getPairNumbers']);
 

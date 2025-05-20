@@ -12,4 +12,19 @@ class ScheduleApiController extends Controller
     {
         return ReturnArray::return(BackendHelper::getRepositories()->getAllSpecialties()->toArray());
     }
+
+    public function getAllStudentsGroups()
+    {
+        return ReturnArray::return(BackendHelper::getRepositories()->getFullStudentGroups()->toArray());
+    }
+
+    public function getAllUsers()
+    {
+        return ReturnArray::return(BackendHelper::getRepositories()->getFullUsersInfo());
+    }
+
+    public function getPairNumbers()
+    {
+        return ReturnArray::return(BackendHelper::getRepositories()->getNumberPair()->toArray());
+    }
 }
