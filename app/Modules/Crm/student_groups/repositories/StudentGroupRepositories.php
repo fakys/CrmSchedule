@@ -36,6 +36,21 @@ class StudentGroupRepositories extends AbstractRepositories
     }
 
     /**
+     * Получает первую группу студентов то названию
+     * @param $name
+     * @return array
+     */
+    public function getStudentGroupByName($name)
+    {
+        $groups = DB::select(
+            "SELECT sg.id, sg.name, sg.number, specialties.name as specialties, specialties.description as specialty_description
+        FROM student_groups sg left join specialties on specialties.id = sg.specialty_id where sg.name = :name", [':name' => $name]
+        );
+
+        return $groups;
+    }
+
+    /**
      * Возвращает все группы со специальностями
      * @return array
      */

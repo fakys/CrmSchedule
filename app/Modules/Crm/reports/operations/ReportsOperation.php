@@ -28,7 +28,7 @@ class ReportsOperation extends AbstractOperation {
         }
 
         foreach ($group as $group_id) {
-            $main_data = array_merge($main_data, BackendHelper::getRepositories()->getReportForTeachers($period[0]->format('Y-m-d'), $period[1]->format('Y-m-d'), $group_id));
+            $main_data = array_merge($main_data, BackendHelper::getRepositories()->getReportForGroup($period[0]->format('Y-m-d'), $period[1]->format('Y-m-d'), $group_id));
         }
 
         return $main_data;

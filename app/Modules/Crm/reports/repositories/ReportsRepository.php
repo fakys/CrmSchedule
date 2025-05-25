@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class ReportsRepository extends AbstractRepositories {
 
-    public function getReportForTeachers($date_start, $date_end, $group_id)
+    public function getReportForGroup($date_start, $date_end, $group_id)
     {
         $sql = "WITH search_semesters as (
     select

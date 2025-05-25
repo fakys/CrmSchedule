@@ -25,6 +25,7 @@ use App\Modules\Crm\backend_module\repositories\TaskRepository;
 use App\Modules\Crm\reports\repositories\ReportsRepository;
 use App\Modules\Crm\schedule\models\SemestersModel;
 use App\Modules\Crm\schedule\repositories\ScheduleRepository;
+use App\Modules\Crm\student_groups\repositories\StudentGroupRepositories;
 use App\Modules\Crm\users_interface\repositories\UsersRepositories;
 
 
@@ -34,6 +35,7 @@ use App\Modules\Crm\users_interface\repositories\UsersRepositories;
  * @mixin UsersRepositories
  * @mixin ScheduleRepository
  * @mixin CronRepository
+ * @mixin StudentGroupRepositories
  *
  */
 interface RepositoryInterface{

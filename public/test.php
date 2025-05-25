@@ -1,5 +1,6 @@
 <?php
 
+use App\Modules\RestApi\schedule_api\models\ReturnArray;
 use App\Src\BackendHelper;
 use App\Src\Context;
 use App\Src\crons\TaskManager;
@@ -30,4 +31,4 @@ $kernel->bootstrap();
 ////
 ////var_dump($task);
 //TaskManager::getFullTasks()->runTask('report_for_group_task', '[1,2,3]');
-var_dump(BackendHelper::getKernel()->getComponentsByType(ConstructComponents::CRON_TYPE)[0]->ge);
+var_dump(ReturnArray::return(BackendHelper::getOperations()->getActualScheduleByGroup('rp-41')));

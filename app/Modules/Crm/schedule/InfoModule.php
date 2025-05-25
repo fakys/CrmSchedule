@@ -3,6 +3,7 @@ namespace App\Modules\Crm\schedule;
 
 
 use App\Modules\Crm\schedule\crons\CashScheduleCron;
+use App\Modules\Crm\schedule\operations\ScheduleApiOperation;
 use App\Modules\Crm\schedule\operations\ScheduleManagerOperation;
 use App\Modules\Crm\schedule\operations\SemestersOperation;
 use App\Modules\Crm\schedule\operations\TimeOperation;
@@ -45,7 +46,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
         return [
             ScheduleManagerOperation::class,
             TimeOperation::class,
-            SemestersOperation::class
+            SemestersOperation::class,
+            ScheduleApiOperation::class
         ];
     }
     public static function runConfig()

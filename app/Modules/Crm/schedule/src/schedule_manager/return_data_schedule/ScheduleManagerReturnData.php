@@ -42,6 +42,13 @@ class ScheduleManagerReturnData
             [$unit->getGroup()]['group_data'][$unit->getDate()->format('d.m.Y')]['holiday'] = $unit->getHoliday();
         }
 
+        foreach ($this->schedule->getScheduleUnits() as $key=>$unit) {
+            asort(
+                $schedule_return_data[$unit->getSemester()]['semester_data'][$unit->getGroup()]
+                ['group_data'][$unit->getDate()->format('d.m.Y')]['pair_units']
+            );
+        }
+
         return $schedule_return_data;
     }
 

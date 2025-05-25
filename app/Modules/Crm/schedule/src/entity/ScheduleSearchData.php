@@ -13,8 +13,14 @@ class ScheduleSearchData
     private $specialties_id;
 
     public function __construct($data) {
-        $this->date_start = BackendHelper::getOperations()->pacePeriod($data['period'])[0];
-        $this->date_end = BackendHelper::getOperations()->pacePeriod($data['period'])[1];
+        if (isset($data['date_start']) && isset($data['date_end'])) {
+            $this->date_start = $data['date_start'];
+            $this->date_end = $data['date_end'];
+        } else {
+            $this->date_start = BackendHelper::getOperations()->pacePeriod($data['period'])[0];
+            $this->date_end = BackendHelper::getOperations()->pacePeriod($data['period'])[1];
+        }
+
         $this->groups_id = $data['groups'] ?? null;
         $this->specialties_id = $data['specialties'] ?? null;
     }

@@ -15,18 +15,6 @@
 <div id="access_route" data-url="{{route('users_interface.check_accesses')}}"></div>
 <div class="wrapper">
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
-            </li>
-        </ul>
-
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" data-widget="navbar-search" href="#" role="button">
@@ -328,38 +316,6 @@
                                             <p>Последовательность пар</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Формат предметов</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Отчет по предметам</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="nav-item rm-level-2">
-                                <a href="#" class="nav-link">
-                                    <i class="fa fa-address-book" aria-hidden="true"></i>
-                                    <p>
-                                        Преподаватели
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview" style="display: none;">
-                                    <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Все преподаватели</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Расписание преподавателя</p>
-                                        </a>
-                                    </li>
                                 </ul>
                             </li>
 
@@ -375,11 +331,6 @@
                                     <li class="nav-item rm-level-3">
                                         <a href="{{route('student_groups.student_groups_info')}}" class="nav-link">
                                             <p>Группы</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Специальности</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -402,21 +353,6 @@
                                     <li class="nav-item rm-level-3">
                                         <a href="{{route('reports.report_for_teachers')}}" class="nav-link">
                                             <p>Отчет по преподавателям (по семестрам)</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Отчет по предметам</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Статистика по предметам</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="#" class="nav-link">
-                                            <p>Статистика по преподавателям</p>
                                         </a>
                                     </li>
                                 </ul>

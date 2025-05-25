@@ -4,6 +4,7 @@ namespace App\Modules\Crm\backend_module;
 use App\Modules\Crm\backend_module\repositories\CronRepository;
 use App\Modules\Crm\backend_module\repositories\TaskRepository;
 use App\Modules\Crm\backend_module\tasks\TestTask;
+use App\Modules\Crm\schedule\operations\ScheduleApiOperation;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
@@ -37,6 +38,7 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function operations(): array
     {
         return [
+            ScheduleApiOperation::class
         ];
     }
     public static function runConfig()

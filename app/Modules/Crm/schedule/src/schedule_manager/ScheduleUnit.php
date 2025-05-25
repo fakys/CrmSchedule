@@ -116,7 +116,7 @@ class ScheduleUnit
     {
         if ($this->user_id) {
             $user = BackendHelper::getRepositories()->getUserById($this->user_id)->getInfo();
-            return sprintf('%s %s %s', $user->first_name, $user->last_name, $user->email);
+            return sprintf('%s %s %s', $user->first_name, $user->last_name, $user->patronymic);
         }
 
     }
