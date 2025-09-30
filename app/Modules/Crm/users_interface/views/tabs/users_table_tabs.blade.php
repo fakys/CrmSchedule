@@ -45,6 +45,12 @@
                 Сообщения
             </div>
         </div>
+        <div class="tabs-button" id="user_style_tab" data-url="{{route('users_interface.tabs.user_style_tab')}}">
+            <div class="tabs-btn-icon"><i class="fa fa-magic" aria-hidden="true"></i></div>
+            <div class="text-tabs-btn">
+                Стили
+            </div>
+        </div>
     </div>
     <div class="tabs-content"></div>
 </div>

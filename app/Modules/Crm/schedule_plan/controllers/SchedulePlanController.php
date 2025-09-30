@@ -135,7 +135,17 @@ class SchedulePlanController extends Controller
     {
         $teacher = BackendHelper::getRepositories()->getUserById(request()->post('user'));
         $subject = BackendHelper::getRepositories()->getSubjectById(request()->post('subject'));
-        return json_encode(['result'=>['card_name'=>sprintf('%s - %s', $teacher->getMinFio(), $subject->name)]]);
+        $color = '';
+        if ($teacher->getStyle()) {
+            $color = $teacher->getStyle()->user_color;
+        }
+        return json_encode(['result'=>
+            [
+                'card_name'=>sprintf('%s - %s', $teacher->getMinFio(), $subject->name),
+                'card_time' => sprintf('%s - %s', request()->post('time_start'), request()->post('time_end')),
+                'color' => $color
+            ]
+        ]);
     }
 
     public function validateCard()

@@ -206,7 +206,9 @@
 .card-slot {
     height: 240px;
 }
-
+.card_time {
+    text-align: center;
+}
 .card-pair-title{
     font-size: 16px;
     text-align: center;

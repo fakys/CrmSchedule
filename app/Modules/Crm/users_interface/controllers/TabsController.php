@@ -208,4 +208,22 @@ class TabsController extends Controller
         }
         abort(500);
     }
+
+    public function userStyleTab()
+    {
+        $user = BackendHelper::getRepositories()->getUserById(request()->post('id'));
+        return view('tabs.user_style_tab', ['style' => $user->getStyle()]);
+    }
+
+    public function setStyleTab()
+    {
+        $user = BackendHelper::getRepositories()->getUserById(request()->post('id'));
+        $style = $user->getStyle();
+        if (!$style) {
+            BackendHelper::getRepositories()->createStyleUser($user->id,  request()->post('color'));
+        } else {
+            $style->user_color = request()->post('color');
+            $style->save();
+        }
+    }
 }

@@ -211,3 +211,17 @@ Route::post("/$module/edit-subject-info-tab",
     ]
 )->name("$module.tabs.edit_subject_info_tab");
 
+Route::post("/$module/user-style-tab",
+    [
+        \App\Modules\Crm\users_interface\controllers\TabsController::class,
+        'userStyleTab'
+    ]
+)->name("$module.tabs.user_style_tab");
+
+Route::post("/$module/set-user-style-tab",
+    [
+        \App\Modules\Crm\users_interface\controllers\TabsController::class,
+        'setStyleTab'
+    ]
+)->name("$module.tabs.set_user_style_tab");
+

@@ -6,6 +6,7 @@ namespace App\Modules\Crm\users_interface\repositories;
 use App\Entity\User;
 use App\Entity\UserDocumet;
 use App\Entity\UserInfo;
+use App\Entity\UserStyle;
 use App\Src\BackendHelper;
 use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
@@ -207,6 +208,33 @@ class UsersRepositories extends AbstractRepositories
             return $user_document;
         }
         return null;
+    }
+
+    /**
+     * Создает сущность стилей
+     * @param $user_id
+     * @param $color
+     * @return UserStyle|null
+     */
+    public function createStyleUser($user_id, $color)
+    {
+        $style = new UserStyle();
+        $style->user_id = $user_id;
+        $style->user_color = $color;
+        if($style->save()){
+            return $style;
+        }
+        return null;
+    }
+
+    /**
+     * Получаем стиль по id
+     * @param $user_id
+     * @return mixed
+     */
+    public function getStyleByUserId($user_id)
+    {
+        return UserStyle::where(['user_id' => $user_id])->first();
     }
 
     public function getName(): string

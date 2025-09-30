@@ -19,12 +19,25 @@ $(document).ready(function () {
         $.ajax({
             url: $('#get_new_card_name').data('url'),
             method: 'post',
-            data: {user: schedule_data[card_id].user, subject: schedule_data[card_id].subject, '_token': csrf},
+            data: {
+                user: schedule_data[card_id].user,
+                subject: schedule_data[card_id].subject,
+                time_start: schedule_data[card_id].time_start,
+                time_end: schedule_data[card_id].time_end,
+                '_token': csrf
+            },
             success: function (data) {
-                let card_name = JSON.parse(data).result.card_name
-                if (card_name) {
-                    schedule_data[card_id].cardName = card_name
-                    doc_card_elem.find('.card-name').html(card_name)
+                let card_data = JSON.parse(data).result
+                if (card_data) {
+                    schedule_data[card_id].cardName = card_data.card_name
+                    doc_card_elem.find('.card-name').html(card_data.card_name)
+                    doc_card_elem.find('.card-body-pair').html("<div class='card_time'>" + card_data.card_time + "</div>")
+
+                    if (card_data.color) {
+                        doc_card_elem.removeClass('bg-gradient-secondary')
+                        doc_card_elem.css({background:card_data.color});
+                    }
+
                     setScheduleCash()
                 } else {
                     error_alert('Ошибка изменения карточки')

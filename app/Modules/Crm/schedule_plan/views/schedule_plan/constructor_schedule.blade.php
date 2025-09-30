@@ -55,14 +55,15 @@
                                                             @if($card['weekDay']==$day && $number_pair->number == $card['numberPair'] && $card['weekNumber']==$key && $card['group'] == $group->id)
                                                                     <?php $count += 1; ?>
                                                                 <div
-                                                                    class="pair-card pair-empty card bg-gradient-secondary mb-2"
                                                                     data-week_day="{{$day}}" data-number="{{$number_pair->number}}"
                                                                     data-week_number="{{$key}}" card_id="{{$count}}"
                                                                     data-subject="{{$card['subject']}}"
                                                                     data-user="{{$card['user']}}"
 {{--                                                                    Все тут импользуется чисто при загрузке--}}
                                                                     data-time_start="{{$card['time_start']??null}}" data-time_end="{{$card['time_end']??null}}"
-                                                                    data-description="{{$card['description']??null}}" data-group="{{$card['group']??null}}">
+                                                                    data-description="{{$card['description']??null}}" data-group="{{$card['group']??null}}"
+                                                                    @if(isset($card['user'])) <?php $style = \App\Src\BackendHelper::getRepositories()->getStyleByUserId($card['user']);?> style="background: {{$style?$style->user_color:''}};" @endif
+                                                                    class="pair-card pair-empty card mb-2 text-white  @if(empty($style) || !$style) bg-gradient-secondary @endif">
                                                                     <div class="card-header border-0 ui-sortable-handle"
                                                                          style="cursor: move;">
                                                                         <h3 class="card-pair-title">
@@ -75,6 +76,9 @@
                                                                     </div>
                                                                     <div class="card-body-pair" data-bs-toggle="modal"
                                                                          data-bs-target="#card_model_data">
+                                                                        <div class='card_time'>
+                                                                            {{sprintf('%s - %s', $card['time_start']??null, $card['time_end']??null)}}
+                                                                        </div>
                                                                     </div>
                                                                     <div class="card-footer d-flex justify-content-center"><div class="btn btn-danger delete-card">Удалить карточку</div></div>
                                                                 </div>

@@ -107,4 +107,12 @@ class User extends Authenticatable
         }
         return 'Нет данных';
     }
+
+    /**
+     * @return UserStyle
+     */
+    public function getStyle()
+    {
+        return $this->hasOne(UserStyle::class, 'user_id', 'id')->first();
+    }
 }
