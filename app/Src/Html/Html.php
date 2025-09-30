@@ -29,9 +29,9 @@ class Html
         return view('Html::nav_tabs', ['arr'=>$arr]);
     }
 
-    public static function select_search($label, $name, $data = [], $value = [], $class = '', $multiple = true)
+    public static function select_search($label, $name, $data = [], $value = [], $class = '', $multiple = true, $addJsCssFiles = true, $disabled = false)
     {
-        return view('Html::form_inputs.select_search', ['name'=>$name, 'label'=>$label, 'data'=>$data, 'value'=>$value, 'class'=>$class, 'multiple'=>$multiple]);
+        return view('Html::form_inputs.select_search', ['name'=>$name, 'label'=>$label, 'data'=>$data, 'value'=>$value, 'class'=>$class, 'multiple'=>$multiple, 'addJsCssFiles'=>$addJsCssFiles, 'disabled'=>$disabled]);
     }
 
     public static function select_duallistbox_multiple($label, $name,$data = [] , $value = [], $class = '')

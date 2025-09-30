@@ -22,4 +22,12 @@ class Lesson extends Model
         'created_at',
         'updated_at',
     ];
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 }

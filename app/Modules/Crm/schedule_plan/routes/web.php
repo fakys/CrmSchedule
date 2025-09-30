@@ -55,11 +55,38 @@ Route::post(
 )->name("$module.get_type_schedule_plan_form");
 
 Route::post(
-    "$module/add-schedule-plan-form",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "addPlanScheduleForm"]
-)->name("$module.add_schedule_plan_form");
-
-Route::post(
     "$module/save-schedule-plan",
     [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "savePlanSchedule"]
 )->name("$module.save_schedule_plan");
+Route::post(
+    "$module/get-group-input",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "getGroupInput"]
+)->name("$module.get_group_input");
+Route::post(
+    "$module/get-constructor-schedule",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "getConstructorSchedule"]
+)->name("$module.get_constructor_schedule");
+Route::post(
+    "$module/get-from-type-schedule-plan",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "getFormForPair"]
+)->name("$module.get_form_for_pair");
+Route::post(
+    "$module/validate-schedule-fields",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "validateScheduleFields"]
+)->name("$module.validate_schedule_fields");
+Route::post(
+    "$module/set-schedule-plan-cash",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "setSchedulePlanCash"]
+)->name("$module.set_schedule_plan_cash");
+Route::post(
+    "$module/delete-session",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "deleteSession"]
+)->name("$module.delete_session");
+Route::post(
+    "$module/get-new-card-name",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, 'getNewCardName']
+)->name("$module.get_new_card_name");
+Route::post(
+    "$module/validate-card",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, 'validateCard']
+)->name("$module.validate_card");

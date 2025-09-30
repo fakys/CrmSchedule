@@ -4,11 +4,17 @@ namespace App\Modules\Crm\backend_module\interfaces;
 use App\Modules\Crm\schedule\operations\ScheduleApiOperation;
 use App\Modules\Crm\schedule\operations\ScheduleManagerOperation;
 use App\Modules\Crm\schedule\src\entity\ScheduleUnit;
+use App\Modules\Crm\schedule_plan\operation\SchedulePlan;
+use App\Modules\Crm\schedule_plan\operation\SchedulePlanType;
+use App\Modules\Crm\schedule_plan\operation\ValidateSchedulePlan;
 use App\Modules\Crm\users_interface\src\UserData;
 
 /**
  * @mixin ScheduleManagerOperation
  * @mixin ScheduleApiOperation
+ * @mixin SchedulePlanType
+ * @mixin SchedulePlan
+ * @mixin ValidateSchedulePlan
  */
 interface OperationsInterface
 {

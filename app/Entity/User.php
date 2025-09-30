@@ -96,4 +96,15 @@ class User extends Authenticatable
         }
         return 'Нет данных';
     }
+
+    public function getMinFio()
+    {
+        $info = $this->getInfo();
+        $first_name = strtoupper(mb_substr($info->first_name, 0, 1));
+        $patronymic = strtoupper(mb_substr($info->patronymic, 0, 1));
+        if ($info) {
+            return "{$info->last_name}.{$first_name}.{$patronymic}";
+        }
+        return 'Нет данных';
+    }
 }

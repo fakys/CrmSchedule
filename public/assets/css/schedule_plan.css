@@ -10,7 +10,8 @@
 #operation_container {
     padding-top: 20px;
 }
-.week-day-name{
+
+.week-day-name {
     background: var(--primary);
     color: white;
     font-size: 20px;
@@ -29,24 +30,29 @@
     display: flex;
     flex-direction: column;
 }
-.week-form-container{
+
+.week-form-container {
     padding: 5px 40px;
 }
+
 .form-group-week-day {
     display: flex;
     gap: 10px;
     align-items: center;
 }
+
 .form-group-week-day label {
     margin: 0px;
 }
+
 #add_week_form {
     border: 1px solid #e3e3e3;
     border-radius: 10px;
     padding: 10px;
     margin-bottom: 10px;
 }
-.delete-panel-type-schedule-week{
+
+.delete-panel-type-schedule-week {
     display: none;
     position: fixed;
     top: 0;
@@ -59,33 +65,156 @@
     align-items: center;
 }
 
-.open-delete-panel-panel-type-schedule-week{
+.open-delete-panel-panel-type-schedule-week {
     display: flex;
 }
-#add_plan_schedule_container{
+
+#add_plan_schedule_container {
     background: white;
 }
-.pair-number-container{
+
+.pair-number-container {
     font-size: 18px;
     background: var(--primary);
     color: white;
 }
-.week_number{
+
+.week_number {
+    color: black;
     font-size: 20px;
     border-bottom: 1px solid var(--primary);
     margin-bottom: 10px;
 }
-.success-day-plan, .before-success-day-plan{
+
+.success-day-plan, .before-success-day-plan {
     background: var(--success);
     border-radius: 5px;
     font-size: 16px;
     padding: 2px;
     margin-left: 15px;
 }
-.edit-day-plan, .week-end-day-plan{
+
+.edit-day-plan, .week-end-day-plan {
     background: var(--secondary);
     border-radius: 5px;
     font-size: 16px;
     padding: 2px;
     margin-left: 15px;
+}
+.construct_schedule_header {
+    display: flex;
+    width: 100%;
+    color: var(--primary);
+    align-items: end;
+    cursor: pointer;
+    font-size: 18px;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 10px;
+    background: #f5f4f2;
+    gap: 10px;
+}
+
+.container_construct_schedule_open {
+    background: white;
+    left: 0px;
+    width: 100%;
+    position: fixed;
+    height: 100vh;
+    overflow: auto;
+    top: 0px;
+    z-index: 9999;
+}
+.row_construct_schedule {
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.row_construct_schedule_open {
+    width: 100%;
+}
+
+.error-block {
+    font-size: 12px;
+    color: var(--danger);
+}
+#errors_block_data {
+    color: var(--danger);
+}
+.column-section {
+    width: 250px;
+    padding: 10px;
+}
+#card_model_data {
+    z-index: 10001;
+}
+.card-body-pair {
+    cursor: pointer;
+    height: 100px;
+}
+.dashboard_row {
+    display: flex;
+}
+.day-container {
+    min-height: 250px; border-bottom: 1px solid #eee; padding: 10px;
+}
+.dashboard_column{
+    width: 300px;
+}
+.schedule_dashboard_container{
+    display: flex;
+    gap: 10px;
+}
+.day-header {
+    font-size: 20px;
+    color: white;
+    border-radius: 7px;
+    padding-left: 10px;
+    display: flex;
+    padding-right: 10px;
+    background: var(--c-main-white-blue);
+    margin-bottom: 15px;
+}
+
+
+.pair-number-cont {
+    display: flex;
+
+}
+
+.pair-number {
+    color: white;
+    margin-bottom: 5px;
+    padding-right: 10px;
+    border-radius: 7px;
+    padding-left: 10px;
+    font-size: 18px;
+    background: var(--c-main-white-blue);
+}
+
+.add_card {
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.pair_number_container {
+    display: flex;
+    background: var(--primary);
+    padding: 5px;
+    border-radius: 5px;
+}
+.card-slot {
+    height: 240px;
+}
+
+.card-pair-title{
+    font-size: 16px;
+    text-align: center;
+}
+.pair-card {
+    height: 235px;
+}
+
+.select2-container--open {
+    z-index: 100000;
 }

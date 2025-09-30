@@ -123,6 +123,15 @@ class SchedulePlanRepository extends AbstractRepositories
         return PlanSchedule::where(['semester_id'=>$semester_id, 'student_group_id'=>$group_id])->first();
     }
 
+    /**
+     * Получает все планы расписания на семестр
+     * @return PlanSchedule[]
+     */
+    public function getAllSchedulePlanBySemester($semester_id)
+    {
+        return PlanSchedule::where(['semester_id' => $semester_id])->get();
+    }
+
     public function getName(): string
     {
         return 'schedule_plan_repository';

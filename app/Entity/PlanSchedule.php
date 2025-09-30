@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Таблица базового расписания
+ * @property $id
  * @property $plan_duration_lesson_id
  * @property $lessons_id
  * @property $semester_id
@@ -51,5 +52,10 @@ class PlanSchedule extends Model
      */
     public function getSemestor() {
         return $this->hasOne(Semester::class, 'id', 'semester_id')->first();
+    }
+
+    /** @return PairNumber */
+    public function getPairNumber() {
+        return $this->hasOne(PairNumber::class, 'id', 'pair_number_id')->first();
     }
 }

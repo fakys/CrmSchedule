@@ -1,94 +1,101 @@
 $(document).ready(function (){
+    let err = {}
+    let csrf = $('input[name="_token"]').val()
 
-    if (is_success_schedule) {
-        $('#select_type_schedule_plan').remove()
+
+    function validateInput(input, request = false) {
+        let value = null;
+        let url = $('#validate_shcedule_plan').data('url')
+
+        if (input.attr('type') === 'checkbox') {
+            value = input.is(':checked')
+        } else {
+            value = input.val()
+        }
+
+        let day_data = input.parents('.pair-container').first()
+
+        // error_alert(value)
+        if (input.hasClass('required-input') && (!value || value == 0 || typeof value === 'object' && value.length == 0)) {
+            input.next().html('Поле обязательное')
+            err[day_data.data('number_week')+'-'+day_data.data('week_day')+'-'+day_data.data('pair_number')] = 'Расписание не полностью заполнено Неделя №'+day_data.data('number_week')+" День №"+day_data.data('week_day')+' Пара №'+day_data.data('pair_number')
+            return;
+        } else {
+            input.next().html('')
+            delete err[day_data.data('number_week')+'-'+day_data.data('week_day')+'-'+day_data.data('pair_number')]
+        }
+
+        let all_container_input = day_data.find('.required-input')
+
+        let pair_data = {
+            'pair_number': day_data.data('pair_number'),
+            'week_number': day_data.data('number_week'),
+            'week_day': day_data.data('week_day')
+        }
+        for (let input_container of all_container_input) {
+            pair_data[$(input_container).attr('name')] = $(input_container).val()
+        }
+
+        if (request) {
+            $.ajax({
+                url: url,
+                method: 'post',
+                data: {
+                    '_token': csrf,
+                    'pair_data': pair_data
+                },
+                success: function (data) {
+                    for (let val of data) {
+                        err[day_data.data('number_week') + '-' + day_data.data('week_day') + '-' + day_data.data('pair_number')] = val
+                    }
+                },
+            });
+        }
     }
 
-    let type_id = $('#type_schedule_plan').val()
-    let group_id = $('#select_group_schedule_plan').val()
-    let semester_id = $('#select_semester_schedule_plan').val()
-
-
-    $('.required-input').change(function (){
-        let number_week = $(this).data('number_week')
-        let day_week_number = $(this).data('day_week_number')
-        let pair_number = $(this).data('pair_number')
-        let count_arr = [];
-        let edit_day = false
-        for (let input of $(`.required-input-${number_week}-${day_week_number}-${pair_number}`)) {
-            if (!$(input).val() || $(input).val() === '' || $(input).val() === undefined || $(input).val() == 0) {
-                edit_day = true
-                count_arr.push($(input))
-            }
-        }
-        if (!$(`.week-end-input-${number_week}-${day_week_number}-${pair_number}`).is(':checked')) {
-            $(`.week-end-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
-        }
-
-        if ($(`.week-end-input-${number_week}-${day_week_number}-${pair_number}`).is(':checked')){
-            $(`.before-success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
-            $(`.success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
-            $(`.edit-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
-            $(`.week-end-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'block'})
-        }else if (count_arr.length == $(`.required-input-${number_week}-${day_week_number}-${pair_number}`).length) {
-            $(`.before-success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
-            $(`.success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
-            $(`.edit-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
-        } else if (edit_day) {
-            $(`.before-success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
-            $(`.success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
-            $(`.edit-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'block'})
-        } else {
-            $(`.before-success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
-            $(`.edit-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'none'})
-            $(`.success-day-plan-${number_week}-${day_week_number}-${pair_number}`).css({display:'block'})
-        }
+    $('.input-data').change(function (){
+        validateInput($(this), true)
     })
 
 
     $('.save-plan_schedule').on('click', function (){
-        let main_data = {}
-        let csrf = $('input[name="_token"]').val()
-        let url = $('#add_url_schedule_plan').data('url')
+        //
+        // for (let input of $('.required-input')) {
+        //     validateInput($(input))
+        // }
+        //
+        // if (Object.keys(err).length > 0) {
+        //     let str = ""
+        //     str += "<ul>"
+        //     for (let val in err) {
+        //         str += "<li>"+err[val]+"</li>"
+        //     }
+        //     str += "</ul>"
+        //     $('#errors_block_data').html(str)
+        //
+        //     error_alert('Расписание не полностью заполнено')
+        //     return;
+        //}
 
-        for (let i of $(`.edit-day-plan`)) {
-            if ($(i).css('display')!=='none') {
-                error_alert('Заполните расписание до конца')
-                return 1;
-            }
-        }
 
-        for(let input of $('.input-data')) {
-            if (!main_data[$(input).data('number_week')]) {
-                main_data[$(input).data('number_week')] = {}
-            }
-            if (!main_data[$(input).data('number_week')][$(input).data('day_week_number')]) {
-                main_data[$(input).data('number_week')][$(input).data('day_week_number')] = {}
-            }
-            if (!main_data[$(input).data('number_week')][$(input).data('day_week_number')][$(input).data('pair_number')]) {
-                main_data[$(input).data('number_week')][$(input).data('day_week_number')][$(input).data('pair_number')] = {}
-            }
+        // let main_data = {}
+        // let csrf = $('input[name="_token"]').val()
+        // let url = $('#add_url_schedule_plan').data('url')
 
-            if (!main_data[$(input).data('number_week')][$(input).data('day_week_number')][$(input).data('pair_number')][$(input).attr('name')]) {
-                main_data[$(input).data('number_week')][$(input).data('day_week_number')][$(input).data('pair_number')][$(input).attr('name')] = {}
-            }
-            main_data[$(input).data('number_week')][$(input).data('day_week_number')][$(input).data('pair_number')][$(input).attr('name')] = $(input).val()
-        }
-
-        if (main_data) {
-            $.ajax({
-                url: url,
-                method: 'post',
-                data:{'_token': csrf, 'schedule_data':main_data, 'group_id':group_id, 'type_id':type_id, 'semester_id':semester_id},
-                success: function(data){
-                    $('#add_plan_schedule').click()
-                },
-                error: function (err){
-                    error_alert(err.responseJSON.message)
-                }
-            });
-        } else {
-            error_alert('Ошибка при сборе информации')
-        }
+        // if (main_data) {
+        //     $.ajax({
+        //         url: url,
+        //         method: 'post',
+        //         data:{'_token': csrf, 'schedule_data':main_data, 'group_id':group_id, 'type_id':type_id, 'semester_id':semester_id},
+        //         success: function(data){
+        //             $('#add_plan_schedule').click()
+        //         },
+        //         error: function (err){
+        //             error_alert(err.responseJSON.message)
+        //         }
+        //     });
+        // } else {
+        //     error_alert('Ошибка при сборе информации')
+        // }
     })
 })

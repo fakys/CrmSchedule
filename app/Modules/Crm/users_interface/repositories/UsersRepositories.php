@@ -102,6 +102,9 @@ class UsersRepositories extends AbstractRepositories
         return $users;
     }
 
+    /**
+     * @return User[]
+     */
     public function getAllTeachers()
     {
         return User::leftJoin('groups_users', 'groups_users.users_id', '=', 'users.id')
