@@ -18,11 +18,30 @@ class OperationsContext
         foreach ($modules as $module) {
             if ($module->getComponents()) {
                 foreach ($module->getComponents() as $component) {
+                    $tag_components = BackendHelper::getKernel()->getComponentsByTag($component->getName());
                     if (
                         $component->getType() == ConstructComponents::OPERATION_TYPE
-                        && method_exists($component->getComponent(), $name)
+                        && method_exists($component->getComponent(), $name) && $tag_components
                     ) {
-                        return call_user_func_array([$component->getComponent(), $name], $arguments);
+                        if (
+                            isset($tag_components[AbstractOperation::BEFORE_TYPE]) &&
+                            $tag_components[AbstractOperation::BEFORE_TYPE] &&
+                            $tag_components[AbstractOperation::BEFORE_TYPE][array_key_first($tag_components[AbstractOperation::BEFORE_TYPE])] &&
+                            method_exists(
+                                $tag_components[AbstractOperation::BEFORE_TYPE][array_key_first($tag_components[AbstractOperation::BEFORE_TYPE])],
+                                $name
+                            )
+                        ) {
+                            return call_user_func_array(
+                                [
+                                    $tag_components[AbstractOperation::BEFORE_TYPE][array_key_first($tag_components[AbstractOperation::BEFORE_TYPE])],
+                                    $name
+                                ],
+                                $arguments
+                            );
+                        } else {
+                            return call_user_func_array([$component->getComponent(), $name], $arguments);
+                        }
                     }
                 }
             }

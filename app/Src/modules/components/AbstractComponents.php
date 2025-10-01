@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 abstract class AbstractComponents
 {
-    private $kernel;
+    protected $kernel;
 
     /**
      * @param KernelModules $kernel

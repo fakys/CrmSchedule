@@ -49,7 +49,11 @@ class ValidateSchedulePlan extends AbstractOperation
                     $valid_time_end = new \DateTime(date('Y-m-d').' '.$schedule_data['time_end']);
                     if (
                         $schedule_data['user'] == $card_data['user'] &&
-                        $time_start <= $valid_time_end && $valid_time_start <= $time_end
+                        $schedule_data['weekNumber'] == $card_data['weekNumber'] &&
+                        !(
+                            ($time_start > $valid_time_end && $time_end > $valid_time_start) ||
+                            ($valid_time_end > $time_start && $time_end < $valid_time_start)
+                        )
                     ) {
                         $errors[] = ['user' => 'Этот преподаватель пересекается с '.$schedule_data['cardName']];
                         break;

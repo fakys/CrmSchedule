@@ -163,6 +163,7 @@
 }
 .schedule_dashboard_container{
     display: flex;
+    justify-content: space-around;
     gap: 10px;
 }
 .day-header {

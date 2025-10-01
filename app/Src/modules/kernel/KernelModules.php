@@ -39,6 +39,8 @@ class KernelModules
     {
         $this->constructModules();
         $this->constructModuleComponents();
+
+        $this->construct_components->beforeLoadKernel();
     }
 
     private static function createKernel()
@@ -100,6 +102,11 @@ class KernelModules
         } catch (\Exception $e) {
             throw new BackendException("Модуль по названию $nameModule ненайден");
         }
+    }
+
+    public function getComponentsByTag($component_name)
+    {
+        return $this->construct_components->getComponentsForKernelByTag($component_name);
     }
 
     public function getComponentByName($component_name)

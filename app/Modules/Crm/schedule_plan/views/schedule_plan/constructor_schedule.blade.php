@@ -63,7 +63,7 @@
                                                                     data-time_start="{{$card['time_start']??null}}" data-time_end="{{$card['time_end']??null}}"
                                                                     data-description="{{$card['description']??null}}" data-group="{{$card['group']??null}}"
                                                                     @if(isset($card['user'])) <?php $style = \App\Src\BackendHelper::getRepositories()->getStyleByUserId($card['user']);?> style="background: {{$style?$style->user_color:''}};" @endif
-                                                                    class="pair-card pair-empty card mb-2 text-white  @if(empty($style) || !$style) bg-gradient-secondary @endif">
+                                                                    class="pair-card pair-empty card mb-2 text-white @if(empty($card['user'])) bg-gradient-secondary @endif">
                                                                     <div class="card-header border-0 ui-sortable-handle"
                                                                          style="cursor: move;">
                                                                         <h3 class="card-pair-title">

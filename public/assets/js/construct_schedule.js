@@ -195,7 +195,7 @@ $(document).ready(function () {
             if ($(card_container).find('.pair-card').length <= 0) {
                 let card_id = $('.pair-card').length + 1
                 let empty_card_id = $('.pair-empty').length + 1
-                $(card_container).append('<div class="pair-card pair-empty card bg-gradient-secondary mb-2" ' +
+                $(card_container).append('<div class="pair-card pair-empty text-white card bg-gradient-secondary mb-2" ' +
                     'data-week_day="' + $(card_container).data('number') + '" data-number="' + $(card_container).data('number') + '"' +
                     'card_id="' + card_id + '" data-group="' + $(card_container).data('group') + '">' +
                     '<div class="card-header border-0 ui-sortable-handle" style="cursor: move;">' +
@@ -242,6 +242,7 @@ $(document).ready(function () {
     $('.btn_save_schedule').on('click', function () {
         let card_id = $('#card_id_pair_form').data('card_id')
         let all_schedule_data = {}
+        let pair_data = {};
 
         for (let key in schedule_data) {
             if (key != card_id) {
@@ -257,10 +258,16 @@ $(document).ready(function () {
                     time_end: schedule_data[key].time_end,
                     description: schedule_data[key].description,
                 }
+            } else {
+                pair_data = {
+                    cardName: schedule_data[key].cardName,
+                    numberPair: schedule_data[key].numberPair,
+                    weekDay: schedule_data[key].weekDay,
+                    weekNumber: schedule_data[key].weekNumber,
+                    group: schedule_data[key].group,
+                }
             }
         }
-
-        let pair_data = {};
         for (let input of $('.schedule-input')) {
             pair_data[$(input).attr('name').replace(/\[|\]/g, '')] = $(input).val()
         }

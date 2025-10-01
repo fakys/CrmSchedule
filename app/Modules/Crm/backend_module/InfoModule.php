@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\backend_module;
 
+use App\Modules\Crm\backend_module\operations\TestOperation;
 use App\Modules\Crm\backend_module\repositories\CronRepository;
 use App\Modules\Crm\backend_module\repositories\TaskRepository;
 use App\Modules\Crm\backend_module\tasks\TestTask;
@@ -38,7 +39,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function operations(): array
     {
         return [
-            ScheduleApiOperation::class
+            ScheduleApiOperation::class,
+            TestOperation::class
         ];
     }
     public static function runConfig()

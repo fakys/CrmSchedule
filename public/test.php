@@ -20,15 +20,6 @@ require __DIR__ . '/../vendor/autoload.php';
 $app = require __DIR__ . '/../bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
-//
-//$redis = RedisManager::redis();
-//var_dump($redis->get('cron_schedule_task'));
 
 
-//\App\Src\BackendHelper::taskCreate('test_task', []);
-//$schedule = new TaskSchedule();
-//$task = $schedule->getScheduleTask();
-////
-////var_dump($task);
-//TaskManager::getFullTasks()->runTask('report_for_group_task', '[1,2,3]');
-var_dump(ReturnArray::return(BackendHelper::getOperations()->getActualScheduleByGroup('rp-41')));
+BackendHelper::getOperations()->test();

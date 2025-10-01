@@ -148,6 +148,11 @@ class SchedulePlanController extends Controller
         ]);
     }
 
+    public function setPlanSchedule()
+    {
+
+    }
+
     public function validateCard()
     {
         $card_data = request()->post('card_data');
