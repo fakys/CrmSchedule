@@ -4,10 +4,29 @@ namespace App\Modules\Crm\users_interface\controllers;
 use App\Modules\Crm\users_interface\model\AddUser;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
+use App\Src\modules\controllers\AbstractController;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class UsersController extends Controller{
+class UsersController extends AbstractController {
+    public static function loadController(\App\Src\modules\kernel\KernelModules $kernel)
+    {
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_administrator')
+            ->RmGroupList('users_list')
+            ->setText('Пользователи')
+            ->setIcon('fa fa-user');
+
+        $kernel->getControllerLoader()->RmGroup('rm_administrator')
+            ->RmGroupList('users_list')
+            ->RmLink('users')->setText('Пользователи')
+            ->setLink(route('users_interface.users_info'));
+
+        $kernel->getControllerLoader()->RmGroup('rm_administrator')
+            ->RmGroupList('operations')
+            ->RmLink('add_user')->setText('Добавить пользователя')
+            ->setLink(route('users_interface.add_user'));
+    }
 
     public function actionUsersInfo()
     {

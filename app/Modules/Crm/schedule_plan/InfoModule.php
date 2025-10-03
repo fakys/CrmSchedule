@@ -2,6 +2,8 @@
 namespace App\Modules\Crm\schedule_plan;
 
 
+use App\Modules\Crm\schedule_plan\controllers\SchedulePlanController;
+use App\Modules\Crm\schedule_plan\controllers\SchedulePlanTypeController;
 use App\Modules\Crm\schedule_plan\operation\SchedulePlan;
 use App\Modules\Crm\schedule_plan\operation\SchedulePlanType;
 use App\Modules\Crm\schedule_plan\operation\ValidateSchedulePlan;
@@ -71,5 +73,13 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function crons(): array
     {
         return [];
+    }
+
+    public static function controllers(): array
+    {
+        return [
+            SchedulePlanController::class,
+            SchedulePlanTypeController::class
+        ];
     }
 }

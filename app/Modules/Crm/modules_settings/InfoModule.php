@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\modules_settings;
 
 
+use App\Modules\Crm\modules_settings\controllers\ModulesSettingsController;
 use App\Modules\Crm\modules_settings\operations\ConfigModulesOperations;
 use App\Modules\Crm\modules_settings\operations\StatusModulesOperation;
 use App\Modules\Crm\modules_settings\repositories\ModulesRepository;
@@ -64,5 +65,12 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function crons(): array
     {
         return [];
+    }
+
+    public static function controllers(): array
+    {
+        return [
+            ModulesSettingsController::class,
+        ];
     }
 }

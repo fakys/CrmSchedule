@@ -1,14 +1,41 @@
 <?php
+
 namespace App\Modules\Crm\schedule\controllers;
 
 use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
-use Illuminate\Routing\Controller;
+use App\Src\modules\controllers\AbstractController;
+use App\Src\modules\controllers\loaders\RmGroupLinkLoader;
+use App\Src\modules\controllers\loaders\RmLink;
+use App\Src\modules\controllers\RmGroupLoader;
+use App\Src\modules\kernel\KernelModules;
 
 
-class ScheduleController extends Controller{
+class ScheduleController extends AbstractController
+{
 
+    static function loadController(KernelModules $kernel)
+    {
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->setText('РМ Преподавателя')
+            ->setIcon('fa fa-graduation-cap')
+            ->setAccess('rm_teachers_access');
+
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->RmGroupList('schedule_list')
+            ->setName('schedule_list')
+            ->setIcon('fa fa-list-alt')
+            ->setText('Расписание')
+            ->setAccess('schedule_list_access');
+
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')->RmGroupList('schedule_list')
+            ->RmLink('schedule_manager')
+            ->setText('Менеджер расписаний');
+    }
 
     public function actionScheduleManager()
     {

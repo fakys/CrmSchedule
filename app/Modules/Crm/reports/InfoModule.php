@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\reports;
 
+use App\Modules\Crm\reports\controllers\ReportsController;
 use App\Modules\Crm\reports\operations\ReportsOperation;
 use App\Modules\Crm\reports\repositories\ReportsRepository;
 use App\Modules\Crm\reports\tasks\ReportForGroupTask;
@@ -67,5 +68,12 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function crons(): array
     {
         return [];
+    }
+
+    public static function controllers(): array
+    {
+        return [
+            ReportsController::class,
+        ];
     }
 }

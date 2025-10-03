@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\system_settings;
 
+use App\Modules\Crm\system_settings\controllers\SettingsController;
 use App\Modules\Crm\system_settings\operations\SystemSettingsOperations;
 use App\Modules\Crm\system_settings\repositories\SystemSettingRepository;
 use App\Src\modules\InfoModuleModel;
@@ -61,5 +62,12 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function crons(): array
     {
         return [];
+    }
+
+    public static function controllers(): array
+    {
+        return [
+            SettingsController::class
+        ];
     }
 }

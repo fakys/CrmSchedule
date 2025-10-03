@@ -4,11 +4,19 @@ use App\Modules\Crm\users_interface\model\UserAddGroups;
 use App\Modules\Crm\users_interface\model\UsersGroup;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
+use App\Src\modules\controllers\AbstractController;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class UserGroupsController extends Controller{
+class UserGroupsController extends AbstractController {
 
+    public static function loadController(\App\Src\modules\kernel\KernelModules $kernel)
+    {
+        $kernel->getControllerLoader()->RmGroup('rm_administrator')
+            ->RmGroupList('users_list')
+            ->RmLink('users_group')->setText('Группы')
+            ->setLink(route('users_interface.user_groups_info'));
+    }
     public function actionUserGroupsInfo()
     {
         $user_groups = BackendHelper::getRepositories()->getAllUsersGroup();

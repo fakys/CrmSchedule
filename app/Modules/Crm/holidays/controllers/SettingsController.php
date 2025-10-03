@@ -3,10 +3,23 @@ namespace App\Modules\Crm\holidays\controllers;
 
 use App\Modules\Crm\holidays\model\HolidaySetting;
 use App\Src\BackendHelper;
+use App\Src\modules\controllers\AbstractController;
 use Illuminate\Routing\Controller;
 
-class SettingsController extends Controller
+class SettingsController extends AbstractController
 {
+
+    public static function loadController(\App\Src\modules\kernel\KernelModules $kernel)
+    {
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_administrator')
+            ->RmGroupList('modules_settings')
+            ->setText('Настройка модулей')
+            ->setIcon('fa fa-microchip')
+            ->RmLink('holidays_settings')
+            ->setText('Праздничныe дни')
+            ->setLink(route(\App\Modules\Crm\holidays\InfoModule::getNameModule().'.settings'));
+    }
 
     public function actionIndex()
     {

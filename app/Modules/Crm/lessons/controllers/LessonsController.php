@@ -1,13 +1,24 @@
 <?php
+
 namespace App\Modules\Crm\lessons\controllers;
 
 use App\Modules\Crm\lessons\models\AddNumberPairs;
 use App\Src\BackendHelper;
+use App\Src\modules\controllers\AbstractController;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class LessonsController extends Controller{
+class LessonsController extends AbstractController
+{
 
+    public static function loadController(\App\Src\modules\kernel\KernelModules $kernel)
+    {
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_administrator')
+            ->RmGroupList('operations')
+            ->RmLink('add_number_pair_operation')
+            ->setText('Последовательность пар');
+    }
 
     /**
      * Последовательность пар
@@ -17,16 +28,16 @@ class LessonsController extends Controller{
         $pair_number = BackendHelper::getRepositories()->getNumberPair();
         return view('lessons.pair_number', [
             'pair_number' => $pair_number,
-            'title'=>'Последовательность пар',
-            'nav_subject'=>true
+            'title' => 'Последовательность пар',
+            'nav_subject' => true
         ]);
     }
 
     public function actionAddNumberPair()
     {
         return view('lessons.form_pair_number', [
-            'title'=>'Добавить последовательность пар',
-            'nav_subject'=>true
+            'title' => 'Добавить последовательность пар',
+            'nav_subject' => true
         ]);
     }
 
@@ -51,9 +62,9 @@ class LessonsController extends Controller{
             abort(404);
         }
         return view('lessons.form_pair_number', [
-            'title'=>'Добавить последовательность пар',
-            'number_pair'=>$number_pair,
-            'nav_subject'=>true
+            'title' => 'Добавить последовательность пар',
+            'number_pair' => $number_pair,
+            'nav_subject' => true
         ]);
     }
 

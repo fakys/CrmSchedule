@@ -22,4 +22,4 @@ $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
 
-BackendHelper::getOperations()->test();
+dd(BackendHelper::getKernel()->getControllerLoader());

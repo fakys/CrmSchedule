@@ -1,6 +1,9 @@
 <?php
 namespace App\Modules\Crm\users_interface;
 
+use App\Modules\Crm\users_interface\controllers\AccessesController;
+use App\Modules\Crm\users_interface\controllers\UserGroupsController;
+use App\Modules\Crm\users_interface\controllers\UsersController;
 use App\Modules\Crm\users_interface\operations\UserAccessOperation;
 use App\Modules\Crm\users_interface\operations\UsersGroupOperations;
 use App\Modules\Crm\users_interface\operations\UsersOperation;
@@ -68,5 +71,14 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function crons(): array
     {
         return [];
+    }
+
+    public static function controllers(): array
+    {
+        return [
+            UsersController::class,
+            UserGroupsController::class,
+            AccessesController::class
+        ];
     }
 }

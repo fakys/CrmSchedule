@@ -2,6 +2,8 @@
 namespace App\Modules\Crm\lessons;
 
 
+use App\Modules\Crm\lessons\controllers\LessonsController;
+use App\Modules\Crm\lessons\controllers\SubjectsController;
 use App\Modules\Crm\lessons\operations\SubjectOperation;
 use App\Modules\Crm\lessons\repositories\LessonsRepository;
 use App\Modules\Crm\lessons\repositories\SubjectsRepository;
@@ -65,5 +67,13 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function crons(): array
     {
         return [];
+    }
+
+    public static function controllers(): array
+    {
+        return [
+            SubjectsController::class,
+            LessonsController::class
+        ];
     }
 }

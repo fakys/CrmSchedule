@@ -8,13 +8,38 @@ use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
 use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
-use App\Src\redis\RedisManager;
-use Illuminate\Routing\Controller;
+use App\Src\modules\controllers\AbstractController;
+use App\Src\modules\controllers\loaders\RmGroupLinkLoader;
+use App\Src\modules\controllers\loaders\RmLink;
+use App\Src\modules\controllers\RmGroupLoader;
 use Illuminate\Support\Facades\Validator;
 
 
-class SchedulePlanController extends Controller
+class SchedulePlanController extends AbstractController
 {
+
+    public static function loadController(\App\Src\modules\kernel\KernelModules $kernel)
+    {
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->setText('РМ Преподавателя')
+            ->setIcon('fa fa-graduation-cap')
+            ->setAccess('rm_teachers_access');
+
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->RmGroupList('schedule_list')
+            ->setName('schedule_list')
+            ->setIcon('fa fa-list-alt')
+            ->setText('Расписание')
+            ->setAccess('schedule_list_access');
+
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')->RmGroupList('schedule_list')
+            ->RmLink('schedule_plan')
+            ->setText('План на семестр')
+            ->setLink(route('schedule_plan.schedule_plan'));
+    }
 
     /**
      * Проверяет поля при заполнении в конструкторе

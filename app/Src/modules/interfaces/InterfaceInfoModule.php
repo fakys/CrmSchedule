@@ -2,6 +2,7 @@
 
 namespace App\Src\modules\interfaces;
 
+use App\Src\modules\controllers\AbstractController;
 use App\Src\modules\plugins\mangers\AbstractManger;
 
 interface InterfaceInfoModule
@@ -27,4 +28,9 @@ interface InterfaceInfoModule
     public static function mangers(): array;
     public static function components(): array;
     public static function crons(): array;
+
+    /**
+     * @return AbstractController[]
+     */
+    public static function controllers(): array;
 }

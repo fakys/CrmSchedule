@@ -9,11 +9,13 @@ class ModuleEntity {
     private $module;
     private $status;
     private $components;
+    private $controllers;
 
-    public function __construct($module, $status_module = false, $components = []) {
+    public function __construct($module, $status_module = false, $components = [], $controllers = []) {
         $this->module = $module;
         $this->components = $components;
         $this->status = $status_module;
+        $this->controllers = $controllers;
     }
 
     /**

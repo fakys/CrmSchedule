@@ -8,6 +8,7 @@ use App\Modules\Crm\reports\tasks\ReportForGroupTask;
 use App\Modules\Crm\reports\tasks\ReportForTeachersTask;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
+use App\Src\modules\controllers\AbstractController;
 use Exception;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -15,8 +16,31 @@ use Maatwebsite\Excel\Facades\Excel;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class ReportsController extends Controller
+class ReportsController extends AbstractController
 {
+
+    public static function loadController(\App\Src\modules\kernel\KernelModules $kernel)
+    {
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->RmGroupList('reports')
+            ->setText('Отчеты')
+            ->setIcon('fa fa-file');
+
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->RmGroupList('reports')
+            ->RmLink('report_for_group')
+            ->setText('Отчет по группам (по семестрам)')
+            ->setLink(route('reports.report_for_group'));
+
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->RmGroupList('reports')
+            ->RmLink('report_for_teachers')
+            ->setText('Отчет по преподавателям (по семестрам)')
+            ->setLink(route('reports.report_for_teachers'));
+    }
 
     public function actionReportForGroup()
     {

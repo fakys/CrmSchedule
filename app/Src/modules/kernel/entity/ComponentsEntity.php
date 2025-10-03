@@ -3,6 +3,7 @@
 namespace App\Src\modules\kernel\entity;
 
 use App\Src\modules\components\AbstractComponents;
+use App\Src\modules\controllers\AbstractController;
 
 class ComponentsEntity {
     private $type;
@@ -12,7 +13,7 @@ class ComponentsEntity {
     /**
      * @param string $type
      * @param string $name
-     * @param AbstractComponents $component
+     * @param AbstractComponents|AbstractController $component
      */
     public function __construct(string $type, string $name, $component)
     {
@@ -30,7 +31,7 @@ class ComponentsEntity {
     }
 
     /**
-     * @return AbstractComponents
+     * @return AbstractComponents|AbstractController
      */
     public function getComponent() {
         return $this->component;

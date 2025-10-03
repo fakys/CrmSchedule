@@ -3,12 +3,37 @@ namespace App\Modules\Crm\schedule\controllers;
 
 use App\Modules\Crm\schedule\models\SemestersModel;
 use App\Src\BackendHelper;
-use Illuminate\Routing\Controller;
+use App\Src\modules\controllers\AbstractController;
+use App\Src\modules\controllers\loaders\RmGroupLinkLoader;
+use App\Src\modules\controllers\loaders\RmLink;
+use App\Src\modules\controllers\RmGroupLoader;
+use App\Src\modules\kernel\KernelModules;
 use Illuminate\Support\Facades\Validator;
-use function Termwind\render;
 
-class SemestersController extends Controller {
+class SemestersController extends AbstractController {
 
+    static function loadController(KernelModules $kernel)
+    {
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->setText('РМ Преподавателя')
+            ->setIcon('fa fa-graduation-cap')
+            ->setAccess('rm_teachers_access');
+
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->RmGroupList('schedule_list')
+            ->setName('schedule_list')
+            ->setIcon('fa fa-list-alt')
+            ->setText('Расписание')
+            ->setAccess('schedule_list_access');
+
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')->RmGroupList('schedule_list')
+            ->RmLink('semesters')
+            ->setText('Семестры')
+            ->setLink(route('schedule.semesters'));
+    }
 
     /** Акшен семестров */
     public function actionSemesters()

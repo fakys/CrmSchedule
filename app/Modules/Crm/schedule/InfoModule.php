@@ -2,6 +2,8 @@
 namespace App\Modules\Crm\schedule;
 
 
+use App\Modules\Crm\schedule\controllers\ScheduleController;
+use App\Modules\Crm\schedule\controllers\SemestersController;
 use App\Modules\Crm\schedule\crons\CashScheduleCron;
 use App\Modules\Crm\schedule\operations\ScheduleApiOperation;
 use App\Modules\Crm\schedule\operations\ScheduleManagerOperation;
@@ -78,6 +80,14 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     {
         return [
             CashScheduleCron::class
+        ];
+    }
+
+    public static function controllers(): array
+    {
+        return [
+            ScheduleController::class,
+            SemestersController::class
         ];
     }
 }

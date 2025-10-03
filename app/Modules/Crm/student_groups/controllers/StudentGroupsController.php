@@ -4,11 +4,43 @@ namespace App\Modules\Crm\student_groups\controllers;
 use App\Modules\Crm\student_groups\models\AddStudentGroup;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
+use App\Src\modules\controllers\AbstractController;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 
 
-class StudentGroupsController extends Controller{
+class StudentGroupsController extends AbstractController {
+
+    public static function loadController(\App\Src\modules\kernel\KernelModules $kernel)
+    {
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->setText('РМ Преподавателя')
+            ->setIcon('fa fa-graduation-cap')
+            ->setAccess('rm_teachers_access');
+
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->RmGroupList('students')
+            ->setText('Студенты')
+            ->setIcon('fa fa-users');
+
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->RmGroupList('students')
+            ->RmLink('students_groups')
+            ->setText('Группы')
+            ->setLink(route('student_groups.student_groups_info'));
+
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_administrator')
+            ->RmGroupList('operations')
+            ->setIcon('fa fa-cogs')
+            ->setText('Операции')
+            ->RmLink('add_students_group_operation')
+            ->setText('Добавить группу')
+            ->setLink(route('student_groups.add_group'));
+    }
 
     public function actionStudentGroupsInfo()
     {

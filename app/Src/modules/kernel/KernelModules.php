@@ -7,6 +7,7 @@ use App\Src\modules\crons_schedule\AbstractCronSchedule;
 use App\Src\modules\exceptions\BackendException;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\kernel\constructs\ConstructComponents;
+use App\Src\modules\kernel\constructs\ConstructControllers;
 use App\Src\modules\kernel\constructs\ConstructKernelModules;
 use App\Src\modules\kernel\entity\ComponentsEntity;
 use App\Src\modules\kernel\entity\ModuleEntity;
@@ -24,6 +25,11 @@ class KernelModules
     private $modules;
 
     /**
+     * @var ConstructControllers
+     */
+    private $construct_controllers;
+
+    /**
      * @var ConstructComponents
      */
     private $construct_components;
@@ -39,6 +45,7 @@ class KernelModules
     {
         $this->constructModules();
         $this->constructModuleComponents();
+        $this->constructControllers();
 
         $this->construct_components->beforeLoadKernel();
     }
@@ -70,6 +77,16 @@ class KernelModules
     }
 
     /**
+     * @return ConstructControllers
+     */
+    private function constructControllers()
+    {
+        $this->construct_controllers = ConstructControllers::constructObject($this);
+        $this->construct_controllers->collectControllerByModulesForKernel();
+        return $this->construct_controllers;
+    }
+
+    /**
      * @return ConstructComponents
      */
     private function constructModuleComponents()
@@ -93,6 +110,14 @@ class KernelModules
     public function getModules()
     {
         return $this->modules;
+    }
+
+    /**
+     * @return \App\Src\modules\controllers\ControllerLoader
+     */
+    public function getControllerLoader()
+    {
+        return $this->construct_controllers->getControllerLoaderForKernel();
     }
 
     public function getModulByName($nameModule)

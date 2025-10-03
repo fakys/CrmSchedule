@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller;
 
-class AuthController extends Controller{
+class AuthController extends Controller {
     public function actionLogin()
     {
         return view('login');

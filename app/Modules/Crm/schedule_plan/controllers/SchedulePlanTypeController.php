@@ -4,12 +4,37 @@ namespace App\Modules\Crm\schedule_plan\controllers;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
 use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Src\BackendHelper;
-use Illuminate\Routing\Controller;
+use App\Src\modules\controllers\AbstractController;
+use App\Src\modules\controllers\loaders\RmGroupLinkLoader;
+use App\Src\modules\controllers\loaders\RmLink;
+use App\Src\modules\controllers\RmGroupLoader;
 use Illuminate\Support\Facades\Validator;
 
 
-class SchedulePlanTypeController extends Controller{
+class SchedulePlanTypeController extends AbstractController {
 
+    public static function loadController(\App\Src\modules\kernel\KernelModules $kernel)
+    {
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->setText('РМ Преподавателя')
+            ->setIcon('fa fa-graduation-cap')
+            ->setAccess('rm_teachers_access');
+
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->RmGroupList('schedule_list')
+            ->setName('schedule_list')
+            ->setIcon('fa fa-list-alt')
+            ->setText('Расписание')
+            ->setAccess('schedule_list_access');
+
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')->RmGroupList('schedule_list')
+            ->RmLink('schedule_plan_type')
+            ->setText('Типы плана расписания')
+            ->setLink(route('schedule_plan.schedule_plan_types'));
+    }
 
     public function actionSchedulePlanType()
     {
