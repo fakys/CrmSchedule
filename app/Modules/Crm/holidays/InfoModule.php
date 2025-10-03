@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\holidays;
 
 
+use App\Modules\Crm\holidays\controllers\SettingsController;
 use App\Modules\Crm\holidays\operations\HolidayOperation;
 use App\Modules\Crm\holidays\repositories\HolidayRepository;
 use App\Src\modules\InfoModuleModel;
@@ -66,6 +67,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 
     public static function controllers(): array
     {
-        return [];
+        return [
+            SettingsController::class,
+        ];
     }
 }

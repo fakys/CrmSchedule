@@ -23,7 +23,9 @@ class SubjectsController extends AbstractController
 
         $kernel->getControllerLoader()
             ->RmGroup('rm_teachers')->RmGroupList('subjects_list')
-            ->RmLink('Все предметы');
+            ->RmLink('all_subjects')
+            ->setText('Все предметы')
+            ->setLink(route('lessons.subjects_info'));
 
         $kernel->getControllerLoader()
             ->RmGroup('rm_administrator')

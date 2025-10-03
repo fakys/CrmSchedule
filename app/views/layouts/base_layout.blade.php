@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<?php
+
+use App\Src\BackendHelper
+?>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -144,222 +148,51 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
-                    @if(\App\Src\BackendHelper::checkAccess('navbar_arm_supervisor', context()->getUser()->id))
-                    <li class="nav-item menu-is-opening menu-open rm-group-container">
-                        <div class="nav-link rm-group">
-                            <i class="fa fa-cogs nav-icon" aria-hidden="true"></i>
-                            <p class="name-rm-layout text-nowrap">
-                                РМ Руководителя
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </div>
-                        <ul class="nav nav-treeview">
-                            @if(\App\Src\BackendHelper::checkAccessByNameRoute('system_settings.crm_settings'))
-                            <li class="nav-item rm-level-2">
-                                <a href="{{route('system_settings.crm_settings')}}" class="nav-link">
-                                    <i class="fa fa-cog" aria-hidden="true"></i>
-                                    <p>Настройки системы</p>
-                                </a>
-                            </li>
-                            @endif
-                            @if(\App\Src\BackendHelper::checkAccessByNameRoute('modules_settings.settings'))
-                                <li class="nav-item rm-level-2">
-                                    <a href="{{route('modules_settings.settings')}}" class="nav-link">
-                                        <i class="fa fa-sitemap" aria-hidden="true"></i>
-                                        <p>Модули</p>
-                                    </a>
-                                </li>
-                            @endif
-                            <li class="nav-item rm-level-2 @if(isset($nav_users)) menu-open @endif">
-                                <div class="nav-link">
-                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                    <p>
-                                        Пользователи
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </div>
-                                <ul class="nav nav-treeview" @if(isset($nav_users)) style="display: block;" @else style="display: none;" @endif>
-                                    @if(\App\Src\BackendHelper::checkAccessByNameRoute('users_interface.users_info'))
-                                    <li class="nav-item rm-level-3">
-                                        <a href="{{route('users_interface.users_info')}}" class="nav-link">
-                                            <p>Пользователи</p>
-                                        </a>
-                                    </li>
-                                    @endif
-                                    @if(\App\Src\BackendHelper::checkAccessByNameRoute('users_interface.accesses'))
-                                        <li class="nav-item rm-level-3">
-                                            <a href="{{route('users_interface.accesses')}}" class="nav-link">
-                                                <p>Доступы</p>
-                                            </a>
-                                        </li>
-                                    @endif
-                                    @if(\App\Src\BackendHelper::checkAccessByNameRoute('system_settings.crm_settings'))
-                                        <li class="nav-item rm-level-3">
-                                            <a href="{{route('users_interface.user_groups_info')}}"
-                                               class="nav-link">
-                                                <p>Группы</p>
-                                            </a>
-                                        </li>
-                                    @endif
-                                </ul>
-                            </li>
-                                <li class="nav-item rm-level-2 @if(isset($nav_operation)) menu-open @endif">
-                                    <div class="nav-link">
-                                        <i class="fa fa-cogs" aria-hidden="true"></i>
-                                        <p>
-                                            Операции
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </div>
-                                    <ul class="nav nav-treeview" @if(isset($nav_operation)) style="display: block;" @else style="display: none;" @endif>
-                                        <li class="nav-item rm-level-3">
-                                            <a href="{{route('users_interface.add_user')}}" class="nav-link">
-                                                <p>Добавить пользователя</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item rm-level-3">
-                                            <a href="{{route('student_groups.add_group')}}" class="nav-link">
-                                                <p>Добавить группу</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item rm-level-3">
-                                            <a href="{{route('student_groups.add_specialty')}}" class="nav-link">
-                                                <p>Добавить специальность</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item rm-level-3">
-                                            <a href="{{route('lessons.action_add_subject')}}" class="nav-link">
-                                                <p>Добавить предмет</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item rm-level-2 @if(isset($nav_schedule)) menu-open @endif">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa fa-microchip" aria-hidden="true"></i>
-                                        <p>
-                                            Настройка модулей
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview" @if(isset($nav_schedule)) style="display: block;" @else style="display: none;" @endif>
-                                        @if(\App\Src\BackendHelper::getOperations()->checkStatusModule(\App\Modules\Crm\holidays\InfoModule::getNameModule()))
-                                        <li class="nav-item rm-level-3">
-                                            <a href="{{route(\App\Modules\Crm\holidays\InfoModule::getNameModule().'.settings')}}" class="nav-link">
-                                                <p>Праздничныe дни</p>
-                                            </a>
-                                        </li>
-                                        @endif
-                                    </ul>
-                                </li>
-                        </ul>
-                    </li>
-                    @endif
-                    @if(\App\Src\BackendHelper::checkAccess('navbar_arm_teacher', context()->getUser()->id))
+                    @foreach(BackendHelper::getKernel()->getControllerLoader()->getAllRmGroups() as $rm_group)
                         <li class="nav-item menu-is-opening menu-open rm-group-container">
-                        <a href="#" class="nav-link rm-group">
-                            <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                            <p class="name-rm-layout text-nowrap">
-                                РМ Преподавателя
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item rm-level-2 @if(isset($nav_schedule)) menu-open @endif">
-                                <a href="#" class="nav-link">
-                                    <i class="fa fa-list-alt" aria-hidden="true"></i>
-                                    <p>
-                                        Расписание
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview" @if(isset($nav_schedule)) style="display: block;" @else style="display: none;" @endif>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="{{route('schedule.semesters')}}" class="nav-link">
-                                            <p>Семестры</p>
+                            <div class="nav-link rm-group">
+                                <i class="{{$rm_group->getIcon()}} nav-icon" aria-hidden="true"></i>
+                                <p class="name-rm-layout text-nowrap">
+                                    {{$rm_group->getText()}}
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </div>
+                            <ul class="nav nav-treeview">
+                                @foreach($rm_group->getAllLinks() as $links)
+                                    <li class="nav-item rm-level-2">
+                                        <a href="{{$links->getLink()}}" class="nav-link">
+                                            <i class="{{$links->getIcon()}}" aria-hidden="true"></i>
+                                            <p>{{$links->getText()}}</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="{{route('schedule_plan.schedule_plan_types')}}" class="nav-link">
-                                            <p>Типы плана расписания</p>
-                                        </a>
+                                @endforeach
+                                @foreach($rm_group->getAllGroupList() as $group_list)
+                                    <li class="nav-item rm-level-2 @if($group_list->getOpen()) menu-open @endif">
+                                        <div class="nav-link">
+                                            <i class="{{$group_list->getIcon()}}" aria-hidden="true"></i>
+                                            <p>
+                                                {{$group_list->getText()}}
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </div>
+                                        <ul class="nav nav-treeview" @if($group_list->getOpen()) style="display: block;"
+                                            @else style="display: none;" @endif>
+                                            @foreach($group_list->getAllLinks() as $link)
+                                                <li class="nav-item rm-level-3">
+                                                    @if($link->getIcon())
+                                                        <i class="{{$link->getIcon()}}" aria-hidden="true"></i>
+                                                    @endif
+                                                    <a href="{{$link->getLink()}}" class="nav-link">
+                                                        <p>{{$link->getText()}}</p>
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="{{route('schedule_plan.schedule_plan')}}" class="nav-link">
-                                            <p>План на семестр</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="{{route('schedule.schedule_manager')}}" class="nav-link">
-                                            <p>Менеджер расписаний</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="nav-item rm-level-2">
-                                <a href="#" class="nav-link">
-                                    <i class="fa fa-book @if(isset($nav_subject)) menu-open @endif" aria-hidden="true"></i>
-                                    <p>
-                                        Предметы
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview" @if(isset($nav_subject)) style="display: block;" @else style="display: none;" @endif>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="{{route('lessons.subjects_info')}}" class="nav-link">
-                                            <p>Все предметы</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="{{route('lessons.pair_number')}}" class="nav-link">
-                                            <p>Последовательность пар</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="nav-item rm-level-2  @if(isset($nav_students)) menu-open @endif">
-                                <a href="#" class="nav-link">
-                                    <i class="fa fa-users" aria-hidden="true"></i>
-                                    <p>
-                                        Студенты
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview" @if(isset($nav_students)) style="display: block;" @else style="display: none;"  @endif  >
-                                    <li class="nav-item rm-level-3">
-                                        <a href="{{route('student_groups.student_groups_info')}}" class="nav-link">
-                                            <p>Группы</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="nav-item rm-level-2">
-                                <a href="#" class="nav-link">
-                                    <i class="fa fa-file" aria-hidden="true"></i>
-                                    <p>
-                                        Отчеты
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview" style="display: none;">
-                                    <li class="nav-item rm-level-3">
-                                        <a href="{{route('reports.report_for_group')}}" class="nav-link">
-                                            <p>Отчет по группам (по семестрам)</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item rm-level-3">
-                                        <a href="{{route('reports.report_for_teachers')}}" class="nav-link">
-                                            <p>Отчет по преподавателям (по семестрам)</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    @endif
+                            @endforeach
+                            </ul>
+                        </li>
+                    @endforeach
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

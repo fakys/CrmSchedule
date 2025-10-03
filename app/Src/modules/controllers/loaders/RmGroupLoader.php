@@ -21,7 +21,7 @@ class RmGroupLoader extends AbstractLinkLoader {
     /**
      * @var RmLinkLoader[]
      */
-    private $links;
+    private $links = [];
 
     public function __construct($name)
     {
@@ -114,5 +114,15 @@ class RmGroupLoader extends AbstractLinkLoader {
         }
         $this->links[$name] = new RmLinkLoader($name);
         return $this->links[$name];
+    }
+
+    public function getAllGroupList()
+    {
+        return $this->rm_group_list;
+    }
+
+    public function getAllLinks()
+    {
+        return $this->links;
     }
 }
