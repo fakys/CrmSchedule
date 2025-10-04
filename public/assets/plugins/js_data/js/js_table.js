@@ -1,4 +1,4 @@
-let context_id = 123213
+let context_id;
 $(document).ready(function (){
 
     $('.js-table-row').on('click', function (){

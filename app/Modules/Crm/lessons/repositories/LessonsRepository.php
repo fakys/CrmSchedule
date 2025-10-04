@@ -5,7 +5,9 @@ use App\Entity\DurationLesson;
 use App\Entity\FormatLesson;
 use App\Entity\Lesson;
 use App\Entity\PairNumber;
+use App\Entity\ScheduleTask;
 use App\Src\modules\repository\AbstractRepositories;
+use Illuminate\Support\Facades\DB;
 
 class LessonsRepository extends AbstractRepositories{
 
@@ -124,22 +126,74 @@ class LessonsRepository extends AbstractRepositories{
     }
 
     /**
+     * @param $id
+     * @return Lesson
+     */
+    public function getLessonsById($id)
+    {
+        return Lesson::where(['id'=>$id])->first();
+    }
+
+    public function setLesson($lesson)
+    {
+        return $lesson->save();
+    }
+
+    public function getAllLessonsInfo()
+    {
+        $sql = "select
+                    lessons.id,
+                    users_info.first_name || ' ' || users_info.last_name || ' ' || users_info.patronymic as fio,
+                    subject.name as subject_name,
+                    subject.full_name as subject_full_name
+                from lessons
+                    join subjects subject on subject.id = lessons.subject_id
+                    join users_info users_info on users_info.user_id = lessons.user_id";
+
+        return DB::select(
+            $sql,
+            []
+        );
+    }
+
+    public function getAllLessonsInfoById($id)
+    {
+        $sql = "select
+                    lessons.id,
+                    users_info.first_name || ' ' || users_info.last_name || ' ' || users_info.patronymic as fio,
+                    subject.name as subject_name,
+                    subject.full_name as subject_full_name
+                from lessons
+                    join subjects subject on subject.id = lessons.subject_id
+                    join users_info users_info on users_info.user_id = lessons.user_id
+                where lessons.id = :id";
+
+        return DB::selectOne(
+            $sql,
+            [':id' => $id]
+        );
+    }
+
+    /**
      * Создает урок для расписания
      * @param $subject_id
-     * @param $format_lesson_id
      * @param $user_id
      * @return Lesson|null
      */
-    public function createLessons($subject_id, $format_lesson_id, $user_id)
+    public function createLessons($subject_id, $user_id)
     {
         $lesson= new Lesson();
         $lesson->subject_id = $subject_id;
-        $lesson->format_lesson_id = $format_lesson_id;
         $lesson->user_id = $user_id;
         if ($lesson->save()) {
             return $lesson;
         }
         return null;
+    }
+
+    public function checkLessonByTeacherAndSubject($teacher, $subject)
+    {
+        return Lesson::where(['subject_id' => $subject, 'user_id' => $teacher])->count();
     }
 
     /**

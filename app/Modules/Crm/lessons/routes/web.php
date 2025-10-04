@@ -77,3 +77,54 @@ AccessRoute::access("{$module}_delete_pair_number")->route(
         ]
     )->name("$module.delete_pair_number")
 )->description('Удаление последовательность пар');
+
+AccessRoute::access("{$module}_lessons")->route(
+    Route::get("$module/lessons/",
+        [
+            \App\Modules\Crm\lessons\controllers\LessonsController::class,
+            'actionLessons'
+        ]
+    )->name("$module.lessons")
+)->description('Страница связи преподавателя и предмета');
+
+Route::post("$module/get-tabs/",
+    [
+        \App\Modules\Crm\lessons\controllers\TabsController::class,
+        'getTabsByLesson'
+    ]
+)->name("$module.get_tabs");
+
+Route::post("$module/get-lessons-info-tab/",
+    [
+        \App\Modules\Crm\lessons\controllers\TabsController::class,
+        'getLessonsInfoTab'
+    ]
+)->name("$module.get_lessons_info_tab");
+
+Route::post("$module/get-edit-lessons-info-tab/",
+    [
+        \App\Modules\Crm\lessons\controllers\TabsController::class,
+        'getEditLessonsInfoTab'
+    ]
+)->name("$module.get_edit_lessons_info_tab");
+
+Route::get("$module/add-lesson/",
+    [
+        \App\Modules\Crm\lessons\controllers\LessonsController::class,
+        'actionAddLesson'
+    ]
+)->name("$module.add_lesson");
+
+Route::post("$module/set-lesson/",
+    [
+        \App\Modules\Crm\lessons\controllers\LessonsController::class,
+        'setLesson'
+    ]
+)->name("$module.set_lesson");
+
+Route::post("$module/edit-lessons-info/",
+    [
+        \App\Modules\Crm\lessons\controllers\TabsController::class,
+        'editLessonsInfo'
+    ]
+)->name("$module.edit_lessons_info");

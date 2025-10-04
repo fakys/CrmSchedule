@@ -15,7 +15,7 @@
 
 <div class="form-group">
     <label>{{$label}}</label>
-    <select name="{{$name}}[]" class="form-control select_{{$class_select}} {{$class}}" @if($multiple) multiple @endif style="width: 100%;" @if($disabled) disabled @endif>
+    <select name="{{$name}}@if($multiple)[]@endif" class="form-control select_{{$class_select}} {{$class}}" @if($multiple) multiple @endif style="width: 100%;" @if($disabled) disabled @endif>
         @if(!$value && !$multiple)
             <option selected>Не выбрано</option>
         @endif
@@ -31,5 +31,7 @@
             @endif
         @endforeach
     </select>
-    <div class="error-block"></div>
+    @error($name)
+    <div class="error">{{ $message }}</div>
+    @enderror
 </div>

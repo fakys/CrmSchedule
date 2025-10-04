@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $id
  * @property $plan_duration_lesson_id
  * @property $lessons_id
+ * @property $format_lesson_id
  * @property $semester_id
  * @property $pair_number_id
  * @property $student_group_id
@@ -29,7 +30,8 @@ class PlanSchedule extends Model
         'description',
         'created_at',
         'updated_at',
-        'plan_type_id'
+        'plan_type_id',
+        'format_lesson_id'
     ];
 
 

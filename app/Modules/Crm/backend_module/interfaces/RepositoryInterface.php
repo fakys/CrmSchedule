@@ -22,6 +22,7 @@ use App\Entity\UserGroup;
 use App\Entity\UserInfo;
 use App\Modules\Crm\backend_module\repositories\CronRepository;
 use App\Modules\Crm\backend_module\repositories\TaskRepository;
+use App\Modules\Crm\lessons\repositories\LessonsRepository;
 use App\Modules\Crm\reports\repositories\ReportsRepository;
 use App\Modules\Crm\schedule\models\SemestersModel;
 use App\Modules\Crm\schedule\repositories\ScheduleRepository;
@@ -38,6 +39,7 @@ use App\Modules\Crm\users_interface\repositories\UsersRepositories;
  * @mixin CronRepository
  * @mixin StudentGroupRepositories
  * @mixin SchedulePlanRepository
+ * @mixin LessonsRepository
  *
  */
 interface RepositoryInterface{
@@ -396,11 +398,10 @@ interface RepositoryInterface{
     /**
      * Создает урок для расписания
      * @param $subject_id
-     * @param $format_lesson_id
      * @param $user_id
      * @return Lesson|null
      */
-    public function createLessons($subject_id, $format_lesson_id, $user_id);
+    public function createLessons($subject_id, $user_id);
 
     /**
      * Обновляет данные по id и entity

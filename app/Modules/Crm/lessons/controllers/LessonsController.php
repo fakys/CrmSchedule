@@ -2,8 +2,10 @@
 
 namespace App\Modules\Crm\lessons\controllers;
 
+use App\Modules\Crm\lessons\models\LessonModel;
 use App\Modules\Crm\lessons\models\AddNumberPairs;
 use App\Src\BackendHelper;
+use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -18,6 +20,51 @@ class LessonsController extends AbstractController
             ->RmGroupList('operations')
             ->RmLink('add_number_pair_operation')
             ->setText('Последовательность пар');
+
+        $kernel->getControllerLoader()
+            ->RmGroup('rm_teachers')
+            ->RmGroupList('subjects_list')
+            ->RmLink('lessons')
+            ->setText('Пары преподавателей')
+            ->setLink(route('lessons.lessons'));
+
+    }
+
+    public function actionLessons()
+    {
+        $lessons = BackendHelper::getRepositories()->getAllLessonsInfo();
+        $title = 'Предметы преподавателя';
+        return view('lessons.lessons_info', compact('lessons', 'title'));
+    }
+
+    public function setLesson()
+    {
+        $model = new LessonModel();
+        $model->load(request()->post());
+        $validate = Validator::make($model->getData(), $model->rules());
+        if ($validate->validate()) {
+            if ($model->validateLesson()) {
+                BackendHelper::getOperations()->addLesson($model);
+            } else {
+                $validate->errors()->add('teacher', 'Данная связь уже существует');
+                return redirect()->back()
+                    ->withErrors($validate)
+                    ->withInput();
+            }
+
+        }
+        return redirect()->route('lessons.lessons');
+    }
+
+    public function actionAddLesson()
+    {
+        $title = 'Добавить связь';
+        $subjects = ArrayHelper::getColumn(BackendHelper::getRepositories()->getSubjectInfo(), 'name', 'id');
+        $teachers = [];
+        foreach (BackendHelper::getRepositories()->getAllTeachers() as $teacher) {
+            $teachers[$teacher->id] = $teacher->getFio();
+        }
+        return view('lessons.add_lesson', compact('title', 'subjects', 'teachers'));
     }
 
     /**

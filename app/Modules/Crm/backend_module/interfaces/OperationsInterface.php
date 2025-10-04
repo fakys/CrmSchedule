@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\backend_module\interfaces;
 
+use App\Modules\Crm\lessons\operations\AddLessonOperation;
 use App\Modules\Crm\schedule\operations\ScheduleApiOperation;
 use App\Modules\Crm\schedule\operations\ScheduleManagerOperation;
 use App\Modules\Crm\schedule\src\entity\ScheduleUnit;
@@ -15,6 +16,7 @@ use App\Modules\Crm\users_interface\src\UserData;
  * @mixin SchedulePlanType
  * @mixin SchedulePlan
  * @mixin ValidateSchedulePlan
+ * @mixin AddLessonOperation
  */
 interface OperationsInterface
 {
