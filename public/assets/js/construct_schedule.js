@@ -2,6 +2,8 @@ var schedule_data = {}
 
 $(document).ready(function () {
     let max_pair = 4
+    let plan_type = $('select[name="plan_type"]').val()
+    let semester = $('select[name="semester"]').val()
 
     function checkAddBtn() {
         for (let cont of $('.day-container')) {
@@ -155,6 +157,16 @@ $(document).ready(function () {
     });
     let csrf = $('input[name="_token"]').val()
 
+    function getSubjectInput(input) {
+        $.ajax({
+            url: $('#get_subject_input').data('url'),
+            method: 'post',
+            data: {'teacher': input.val(), '_token': csrf},
+            success: function (data_input) {
+                $('.subject-input-container').html(data_input)
+            }
+        })
+    }
 
     function openPairModal(card_id) {
 
@@ -167,6 +179,9 @@ $(document).ready(function () {
             data: {data: schedule_data[Number(card_id)], '_token': csrf, 'card_id': card_id},
             success: function (data) {
                 $('#card_modal_body').html(data)
+                $('.users_select').on('change', function () {
+                    getSubjectInput($(this))
+                })
             }
         });
     }
@@ -183,6 +198,9 @@ $(document).ready(function () {
             time_start: $(card).data('time_start'),
             time_end: $(card).data('time_end'),
             description: $(card).data('description'),
+            plan_type: plan_type,
+            semester: semester,
+            format: $(card).data('format')
         }
         checkAddBtn()
     }
@@ -197,7 +215,7 @@ $(document).ready(function () {
                 let empty_card_id = $('.pair-empty').length + 1
                 $(card_container).append('<div class="pair-card pair-empty text-white card bg-gradient-secondary mb-2" ' +
                     'data-week_day="' + $(card_container).data('number') + '" data-number="' + $(card_container).data('number') + '"' +
-                    'card_id="' + card_id + '" data-group="' + $(card_container).data('group') + '">' +
+                    'card_id="' + card_id + '" data-group="' + $(card_container).data('group') + ' data-format='+""+'">' +
                     '<div class="card-header border-0 ui-sortable-handle" style="cursor: move;">' +
                     '<h3 class="card-pair-title">' +
                     '<i class="fa fa-users" aria-hidden="true"></i>' +
@@ -220,7 +238,10 @@ $(document).ready(function () {
                     subject: null,
                     time_start: null,
                     time_end: null,
-                    description: null
+                    description: null,
+                    plan_type: plan_type,
+                    format: null,
+                    semester: semester
                 }
 
                 $(card_container).find('.delete-card').on('click', function () {
@@ -257,6 +278,8 @@ $(document).ready(function () {
                     time_start: schedule_data[key].time_start,
                     time_end: schedule_data[key].time_end,
                     description: schedule_data[key].description,
+                    plan_type: plan_type,
+                    semester: semester
                 }
             } else {
                 pair_data = {
@@ -281,7 +304,7 @@ $(document).ready(function () {
                 if (!result.result) {
                     for (let input of $('.schedule-input')) {
                         for (let key in result.errors) {
-                            if (result.errors[key][$(input).attr('name').replace(/\[|\]/g, '')]) {
+                            if (result.errors[key][$(input).attr('name')]) {
                                 $(input).parent().find('.error-block').html(result.errors[key][$(input).attr('name').replace(/\[|\]/g, '')])
                             }
                         }
@@ -297,6 +320,20 @@ $(document).ready(function () {
             }
         });
 
+    })
+
+    $('.save-plan_schedule').on('click', function () {
+        $.ajax({
+            url: $('#set_plan_schedule').data('url'),
+            method: 'post',
+            data: {'_token': csrf},
+            success: function (data) {
+                window.location.reload()
+            },
+            error: function (err) {
+                error_alert(err.responseJSON.message)
+            }
+        });
     })
 
     $('.delete-card').on('click', function () {

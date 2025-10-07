@@ -34,4 +34,5 @@
     @error($name)
     <div class="error">{{ $message }}</div>
     @enderror
+    <div class="error-block"></div>
 </div>

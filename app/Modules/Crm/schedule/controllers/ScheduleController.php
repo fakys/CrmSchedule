@@ -34,6 +34,7 @@ class ScheduleController extends AbstractController
         $kernel->getControllerLoader()
             ->RmGroup('rm_teachers')->RmGroupList('schedule_list')
             ->RmLink('schedule_manager')
+            ->setLink(route('schedule.schedule_manager'))
             ->setText('Менеджер расписаний');
     }
 

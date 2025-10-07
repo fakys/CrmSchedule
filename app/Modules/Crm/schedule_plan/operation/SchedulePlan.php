@@ -156,6 +156,13 @@ class SchedulePlan extends AbstractOperation{
         }
     }
 
+    public function cardName($user_id, $subject_id)
+    {
+        $teacher = BackendHelper::getRepositories()->getUserById($user_id);
+        $subject = BackendHelper::getRepositories()->getSubjectById($subject_id);
+        return sprintf('%s - %s', $teacher->getMinFio(), $subject->name);
+    }
+
     /**
      * Возвращает ранее составленное расписание
      * @param $user_id

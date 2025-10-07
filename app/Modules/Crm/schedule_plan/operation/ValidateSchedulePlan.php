@@ -30,6 +30,9 @@ class ValidateSchedulePlan extends AbstractOperation
         if (empty($card_data['subject'])) {
             $errors[] = ['subject' => 'Обязательное поле'];
         }
+        if (empty($card_data['format'])) {
+            $errors[] = ['format' => 'Обязательное поле'];
+        }
 
         if ($errors) {
             return $errors;
@@ -56,6 +59,17 @@ class ValidateSchedulePlan extends AbstractOperation
                         )
                     ) {
                         $errors[] = ['user' => 'Этот преподаватель пересекается с '.$schedule_data['cardName']];
+                        break;
+                    } elseif (
+                        $schedule_data['weekNumber'] == $card_data['weekNumber'] &&
+                        $schedule_data['weekDay'] == $card_data['weekDay'] &&
+                        $schedule_data['group'] == $card_data['group'] &&
+                        !(
+                            ($time_start > $valid_time_end && $time_end > $valid_time_start) ||
+                            ($valid_time_end > $time_start && $time_end < $valid_time_start)
+                        )
+                    ) {
+                        $errors[] = ['time_start' => 'В это время группа занята '.$schedule_data['cardName']];
                         break;
                     }
                 }

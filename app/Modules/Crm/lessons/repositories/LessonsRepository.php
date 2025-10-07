@@ -134,6 +134,15 @@ class LessonsRepository extends AbstractRepositories{
         return Lesson::where(['id'=>$id])->first();
     }
 
+    /**
+     * @param $user_id
+     * @return Lesson[]
+     */
+    public function getLessonsByUser($user_id)
+    {
+        return Lesson::where(['user_id'=>$user_id])->get();
+    }
+
     public function setLesson($lesson)
     {
         return $lesson->save();
@@ -194,6 +203,11 @@ class LessonsRepository extends AbstractRepositories{
     public function checkLessonByTeacherAndSubject($teacher, $subject)
     {
         return Lesson::where(['subject_id' => $subject, 'user_id' => $teacher])->count();
+    }
+
+    public function getLessonByTeacherAndSubject($teacher, $subject)
+    {
+        return Lesson::where(['subject_id' => $subject, 'user_id' => $teacher])->first();
     }
 
     /**

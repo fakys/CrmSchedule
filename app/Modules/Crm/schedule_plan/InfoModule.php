@@ -5,6 +5,7 @@ namespace App\Modules\Crm\schedule_plan;
 use App\Modules\Crm\schedule_plan\controllers\SchedulePlanController;
 use App\Modules\Crm\schedule_plan\controllers\SchedulePlanTypeController;
 use App\Modules\Crm\schedule_plan\operation\SchedulePlan;
+use App\Modules\Crm\schedule_plan\operation\SchedulePlanSave;
 use App\Modules\Crm\schedule_plan\operation\SchedulePlanType;
 use App\Modules\Crm\schedule_plan\operation\ValidateSchedulePlan;
 use App\Modules\Crm\schedule_plan\repositories\SchedulePlanRepository;
@@ -45,6 +46,7 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
         return [
             SchedulePlanType::class,
             SchedulePlan::class,
+            SchedulePlanSave::class,
             ValidateSchedulePlan::class,
         ];
     }

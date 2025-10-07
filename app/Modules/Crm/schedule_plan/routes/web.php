@@ -90,3 +90,11 @@ Route::post(
     "$module/validate-card",
     [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, 'validateCard']
 )->name("$module.validate_card");
+Route::post(
+    "$module/get-subject-input",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, 'getSubjectInput']
+)->name("$module.get_subject_input");
+Route::post(
+    "$module/set-plan-schedule",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, 'setPlanSchedule']
+)->name("$module.set_plan_schedule");

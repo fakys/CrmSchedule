@@ -4,8 +4,13 @@
     <script src="{{asset('assets/plugins/js/select2.js')}}"></script>
     <form>
         <div id="card_id_pair_form" data-card_id="{{$card_id}}"></div>
-        {{\App\Src\Html\Html::select_search('Преподаватель', 'user', $users, [$data['user']??null], 'users_select schedule-input', false, false)}}
-        {{\App\Src\Html\Html::select_search('Предмет', 'subject', $subject, [$data['subject']??null], 'subject_select schedule-input', false, false)}}
+        {{\App\Src\Html\Html::select_search('Преподаватель', 'user', $users, isset($data['user'])?[$data['user']]:[], 'users_select schedule-input', false, false)}}
+        <div class="subject-input-container">
+            @if($subject)
+                {{\App\Src\Html\Html::select_search('Предмет', 'subject', $subject, [$data['subject']], 'subject_select schedule-input', false)}}
+            @endif
+        </div>
+        {{\App\Src\Html\Html::select_search('Формат пары', 'format', $formats, [$format], 'format_select schedule-input', false, false)}}
         <div class="form-group">
             <label>Время начала</label>
             <input class="form-control-sm schedule-input" name="time_start" type="time" value="{{$data['time_start']??null}}">

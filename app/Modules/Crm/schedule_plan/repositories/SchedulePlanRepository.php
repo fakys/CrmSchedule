@@ -66,6 +66,7 @@ class SchedulePlanRepository extends AbstractRepositories
      * @param $semester_id
      * @param $plan_type_id
      * @param $lessons_id
+     * @param $format_id
      * @param $description
      * @return PlanSchedule|false
      */
@@ -76,6 +77,7 @@ class SchedulePlanRepository extends AbstractRepositories
         $semester_id,
         $plan_type_id,
         $lessons_id,
+        $format_id,
         $description = ''
     )
     {
@@ -86,6 +88,7 @@ class SchedulePlanRepository extends AbstractRepositories
         $schedule->plan_duration_lesson_id = $plan_duration_lesson_id;
         $schedule->description = $description;
         $schedule->lessons_id = $lessons_id;
+        $schedule->format_lesson_id = $format_id;
         $schedule->plan_type_id = $plan_type_id;
         if ($schedule->save()) {
             return $schedule;
@@ -121,6 +124,22 @@ class SchedulePlanRepository extends AbstractRepositories
     public function getFirstPlanSchedule($group_id, $semester_id)
     {
         return PlanSchedule::where(['semester_id'=>$semester_id, 'student_group_id'=>$group_id])->first();
+    }
+
+    /**
+     * Получает план по группам и семестру
+     * @param $groups_id
+     * @param $semester_id
+     * @return PlanSchedule[]
+     */
+    public function getPlanScheduleByGroups($groups_id, $semester_id)
+    {
+        return PlanSchedule::where(['semester_id'=>$semester_id, 'student_group_id'=>$groups_id])->get();
+    }
+
+    public function deletePlanScheduleByGroups($groups_id, $semester_id)
+    {
+        return PlanSchedule::where(['semester_id'=>$semester_id, 'student_group_id'=>$groups_id])->delete();
     }
 
     /**

@@ -180,9 +180,9 @@ class ScheduleManagerOperation extends AbstractOperation
     {
         $user_id = $unit->getUser() == 0 ? null : $unit->getUser();
         /** Создаем предмет */
-        $lesson = BackendHelper::getRepositories()->createLessons($unit->getSubject(), $unit->getFormatPair(), $user_id);
+        $lesson = BackendHelper::getRepositories()->getLessonByTeacherAndSubject($user_id, $unit->getSubject());
         if (!$lesson) {
-            throw new SchedulePlanAddException('Ошибка при создании предмета');
+            throw new SchedulePlanAddException('Не найдена связь предмета и преподавателя');
         }
 
         /** Длительность в минутах */

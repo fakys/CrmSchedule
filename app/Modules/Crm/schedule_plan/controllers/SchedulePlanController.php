@@ -5,6 +5,7 @@ namespace App\Modules\Crm\schedule_plan\controllers;
 use App\Modules\Crm\schedule\tasks\CashScheduleTask;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanModel;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
+use App\Modules\Crm\schedule_plan\src\SchedulePlanReturnData;
 use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
@@ -107,6 +108,7 @@ class SchedulePlanController extends AbstractController
     {
         $groups_id = request()->post('groups_id');
         $plan_type_id = request()->post('plan_type');
+        $semester_id = request()->post('semester_id');
         $plan = BackendHelper::getRepositories()->getSchedulePlanTypeById($plan_type_id);
         $data = [];
         foreach ($groups_id as $id) {
@@ -114,8 +116,15 @@ class SchedulePlanController extends AbstractController
         }
         $pairs = BackendHelper::getRepositories()->getNumberPair();
         $week_days = SchedulePlanTypeModel::WEEK_DAYS;
-        $cash_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(context()->getUser()->id);
-        return view('schedule_plan.constructor_schedule', compact('data', 'week_days', 'plan', 'pairs', 'cash_data'));
+        $schedule_data_db = BackendHelper::getRepositories()->getPlanScheduleByGroups($groups_id, $semester_id);
+        $schedule_data = null;
+        if (BackendHelper::getOperations()->getSchedulePlanCashByUserId(context()->getUser()->id)) {
+            $schedule_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(context()->getUser()->id);
+        } elseif ($schedule_data_db) {
+            $schedule_data = SchedulePlanReturnData::cardCacheFormat($schedule_data_db);
+        }
+
+        return view('schedule_plan.constructor_schedule', compact('data', 'week_days', 'plan', 'pairs', 'schedule_data'));
     }
 
     public function getGroupInput()
@@ -134,12 +143,22 @@ class SchedulePlanController extends AbstractController
         $card_id = request()->post('card_id');
         $users_obj = BackendHelper::getRepositories()->getAllTeachers();
         $users = [];
-        $subject = ArrayHelper::getColumn(BackendHelper::getRepositories()->getFullSubject(), 'name', 'id');
+        $subject = [];
+        $formats = ArrayHelper::getColumn(BackendHelper::getRepositories()->getFullFormatLessons(), 'name', 'id');
+        $format = $data['format']??null;
+
+        if ($data['user'] && $data['subject']) {
+            foreach (BackendHelper::getRepositories()->getLessonsByUser($data['user']) as $lesson) {
+                $sub = BackendHelper::getRepositories()->getSubjectById($lesson->subject_id);
+                $subject[$sub->id] = $sub->name;
+            }
+        }
+
         foreach ($users_obj as $user) {
             $users[$user->id] = $user->getFio();
         }
 
-        return view('schedule_plan.pair_from', compact('data', 'users', 'subject', 'card_id'));
+        return view('schedule_plan.pair_from', compact('data', 'users', 'subject', 'card_id', 'formats', 'format'));
     }
 
     public function setSchedulePlanCash()
@@ -151,22 +170,20 @@ class SchedulePlanController extends AbstractController
 
     public function deleteSession()
     {
-        $data = request()->post('data');
-        BackendHelper::getOperations()->setSchedulePlanCash($data);
+        BackendHelper::getOperations()->deleteSchedulePlanCashByUserId(context()->getUser()->id);
         return json_encode(['result'=>true]);
     }
 
     public function getNewCardName()
     {
         $teacher = BackendHelper::getRepositories()->getUserById(request()->post('user'));
-        $subject = BackendHelper::getRepositories()->getSubjectById(request()->post('subject'));
         $color = '';
         if ($teacher->getStyle()) {
             $color = $teacher->getStyle()->user_color;
         }
         return json_encode(['result'=>
             [
-                'card_name'=>sprintf('%s - %s', $teacher->getMinFio(), $subject->name),
+                'card_name'=>BackendHelper::getOperations()->cardName(request()->post('user'), request()->post('subject')),
                 'card_time' => sprintf('%s - %s', request()->post('time_start'), request()->post('time_end')),
                 'color' => $color
             ]
@@ -175,7 +192,31 @@ class SchedulePlanController extends AbstractController
 
     public function setPlanSchedule()
     {
+        $cash_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(context()->getUser()->id);
 
+        if ($cash_data) {
+            if (BackendHelper::getRepositories()->getPlanScheduleByGroups($cash_data['groups'], $cash_data['semester'])) {
+                BackendHelper::getRepositories()->deletePlanScheduleByGroups($cash_data['groups'], $cash_data['semester']);
+            }
+
+            foreach ($cash_data['schedule_data'] as $card_data) {
+                BackendHelper::getOperations()->saveSchedulePlan($card_data);
+            }
+        }
+        BackendHelper::getOperations()->deleteSchedulePlanCashByUserId(context()->getUser()->id);
+    }
+
+    public function getSubjectInput()
+    {
+        $lessons = BackendHelper::getRepositories()->getLessonsByUser(request()->post('teacher'));
+        $subjects = [];
+
+        foreach ($lessons as $lesson) {
+            $subject = BackendHelper::getRepositories()->getSubjectById($lesson->subject_id);
+            $subjects[$subject->id] = $subject->name;
+        }
+
+        return view('schedule_plan.subject_input', compact('subjects'));
     }
 
     public function validateCard()

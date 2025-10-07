@@ -568,6 +568,7 @@ interface RepositoryInterface{
      * @param $semester_id
      * @param $plan_type_id
      * @param $lessons_id
+     * @param $format_id
      * @param $description
      * @return PlanSchedule|false
      */
@@ -578,6 +579,7 @@ interface RepositoryInterface{
         $semester_id,
         $plan_type_id,
         $lessons_id,
+        $format_id,
         $description = ''
     );
 

@@ -3,7 +3,11 @@
  * @var \App\Entity\PairNumber[] $pairs
  */
 ?>
+
+
+<div id="get_subject_input" data-url="{{ route('schedule_plan.get_subject_input') }}"></div>
 <div id="get_form_for_pair" data-url="{{ route('schedule_plan.get_form_for_pair') }}"></div>
+<div id="set_plan_schedule" data-url="{{ route('schedule_plan.set_plan_schedule') }}"></div>
 <div id="set_schedule_plan_cash" data-url="{{ route('schedule_plan.set_schedule_plan_cash') }}"></div>
 <div id="get_new_card_name" data-url="{{ route('schedule_plan.get_new_card_name') }}"></div>
 <div id="validate_card" data-url="{{ route('schedule_plan.validate_card') }}"></div>
@@ -50,8 +54,8 @@
                                                     <div class="pair-number">{{$number_pair->name}}</div>
                                                 </div>
                                                 <div class="card-slot connectedSortable ui-sortable" data-week_day="{{$day}}" data-number="{{$number_pair->number}}" data-week_number="{{$key}}" data-group="{{$group->id}}">
-                                                    @if($cash_data)
-                                                        @foreach($cash_data['schedule_data'] as $card)
+                                                    @if($schedule_data)
+                                                        @foreach($schedule_data['schedule_data'] as $card)
                                                             @if($card['weekDay']==$day && $number_pair->number == $card['numberPair'] && $card['weekNumber']==$key && $card['group'] == $group->id)
                                                                     <?php $count += 1; ?>
                                                                 <div
@@ -62,6 +66,7 @@
 {{--                                                                    Все тут импользуется чисто при загрузке--}}
                                                                     data-time_start="{{$card['time_start']??null}}" data-time_end="{{$card['time_end']??null}}"
                                                                     data-description="{{$card['description']??null}}" data-group="{{$card['group']??null}}"
+                                                                    data-data-format="{{$card['format']??null}}"
                                                                     @if(isset($card['user'])) <?php $style = \App\Src\BackendHelper::getRepositories()->getStyleByUserId($card['user']);?> style="background: {{$style?$style->user_color:''}};" @endif
                                                                     class="pair-card pair-empty card mb-2 text-white @if(empty($card['user'])) bg-gradient-secondary @endif">
                                                                     <div class="card-header border-0 ui-sortable-handle"
