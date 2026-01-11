@@ -43,7 +43,7 @@
                                     <div class="card-header">
                                         <h3 class="card-title">{{ 'Неделя №'.$key }}</h3>
                                     </div>
-                                    <div class="card-body d-flex">
+                                    <div class="week-content">
                                         <div class="pair-numbers">
                                             <div class="pair-numbers-fix">
                                                 @foreach($pairs as $number_pair)
@@ -51,6 +51,7 @@
                                                 @endforeach
                                             </div>
                                         </div>
+                                        <div class="days-container">
                                         @foreach($week['week_end'] as $day => $week_end)
                                             <div class="day-container">
                                                 <div class="day-header">
@@ -106,10 +107,10 @@
                                     </div>
                                 </div>
 
-                            @endforeach
-
-                        </div>
-                    </div>
+                                        @endforeach
+                                        </div>
+                                    </div>
+                                </div>
                 </div>
             @endforeach
         </div>

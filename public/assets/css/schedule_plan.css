@@ -316,15 +316,36 @@
 }
 .pair-numbers{
     width: 100px;
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    padding-left: 10px;
+    flex-shrink: 0;
+    height: fit-content;
+    top: 0;
+}
+
+/* Контейнер содержимого недели */
+.week-content {
+    position: relative;
+    display: flex;
+}
+
+/* Контейнер дней с прокруткой */
+.days-container {
+    display: flex;
+    overflow-x: auto;
+    flex: 1;
+    gap: 10px;
+    padding: 0 10px;
 }
 .pair-numbers-fix {
-    position: sticky;
-    left: 100px;
     width: 100px;
     display: flex;
     gap: 130px;
     flex-direction: column;
     padding-top: 130px;
+    height: fit-content;
 }
 .pair-card:hover {
     border-color: #438eb9;
