@@ -30,18 +30,19 @@
         </div>
 
         <div class="schedule_dashboard_container">
-                <?php $count = 0; ?>
-                @foreach($data as $group)
+            <?php $count = 0; ?>
+            @foreach($data as $group)
                 <div class="schedule_dashboard">
                     <div class="dashboard_column card">
                         <div class="card-header bg-primary">
                             <h3 class="card-title text-white">{{ $group->name }}</h3>
                         </div>
-
-
-                        <div class="card-body p-0 weeks_container">
+                        <div class="card-body p-0">
                             @foreach($plan->getWeeks() as $key => $week)
-                                <div class="dashboard_column card week-data-column">
+                                <div class="dashboard_column card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">{{ 'Неделя №'.$key }}</h3>
+                                    </div>
                                     <div class="week-content">
                                         <div class="pair-numbers">
                                             <div class="pair-numbers-fix">
@@ -51,65 +52,65 @@
                                             </div>
                                         </div>
                                         <div class="days-container">
-                                        @foreach($week['week_end'] as $day => $week_end)
-                                            <div class="day-container">
-                                                <div class="day-header">
-                                                    <div>{{ $week_days[$day+1] }}</div>
-                                                    <div class="add_card">{{'Добавить'}}</div>
-                                                </div>
-                                                @foreach($pairs as $number_pair)
-                                                    <div class="d-flex flex-column align-items-center">
-                                                        <div class="card-slot connectedSortable ui-sortable" data-week_day="{{$day}}" data-number="{{$number_pair->number}}" data-week_number="{{$key}}" data-group="{{$group->id}}">
-                                                            @if($schedule_data)
-                                                                @foreach($schedule_data['schedule_data'] as $card)
-                                                                    @if($card['weekDay']==$day && $number_pair->number == $card['numberPair'] && $card['weekNumber']==$key && $card['group'] == $group->id)
-                                                                            <?php $count += 1; ?>
-                                                                        <div
-                                                                            data-week_day="{{$day}}" data-number="{{$number_pair->number}}"
-                                                                            data-week_number="{{$key}}" card_id="{{$count}}"
-                                                                            data-subject="{{$card['subject']}}"
-                                                                            data-user="{{$card['user']}}"
-                                                                            {{--                                                                    Все тут импользуется чисто при загрузке--}}
-                                                                            data-time_start="{{$card['time_start']??null}}" data-time_end="{{$card['time_end']??null}}"
-                                                                            data-description="{{$card['description']??null}}" data-group="{{$card['group']??null}}"
-                                                                            data-data-format="{{$card['format']??null}}"
-                                                                            @if(isset($card['user'])) <?php $style = \App\Src\BackendHelper::getRepositories()->getStyleByUserId($card['user']);?> style="background: {{$style?$style->user_color:''}};" @endif
-                                                                            class="pair-card pair-empty card mb-2 text-white @if(empty($card['user'])) bg-gradient-secondary @endif">
-                                                                            <div class="card-header border-0 ui-sortable-handle"
-                                                                                 style="cursor: move;">
-                                                                                <h3 class="card-pair-title">
-                                                                                    <i class="fa fa-users"
-                                                                                       aria-hidden="true"></i>
-                                                                                    <div class="card-name">
-                                                                                        {{$card['cardName']}}
-                                                                                    </div>
-                                                                                </h3>
-                                                                            </div>
-                                                                            <div class="card-body-pair" data-bs-toggle="modal"
-                                                                                 data-bs-target="#card_model_data">
-                                                                                <div class='card_time'>
-                                                                                    {{sprintf('%s - %s', $card['time_start']??null, $card['time_end']??null)}}
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="card-footer d-flex justify-content-center"><div class="btn btn-danger delete-card">Удалить карточку</div></div>
-                                                                        </div>
-                                                                        @break
-                                                                    @endif
-                                                                @endforeach
-                                                            @endif
-                                                        </div>
+                                            @foreach($week['week_end'] as $day => $week_end)
+                                                <div class="day-container">
+                                                    <div class="day-header">
+                                                        <div>{{ $week_days[$day+1] }}</div>
+                                                        <div class="add_card">{{'Добавить'}}</div>
                                                     </div>
-                                                @endforeach
+                                                    @foreach($pairs as $number_pair)
+                                                        <div class="d-flex flex-column align-items-center">
+                                                            <div class="card-slot connectedSortable ui-sortable" data-week_day="{{$day}}" data-number="{{$number_pair->number}}" data-week_number="{{$key}}" data-group="{{$group->id}}">
+                                                                @if($schedule_data)
+                                                                    @foreach($schedule_data['schedule_data'] as $card)
+                                                                        @if($card['weekDay']==$day && $number_pair->number == $card['numberPair'] && $card['weekNumber']==$key && $card['group'] == $group->id)
+                                                                                <?php $count += 1; ?>
+                                                                            <div
+                                                                                data-week_day="{{$day}}" data-number="{{$number_pair->number}}"
+                                                                                data-week_number="{{$key}}" card_id="{{$count}}"
+                                                                                data-subject="{{$card['subject']}}"
+                                                                                data-user="{{$card['user']}}"
+                                                                                {{--                                                                    Все тут импользуется чисто при загрузке--}}
+                                                                                data-time_start="{{$card['time_start']??null}}" data-time_end="{{$card['time_end']??null}}"
+                                                                                data-description="{{$card['description']??null}}" data-group="{{$card['group']??null}}"
+                                                                                data-format="{{$card['format']??null}}"
+                                                                                @if(isset($card['user'])) <?php $style = \App\Src\BackendHelper::getRepositories()->getStyleByUserId($card['user']);?> style="background: {{$style?$style->user_color:''}};" @endif
+                                                                                class="pair-card pair-empty card mb-2 text-white @if(empty($card['user'])) bg-gradient-secondary @endif">
+                                                                                <div class="card-header border-0 ui-sortable-handle"
+                                                                                     style="cursor: move;">
+                                                                                    <h3 class="card-pair-title">
+                                                                                        <i class="fa fa-users"
+                                                                                           aria-hidden="true"></i>
+                                                                                        <div class="card-name">
+                                                                                            {{$card['cardName']}}
+                                                                                        </div>
+                                                                                    </h3>
+                                                                                </div>
+                                                                                <div class="card-body-pair" data-bs-toggle="modal"
+                                                                                     data-bs-target="#card_model_data">
+                                                                                    <div class='card_time'>
+                                                                                        {{sprintf('%s - %s', $card['time_start']??null, $card['time_end']??null)}}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="card-footer d-flex justify-content-center"><div class="btn btn-danger delete-card">Удалить карточку</div></div>
+                                                                            </div>
+                                                                            @break
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
 
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-
-                                        @endforeach
+                                                </div>
+                                            @endforeach
                                         </div>
                                     </div>
+
+                                    @endforeach
                                 </div>
+                        </div>
+                    </div>
                 </div>
             @endforeach
         </div>

@@ -113,7 +113,6 @@ class SchedulePlan extends AbstractOperation{
     {
         $all_plans = BackendHelper::getRepositories()->getAllSchedulePlanBySemester($semester_id);
         $return_data = [];
-
         foreach ($all_plans as $data) {
             if (!in_array($data->id, $exception)) {
                 $duration = $data->getDuration();

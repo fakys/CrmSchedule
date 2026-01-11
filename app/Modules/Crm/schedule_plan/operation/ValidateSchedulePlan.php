@@ -46,6 +46,7 @@ class ValidateSchedulePlan extends AbstractOperation
         }
 
         if ($all_schedule_data) {
+
             foreach ($all_schedule_data as $schedule_data) {
                 if ($schedule_data['time_start'] && $schedule_data['time_end']) {
                     $valid_time_start = new \DateTime(date('Y-m-d').' '.$schedule_data['time_start']);

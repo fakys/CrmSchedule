@@ -6,6 +6,7 @@ use App\Modules\Crm\schedule_plan\src\SchedulePlanReturnData;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
 use App\Src\redis\RedisManager;
+use Illuminate\Support\Facades\DB;
 
 class SchedulePlanSave extends AbstractOperation
 {
@@ -31,40 +32,37 @@ class SchedulePlanSave extends AbstractOperation
             $schedule_obj = new SchedulePlanReturnData();
             $schedule_obj->cardFormater($card_data);
 
-            if (isset($schedule_obj)) {
-                $lesson = BackendHelper::getRepositories()->getLessonByTeacherAndSubject($schedule_obj->getUserId(), $schedule_obj->getSubject());
+            $lesson = BackendHelper::getRepositories()->getLessonByTeacherAndSubject($schedule_obj->getUserId(), $schedule_obj->getSubject());
 
-                if (!$lesson) {
-                    throw new SchedulePlanAddException('связь предмета и преподавателя не была найдена');
-                }
-                $pair_number = BackendHelper::getRepositories()->getPairByNumber($schedule_obj->getPairNumber());
-
-                if (!$pair_number) {
-                    throw new SchedulePlanAddException('Не найдена пара');
-                }
-
-                $duration = BackendHelper::getRepositories()->addPlanDurationLessons(
-                    $schedule_obj->getWeekDay(),
-                    $schedule_obj->getTimeStart(),
-                    $schedule_obj->getTimeEnd(),
-                    $schedule_obj->getWeekNumber()
-                );
-
-                if (empty($duration)) {
-                    throw new SchedulePlanAddException('Ошибка создания длительности пары');
-                }
-
-                BackendHelper::getRepositories()->addSchedulePlan(
-                    $duration->id,
-                    $pair_number->id,
-                    $schedule_obj->getGroupId(),
-                    $schedule_obj->getSemesterId(),
-                    $schedule_obj->getPlanTypeId(),
-                    $lesson->id,
-                    $schedule_obj->getFormat(),
-                    $schedule_obj->getDescription(),
-                );
+            if (!$lesson) {
+                throw new SchedulePlanAddException('связь предмета и преподавателя не была найдена');
             }
+            $pair_number = BackendHelper::getRepositories()->getPairByNumber($schedule_obj->getPairNumber());
+
+            if (!$pair_number) {
+                throw new SchedulePlanAddException('Не найдена пара');
+            }
+
+            $duration = BackendHelper::getRepositories()->addPlanDurationLessons(
+                $schedule_obj->getWeekDay(),
+                $schedule_obj->getTimeStart(),
+                $schedule_obj->getTimeEnd(),
+                $schedule_obj->getWeekNumber()
+            );
+
+            if (empty($duration)) {
+                throw new SchedulePlanAddException('Ошибка создания длительности пары');
+            }
+            BackendHelper::getRepositories()->addSchedulePlan(
+                $duration->id,
+                $pair_number->id,
+                $schedule_obj->getGroupId(),
+                $schedule_obj->getSemesterId(),
+                $schedule_obj->getPlanTypeId(),
+                $lesson->id,
+                $schedule_obj->getFormat(),
+                $schedule_obj->getDescription(),
+            );
         }
     }
 

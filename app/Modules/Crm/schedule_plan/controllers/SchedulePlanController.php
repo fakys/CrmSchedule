@@ -13,6 +13,7 @@ use App\Src\modules\controllers\AbstractController;
 use App\Src\modules\controllers\loaders\RmGroupLinkLoader;
 use App\Src\modules\controllers\loaders\RmLink;
 use App\Src\modules\controllers\RmGroupLoader;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -198,10 +199,11 @@ class SchedulePlanController extends AbstractController
             if (BackendHelper::getRepositories()->getPlanScheduleByGroups($cash_data['groups'], $cash_data['semester'])) {
                 BackendHelper::getRepositories()->deletePlanScheduleByGroups($cash_data['groups'], $cash_data['semester']);
             }
-
+            DB::beginTransaction();
             foreach ($cash_data['schedule_data'] as $card_data) {
                 BackendHelper::getOperations()->saveSchedulePlan($card_data);
             }
+            DB::commit();
         }
         BackendHelper::getOperations()->deleteSchedulePlanCashByUserId(context()->getUser()->id);
     }
