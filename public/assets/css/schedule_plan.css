@@ -161,15 +161,12 @@
     background: #ffffff;
     border-radius: 6px;
     margin-bottom: 5px;
+    flex-shrink: 0;
+    width: 200px;
 }
 .dashboard_column{
-    min-width: 250px;
+    width: 100%;
     flex-shrink: 0;
-}
-
-/* Недели внутри группы */
-.weeks_container .dashboard_column {
-    width: 280px;
 }
 
 .dashboard_column .card-header {
@@ -187,9 +184,19 @@
 }
 .schedule_dashboard_container{
     display: flex;
-    justify-content: space-around;
-    gap: 10px;
+    flex-direction: column;
+    gap: 15px;
     padding: 15px;
+    /* Убираем overflow отсюда */
+}
+
+/* Общие заголовки дней сверху */
+.common-days-headers {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e9ecef;
 }
 
 /* Контейнер расписания с неделями и днями */
@@ -329,15 +336,17 @@
 .week-content {
     position: relative;
     display: flex;
+    overflow-x: auto;
+    width: 100%;
 }
 
-/* Контейнер дней с прокруткой */
+/* Контейнер дней */
 .days-container {
     display: flex;
-    overflow-x: auto;
     flex: 1;
     gap: 10px;
     padding: 0 10px;
+    justify-content: center;
 }
 .pair-numbers-fix {
     width: 100px;
@@ -353,6 +362,57 @@
 
 .select2-container--open {
     z-index: 100000;
+}
+
+/* Общая колонка с названиями недель */
+.weeks-names-column {
+    width: 120px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.week-name-item {
+    background: #438eb9;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-align: center;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.week-name {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+}
+
+/* Контейнер с группами */
+.groups-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Неделя без заголовка */
+.week-data-column {
+    border: none;
+    box-shadow: none;
+}
+
+/* Общий контейнер с скроллом */
+.container_construct_schedule {
+    overflow: auto;
+    overflow-x: auto;
+    overflow-y: auto;
 }
 
 /* Контейнер для недель - горизонтально */

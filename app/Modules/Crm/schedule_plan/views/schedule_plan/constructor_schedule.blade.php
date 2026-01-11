@@ -30,19 +30,18 @@
         </div>
 
         <div class="schedule_dashboard_container">
-            <?php $count = 0; ?>
-            @foreach($data as $group)
+                <?php $count = 0; ?>
+                @foreach($data as $group)
                 <div class="schedule_dashboard">
                     <div class="dashboard_column card">
                         <div class="card-header bg-primary">
                             <h3 class="card-title text-white">{{ $group->name }}</h3>
                         </div>
-                        <div class="card-body p-0">
+
+
+                        <div class="card-body p-0 weeks_container">
                             @foreach($plan->getWeeks() as $key => $week)
-                                <div class="dashboard_column card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">{{ 'Неделя №'.$key }}</h3>
-                                    </div>
+                                <div class="dashboard_column card week-data-column">
                                     <div class="week-content">
                                         <div class="pair-numbers">
                                             <div class="pair-numbers-fix">
