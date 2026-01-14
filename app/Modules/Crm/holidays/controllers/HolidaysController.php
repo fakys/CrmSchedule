@@ -13,13 +13,13 @@ class HolidaysController extends Controller{
     public function actionIndex()
     {
         $holidays = BackendHelper::getOperations()->getHolidaysForTable();
-        return view('holidays.index', ['holidays' => $holidays]);
+        return view('holidays::holidays.index', ['holidays' => $holidays]);
     }
 
     public function actionAddHoliday()
     {
         $format = BackendHelper::getRepositories()->getFullFormatLessons();
-        return view('holidays.form_holiday', compact('format'));
+        return view('holidays::holidays.form_holiday', compact('format'));
     }
 
     public function addHoliday()
@@ -38,7 +38,7 @@ class HolidaysController extends Controller{
         $id = request()->get('id');
         $holiday = BackendHelper::getRepositories()->getHolidayById($id);
         $format = BackendHelper::getRepositories()->getFullFormatLessons();
-        return view('holidays.form_holiday', compact('format', 'holiday'));
+        return view('holidays::holidays.form_holiday', compact('format', 'holiday'));
     }
 
     public function editHoliday()

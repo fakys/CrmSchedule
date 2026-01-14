@@ -41,7 +41,7 @@ class SemestersController extends AbstractController {
         $semesters = BackendHelper::getOperations()->getSemesters();
         $title = 'Семестры';
         $nav_schedule = true;
-        return view('semesters.index', compact('semesters','title', 'nav_schedule'));
+        return view('schedule::semesters.index', compact('semesters','title', 'nav_schedule'));
     }
 
     /** Акшен создания семестров */
@@ -49,7 +49,7 @@ class SemestersController extends AbstractController {
     {
         $title = 'Добавить семестр';
         $nav_schedule = true;
-        return view('semesters.form', compact('title', 'nav_schedule'));
+        return view('schedule::semesters.form', compact('title', 'nav_schedule'));
     }
 
     /** Акшен сохранения семестров в бд */
@@ -82,7 +82,7 @@ class SemestersController extends AbstractController {
         $semester_id = request()->get('semester_id');
         $semester = BackendHelper::getRepositories()->getSemesterById($semester_id);
         $nav_schedule = true;
-        return view('semesters.form', compact('title', 'semester', 'nav_schedule'));
+        return view('schedule::semesters.form', compact('title', 'semester', 'nav_schedule'));
     }
 
     public function semestersEdit()

@@ -20,14 +20,14 @@ class UserGroupsController extends AbstractController {
     public function actionUserGroupsInfo()
     {
         $user_groups = BackendHelper::getRepositories()->getAllUsersGroup();
-        return view('user_groups.user_groups_info', [
+        return view('users_interface::user_groups.user_groups_info', [
             'title'=>'Группы пользователей', 'user_groups' => $user_groups, 'nav_users'=>true
         ]);
     }
     public function actionUserGroupsAdd()
     {
         $access = BackendHelper::getOperations()->getAccessForForm();
-        return view('user_groups.add_user_groups', ['title'=>'Группы пользователей', 'access' => $access]);
+        return view('users_interface::user_groups.add_user_groups', ['title'=>'Группы пользователей', 'access' => $access]);
     }
 
     /**
@@ -70,7 +70,7 @@ class UserGroupsController extends AbstractController {
             if($group){
                 $access = BackendHelper::getOperations()->getAccessForForm();
                 $access_data = ArrayHelper::valueIsKey($group->getAccesses());
-                return view('user_groups.add_user_groups', [
+                return view('users_interface::user_groups.add_user_groups', [
                     'title'=>'Группы пользователей',
                     'access' => $access,
                     'access_data' => $access_data,

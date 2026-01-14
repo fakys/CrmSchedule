@@ -6,6 +6,6 @@ use Illuminate\Routing\Controller;
 class InterfaceController extends Controller{
     public function actionIndex()
     {
-        return view('index');
+        return view('interface::index');
     }
 }

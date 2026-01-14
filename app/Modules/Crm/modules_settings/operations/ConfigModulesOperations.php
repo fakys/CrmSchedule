@@ -21,7 +21,7 @@ class ConfigModulesOperations extends AbstractOperation
         $modules = BackendHelper::getRepositories()->getFullModuleSettings();
         $info_modules = [];
         foreach ($modules as $name_module=>$module) {
-            $info_modules[]=['module'=>BackendHelper::getKernel()->getModulByName($module->name)->getModule(),'status_module'=>$module->active];
+            $info_modules[]=['module'=>BackendHelper::getKernel()->getModuleByName($module->name)->getModule(),'status_module'=>$module->active];
         }
         return $info_modules;
     }

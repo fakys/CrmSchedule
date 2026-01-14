@@ -33,7 +33,7 @@ class HolidaysPlugin extends AbstractPlugin
 
     public function Execute()
     {
-        if (BackendHelper::getKernel()->getModulByName('holidays')->getStatus()) {
+        if (BackendHelper::getKernel()->getModuleByName('holidays')->getStatus()) {
             $this->holiday_setting = BackendHelper::getSystemSettings('holiday_settings');
             $this->all_holidays = BackendHelper::getRepositories()->getAllHolidays();
             if ($this->schedule) {

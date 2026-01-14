@@ -8,21 +8,20 @@ use App\Src\modules\exceptions\BackendException;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\kernel\constructs\ConstructComponents;
 use App\Src\modules\kernel\constructs\ConstructControllers;
-use App\Src\modules\kernel\constructs\ConstructKernelModules;
 use App\Src\modules\kernel\entity\ComponentsEntity;
 use App\Src\modules\kernel\entity\ModuleEntity;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Collection;
 
 class KernelModules
 {
+    const MODULE_KEY = 'modules';
+    const KERNEL_KEY = 'kernel';
+
     /**
      * @var KernelModules
      */
     private static $kernel;
-
-    /**
-     * @var ModuleEntity[]
-     */
-    private $modules;
 
     /**
      * @var ConstructControllers
@@ -34,25 +33,30 @@ class KernelModules
      */
     private $construct_components;
 
-    /**
-     * @var ConstructKernelModules
-     */
-    private $construct_kernel_modules;
+    /** @var Application */
+    private $app;
 
 
     /** Инициализируем ядро */
-    public function __construct()
+    public function __construct($app)
     {
-        $this->constructModules();
+        $this->app = $app;
+    }
+
+    public function InitKernel()
+    {
         $this->constructModuleComponents();
         $this->constructControllers();
 
         $this->construct_components->beforeLoadKernel();
     }
 
-    private static function createKernel()
+    public static function createKernel($app)
     {
-        self::$kernel = new KernelModules();
+        if (!self::$kernel) {
+            self::$kernel = new KernelModules($app);
+        }
+        return self::$kernel;
     }
 
     /**
@@ -60,20 +64,7 @@ class KernelModules
      */
     public static function getKernelModule()
     {
-        if (!self::$kernel) {
-            self::createKernel();
-        }
-
         return self::$kernel;
-    }
-
-    /**
-     * @return ConstructKernelModules
-     */
-    private function constructModules()
-    {
-        $this->construct_kernel_modules = ConstructKernelModules::constructModules($this);
-        return $this->construct_kernel_modules;
     }
 
     /**
@@ -96,23 +87,6 @@ class KernelModules
     }
 
     /**
-     * @param ModuleEntity[] $modules
-     * @return void
-     */
-    public function setModules($modules)
-    {
-        $this->modules = $modules;
-    }
-
-    /**
-     * @return ModuleEntity[]
-     */
-    public function getModules()
-    {
-        return $this->modules;
-    }
-
-    /**
      * @return \App\Src\modules\controllers\ControllerLoader
      */
     public function getControllerLoader()
@@ -120,10 +94,12 @@ class KernelModules
         return $this->construct_controllers->getControllerLoaderForKernel();
     }
 
-    public function getModulByName($nameModule)
+    public function getModuleByName($nameModule)
     {
         try {
-            return $this->modules[$nameModule];
+            /** @var Collection $modules */
+            $modules = $this->getLaravelApp()->get(KernelModules::MODULE_KEY);
+            return $modules[$nameModule];
         } catch (\Exception $e) {
             throw new BackendException("Модуль по названию $nameModule ненайден");
         }
@@ -146,5 +122,18 @@ class KernelModules
     public function getComponentsByType($type)
     {
         return $this->construct_components->getComponentsForKernelByType($type);
+    }
+
+    /**
+     * @return Application
+     */
+    public function getLaravelApp()
+    {
+        return $this->app;
+    }
+
+    public function getModules()
+    {
+        return $this->app->get(KernelModules::MODULE_KEY);
     }
 }

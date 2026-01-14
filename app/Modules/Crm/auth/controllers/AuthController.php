@@ -6,11 +6,12 @@ use App\Src\BackendHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller;
+use Illuminate\Contracts\View\Factory as ViewFactory;
 
 class AuthController extends Controller {
     public function actionLogin()
     {
-        return view('login');
+        return view('auth::login');
     }
 
     public function login()

@@ -29,7 +29,7 @@ class StatusModulesOperation extends AbstractOperation
         $not_in_modules_status = [];
         foreach ($config_modules as $module) {
             if (!in_array($module, $arr_module)) {
-                $info_module = BackendHelper::getKernel()->getModulByName($module)->getModule();
+                $info_module = BackendHelper::getKernel()->getModuleByName($module)->getModule();
                 if($info_module){
                     $not_in_modules_status[] = $info_module->getNameModule();
                 }

@@ -34,7 +34,7 @@ class LessonsController extends AbstractController
     {
         $lessons = BackendHelper::getRepositories()->getAllLessonsInfo();
         $title = 'Предметы преподавателя';
-        return view('lessons.lessons_info', compact('lessons', 'title'));
+        return view('lessons::lessons.lessons_info', compact('lessons', 'title'));
     }
 
     public function setLesson()
@@ -64,7 +64,7 @@ class LessonsController extends AbstractController
         foreach (BackendHelper::getRepositories()->getAllTeachers() as $teacher) {
             $teachers[$teacher->id] = $teacher->getFio();
         }
-        return view('lessons.add_lesson', compact('title', 'subjects', 'teachers'));
+        return view('lessons::lessons.add_lesson', compact('title', 'subjects', 'teachers'));
     }
 
     /**
@@ -73,7 +73,7 @@ class LessonsController extends AbstractController
     public function actionNumberPair()
     {
         $pair_number = BackendHelper::getRepositories()->getNumberPair();
-        return view('lessons.pair_number', [
+        return view('lessons::lessons.pair_number', [
             'pair_number' => $pair_number,
             'title' => 'Последовательность пар',
             'nav_subject' => true
@@ -82,7 +82,7 @@ class LessonsController extends AbstractController
 
     public function actionAddNumberPair()
     {
-        return view('lessons.form_pair_number', [
+        return view('lessons::lessons.form_pair_number', [
             'title' => 'Добавить последовательность пар',
             'nav_subject' => true
         ]);
@@ -108,7 +108,7 @@ class LessonsController extends AbstractController
         if (!$number_pair) {
             abort(404);
         }
-        return view('lessons.form_pair_number', [
+        return view('lessons::lessons.form_pair_number', [
             'title' => 'Добавить последовательность пар',
             'number_pair' => $number_pair,
             'nav_subject' => true

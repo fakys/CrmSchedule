@@ -24,7 +24,7 @@ class AjaxController extends Controller
             request()->session()->put('schedule_manager_request', $model->getData());
         }
 
-        return view('schedule_manager.schedule_manager_menu', []);
+        return view('schedule::schedule_manager.schedule_manager_menu', []);
     }
 
     public function addScheduleManagerMenu()
@@ -40,7 +40,7 @@ class AjaxController extends Controller
             $pair_format = BackendHelper::getRepositories()->getFullFormatLessons();
             $student_groups = BackendHelper::getRepositories()->getFullStudentGroups();
             $use_cash = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName())->cash_schedule;
-            return view('schedule_manager.add_schedule', [
+            return view('schedule::schedule_manager.add_schedule', [
                 'schedules' => $schedules,
                 'subjects' => $subjects,
                 'pair_number' => $pair_number,
@@ -71,7 +71,7 @@ class AjaxController extends Controller
                 }
             }
         } catch (ScheduleEditValidException $exp) {
-            return view('schedule_manager.error_page', ['error_schedule'=>$model->error_schedule]);
+            return view('schedule::schedule_manager.error_page', ['error_schedule'=>$model->error_schedule]);
         }
 
         abort(500, 'Отсутствуют обязательные параметры');
@@ -98,7 +98,7 @@ class AjaxController extends Controller
             $users = BackendHelper::getRepositories()->getAllTeachers();
             $pair_format = BackendHelper::getRepositories()->getFullFormatLessons();
             $student_groups = BackendHelper::getRepositories()->getFullStudentGroups();
-            return view('schedule_manager.has_schedule', [
+            return view('schedule::schedule_manager.has_schedule', [
                 'schedules' => $schedules,
                 'subjects' => $subjects,
                 'pair_number' => $pair_number,

@@ -12,7 +12,9 @@
                 <form action="{{route('auth.login')}}" method="post">
                     @csrf
                     <div class="input-group mb-3">
-                        <input name="username" type="text" class="form-control @error('username') is-invalid @enderror" placeholder="Логин" value="{{old('username')}}">
+                        <input name="username" type="text" class="form-control
+{{--                        @error('username') is-invalid @enderror--}}
+                        " placeholder="Логин" value="{{old('username')}}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <i class="fa fa-user" aria-hidden="true"></i>

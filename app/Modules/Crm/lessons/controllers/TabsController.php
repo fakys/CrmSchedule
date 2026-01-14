@@ -21,7 +21,7 @@ class TabsController extends Controller
             request()->post('id')
         );
 
-        return view('lessons.tabs.lessons_info_tab', compact('lesson'));
+        return view('lessons::lessons.tabs.lessons_info_tab', compact('lesson'));
     }
 
     public function getEditLessonsInfoTab()
@@ -34,7 +34,7 @@ class TabsController extends Controller
         foreach (BackendHelper::getRepositories()->getAllTeachers() as $teacher) {
             $teachers[$teacher->id] = $teacher->getFio();
         }
-        return view('lessons.tabs.edit_lessons_info_tab', compact('subjects', 'teachers', 'lesson'));
+        return view('lessons::lessons.tabs.edit_lessons_info_tab', compact('subjects', 'teachers', 'lesson'));
     }
 
     public function editLessonsInfo()

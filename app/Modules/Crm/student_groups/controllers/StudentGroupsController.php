@@ -56,12 +56,12 @@ class StudentGroupsController extends AbstractController {
         $specialties = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllSpecialties(), 'name', 'id');
         $nav_students = true;
         $title = 'Все группы';
-        return view('groups.student_groups_info', compact('data', 'specialties', 'search_data', 'nav_students', 'title'));
+        return view('student_groups::groups.student_groups_info', compact('data', 'specialties', 'search_data', 'nav_students', 'title'));
     }
     public function actionAddGroup()
     {
         $specialties = BackendHelper::getRepositories()->getAllSpecialties();
-        return view('groups.add_group', ['specialties'=>$specialties, 'nav_operation'=>true]);
+        return view('student_groups::groups.add_group', ['specialties'=>$specialties, 'nav_operation'=>true]);
     }
 
     public function addGroup()

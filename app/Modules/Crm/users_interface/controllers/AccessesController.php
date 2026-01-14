@@ -36,6 +36,6 @@ class AccessesController extends AbstractController {
             }
         }
 
-        return view('accesses.index', ['data'=>$data, 'title'=>'Все доступы', 'nav_users'=>true]);
+        return view('users_interface::accesses.index', ['data'=>$data, 'title'=>'Все доступы', 'nav_users'=>true]);
     }
 }

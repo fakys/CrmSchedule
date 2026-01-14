@@ -63,6 +63,8 @@
     color: var(--c-main-white);
     border-radius:3px;
     padding: 2px;
+    display: flex;
+    justify-content: center;
 }
 .btn-main:hover{
     color: white;

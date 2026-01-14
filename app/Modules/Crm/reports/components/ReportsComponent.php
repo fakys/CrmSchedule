@@ -24,7 +24,7 @@ class ReportsComponent extends Component
 
     public function render(): View|Closure|string
     {
-        return view('components.reports_component',
+        return view('reports::components.reports_component',
             [
                 'fields'=>$this->fields,
                 'data'=>$this->data,

@@ -75,7 +75,7 @@ class SubjectsController extends AbstractController
             }
         }
 
-        return view('subjects.subjects_info', [
+        return view('lessons::subjects.subjects_info', [
             'subjects' => $subjects,
             'nav_subject' => true,
             'title' => 'Все предметы',

@@ -24,13 +24,13 @@ class ModulesSettingsController extends AbstractController {
     public function actionModulesSettings()
     {
         $modules = BackendHelper::getOperations()->getInfoModuleSettings();
-        return view('settings.modules_settings', compact('modules'));
+        return view('modules_settings::settings.modules_settings', compact('modules'));
     }
 
     public function actionAddModule()
     {
         $full_modules = ArrayHelper::valueIsKey(BackendHelper::getOperations()->getDataModuleInNotStatusModules());
-        return view('settings.add_module', compact('full_modules'));
+        return view('modules_settings::settings.add_module', compact('full_modules'));
     }
     public function saveModule()
     {

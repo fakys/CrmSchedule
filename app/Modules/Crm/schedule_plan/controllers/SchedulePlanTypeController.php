@@ -39,7 +39,7 @@ class SchedulePlanTypeController extends AbstractController {
     public function actionSchedulePlanType()
     {
         $types = BackendHelper::getRepositories()->allSchedulePlanType();
-        return view('schedule_plan_type.index', ['title'=>'Тип плана расписания', 'types'=>$types, 'nav_schedule' => true]);
+        return view('schedule_plan::schedule_plan_type.index', ['title'=>'Тип плана расписания', 'types'=>$types, 'nav_schedule' => true]);
     }
 
 
@@ -48,11 +48,11 @@ class SchedulePlanTypeController extends AbstractController {
         $operation = request()->post('operation_name');
         switch ($operation) {
             case 'add_schedule_plan_type':
-                return view('schedule_plan_type.schedule_plan_type');
+                return view('schedule_plan::schedule_plan_type.schedule_plan_type');
             default:
                 if (preg_match('/\[(\d+)\]/', $operation, $matches) && isset($matches[1])) {
                     $type = BackendHelper::getRepositories()->getSchedulePlanTypeById($matches[1]);
-                    return view('schedule_plan_type.schedule_plan_type', ['type'=>$type]);
+                    return view('schedule_plan::schedule_plan_type.schedule_plan_type', ['type'=>$type]);
                 }
                 break;
         }
@@ -65,7 +65,7 @@ class SchedulePlanTypeController extends AbstractController {
         $five_day = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName())->type_weeks == ScheduleSetting::FIVE_DAY;
         $number_week = request()->post('number_week');
         $week_data = request()->post('week_data');
-        return view('schedule_plan_type.form_add', compact('five_day', 'number_week', 'week_data'));
+        return view('schedule_plan::schedule_plan_type.form_add', compact('five_day', 'number_week', 'week_data'));
     }
 
     public function addSchedulePlanType()

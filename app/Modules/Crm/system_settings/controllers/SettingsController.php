@@ -54,7 +54,7 @@ class SettingsController extends AbstractController {
             'ru'=>'Русский',
             'en'=>'English'
         ];
-        return view('settings.crm_settings',
+        return view('system_settings::settings.crm_settings',
             compact('title', 'allTimezones', 'systemName', 'systemLang', 'setting'));
     }
 
@@ -83,7 +83,7 @@ class SettingsController extends AbstractController {
         $settings = BackendHelper::getSystemSettings(SystemSetting::getSettingName());
         $settings_group = ArrayHelper::arrayInt($settings->system_user_groups);
         $settings_users = ArrayHelper::arrayInt($settings->system_users);
-        return view('settings.system_settings', ['groups'=>$groups, 'users'=>$users, 'settings_group'=>$settings_group, 'settings_users'=>$settings_users]);
+        return view('system_settings::settings.system_settings', ['groups'=>$groups, 'users'=>$users, 'settings_group'=>$settings_group, 'settings_users'=>$settings_users]);
     }
 
     public function setSystemSettings()
@@ -106,7 +106,7 @@ class SettingsController extends AbstractController {
         $users_groups_settings = $settings->users_groups;
         $users_groups = BackendHelper::getRepositories()->getAllUsersGroup();
         $type_weeks = [1 => 'Шестидневка', 2 => 'Пятидневка'];
-        return view('settings.schedule_settings', [
+        return view('system_settings::settings.schedule_settings', [
             'users_groups'=>$users_groups,
             'users_groups_settings'=>$users_groups_settings,
             'type_weeks'=>$type_weeks,

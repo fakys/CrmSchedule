@@ -8,6 +8,7 @@
 <div id="get_subject_input" data-url="{{ route('schedule_plan.get_subject_input') }}"></div>
 <div id="get_form_for_pair" data-url="{{ route('schedule_plan.get_form_for_pair') }}"></div>
 <div id="set_plan_schedule" data-url="{{ route('schedule_plan.set_plan_schedule') }}"></div>
+<div id="download_template_url" data-url="{{ route('schedule_plan.download_template') }}"></div>
 <div id="set_schedule_plan_cash" data-url="{{ route('schedule_plan.set_schedule_plan_cash') }}"></div>
 <div id="get_new_card_name" data-url="{{ route('schedule_plan.get_new_card_name') }}"></div>
 <div id="validate_card" data-url="{{ route('schedule_plan.validate_card') }}"></div>
@@ -30,6 +31,16 @@
         </div>
 
         <div class="schedule_dashboard_container">
+            <div>
+                <div class="input-group d-flex flex-column gap-2" id="add_plan_schedule_excel">
+                    <label>Загрузить расписание через Excel:</label>
+                    <input type="file" class="form-control" style="width: 300px">
+                </div>
+                <div>
+                    <div class="text-primary cursor-pointer" id="download_template">Загрузить шаблон</div>
+                </div>
+            </div>
+
             <?php $count = 0; ?>
             @foreach($data as $group)
                 <div class="schedule_dashboard">

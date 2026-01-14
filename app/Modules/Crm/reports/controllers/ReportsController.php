@@ -58,7 +58,7 @@ class ReportsController extends AbstractController
             $data = BackendHelper::getOperations()->getReportsForGroup($current_semester->date_start." - ".$current_semester->date_end);
         }
         $search_data = request()->session()->get(ReportForGroupModel::REPORT_FOR_GROUP);
-        return view('reports.report_for_group', compact('data', 'students_groups', 'specialties', 'search_data', 'task_name'));
+        return view('reports::reports.report_for_group', compact('data', 'students_groups', 'specialties', 'search_data', 'task_name'));
     }
 
 
@@ -86,7 +86,7 @@ class ReportsController extends AbstractController
             }
             $search_data = request()->session()->get(ReportForTeachers::REPORT_FOR_GROUP);
 
-            return view('reports.report_for_teachers', compact('task_name', 'teachers', 'data', 'search_data'));
+            return view('reports::reports.report_for_teachers', compact('task_name', 'teachers', 'data', 'search_data'));
         } catch (\Throwable $exception) {
             dd($exception->getMessage() . $exception->getTraceAsString());
         }

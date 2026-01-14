@@ -29,7 +29,7 @@ class TabsController extends Controller
 
             ];
         }
-        return view('tabs.user_info_tabs', ['data' => $data]);
+        return view('users_interface::tabs.user_info_tabs', ['data' => $data]);
     }
 
     public function getEditUserInfoTabs()
@@ -44,7 +44,7 @@ class TabsController extends Controller
 
             ];
         }
-        return view('tabs.edit_user_info_tabs', ['data' => $data]);
+        return view('users_interface::tabs.edit_user_info_tabs', ['data' => $data]);
     }
 
     /**
@@ -76,7 +76,7 @@ class TabsController extends Controller
     {
         $id = request()->post('id');
         $user = BackendHelper::getRepositories()->getUserById($id);
-        return view('tabs.access_tabs', compact('user'));
+        return view('users_interface::tabs.access_tabs', compact('user'));
     }
 
     /**
@@ -104,7 +104,7 @@ class TabsController extends Controller
     {
         $users_groups = BackendHelper::getRepositories()->getAllUsersGroup();
         $user_in_group = BackendHelper::getRepositories()->getGroupsUserByUserId(request()->post('id'));
-        return view('tabs.user_groups', compact('users_groups', 'user_in_group'));
+        return view('users_interface::tabs.user_groups', compact('users_groups', 'user_in_group'));
     }
 
     /**
@@ -112,7 +112,7 @@ class TabsController extends Controller
      */
     public function getTabForStudentGroups()
     {
-        return view('tabs.student_groups_tab');
+        return view('users_interface::tabs.student_groups_tab');
     }
 
     public function getFullInfoStudentGroups()
@@ -121,7 +121,7 @@ class TabsController extends Controller
             $id = request()->post()['id'];
             $user_group = BackendHelper::getRepositories()->getStudentGroupById($id);
             $specialty = $user_group->getSpecialty()->get();
-            return view('tabs.get_full_info_student_groups', compact('user_group', 'specialty'));
+            return view('users_interface::tabs.get_full_info_student_groups', compact('user_group', 'specialty'));
         }
         abort(500);
     }
@@ -132,7 +132,7 @@ class TabsController extends Controller
             $id = request()->post()['id'];
             $user_group = BackendHelper::getRepositories()->getStudentGroupById($id);
             $specialty = $user_group->getSpecialty()->first();
-            return view('tabs.edit_full_info_student_groups', compact('user_group', 'specialty'));
+            return view('users_interface::tabs.edit_full_info_student_groups', compact('user_group', 'specialty'));
         }
         abort(500);
     }
@@ -166,7 +166,7 @@ class TabsController extends Controller
      */
     public function getTabForSubjects()
     {
-        return view('tabs.subjects_tabs');
+        return view('users_interface::tabs.subjects_tabs');
     }
 
     /**
@@ -177,7 +177,7 @@ class TabsController extends Controller
         if (request()->post()) {
             $id = request()->post()['id'];
             $subject = BackendHelper::getRepositories()->getSubjectById($id);
-            return view('tabs.get_subject_info', compact('subject'));
+            return view('users_interface::tabs.get_subject_info', compact('subject'));
         }
         abort(500);
     }
@@ -190,7 +190,7 @@ class TabsController extends Controller
         if (request()->post()) {
             $id = request()->post()['id'];
             $subject = BackendHelper::getRepositories()->getSubjectById($id);
-            return view('tabs.edit_subject_info', compact('subject'));
+            return view('users_interface::tabs.edit_subject_info', compact('subject'));
         }
         abort(500);
     }
@@ -212,7 +212,7 @@ class TabsController extends Controller
     public function userStyleTab()
     {
         $user = BackendHelper::getRepositories()->getUserById(request()->post('id'));
-        return view('tabs.user_style_tab', ['style' => $user->getStyle()]);
+        return view('users_interface::tabs.user_style_tab', ['style' => $user->getStyle()]);
     }
 
     public function setStyleTab()

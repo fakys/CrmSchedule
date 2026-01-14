@@ -5,6 +5,7 @@ namespace App\Modules\Crm\schedule_plan\controllers;
 use App\Modules\Crm\schedule\tasks\CashScheduleTask;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanModel;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
+use App\Modules\Crm\schedule_plan\src\ExcelPlanSchedule;
 use App\Modules\Crm\schedule_plan\src\SchedulePlanReturnData;
 use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Src\BackendHelper;
@@ -15,6 +16,7 @@ use App\Src\modules\controllers\loaders\RmLink;
 use App\Src\modules\controllers\RmGroupLoader;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class SchedulePlanController extends AbstractController
@@ -39,7 +41,7 @@ class SchedulePlanController extends AbstractController
         $kernel->getControllerLoader()
             ->RmGroup('rm_teachers')->RmGroupList('schedule_list')
             ->RmLink('schedule_plan')
-            ->setText('План на семестр')
+            ->setText('План на семестр (По группам)')
             ->setLink(route('schedule_plan.schedule_plan'));
     }
 
@@ -61,7 +63,7 @@ class SchedulePlanController extends AbstractController
         $semesters = BackendHelper::getRepositories()->getAllSemesters();
         $specialties = BackendHelper::getRepositories()->getAllSpecialties();
         $cash_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(context()->getUser()->id);
-        return view('schedule_plan.index', [
+        return view('schedule_plan::schedule_plan.index', [
             'title' => 'Плана расписания',
             'types' => $types,
             'cash_data' => $cash_data,
@@ -88,7 +90,7 @@ class SchedulePlanController extends AbstractController
     public function getTypeSchedulePlanForm()
     {
         $types = BackendHelper::getRepositories()->allSchedulePlanType();
-        return view('schedule_plan.type_schedule_plan_form', ['types' => $types]);
+        return view('schedule_plan::schedule_plan.type_schedule_plan_form', ['types' => $types]);
     }
 
     public function savePlanSchedule()
@@ -125,7 +127,7 @@ class SchedulePlanController extends AbstractController
             $schedule_data = SchedulePlanReturnData::cardCacheFormat($schedule_data_db);
         }
 
-        return view('schedule_plan.constructor_schedule', compact('data', 'week_days', 'plan', 'pairs', 'schedule_data'));
+        return view('schedule_plan::schedule_plan.constructor_schedule', compact('data', 'week_days', 'plan', 'pairs', 'schedule_data'));
     }
 
     public function getGroupInput()
@@ -135,7 +137,7 @@ class SchedulePlanController extends AbstractController
         $specialties = BackendHelper::getRepositories()->getSpecialtyById($specialties_id);
         $groups = ArrayHelper::getColumn($specialties->getGroups(), 'name', 'id');
         $plan_types = ArrayHelper::getColumn(BackendHelper::getRepositories()->allSchedulePlanType(), 'name', 'id');
-        return view('schedule_plan.group_input', compact('groups', 'plan_types', 'cash_data'));
+        return view('schedule_plan::schedule_plan.group_input', compact('groups', 'plan_types', 'cash_data'));
     }
 
     public function getFormForPair()
@@ -159,7 +161,7 @@ class SchedulePlanController extends AbstractController
             $users[$user->id] = $user->getFio();
         }
 
-        return view('schedule_plan.pair_from', compact('data', 'users', 'subject', 'card_id', 'formats', 'format'));
+        return view('schedule_plan::schedule_plan.pair_from', compact('data', 'users', 'subject', 'card_id', 'formats', 'format'));
     }
 
     public function setSchedulePlanCash()
@@ -218,7 +220,7 @@ class SchedulePlanController extends AbstractController
             $subjects[$subject->id] = $subject->name;
         }
 
-        return view('schedule_plan.subject_input', compact('subjects'));
+        return view('schedule_plan::schedule_plan.subject_input', compact('subjects'));
     }
 
     public function validateCard()
@@ -232,5 +234,17 @@ class SchedulePlanController extends AbstractController
         } else {
             return json_encode(['result'=>true, 'errors' => $data]);
         }
+    }
+
+    public function downloadTemplate()
+    {
+        $groups = BackendHelper::getRepositories()->getStudentGroupByQuery(
+            ['id', explode(',', request()->get('select_group'))],
+        );
+        dd($groups);
+        return Excel::download(new ExcelPlanSchedule(
+            $groups->toArray(),
+            $types[0]
+        ), 'schedule.xlsx');
     }
 }

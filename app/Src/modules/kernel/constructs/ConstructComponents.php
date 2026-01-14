@@ -11,6 +11,7 @@ use App\Src\modules\kernel\KernelModules;
 use App\Src\modules\operations\AbstractOperation;
 use App\Src\modules\repository\AbstractRepositories;
 use App\Src\traits\TraitObjects;
+use Illuminate\Support\Collection;
 
 
 /** Выполняет сборку компонентов для ядра */
@@ -48,7 +49,9 @@ class ConstructComponents
 
     public function collectComponentsByModulesForKernel()
     {
-        foreach ($this->kernel->getModules()??[] as $module) {
+        /** @var Collection $modules */
+        $modules = $this->kernel->getLaravelApp()->get(KernelModules::MODULE_KEY);
+        foreach ($modules as $module) {
             if ($module->getStatus()) {
                 foreach ($module->getModule()->operations() as $operation) {
                     $obj = new $operation($this->kernel);

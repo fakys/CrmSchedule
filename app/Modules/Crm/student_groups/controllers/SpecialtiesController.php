@@ -22,7 +22,7 @@ class SpecialtiesController extends AbstractController
     }
     public function actionAddSpecialty()
     {
-        return view('specialties.add_specialty', ['nav_operation'=>true]);
+        return view('student_groups::specialties.add_specialty', ['nav_operation'=>true]);
     }
 
     public function addSpecialty()

@@ -25,6 +25,6 @@ class UsersInterfaceController extends Controller
                 'email'=>'Email',
             ]
         ];
-        return view('users/users', compact('fields', 'data'));
+        return view('interface::users/users', compact('fields', 'data'));
     }
 }

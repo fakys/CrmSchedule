@@ -48,7 +48,11 @@
 
                     </div>
                 </div>
-                <div><div class="btn btn-main" id="add_plan_schedule">Составить расписание на семестр</div></div>
+                <div class="d-flex gap-2">
+                    <div>
+                        <div class="btn btn-main" id="add_plan_schedule">Составить расписание на семестр</div>
+                    </div>
+                </div>
                 <div class="pt-5">
                     <div id="constructor_schedule"></div>
                 </div>

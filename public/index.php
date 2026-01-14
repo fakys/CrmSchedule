@@ -22,8 +22,6 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
-// Инициализация ядра CRM
-require __DIR__.'/../app/Src/modules/kernel/init_kernel.php';
 //создаем контекст
 /**
  * @return Context

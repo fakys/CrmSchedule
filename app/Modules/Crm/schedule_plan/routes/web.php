@@ -98,3 +98,7 @@ Route::post(
     "$module/set-plan-schedule",
     [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, 'setPlanSchedule']
 )->name("$module.set_plan_schedule");
+Route::get(
+    "$module/download-template",
+    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, 'downloadTemplate']
+)->name("$module.download_template");

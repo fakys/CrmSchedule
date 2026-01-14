@@ -35,7 +35,7 @@ class ConstructControllers
 
     public function collectControllerByModulesForKernel()
     {
-        foreach ($this->kernel->getModules() as $module) {
+        foreach ($this->kernel->getLaravelApp()->get(KernelModules::MODULE_KEY) as $module) {
             foreach ($module->getModule()->controllers() as $controller) {
                 $this->controllers[] = $controller;
                 $controller::loadController($this->kernel);

@@ -45,7 +45,7 @@ class ScheduleController extends AbstractController
         $session_data = request()->session()->get('schedule_manager_request');
         $setting_weekend = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName())->type_weeks;
 
-        return view('schedule_manager.index', [
+        return view('schedule::schedule_manager.index', [
             'title' => 'Менеджер расписаний',
             'student_group' => $student_group,
             'specialties' => $specialties,

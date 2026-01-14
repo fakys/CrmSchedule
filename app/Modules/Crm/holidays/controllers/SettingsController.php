@@ -24,7 +24,7 @@ class SettingsController extends AbstractController
     public function actionIndex()
     {
         $setting = BackendHelper::getSystemSettings(HolidaySetting::getSettingName())->getSettings();
-        return view('settings.index_settings', compact('setting'));
+        return view('holidays::settings.index_settings', compact('setting'));
     }
 
     public function getHolidaysForm()
@@ -37,7 +37,7 @@ class SettingsController extends AbstractController
         $min_date->setDate($min_date->format('Y'), 1, 1);
         $max_date = new \DateTime();
         $max_date->setDate($min_date->format('Y'), 12, 31);
-        return view('settings.holidays_form', compact('number', 'for_settings', 'setting', 'format', 'min_date', 'max_date'));
+        return view('holidays::settings.holidays_form', compact('number', 'for_settings', 'setting', 'format', 'min_date', 'max_date'));
     }
 
     public function setHolidays()

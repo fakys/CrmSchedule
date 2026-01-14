@@ -123,6 +123,6 @@ class BackendHelper
      */
     public function checkModule($name)
     {
-        return self::getKernel()->getModulByName($name)->getStatus();
+        return self::getKernel()->getModuleByName($name)->getStatus();
     }
 }

@@ -49,7 +49,7 @@ class UsersController extends AbstractController {
         }
 
         $users_group = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllUsersGroup(), 'name', 'id');
-        return view('users.users_info', ['data' => $data, 'title'=>'Пользователи',
+        return view('users_interface::users.users_info', ['data' => $data, 'title'=>'Пользователи',
             'users_group'=>$users_group,
             'search_data'=>$search_data,
             'nav_users'=>true
@@ -65,7 +65,7 @@ class UsersController extends AbstractController {
     public function actionAddUser()
     {
         $users_group = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllUsersGroup(), 'name', 'id');
-        return view('users.add_user', ['users_group'=>$users_group, 'nav_operation'=>true]);
+        return view('users_interface::users.add_user', ['users_group'=>$users_group, 'nav_operation'=>true]);
     }
 
     public function addUser()
