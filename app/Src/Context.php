@@ -17,11 +17,6 @@ class Context extends AbstractContext
         return self::GetContextModule();
     }
 
-    public function StartProvider()
-    {
-        self::StartScheduleProvider();
-    }
-
     /**
      * Сохраняет доступы
      * @param AccessModel $access

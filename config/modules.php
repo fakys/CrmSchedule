@@ -3,28 +3,8 @@
 return [
     'base_namespace'=>"App\\Modules",
     'base_path'=>dirname(__DIR__)."/app/Modules",
-    'web_path'=>"routes/web.php",
     'public_modules'=>[
         'auth',
         'schedule_api'
-    ],
-    'modules'=>[
-        'Crm'=>[
-            'backend_module',
-            'holidays',
-            'interface',
-            'system_settings',
-            'modules_settings',
-            'users_interface',
-            'auth',
-            'lessons',
-            'schedule',
-            'student_groups',
-            'schedule_plan',
-            'reports'
-        ],
-        'RestApi'=>[
-            'schedule_api'
-        ]
     ],
 ];

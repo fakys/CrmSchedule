@@ -153,9 +153,4 @@ class ConstructComponents
         }
         return $data;
     }
-
-    public function beforeLoadKernel()
-    {
-
-    }
 }

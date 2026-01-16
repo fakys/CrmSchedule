@@ -51,10 +51,10 @@ class TaskManager{
      */
     public static function getFullTasks()
     {
-        $modules = BackendHelper::getFullModule();
+        $modules = BackendHelper::getKernel()->getModules();
         $arr_tasks = [];
         foreach ($modules as $module) {
-            $arr_tasks = array_merge($arr_tasks, $module::tasks());
+            $arr_tasks = array_merge($arr_tasks, $module->getModule()::tasks());
         }
         return self::objects($arr_tasks);
     }

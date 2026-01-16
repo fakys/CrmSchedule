@@ -15,7 +15,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . '/../views/layouts/', 'layout');
         $this->loadViewsFrom(__DIR__ . '/../Src/Html/views', 'Html');
-//        context()->StartProvider();
         $this->app->singleton(KernelModules::KERNEL_KEY, function ($app) {
             return KernelModules::createKernel($app);
         });

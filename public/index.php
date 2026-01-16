@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 require __DIR__.'/../vendor/autoload.php';
 
 
-
-
 define('LARAVEL_START', microtime(true));
 
 // Determine if the application is in maintenance mode...

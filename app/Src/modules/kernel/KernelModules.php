@@ -47,8 +47,6 @@ class KernelModules
     {
         $this->constructModuleComponents();
         $this->constructControllers();
-
-        $this->construct_components->beforeLoadKernel();
     }
 
     public static function createKernel($app)
@@ -94,6 +92,13 @@ class KernelModules
         return $this->construct_controllers->getControllerLoaderForKernel();
     }
 
+    /**
+     * @param string $nameModule
+     * @return ModuleEntity
+     * @throws BackendException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface\
+     */
     public function getModuleByName($nameModule)
     {
         try {
@@ -132,6 +137,11 @@ class KernelModules
         return $this->app;
     }
 
+    /**
+     * @return ModuleEntity[]
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function getModules()
     {
         return $this->app->get(KernelModules::MODULE_KEY);

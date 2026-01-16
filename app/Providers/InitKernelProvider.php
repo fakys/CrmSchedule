@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Entity\User;
 use App\Src\modules\kernel\KernelModules;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 

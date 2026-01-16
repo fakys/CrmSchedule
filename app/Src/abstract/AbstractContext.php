@@ -5,7 +5,7 @@ use App\Providers\ScheduleProvider;
 use App\Src\access\models\AccessModel;
 use App\Src\BackendHelper;
 use App\Src\helpers\StrHelper;
-use App\Src\modules\InfoModuleModel;
+use App\Src\modules\ModulesHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
@@ -45,17 +45,10 @@ abstract class AbstractContext{
     {
         $name_module = StrHelper::parse_uri($this->request->getRequestUri());
         if($name_module){
-            return InfoModuleModel::objects()->getContextModule($name_module);
+            return ModulesHelper::objects()->getContextModule($name_module);
         }else{
             throw new Exception("Модуль не найден. Вероятнее всего url был создан неверно, пример верного url 'module_name/url'", 404);
         }
-    }
-
-    protected function StartScheduleProvider()
-    {
-        $module = $this->GetContextModule();
-        $request = $this->request;
-        (new ScheduleProvider($request, $module))->register();
     }
 
     protected function setAccessContext($access)

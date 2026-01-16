@@ -6,7 +6,7 @@ use App\Modules\Crm\backend_module\interfaces\OperationsInterface;
 use App\Modules\Crm\backend_module\interfaces\RepositoryInterface;
 use App\Src\access\ContextAccessRoute;
 use App\Src\crons\TaskSchedule;
-use App\Src\modules\InfoModuleModel;
+use App\Src\modules\ModulesHelper;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\kernel\KernelModules;
 use App\Src\modules\operations\OperationsContext;
@@ -16,13 +16,6 @@ use App\Src\modules\task\AbstractTask;
 
 class BackendHelper
 {
-    /**
-     * @return InterfaceInfoModule[]
-     */
-    public static function getFullModule()
-    {
-        return InfoModuleModel::objects()->getFullInfoModules();
-    }
 
     /**
      * @return RepositoryInterface
