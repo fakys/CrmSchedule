@@ -39,9 +39,9 @@ class StudentGroupRepositories extends AbstractRepositories
      * @param $id
      * @return mixed
      */
-    public function getStudentGroupByQuery($query)
+    public function getStudentGroupByQuery($fields, $array)
     {
-        return StudentGroup::whereIn($query)->get();
+        return StudentGroup::whereIn($fields, $array)->get();
     }
 
     /**

@@ -3,16 +3,17 @@ namespace App\Modules\Crm\modules_settings\operations;
 
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
+use App\Src\modules\kernel\KernelModules;
 use App\Src\modules\operations\AbstractOperation;
 
 class ConfigModulesOperations extends AbstractOperation
 {
     public function getFullConfigModules()
     {
-        $modules = config('modules.modules');
+        $modules = app()->get(KernelModules::MODULE_KEY);
         $full_modules = [];
         foreach ($modules as $name_module=>$module) {
-            $full_modules = array_merge($module, $full_modules);
+            $full_modules[] = $name_module;
         }
         return $full_modules;
     }

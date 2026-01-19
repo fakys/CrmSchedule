@@ -239,12 +239,13 @@ class SchedulePlanController extends AbstractController
     public function downloadTemplate()
     {
         $groups = BackendHelper::getRepositories()->getStudentGroupByQuery(
-            ['id', explode(',', request()->get('select_group'))],
+            'id',
+            explode(',', request()->get('select_group')),
         );
-        dd($groups);
+        $type = BackendHelper::getRepositories()->getSchedulePlanTypeById(request()->get('plan_type'));
         return Excel::download(new ExcelPlanSchedule(
             $groups->toArray(),
-            $types[0]
+            $type
         ), 'schedule.xlsx');
     }
 }

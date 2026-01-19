@@ -45,7 +45,8 @@
     41 => 'App\\Modules\\Crm\\student_groups\\providers\\StudentGroupsProvider',
     42 => 'App\\Modules\\Crm\\system_settings\\providers\\SystemSettingsProvider',
     43 => 'App\\Modules\\Crm\\users_interface\\providers\\UsersInterfaceeProvider',
-    44 => 'App\\Providers\\InitKernelProvider',
+    44 => 'App\\Modules\\RestApi\\schedule_api\\providers\\RestApiProvider',
+    45 => 'App\\Providers\\InitKernelProvider',
   ),
   'eager' => 
   array (
@@ -78,7 +79,8 @@
     26 => 'App\\Modules\\Crm\\student_groups\\providers\\StudentGroupsProvider',
     27 => 'App\\Modules\\Crm\\system_settings\\providers\\SystemSettingsProvider',
     28 => 'App\\Modules\\Crm\\users_interface\\providers\\UsersInterfaceeProvider',
-    29 => 'App\\Providers\\InitKernelProvider',
+    29 => 'App\\Modules\\RestApi\\schedule_api\\providers\\RestApiProvider',
+    30 => 'App\\Providers\\InitKernelProvider',
   ),
   'deferred' => 
   array (
