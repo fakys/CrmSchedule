@@ -59,16 +59,16 @@ class SubjectsRepository extends AbstractRepositories
                 FROM subjects ";
         $arr_data = [];
 
-        if ($searchData['name'] || $searchData['full_name']) {
+        if ( isset($searchData['name']) && $searchData['name'] || isset($searchData['full_name']) && $searchData['full_name']) {
             $sql .= " WHERE";
         }
 
-        if ($searchData['name']) {
+        if (isset($searchData['name']) && $searchData['name']) {
             $sql .= " name = :name";
             $arr_data = [':name' => $searchData['name']];
         }
 
-        if ($searchData['full_name']) {
+        if (isset($searchData['full_name']) && $searchData['full_name']) {
             $sql .= " full_name = :full_name";
             $arr_data = [':full_name' => $searchData['full_name']];
         }

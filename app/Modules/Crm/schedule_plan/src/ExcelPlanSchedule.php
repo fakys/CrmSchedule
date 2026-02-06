@@ -18,6 +18,16 @@ class ExcelPlanSchedule implements FromArray, ShouldAutoSize
 
     private $plan_type;
 
+    const GROUP_STRING = 'Номер группы:';
+    const WEEK_STRING = '№Недели:';
+    const PAIR_NUMBER_STRING = '№Пары';
+    const USER_STRING = 'Преподаватель:';
+    const SUBJECT_STRING = 'Предмет:';
+    const FORMAT_STRING = 'Формат:';
+    const TIME_START_STRING = 'Время начала:';
+    const TIME_END_STRING = 'Время окончания:';
+    const DESCRIPTION_STRING = 'Описание:';
+
 
     /**
      * @param array $groups
@@ -38,14 +48,14 @@ class ExcelPlanSchedule implements FromArray, ShouldAutoSize
         $pairNumber = BackendHelper::getRepositories()->getNumberPair();
         foreach ($this->groups as $group) {
             $groupArr = [
-                ['Номер группы: '.$group['number']],
+                [self::GROUP_STRING.' '.$group['number']],
             ];
 
             foreach ($this->plan_type->getWeeks() as $weekNumber => $week) {
-                $weekArr = SchedulePlanTypeModel::WEEK_DAYS;
-                array_unshift($weekArr, '');
+                $weekArr = array_merge([self::PAIR_NUMBER_STRING], SchedulePlanTypeModel::WEEK_DAYS);
+
                 $groupArr = array_merge($groupArr, [
-                    ['№Недели: '.$weekNumber],
+                    [self::WEEK_STRING.' '.$weekNumber],
                     $weekArr
                 ]);
 
@@ -56,12 +66,18 @@ class ExcelPlanSchedule implements FromArray, ShouldAutoSize
                     for ($i = 0; $i < count($weekArr)-1; $i++) {
                         $scheduleArr = array_merge($scheduleArr, [
                             sprintf(
-                                'Преподаватель: %s; Предмет: %s; Формат: %s; Время начала: %s; Время окончания: %s; Описание: %s;',
+                                '%s %s; %s %s; %s %s; %s %s; %s %s; %s %s;',
+                                self::USER_STRING,
                                 self::NullString,
+                                self::SUBJECT_STRING,
                                 self::NullString,
+                                self::FORMAT_STRING,
                                 self::NullString,
+                                self::TIME_START_STRING,
                                 self::NullTime,
+                                self::TIME_END_STRING,
                                 self::NullTime,
+                                self::DESCRIPTION_STRING,
                                 self::NullString
                             ),
                         ]);

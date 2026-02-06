@@ -21,6 +21,15 @@
             </div>
             <div class="card-body">
                 <div>
+                    @error('file_error')
+                    <div class="error">
+                        <div style="font-size: 18px">Ошибки в загруженном файле: </div>
+                        <ul>
+                            <li>{{$message}}</li>
+                        </ul>
+
+                    </div>
+                    @enderror
                     @if($cash_data)<div class="d-flex justify-content-end">
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Удалить сессию

@@ -3,6 +3,7 @@
 namespace App\Modules\Crm\schedule_plan\controllers;
 
 use App\Modules\Crm\schedule\tasks\CashScheduleTask;
+use App\Modules\Crm\schedule_plan\models\SchedulePlanFileModel;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanModel;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
 use App\Modules\Crm\schedule_plan\src\ExcelPlanSchedule;
@@ -17,6 +18,8 @@ use App\Src\modules\controllers\RmGroupLoader;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use function Laravel\Prompts\error;
 
 
 class SchedulePlanController extends AbstractController
@@ -98,7 +101,7 @@ class SchedulePlanController extends AbstractController
         $model = new SchedulePlanModel();
         $model->load(request()->post());
         $validate = Validator::make($model->getData(), $model->rules());
-        if($validate->validate() && $model->validatePlan()){
+        if ($validate->validate() && $model->validatePlan()) {
             if (BackendHelper::getSystemSettings(ScheduleSetting::getSettingName())->cash_schedule) {
                 BackendHelper::taskCreate(CashScheduleTask::TASK_NAME);
             }
@@ -126,8 +129,19 @@ class SchedulePlanController extends AbstractController
         } elseif ($schedule_data_db) {
             $schedule_data = SchedulePlanReturnData::cardCacheFormat($schedule_data_db);
         }
-
-        return view('schedule_plan::schedule_plan.constructor_schedule', compact('data', 'week_days', 'plan', 'pairs', 'schedule_data'));
+        return view(
+            'schedule_plan::schedule_plan.constructor_schedule',
+            compact(
+                'data',
+                'week_days',
+                'plan',
+                'pairs',
+                'schedule_data',
+                'semester_id',
+                'groups_id',
+                'plan_type_id'
+            )
+        );
     }
 
     public function getGroupInput()
@@ -148,7 +162,7 @@ class SchedulePlanController extends AbstractController
         $users = [];
         $subject = [];
         $formats = ArrayHelper::getColumn(BackendHelper::getRepositories()->getFullFormatLessons(), 'name', 'id');
-        $format = $data['format']??null;
+        $format = $data['format'] ?? null;
 
         if ($data['user'] && $data['subject']) {
             foreach (BackendHelper::getRepositories()->getLessonsByUser($data['user']) as $lesson) {
@@ -168,13 +182,13 @@ class SchedulePlanController extends AbstractController
     {
         $data = request()->post('data');
         BackendHelper::getOperations()->setSchedulePlanCash($data);
-        return json_encode(['result'=>true]);
+        return json_encode(['result' => true]);
     }
 
     public function deleteSession()
     {
         BackendHelper::getOperations()->deleteSchedulePlanCashByUserId(context()->getUser()->id);
-        return json_encode(['result'=>true]);
+        return json_encode(['result' => true]);
     }
 
     public function getNewCardName()
@@ -184,9 +198,9 @@ class SchedulePlanController extends AbstractController
         if ($teacher->getStyle()) {
             $color = $teacher->getStyle()->user_color;
         }
-        return json_encode(['result'=>
+        return json_encode(['result' =>
             [
-                'card_name'=>BackendHelper::getOperations()->cardName(request()->post('user'), request()->post('subject')),
+                'card_name' => BackendHelper::getOperations()->cardName(request()->post('user'), request()->post('subject')),
                 'card_time' => sprintf('%s - %s', request()->post('time_start'), request()->post('time_end')),
                 'color' => $color
             ]
@@ -230,9 +244,9 @@ class SchedulePlanController extends AbstractController
         $data = BackendHelper::getOperations()->validateCard($card_data, $all_schedule_data);
 
         if ($data) {
-            return json_encode(['result'=>false, 'errors' => $data]);
+            return json_encode(['result' => false, 'errors' => $data]);
         } else {
-            return json_encode(['result'=>true, 'errors' => $data]);
+            return json_encode(['result' => true, 'errors' => $data]);
         }
     }
 
@@ -247,5 +261,42 @@ class SchedulePlanController extends AbstractController
             $groups->toArray(),
             $type
         ), 'schedule.xlsx');
+    }
+
+    public function downloadScheduleFile()
+    {
+
+        $model = new SchedulePlanFileModel();
+        $model->load(request()->all());
+        $validate = Validator::make($model->getData(), $model->rules());
+        if ($validate->validate()) {
+            try {
+                $file = request()->file('file');
+                $spreadsheet = IOFactory::load($file->getRealPath());
+                $schedule_data_file = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+                $schedule_data = BackendHelper::getOperations()->uploadFileSchedulePlan($schedule_data_file, $model->semester, $model->plan_type);
+                $group = BackendHelper::getRepositories()->getStudentGroupById($model->groups[0]);
+                BackendHelper::getOperations()->setSchedulePlanCash([
+                    'semester' => $model->semester,
+                    'groups' => is_array($model->groups)?$model->groups:[$model->groups],
+                    'specialties' => $group->specialty_id,
+                    'plan_type' => $model->plan_type,
+                    'schedule_data' => $schedule_data
+                ]);
+                BackendHelper::getOperations()->getSchedulePlanCashByUserId(context()->getUser()->id);
+                return redirect()->back();
+
+            } catch (\Throwable $throwable) {
+                dd($throwable);
+                $validate->errors()->add('file_error', 'Ошибка в содержимом файла: ' . $throwable->getMessage());
+                return redirect()->back()
+                    ->withErrors($validate)
+                    ->withInput();
+            }
+        }
+        $validate->errors()->add('file_error', 'Ошибка валидации');
+        return redirect()->back()
+            ->withErrors($validate)
+            ->withInput();
     }
 }

@@ -18,7 +18,6 @@ class SchedulePlanSave extends AbstractOperation
     public function saveSchedulePlan($card_data)
     {
         if (
-            isset($card_data['cardName']) &&
             isset($card_data['numberPair']) &&
             isset($card_data['weekDay']) &&
             isset($card_data['weekNumber']) &&

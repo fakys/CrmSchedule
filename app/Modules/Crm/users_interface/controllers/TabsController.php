@@ -14,7 +14,7 @@ class TabsController extends Controller
 
     public function getUsersTableTabs()
     {
-        return view('tabs.users_table_tabs');
+        return view('users_interface::tabs.users_table_tabs');
     }
 
     public function getUserInfoTabs()

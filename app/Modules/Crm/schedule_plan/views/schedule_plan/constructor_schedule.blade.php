@@ -32,10 +32,23 @@
 
         <div class="schedule_dashboard_container">
             <div>
-                <div class="input-group d-flex flex-column gap-2" id="add_plan_schedule_excel">
+                <form action="{{route('schedule_plan.download_schedule_file')}}" method="post" enctype="multipart/form-data" class="input-group d-flex flex-column gap-2" id="add_plan_schedule_excel">
+                    @csrf
                     <label>Загрузить расписание через Excel:</label>
-                    <input type="file" class="form-control" style="width: 300px">
-                </div>
+                    <div class="d-flex gap-3">
+                        <input type="number" name="semester" style="display: none" value="{{$semester_id}}">
+                        <input type="number" name="plan_type" style="display: none" value="{{$plan_type_id}}">
+                        <select multiple name="groups" style="display: none">
+                            @foreach($groups_id as $group)
+                                <option selected value="{{$group}}"></option>
+                            @endforeach
+                        </select>
+                        <input type="file" name="file" class="form-control" id="download_schedule_file_input" style="width: 300px">
+                        <div class="">
+                            <button type="submit" class="btn btn-secondary" id="download_schedule_file">Загрузить</button>
+                        </div>
+                    </div>
+                </form>
                 <div>
                     <div class="text-primary cursor-pointer" id="download_template">Загрузить шаблон</div>
                 </div>
@@ -74,6 +87,7 @@
                                                             <div class="card-slot connectedSortable ui-sortable" data-week_day="{{$day}}" data-number="{{$number_pair->number}}" data-week_number="{{$key}}" data-group="{{$group->id}}">
                                                                 @if($schedule_data)
                                                                     @foreach($schedule_data['schedule_data'] as $card)
+{{--                                                                        {{dd($group->id)}}--}}
                                                                         @if($card['weekDay']==$day && $number_pair->number == $card['numberPair'] && $card['weekNumber']==$key && $card['group'] == $group->id)
                                                                                 <?php $count += 1; ?>
                                                                             <div
@@ -93,7 +107,7 @@
                                                                                         <i class="fa fa-users"
                                                                                            aria-hidden="true"></i>
                                                                                         <div class="card-name">
-                                                                                            {{$card['cardName']}}
+                                                                                            {{$card['cardName']??''}}
                                                                                         </div>
                                                                                     </h3>
                                                                                 </div>

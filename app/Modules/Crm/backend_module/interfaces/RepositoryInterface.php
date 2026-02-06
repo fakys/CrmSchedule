@@ -204,12 +204,6 @@ interface RepositoryInterface{
      */
     public function createUserDocument($data, $user_id);
 
-    /**
-     * Выдает информацию по пользователю с поиском
-     * @param $data
-     * @return array
-     */
-    public function getFullUsersInfoSearch($data);
 
     /**
      * Создание специальности

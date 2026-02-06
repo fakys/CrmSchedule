@@ -97,11 +97,20 @@ class LessonsRepository extends AbstractRepositories{
 
     /**
      * Возвращает формат по id
-     * @return FormatLesson[]
+     * @return FormatLesson
      */
     public function getFormatLessonsById($id)
     {
         return FormatLesson::where(['id'=>$id])->first();
+    }
+
+    /**
+     * Возвращает формат по id
+     * @return FormatLesson
+     */
+    public function getFormatLessonsByName($name)
+    {
+        return FormatLesson::where(['name'=>$name])->first();
     }
 
     /**

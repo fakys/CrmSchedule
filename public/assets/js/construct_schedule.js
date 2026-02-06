@@ -375,4 +375,19 @@ $(document).ready(function () {
             "select_group=" + $('.select_group').val()
         )
     })
+
+    $('#download_schedule_file').on('click', function () {
+        let file = $('#download_schedule_file_input').val()
+        $.ajax({
+            url: $('#set_plan_schedule').data('url'),
+            method: 'post',
+            data: {'_token': csrf, 'file':file},
+            success: function (data) {
+
+            },
+            error: function (err) {
+                error_alert(err.responseJSON.message)
+            }
+        });
+    })
 })

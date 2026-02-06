@@ -12,7 +12,7 @@ class TabsController extends Controller
 {
     public function getTabsByLesson()
     {
-        return view('lessons.tabs.get_tabs');
+        return view('lessons::lessons.tabs.get_tabs');
     }
 
     public function getLessonsInfoTab()
