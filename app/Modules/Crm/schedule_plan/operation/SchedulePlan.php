@@ -146,7 +146,7 @@ class SchedulePlan extends AbstractOperation{
     public function setSchedulePlanCash($data)
     {
         $redis = new RedisManager();
-        $redis->redis->set(self::SchedulePlanRedis, json_encode([context()->getUser()->id => $data]), ['EX' => 3600]);
+        $redis->redis->set(self::SchedulePlanRedis, json_encode([BackendHelper::getKernel()->getContext()->getUser()->id => $data]), ['EX' => 3600]);
     }
 
     public function deleteSchedulePlanCashByUserId($user_id)

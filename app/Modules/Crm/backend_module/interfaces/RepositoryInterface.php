@@ -23,6 +23,7 @@ use App\Entity\UserInfo;
 use App\Modules\Crm\backend_module\repositories\CronRepository;
 use App\Modules\Crm\backend_module\repositories\TaskRepository;
 use App\Modules\Crm\lessons\repositories\LessonsRepository;
+use App\Modules\Crm\modules_settings\repositories\ModulesRepository;
 use App\Modules\Crm\reports\repositories\ReportsRepository;
 use App\Modules\Crm\schedule\models\SemestersModel;
 use App\Modules\Crm\schedule\repositories\ScheduleRepository;
@@ -40,6 +41,7 @@ use App\Modules\Crm\users_interface\repositories\UsersRepositories;
  * @mixin StudentGroupRepositories
  * @mixin SchedulePlanRepository
  * @mixin LessonsRepository
+ * @mixin ModulesRepository
  *
  */
 interface RepositoryInterface{

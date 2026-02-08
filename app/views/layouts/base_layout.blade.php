@@ -148,7 +148,7 @@ use App\Src\BackendHelper
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
-                    @foreach(BackendHelper::getKernel()->getControllerLoader()->getAllRmGroups() as $rm_group)
+                    @foreach(BackendHelper::getKernel()->getControllerLoader()->AllRmGroups() as $rm_group)
                         <li class="nav-item menu-is-opening menu-open rm-group-container">
                             <div class="nav-link rm-group">
                                 <i class="{{$rm_group->getIcon()}} nav-icon" aria-hidden="true"></i>

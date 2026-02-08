@@ -42,3 +42,8 @@ RUN chmod 0644 /etc/cron.d/schedule-cron && \
     chown root:root /etc/cron.d/schedule-cron && \
     touch /var/log/cron_schedule.log && \
     chmod 0666 /var/log/cron_schedule.log
+
+RUN addgroup --gid 1000 app_group && \
+    adduser --disabled-password --gecos '' --uid 1000 --gid 1000 app_user
+
+USER app_user

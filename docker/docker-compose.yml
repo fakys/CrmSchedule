@@ -4,6 +4,7 @@ services:
 
     nginx:
         image: nginx:latest
+        container_name: schedule_nginx
         volumes:
             - ./nginx/conf.d:/etc/nginx/conf.d
             - ../:/var/app/
@@ -13,6 +14,7 @@ services:
             -   app
 
     app:
+        container_name: schedule_app
         build:
             context: .
             dockerfile: App/Dockerfile
@@ -23,6 +25,7 @@ services:
 
     db:
         image: postgres:latest
+        container_name: schedule_pgsql
         environment:
             POSTGRES_DB: "schedule"
             POSTGRES_USER: "schedule"
@@ -34,6 +37,7 @@ services:
 
     pgadmin4:
         image: elestio/pgadmin:latest
+        container_name: schedule_pgadmin4
         environment:
             PGADMIN_DEFAULT_EMAIL: 'fakysgg@gmail.com'
             PGADMIN_DEFAULT_PASSWORD: 'root'
@@ -44,6 +48,7 @@ services:
 
     redis:
         image: redis:latest
+        container_name: schedule_redis
         ports:
             - "6379:6379"
         environment:
@@ -57,6 +62,7 @@ services:
 
     rabbitmq:
         image: rabbitmq:3.8
+        container_name: schedule_rabbitmq
         depends_on:
             - app
         ports:

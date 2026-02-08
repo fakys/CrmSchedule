@@ -9,6 +9,8 @@ use App\Middleware\ModulesMiddleware;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\kernel\entity\ModuleEntity;
 use App\Src\modules\kernel\KernelModules;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use function Webmozart\Assert\Tests\StaticAnalysis\inArray;
@@ -70,8 +72,8 @@ abstract class AbstractModulesProvider extends ServiceProvider
     //Регистрируем миграции
     private function registrationMigration()
     {
-        if (is_dir($this->module_path . $this->migrationPath())) {
-            $this->loadMigrationsFrom($this->module_path . $this->migrationPath());
+        if (is_dir($this->module_path . DIRECTORY_SEPARATOR . $this->migrationPath())) {
+            $this->loadMigrationsFrom($this->module_path . DIRECTORY_SEPARATOR . $this->migrationPath());
         }
     }
 
@@ -107,24 +109,19 @@ abstract class AbstractModulesProvider extends ServiceProvider
         $this->registrationMigration();
         $this->registrationRoutes();
         $this->registrationViews();
-    }
 
-    /**
-     * Регистрируем модуль
-     * Bootstrap services.
-     */
-    public function boot(): void
-    {
         $modules = $this->app->get(KernelModules::MODULE_KEY);
         /** @var InterfaceInfoModule $module */
         $module = new ($this->moduleModel())();
         $module_entity = new ModuleEntity($module);
         $modules[$module::getNameModule()] = $module_entity;
+    }
 
-        /** @var StatusModules $status */
-        $status = StatusModules::where(['name' => $module->getNameModule()])->first();
-        if ($status) {
-            $module_entity->setStatus($status->active);
-        }
+    /**
+     * Bootstrap services.
+     */
+    public function boot(): void
+    {
+
     }
 }

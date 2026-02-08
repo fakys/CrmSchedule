@@ -66,7 +66,7 @@ class SettingsController extends AbstractController {
         if(request()->post() && $validate->validate()){
             $settings = json_encode($model->getData());
             BackendHelper::getOperations()->createSystemSettings(
-                ['name'=>CrmSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>context()->getUser()->id, 'active'=>true]
+                ['name'=>CrmSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>BackendHelper::getKernel()->getContext()->getUser()->id, 'active'=>true]
             );
         }
         return redirect()->route('system_settings.crm_settings');
@@ -94,7 +94,7 @@ class SettingsController extends AbstractController {
         if($validate->validate() || (!$validate->validate() && !$model->getData())){
             $settings = json_encode($model->getData());
             BackendHelper::getOperations()->createSystemSettings(
-                ['name'=>SystemSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>context()->getUser()->id, 'active'=>true]
+                ['name'=>SystemSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>BackendHelper::getKernel()->getContext()->getUser()->id, 'active'=>true]
             );
         }
         return redirect()->route('system_settings.settings');
@@ -122,7 +122,7 @@ class SettingsController extends AbstractController {
         if($validate->validate() || (!$validate->validate() && !$model->getData())){
             $settings = json_encode($model->getData());
             BackendHelper::getOperations()->createSystemSettings(
-                ['name'=>ScheduleSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>context()->getUser()->id, 'active'=>true]
+                ['name'=>ScheduleSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>BackendHelper::getKernel()->getContext()->getUser()->id, 'active'=>true]
             );
         }
         return redirect()->route('system_settings.schedule_settings');

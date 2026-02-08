@@ -46,7 +46,7 @@ class SettingsController extends AbstractController
         $model->load(request()->post());
         $model->holidayValidate();
         return BackendHelper::getOperations()->createSystemSettings(
-            ['name'=>HolidaySetting::getSettingName(), 'settings'=>$model->getData(), 'create_user_id'=>context()->getUser()->id, 'active'=>true]
+            ['name'=>HolidaySetting::getSettingName(), 'settings'=>$model->getData(), 'create_user_id'=>BackendHelper::getKernel()->getContext()->getUser()->id, 'active'=>true]
         );
     }
 }

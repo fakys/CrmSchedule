@@ -28,6 +28,19 @@ class ModulesRepository extends AbstractRepositories {
         return $module->save();
     }
 
+    /**
+     * @return StatusModules[]
+     */
+    public function getAllActiveModules()
+    {
+        return StatusModules::where(['active'=>true])->get();
+    }
+
+    public function clearModules()
+    {
+        StatusModules::truncate();
+    }
+
     public function getName(): string
     {
         return 'modules_repository';

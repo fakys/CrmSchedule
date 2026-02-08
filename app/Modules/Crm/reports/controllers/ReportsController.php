@@ -101,7 +101,7 @@ class ReportsController extends AbstractController
     public function exportReport()
     {
         if (request()->post()) {
-            BackendHelper::taskCreate(request()->post('task_name'), array_merge(request()->post(), ['userName'=>context()->getUser()->username]));
+            BackendHelper::taskCreate(request()->post('task_name'), array_merge(request()->post(), ['userName'=>BackendHelper::getKernel()->getContext()->getUser()->username]));
             return true;
         }
     }
@@ -113,7 +113,7 @@ class ReportsController extends AbstractController
     public function checkExport()
     {
         $task_name = request()->post('task_name');
-        $user_name = context()->getUser()->username;
+        $user_name = BackendHelper::getKernel()->getContext()->getUser()->username;
         return BackendHelper::getOperations()->checkExportTask($task_name, $user_name);
     }
 
@@ -124,7 +124,7 @@ class ReportsController extends AbstractController
     public function downloadFile()
     {
         $task_name = request()->get('task_name');
-        $user_name = context()->getUser()->username;
+        $user_name = BackendHelper::getKernel()->getContext()->getUser()->username;
 
         if (Storage::has(sprintf('reports/%s_%s.%s', $task_name, $user_name, ExportExcel::XLSX))) {
 
