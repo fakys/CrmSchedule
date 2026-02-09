@@ -1,9 +1,6 @@
 @extends('layout::base_layout')
 @section('css_files')
-    <link rel="stylesheet" href="{{asset('assets/plugins/css/litepicker.css')}}">
-    <script src="{{asset('assets/plugins/js/litepicker.js')}}"></script>
-    <link rel="stylesheet" href="{{asset('assets/css/holidays.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/plugins/css/daterangepicker.css')}}">
+    @vite(App\Modules\Crm\holidays\assets\HolidayFormBundle::CssFiles())
 @endsection
 
 @section('content')
@@ -69,43 +66,42 @@
 @endsection
 
 @section('js_files')
-    <script src="{{asset('assets/modules/holidays/holidays.js')}}"></script>
-    <script src="{{asset('assets/plugins/js/select2.js')}}"></script>
-    <script src="{{asset('assets/plugins/js/moment.min.js')}}"></script>
-    <script src="{{asset('assets/plugins/js/jquery.inputmask.min.js')}}"></script>
-    <script src="{{asset('assets/plugins/js/daterangepicker.js')}}"></script>
+    @vite(App\Modules\Crm\holidays\assets\HolidayFormBundle::JsFiles())
     <script>
-        //Date range picker
-        $('#period').daterangepicker({
-            "locale": {
-                "format": "DD.MM.YYYY",
-                "separator": " - ",
-                "applyLabel": "Сохранить",
-                "cancelLabel": "Назад",
-                "daysOfWeek": [
-                    "Вс",
-                    "Пн",
-                    "Вт",
-                    "Ср",
-                    "Чт",
-                    "Пт",
-                    "Сб"
-                ],
-                "monthNames": [
-                    "Январь",
-                    "Февраль",
-                    "Март",
-                    "Апрель",
-                    "Май",
-                    "Июнь",
-                    "Июль",
-                    "Август",
-                    "Сентябрь",
-                    "Октябрь",
-                    "Ноябрь",
-                    "Декабрь"
-                ],
-                "firstDay": 1,
-            }});
+        //Почему-то сломалось
+        $(document).ready(function () {
+            //Date range picker
+            $('#period').daterangepicker({
+                "locale": {
+                    "format": "DD.MM.YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Сохранить",
+                    "cancelLabel": "Назад",
+                    "daysOfWeek": [
+                        "Вс",
+                        "Пн",
+                        "Вт",
+                        "Ср",
+                        "Чт",
+                        "Пт",
+                        "Сб"
+                    ],
+                    "monthNames": [
+                        "Январь",
+                        "Февраль",
+                        "Март",
+                        "Апрель",
+                        "Май",
+                        "Июнь",
+                        "Июль",
+                        "Август",
+                        "Сентябрь",
+                        "Октябрь",
+                        "Ноябрь",
+                        "Декабрь"
+                    ],
+                    "firstDay": 1,
+                }});
+        })
     </script>
 @endsection

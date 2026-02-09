@@ -6,4 +6,4 @@
     <div><button class="btn-main" id="bnt_save">Сохранить</button></div>
 </div>
 
-<script src="{{asset('assets/modules/lessons/edit_lessons_info.js')}}"></script>
+@vite(App\Modules\Crm\lessons\assets\EditInfoLessonsBundle::JsFiles())

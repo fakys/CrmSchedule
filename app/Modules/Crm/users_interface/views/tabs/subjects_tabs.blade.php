@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="{{asset('assets/css/tabs.css')}}">
-<link rel="stylesheet" href="{{asset('assets/css/tabs/student_groups.css')}}">
+@vite('resources/tabs/tabs.css')
+@vite('resources/tabs/student_groups.css')
 <div>
     @csrf
     <div class="tabs-container">
@@ -24,4 +24,3 @@
     </div>
     <div class="tabs-content"></div>
 </div>
-<script src="{{asset('assets/js/tabs/tabs.js')}}"></script>

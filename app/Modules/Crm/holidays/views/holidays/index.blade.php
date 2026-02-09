@@ -1,8 +1,6 @@
 @extends('layout::base_layout')
 @section('css_files')
-    <link rel="stylesheet" href="{{asset('assets/plugins/css/litepicker.css')}}">
-    <script src="{{asset('assets/plugins/js/litepicker.js')}}"></script>
-    <link rel="stylesheet" href="{{asset('assets/css/holidays.css')}}">
+    @vite(App\Modules\Crm\holidays\assets\HolidayIndexBundle::CssFiles())
 @endsection
 
 @section('content')
@@ -61,5 +59,5 @@
 @endsection
 
 @section('js_files')
-    <script src="{{asset('assets/modules/holidays/holidays.js')}}"></script>
+    @vite(App\Modules\Crm\holidays\assets\HolidayIndexBundle::JsFiles())
 @endsection

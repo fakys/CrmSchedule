@@ -8,14 +8,12 @@ use App\Src\BackendHelper
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{isset($title)?$title:'CRM'}}</title>
-    <link rel="stylesheet" href="{{asset('assets/layouts/css/adminlte.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/plugins/css/all.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/plugins/Html/css/styles.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/layouts/css/base_layout.css')}}">
+    @vite(App\Assets\LayoutBundle::CssFiles())
     @yield('css_files')
 </head>
 <body class="hold-transition sidebar-mini">
 @csrf
+
 <div id="access_route" data-url="{{route('users_interface.check_accesses')}}"></div>
 <div class="wrapper">
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -222,8 +220,6 @@ use App\Src\BackendHelper
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
-        <!-- jQuery -->
-        <script src="{{asset('assets/plugins/js/jquery.min.js')}}"></script>
         <!-- Main content -->
         <div class="content">
             <!-- alert -->
@@ -237,7 +233,10 @@ use App\Src\BackendHelper
                     </div>
                 </div>
             </div>
+
+{{--            Убрать!!!!!!!!!!--}}
             <script src="{{asset('assets/js/alert.js')}}"></script>
+            @vite('resources/plugins/js/jquery.min.js')
 
             @yield('content')
         </div>
@@ -262,15 +261,7 @@ use App\Src\BackendHelper
 </div>
 <!-- ./wrapper -->
 
-<!-- Accesses -->
-<script src="{{asset('assets/js/accesses.js')}}"></script>
-<!-- REQUIRED SCRIPTS -->
-<script src="{{asset('assets/js/base.js')}}"></script>
-<!-- Bootstrap -->
-<script src="{{asset('assets/plugins/js/bootstrap.min.js')}}"></script>
-<!-- AdminLTE -->
-<script src="{{asset('assets/layouts/js/adminlte.js')}}"></script>
-
+@vite(App\Assets\LayoutBundle::JsFiles())
 @yield('js_files')
 </body>
 </html>

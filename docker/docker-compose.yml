@@ -60,6 +60,17 @@ services:
             - ../redis:/data
             - ../redis.conf:/usr/local/etc/redis/redis.conf
 
+    node:
+        build:
+            dockerfile: node/Dockerfile
+        container_name: schedule_node
+        user: 'node'
+        tty: true
+        ports:
+            - "5173:5173"
+        volumes:
+            - ../:/var/app/
+
     rabbitmq:
         image: rabbitmq:3.8
         container_name: schedule_rabbitmq

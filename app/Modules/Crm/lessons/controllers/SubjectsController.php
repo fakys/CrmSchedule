@@ -36,12 +36,13 @@ class SubjectsController extends AbstractController
             ->setIcon('fa fa-cogs')
             ->setText('Операции')
             ->RmLink('add_subject_operation')
-            ->setText('Добавить предмет');
+            ->setText('Добавить предмет')
+            ->setLink(route('lessons.action_add_subject'));
     }
 
     public function actionAddSubject()
     {
-        return view('subjects.add_subject', ['nav_operation' => true]);
+        return view('lessons::subjects.add_subject', ['nav_operation' => true]);
     }
 
     public function addSubject()

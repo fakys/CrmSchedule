@@ -81,7 +81,7 @@
             });
             $('#period_{{$number}}').val('{{$data['period']}}')
         </script>
-        <script src="{{asset('assets/modules/holidays/holidays_form.js')}}"></script>
+        @vite(App\Modules\Crm\holidays\assets\HolidaySettingsFormBundle::JsFiles())
     @endforeach
 @else
     <div class="card holiday-form" number="{{$number}}" data-number="{{$number}}">
@@ -113,7 +113,7 @@
             </div>
         </div>
     </div>
-    <script src="{{asset('assets/modules/holidays/holidays_form.js')}}"></script>
+    @vite(App\Modules\Crm\holidays\assets\HolidaySettingsFormBundle::JsFiles())
     <script>
         new Litepicker({
             element: document.getElementById('period_{{$number}}'),

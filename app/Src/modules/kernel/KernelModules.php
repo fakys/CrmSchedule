@@ -90,7 +90,7 @@ class KernelModules
 
     private function checkStatusModule()
     {
-        foreach ($this->app->get(self::MODULE_KEY) as $module_entity) {
+        foreach ($this->app->get(self::MODULE_KEY) as $module_name => $module_entity) {
             //Если модуль обязательный всегда подгружаем его
             if ($module_entity->getModule()->requiredModule()) {
                 $module_entity->setStatus(true);
@@ -102,7 +102,7 @@ class KernelModules
                 if ($status) {
                     $module_entity->setStatus($status->active);
                 }
-                return;
+                continue;
             }
             $module_entity->setStatus(true);
         }

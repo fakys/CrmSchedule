@@ -5,10 +5,6 @@
         <div class="alert alert-main  d-none" role="alert">
             Изменения сохранены
         </div>
-        {{\App\Src\Html\Html::nav_tabs([
-            ['name'=>'Статус модулей', 'url'=>route('modules_settings.settings'), 'active'=>true],
-            ['name'=>'Добавить модуль', 'url'=>route('modules_settings.add_module')]
-        ])}}
         <div class="card">
             <form action="{{route('modules_settings.save_status_modules')}}" class="card-body form-settings-module">
                 <table class="table">
@@ -57,5 +53,5 @@
 @endsection
 
 @section('js_files')
-    <script src="{{asset('assets/js/modules_settings.js')}}"></script>
+    @vite(App\Modules\Crm\modules_settings\assets\SystemSettingsBundle::JsFiles())
 @endsection

@@ -1,7 +1,7 @@
 @extends("layout::base_layout")
 
 @section('js_files')
-    <script src="{{asset('assets/js/search_form.js')}}"></script>
+    @vite(\App\Assets\SearchFormBundle::JsFiles())
 @endsection
 
 @section('content')
@@ -29,6 +29,7 @@
                         <div class="btn-main ml-auto clear-btn-user-info"><i class="fa fa-times" aria-hidden="true"></i> Очистить</div><input type="submit" class="btn-main" value="Найти">
                     </div>
                 </form>
+
                 {{\App\Src\Html\Html::js_table([
     'name'=>'Название', 'full_name'=>'Полное название',
      'description'=>'Описание', 'created_at'=>'Дата добавления']

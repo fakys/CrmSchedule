@@ -11,7 +11,11 @@ docker-compose -f docker/docker-compose.yml up -d
 ```shell script
 docker compose -f docker/docker-compose.yml exec app bash -c "composer install && php artisan migrate && php artisan key:generate && php artisan app:build-modules"
 ```
-4. Засев бд данными:
+4. Включаем vite:
+```shell script
+docker compose -f docker/docker-compose.yml exec node sh -c "npm install && npm run dev"
+```
+5. Засев бд данными:
 ```shell script
 docker exec -i schedule_pgsql psql -U schedule -d schedule < docker/postgres/seeder_base_data/seeder_base_data.sql
 ```

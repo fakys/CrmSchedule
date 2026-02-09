@@ -44,9 +44,4 @@
         </div>
     </div>
 </div>
-<script src="{{asset('assets/plugins/js/jquery.inputmask.min.js')}}"></script>
-<script src="{{asset('assets/js/tabs/edits/edit_tabs.js')}}"></script>
-<script src="{{asset('assets/plugins/js/moment.min.js')}}"></script>
-<script>
-    $('[data-mask]').inputmask()
-</script>
+@vite(App\Modules\Crm\lessons\assets\EditInfoLessonsTabBundle::JsFiles())

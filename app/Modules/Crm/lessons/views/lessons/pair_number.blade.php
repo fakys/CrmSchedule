@@ -1,10 +1,10 @@
 @extends("layout::base_layout")
 @section('css_files')
-    <link rel="stylesheet" href="{{asset('assets/css/user_groups_info.css')}}">
+    @vite(App\Modules\Crm\lessons\assets\PairNumberBundle::CssFiles())
 @endsection
 
 @section('js_files')
-    <script src="{{asset('assets/js/pair_number.js')}}"></script>
+    @vite(App\Modules\Crm\lessons\assets\PairNumberBundle::JsFiles())
 @endsection
 
 @section('content')

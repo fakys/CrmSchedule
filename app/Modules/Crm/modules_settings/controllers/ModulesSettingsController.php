@@ -26,12 +26,6 @@ class ModulesSettingsController extends AbstractController {
         $modules = BackendHelper::getOperations()->getInfoModuleSettings();
         return view('modules_settings::settings.modules_settings', compact('modules'));
     }
-
-    public function actionAddModule()
-    {
-        $full_modules = ArrayHelper::valueIsKey(BackendHelper::getOperations()->getDataModuleInNotStatusModules());
-        return view('modules_settings::settings.add_module', compact('full_modules'));
-    }
     public function saveModule()
     {
         if(isset(request()->post()['modules'])){

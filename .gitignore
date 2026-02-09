@@ -26,3 +26,4 @@ redis
 storage/framework
 redis.conf
 rabbitmq
+./node_modules

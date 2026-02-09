@@ -15,15 +15,6 @@ AccessRoute::access("{$module}_settings")->route(
     )->name("$module.settings")
 );
 
-AccessRoute::access("{$module}_add_module")->route(
-    Route::get("$module/add-module/",
-        [
-            \App\Modules\Crm\modules_settings\controllers\ModulesSettingsController::class,
-            'actionAddModule'
-        ]
-    )->name("$module.add_module")
-);
-
 AccessRoute::access("{$module}_save_module")->route(
     Route::post("$module/save-module/",
         [

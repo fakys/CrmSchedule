@@ -1,5 +1,4 @@
-<link rel="stylesheet" href="{{asset('assets/css/tabs.css')}}">
-<link rel="stylesheet" href="{{asset('assets/css/tabs/student_groups.css')}}">
+@vite(App\Modules\Crm\lessons\assets\LessonsTabBundle::CssFiles())
 <div>
     @csrf
     <div class="tabs-container">
@@ -18,4 +17,4 @@
     </div>
     <div class="tabs-content"></div>
 </div>
-<script src="{{asset('assets/js/tabs/tabs.js')}}"></script>
+@vite(App\Modules\Crm\lessons\assets\LessonsTabBundle::JsFiles())
