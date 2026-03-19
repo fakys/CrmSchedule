@@ -1,0 +1,27 @@
+.delete-panel-user-group{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgb(163, 163, 163, 30%);
+    z-index: 99999999;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.open-delete-panel-user-group{
+    display: flex;
+}
+
+
+#student_groups_info .tabs-btn-icon, #edit_student_groups_info .tabs-btn-icon{
+    color: var(--c-blue);
+}
+#student_groups_schedule .tabs-btn-icon, #edit_student_groups_schedule .tabs-btn-icon{
+    color:#198754FF;
+}
+#student_groups_all_subjects .tabs-btn-icon{
+    color: #FD7E14FF;
+}

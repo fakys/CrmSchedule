@@ -221,7 +221,7 @@ class SchedulePlanController extends AbstractController
             }
             DB::commit();
         }
-        BackendHelper::getOperations()->deleteSchedulePlanCashByUserId(context()->getUser()->id);
+        BackendHelper::getOperations()->deleteSchedulePlanCashByUserId();
     }
 
     public function getSubjectInput()

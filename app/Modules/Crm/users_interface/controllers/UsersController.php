@@ -35,6 +35,7 @@ class UsersController extends AbstractController {
 
         if (request()->method() == 'POST') {
             $data = BackendHelper::getRepositories()->getFullUsersInfoSearch(request()->post());
+            dd($data);
             if($search_data){
                 request()->session()->forget('search-user-info');
             }

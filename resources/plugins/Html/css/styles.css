@@ -1,0 +1,7 @@
+.mini-select{
+    width: 75px;
+}
+.form-group-container{
+    display: flex;
+    gap: 10px;
+}

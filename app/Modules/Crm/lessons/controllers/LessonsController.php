@@ -19,7 +19,8 @@ class LessonsController extends AbstractController
             ->RmGroup('rm_administrator')
             ->RmGroupList('operations')
             ->RmLink('add_number_pair_operation')
-            ->setText('Последовательность пар');
+            ->setText('Последовательность пар')
+            ->setLink(route('lessons.pair_number'));
 
         $kernel->getControllerLoader()
             ->RmGroup('rm_teachers')

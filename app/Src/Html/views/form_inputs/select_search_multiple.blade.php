@@ -8,7 +8,7 @@
             @endif
             <select name="{{$name}}" class="duallistbox {{$class}}" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
                 @foreach($data as  $key=>$val)
-                    @if(in_array($key, $value))
+                    @if($value && in_array($key, $value))
                         <option value="{{$key}}" selected>{{$val}}</option>
                     @else
                         <option value="{{$key}}">{{$val}}</option>

@@ -81,7 +81,7 @@ class UsersRepositories extends AbstractRepositories
         if ($login || $fio || $number || $email || $inn || $groups) {
             $sql .= " WHERE ".implode(" AND ", $sql_arr);
         }
-
+        dd($sql);
         return DB::select($sql, $arr_params);
     }
 

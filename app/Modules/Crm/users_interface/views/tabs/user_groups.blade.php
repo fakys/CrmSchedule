@@ -10,7 +10,7 @@
             }}
         </div>
         <div class="d-flex justify-content-center pb-3">
-            <div class="btn-main save-groups" data-url="http://localhost:9000/users_interface/tabs/set-users-group-tabs">Сохранить</div>
+            <div class="btn-main save-groups" data-url="{{route('users_interface.add_user_groups')}}">Сохранить</div>
         </div>
     </div>
 </div>
