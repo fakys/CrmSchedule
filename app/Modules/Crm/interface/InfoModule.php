@@ -63,9 +63,4 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     {
         return [];
     }
-
-    public static function requiredModule()
-    {
-        return true;
-    }
 }

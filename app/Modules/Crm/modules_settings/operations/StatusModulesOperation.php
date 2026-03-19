@@ -2,7 +2,6 @@
 namespace App\Modules\Crm\modules_settings\operations;
 
 use App\Src\BackendHelper;
-use App\Src\modules\kernel\KernelModules;
 use App\Src\modules\operations\AbstractOperation;
 
 class StatusModulesOperation extends AbstractOperation
@@ -42,11 +41,6 @@ class StatusModulesOperation extends AbstractOperation
     public function checkStatusModule($name_module)
     {
         $module = BackendHelper::getRepositories()->getModules(['name'=>$name_module]);
-        foreach (app(KernelModules::MODULE_KEY) as $mod) {
-            if ($mod->getModule()->getNameModule() == $name_module && $mod->getModule()->requiredModule()) {
-                return true;
-            }
-        }
         if($module->count()&&$module[0]->active){
             return true;
         }

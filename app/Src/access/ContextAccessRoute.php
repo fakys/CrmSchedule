@@ -16,7 +16,7 @@ class ContextAccessRoute extends AbstractAccessRoute
 
     public function __construct()
     {
-        $this->accesses = BackendHelper::getKernel()->getContext()->getAccesses();
+        $this->accesses = context()->getAccesses();
     }
     public function getAccessByNameRoute($name)
     {
@@ -31,7 +31,7 @@ class ContextAccessRoute extends AbstractAccessRoute
     public static function getByUriAccess($uri)
     {
         $uri = StrHelper::delete_first_slash($uri);
-        $accesses = BackendHelper::getKernel()->getContext()->getAccesses();
+        $accesses = context()->getAccesses();
         foreach ($accesses as $access) {
             if($access->getRoute() && $access->getRoute()->uri() == $uri) {
                 return $access;
@@ -82,7 +82,7 @@ class ContextAccessRoute extends AbstractAccessRoute
      */
     public function checkAccessByNameRoute($name)
     {
-        $user = BackendHelper::getKernel()->getContext()->getUser();
+        $user = context()->getUser();
         if($this->checkSystemUser($user)){
             return true;
         }

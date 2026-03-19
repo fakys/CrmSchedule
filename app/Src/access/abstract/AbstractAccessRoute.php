@@ -32,7 +32,7 @@ abstract class AbstractAccessRoute
         if (
             $this->access && $this->access->getAccess()
         ) {
-            BackendHelper::getKernel()->getContext()->setAccess($this->access);
+            context()->setAccess($this->access);
         }
     }
 

@@ -19,14 +19,14 @@ services:
         volumes:
             - ../:/var/app/
         depends_on:
-            - db
+            - dataBase
 
-    db:
+    dataBase:
         image: postgres:latest
         environment:
-            POSTGRES_DB: "schedule"
-            POSTGRES_USER: "schedule"
-            POSTGRES_PASSWORD: "root"
+            POSTGRES_DB: 'laravel'
+            POSTGRES_USER: 'laravel'
+            POSTGRES_PASSWORD: 'root'
         ports:
             - 5432:5432
         volumes:
@@ -38,7 +38,7 @@ services:
             PGADMIN_DEFAULT_EMAIL: 'fakysgg@gmail.com'
             PGADMIN_DEFAULT_PASSWORD: 'root'
         depends_on:
-            - db
+            - dataBase
         ports:
             - "5050:80"
 

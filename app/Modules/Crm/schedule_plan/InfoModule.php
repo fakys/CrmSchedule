@@ -84,9 +84,4 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
             SchedulePlanTypeController::class
         ];
     }
-
-    public static function requiredModule()
-    {
-        return true;
-    }
 }

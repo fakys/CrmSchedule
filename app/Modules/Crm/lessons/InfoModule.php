@@ -78,9 +78,4 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
             LessonsController::class
         ];
     }
-
-    public static function requiredModule()
-    {
-        return true;
-    }
 }

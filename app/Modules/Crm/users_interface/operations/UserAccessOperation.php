@@ -8,7 +8,7 @@ class UserAccessOperation extends AbstractOperation {
 
     public function getAccessForForm()
     {
-        $accesses = BackendHelper::getKernel()->getContext()->getAccesses();
+        $accesses = context()->getAccesses();
         $new_accesses = [];
         foreach ($accesses as $access) {
             $new_accesses[$access->getAccess()] = $access->getAccess();
@@ -43,8 +43,8 @@ class UserAccessOperation extends AbstractOperation {
      */
     public function hasAccessesByUrl($url)
     {
-        $user = BackendHelper::getKernel()->getContext()->getUser();
-        $full_access = BackendHelper::getKernel()->getContext()->getAccesses();
+        $user = context()->getUser();
+        $full_access = context()->getAccesses();
         $user_access = BackendHelper::getOperations()->getFullAccessByUserId($user->id);
         $data_access = [];
 

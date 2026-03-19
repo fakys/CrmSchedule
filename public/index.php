@@ -20,4 +20,13 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
+//создаем контекст
+/**
+ * @return Context
+ */
+function context()
+{
+    return Context::GetContext(Request::capture());
+}
+
 ($app)->handleRequest(Request::capture());

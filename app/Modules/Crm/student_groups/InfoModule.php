@@ -73,9 +73,4 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
             StudentGroupsController::class,
         ];
     }
-
-    public static function requiredModule()
-    {
-        return true;
-    }
 }

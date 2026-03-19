@@ -7,8 +7,4 @@ use App\Src\traits\TraitObjects;
 
 class InfoModuleModel
 {
-    public static function requiredModule()
-    {
-        return false;
-    }
 }

@@ -2,9 +2,6 @@
 
 namespace App\Src\modules\kernel;
 
-use App\Entity\StatusModules;
-use App\Src\Context;
-use Illuminate\Http\Request;
 use App\Src\modules\components\AbstractComponents;
 use App\Src\modules\crons_schedule\AbstractCronSchedule;
 use App\Src\modules\exceptions\BackendException;
@@ -48,7 +45,6 @@ class KernelModules
 
     public function InitKernel()
     {
-        $this->checkStatusModule();
         $this->constructModuleComponents();
         $this->constructControllers();
     }
@@ -86,27 +82,6 @@ class KernelModules
     {
         $this->construct_components = ConstructComponents::constructComponents($this);
         return $this->construct_components;
-    }
-
-    private function checkStatusModule()
-    {
-        foreach ($this->app->get(self::MODULE_KEY) as $module_entity) {
-            //Если модуль обязательный всегда подгружаем его
-            if ($module_entity->getModule()->requiredModule()) {
-                $module_entity->setStatus(true);
-                 continue;
-            }
-            if (!app()->runningInConsole()) {
-                /** @var StatusModules $status */
-                $status = StatusModules::where(['name' => $module_entity->getModule()->getNameModule()])->first();
-                if ($status) {
-                    $module_entity->setStatus($status->active);
-                }
-                return;
-            }
-            $module_entity->setStatus(true);
-        }
-
     }
 
     /**
@@ -170,10 +145,5 @@ class KernelModules
     public function getModules()
     {
         return $this->app->get(KernelModules::MODULE_KEY);
-    }
-
-    public function getContext()
-    {
-        return Context::GetContext(Request::capture());
     }
 }

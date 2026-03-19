@@ -96,7 +96,7 @@ class BackendHelper
      */
     public static function getKernel()
     {
-        return app(KernelModules::KERNEL_KEY);
+        return KernelModules::getKernelModule();
     }
 
     /**

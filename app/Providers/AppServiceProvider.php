@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Src\modules\kernel\KernelModules;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,9 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Route::getRoutes()->refreshNameLookups();
-        /** @var KernelModules $kernel */
-        $kernel = $this->app->get(KernelModules::KERNEL_KEY);
-        $kernel->InitKernel();
+        $this->app->get(KernelModules::KERNEL_KEY);
     }
 }
