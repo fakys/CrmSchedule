@@ -21,7 +21,7 @@ class ExcelMasseAddTeachers implements FromArray, ShouldAutoSize
     public function array(): array
     {
         return [
-            ['Логин', 'Фио', 'Номер телефона без +7', 'Email (не обязательный)', 'Серия и номер (не обязательный)']
+            ['Логин', 'Фио', 'Номер телефона с +7', 'Email (не обязательный)', 'Серия и номер (не обязательный)']
         ];
     }
 
@@ -99,6 +99,7 @@ class ExcelMasseAddTeachers implements FromArray, ShouldAutoSize
             $validator->errors()->add('file', $exception->getMessage());
             throw new ValidationException($validator);
         } catch (\Throwable $exception) {
+            dd($exception->getMessage());
             Log::error('[ExcelMasseAddTeachers][Error] ' . $exception->getMessage() . $exception->getTraceAsString());
             $validator->errors()->add('file', 'Ошибка парсинга файла!');
             throw new ValidationException($validator);

@@ -21,6 +21,27 @@ services:
         depends_on:
             - db
 
+    test-app:
+        build:
+            context: .
+            dockerfile: App/Dockerfile
+        volumes:
+            - ../:/var/app/
+            - ../.env.testing:/var/app/.env
+        depends_on:
+            - test-db
+
+    test-db:
+        image: postgres:latest
+        environment:
+            POSTGRES_DB: "test_schedule"
+            POSTGRES_USER: "test_schedule"
+            POSTGRES_PASSWORD: "root"
+        ports:
+            - 5433:5432
+        volumes:
+            -   test_pgsql_data:/var/lib/postgresql/data
+
     db:
         image: postgres:latest
         environment:
@@ -31,7 +52,6 @@ services:
             - 5432:5432
         volumes:
             -   pgsql_data:/var/lib/postgresql/data
-            - ../docker/postgres/init-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
 
     pgadmin4:
         image: elestio/pgadmin:latest
@@ -73,6 +93,8 @@ volumes:
     rabbitmq_data:
         driver: local
     pgsql_data:
+        driver: local
+    test_pgsql_data:
         driver: local
     redis_data:
         driver: local
