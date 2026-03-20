@@ -30,7 +30,8 @@ services:
         ports:
             - 5432:5432
         volumes:
-            -   ../pgsql/data:/var/lib/postgresql/data
+            -   pgsql_data:/var/lib/postgresql/data
+            - ../docker/postgres/init-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
 
     pgadmin4:
         image: elestio/pgadmin:latest
@@ -52,7 +53,7 @@ services:
             - REDIS_PASSWORD=root
             - REDIS_PORT=6379
         volumes:
-            - ../redis:/data
+            - redis_data:/data
             - ../redis.conf:/usr/local/etc/redis/redis.conf
 
     rabbitmq:
@@ -70,3 +71,8 @@ services:
 
 volumes:
     rabbitmq_data:
+        driver: local
+    pgsql_data:
+        driver: local
+    redis_data:
+        driver: local

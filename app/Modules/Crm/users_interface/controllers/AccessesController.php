@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\users_interface\controllers;
 
+use App\Src\BackendHelper;
 use App\Src\modules\controllers\AbstractController;
 use Illuminate\Routing\Controller;
 
@@ -16,7 +17,7 @@ class AccessesController extends AbstractController {
 
     public function actionAccesses()
     {
-        $accesses = context()->getAccesses();
+        $accesses = BackendHelper::getKernel()->getContext()->getAccesses();
         $data = [];
         for ($i = 0; $i < count($accesses); $i++) {
             $data[$i] = [

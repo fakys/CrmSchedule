@@ -64,4 +64,9 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     {
         return [];
     }
+
+    public function requireModule(): bool
+    {
+        return true;
+    }
 }

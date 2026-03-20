@@ -23,44 +23,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
         return 'Модуль отвечающий за отображение главного интерфейса';
     }
 
-    public static function repositories(): array
+    public function requireModule(): bool
     {
-        return [
-        ];
-    }
-
-    public static function operations(): array
-    {
-        return [
-        ];
-    }
-    public static function runConfig()
-    {
-        Config::set('view.paths', array(__DIR__.'/views'));
-    }
-
-    public static function tasks(): array
-    {
-        return  [];
-    }
-
-    public static function mangers(): array
-    {
-        return [];
-    }
-
-    public static function components(): array
-    {
-        return [];
-    }
-
-    public static function crons(): array
-    {
-        return [];
-    }
-
-    public static function controllers(): array
-    {
-        return [];
+        return true;
     }
 }

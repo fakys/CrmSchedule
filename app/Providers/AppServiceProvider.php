@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\Src\abstract\AbstractContext;
+use App\Src\Context;
 use App\Src\modules\kernel\KernelModules;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Http\Request;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,9 +18,12 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . '/../views/layouts/', 'layout');
         $this->loadViewsFrom(__DIR__ . '/../Src/Html/views', 'Html');
-        $this->app->singleton(KernelModules::KERNEL_KEY, function ($app) {
-            return KernelModules::createKernel($app);
+
+        $this->app->bind(AbstractContext::class, function ($app) {
+            return new Context(Request::capture());
         });
+
+        $this->app->singleton(KernelModules::KERNEL_KEY, KernelModules::class);
         //Создаем массив с модулями в ядре
         $this->app->singleton(KernelModules::MODULE_KEY, function ($app) {
             return new Collection();

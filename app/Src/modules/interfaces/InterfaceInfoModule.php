@@ -33,4 +33,5 @@ interface InterfaceInfoModule
      * @return AbstractController[]
      */
     public static function controllers(): array;
+    public function requireModule():bool;
 }

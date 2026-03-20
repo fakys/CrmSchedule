@@ -2,6 +2,7 @@
 
 namespace App\Src\modules\kernel;
 
+use App\Src\abstract\AbstractContext;
 use App\Src\modules\components\AbstractComponents;
 use App\Src\modules\crons_schedule\AbstractCronSchedule;
 use App\Src\modules\exceptions\BackendException;
@@ -19,11 +20,6 @@ class KernelModules
     const KERNEL_KEY = 'kernel';
 
     /**
-     * @var KernelModules
-     */
-    private static $kernel;
-
-    /**
      * @var ConstructControllers
      */
     private $construct_controllers;
@@ -36,36 +32,26 @@ class KernelModules
     /** @var Application */
     private $app;
 
+    private AbstractContext $context;
 
-    /** Инициализируем ядро */
-    public function __construct($app)
+    public function __construct(Application $app, AbstractContext $context)
     {
         $this->app = $app;
+        $this->context = $context;
     }
 
+    /**
+     * Инициализация ядра
+     * @return void
+     */
     public function InitKernel()
     {
         $this->constructModuleComponents();
         $this->constructControllers();
     }
 
-    public static function createKernel($app)
-    {
-        if (!self::$kernel) {
-            self::$kernel = new KernelModules($app);
-        }
-        return self::$kernel;
-    }
-
     /**
-     * @return KernelModules
-     */
-    public static function getKernelModule()
-    {
-        return self::$kernel;
-    }
-
-    /**
+     * Сборка контроллеров
      * @return ConstructControllers
      */
     private function constructControllers()
@@ -97,7 +83,6 @@ class KernelModules
      * @return ModuleEntity
      * @throws BackendException
      * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface\
      */
     public function getModuleByName($nameModule)
     {
@@ -145,5 +130,10 @@ class KernelModules
     public function getModules()
     {
         return $this->app->get(KernelModules::MODULE_KEY);
+    }
+
+    public function getContext()
+    {
+        return $this->context;
     }
 }

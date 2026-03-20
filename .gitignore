@@ -21,8 +21,6 @@ yarn-error.log
 /.idea
 /.vscode
 /.zed
-pgsql
-redis
 storage/framework
 redis.conf
 rabbitmq

@@ -36,41 +36,16 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
         ];
     }
 
-    public static function operations(): array
-    {
-        return [
-        ];
-    }
-    public static function runConfig()
-    {
-        Config::set('view.paths', array(__DIR__.'/views'));
-    }
-
-    public static function tasks(): array
-    {
-        return  [];
-    }
-
-    public static function mangers(): array
-    {
-        return [];
-    }
-
-    public static function components(): array
-    {
-        return [];
-    }
-
-    public static function crons(): array
-    {
-        return [];
-    }
-
     public static function controllers(): array
     {
         return [
             SpecialtiesController::class,
             StudentGroupsController::class,
         ];
+    }
+
+    public function requireModule(): bool
+    {
+        return true;
     }
 }

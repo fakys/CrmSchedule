@@ -65,7 +65,7 @@ class SchedulePlanController extends AbstractController
         $groups = BackendHelper::getRepositories()->getFullStudentGroups();
         $semesters = BackendHelper::getRepositories()->getAllSemesters();
         $specialties = BackendHelper::getRepositories()->getAllSpecialties();
-        $cash_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(context()->getUser()->id);
+        $cash_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
         return view('schedule_plan::schedule_plan.index', [
             'title' => 'Плана расписания',
             'types' => $types,
@@ -124,8 +124,8 @@ class SchedulePlanController extends AbstractController
         $week_days = SchedulePlanTypeModel::WEEK_DAYS;
         $schedule_data_db = BackendHelper::getRepositories()->getPlanScheduleByGroups($groups_id, $semester_id);
         $schedule_data = null;
-        if (BackendHelper::getOperations()->getSchedulePlanCashByUserId(context()->getUser()->id)) {
-            $schedule_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(context()->getUser()->id);
+        if (BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id)) {
+            $schedule_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
         } elseif ($schedule_data_db) {
             $schedule_data = SchedulePlanReturnData::cardCacheFormat($schedule_data_db);
         }
@@ -146,7 +146,7 @@ class SchedulePlanController extends AbstractController
 
     public function getGroupInput()
     {
-        $cash_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(context()->getUser()->id);
+        $cash_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
         $specialties_id = request()->post('specialties_id');
         $specialties = BackendHelper::getRepositories()->getSpecialtyById($specialties_id);
         $groups = ArrayHelper::getColumn($specialties->getGroups(), 'name', 'id');
@@ -187,7 +187,7 @@ class SchedulePlanController extends AbstractController
 
     public function deleteSession()
     {
-        BackendHelper::getOperations()->deleteSchedulePlanCashByUserId(context()->getUser()->id);
+        BackendHelper::getOperations()->deleteSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
         return json_encode(['result' => true]);
     }
 
@@ -209,7 +209,7 @@ class SchedulePlanController extends AbstractController
 
     public function setPlanSchedule()
     {
-        $cash_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(context()->getUser()->id);
+        $cash_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
 
         if ($cash_data) {
             if (BackendHelper::getRepositories()->getPlanScheduleByGroups($cash_data['groups'], $cash_data['semester'])) {
@@ -283,7 +283,7 @@ class SchedulePlanController extends AbstractController
                     'plan_type' => $model->plan_type,
                     'schedule_data' => $schedule_data
                 ]);
-                BackendHelper::getOperations()->getSchedulePlanCashByUserId(context()->getUser()->id);
+                BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
                 return redirect()->back();
 
             } catch (\Throwable $throwable) {

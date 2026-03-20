@@ -71,4 +71,9 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
             SettingsController::class,
         ];
     }
+
+    public function requireModule(): bool
+    {
+        return true;
+    }
 }

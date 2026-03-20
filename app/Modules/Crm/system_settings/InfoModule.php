@@ -39,35 +39,16 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
             SystemSettingsOperations::class
         ];
     }
-    public static function runConfig()
-    {
-        Config::set('view.paths', array(__DIR__.'/views'));
-    }
-
-    public static function tasks(): array
-    {
-        return  [];
-    }
-
-    public static function mangers(): array
-    {
-        return [];
-    }
-
-    public static function components(): array
-    {
-        return [];
-    }
-
-    public static function crons(): array
-    {
-        return [];
-    }
 
     public static function controllers(): array
     {
         return [
             SettingsController::class
         ];
+    }
+
+    public function requireModule(): bool
+    {
+        return true;
     }
 }

@@ -97,6 +97,11 @@ class UsersController extends AbstractController {
         return Excel::download(new ExcelMasseAddTeachers(), 'add_teachers.xlsx');
     }
 
+    /**
+     * Массовое добавление преподавателей
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function actionMasseAddTeachers()
     {
         if (request()->method() == 'POST') {

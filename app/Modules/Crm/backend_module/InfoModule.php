@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Modules\Crm\backend_module;
 
 use App\Modules\Crm\backend_module\operations\TestOperation;
@@ -10,7 +11,7 @@ use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
 
-class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
+class InfoModule extends InfoModuleModel implements InterfaceInfoModule
 {
 
     public static function getNameModule(): string
@@ -43,14 +44,15 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
             TestOperation::class
         ];
     }
+
     public static function runConfig()
     {
-        Config::set('view.paths', array(__DIR__.'/views'));
+
     }
 
     public static function tasks(): array
     {
-        return  [
+        return [
             TestTask::class
         ];
     }
@@ -67,12 +69,16 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 
     public static function crons(): array
     {
-        return [
-        ];
+        return [];
     }
 
     public static function controllers(): array
     {
         return [];
+    }
+
+    public function requireModule(): bool
+    {
+        return true;
     }
 }

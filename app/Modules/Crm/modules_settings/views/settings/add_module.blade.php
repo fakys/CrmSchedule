@@ -2,10 +2,6 @@
 
 @section('content')
     <div class="container">
-        {{\App\Src\Html\Html::nav_tabs([
-            ['name'=>'Статус модулей', 'url'=>route('modules_settings.settings')],
-            ['name'=>'Добавить модуль', 'url'=>route('modules_settings.add_module'), 'active'=>true]
-        ])}}
         <div class="card">
             <form class="card-body" method="post" enctype="multipart/form-data" action="{{route('modules_settings.save_modules')}}">
                 @csrf

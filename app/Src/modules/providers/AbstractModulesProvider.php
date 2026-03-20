@@ -9,6 +9,7 @@ use App\Middleware\ModulesMiddleware;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\kernel\entity\ModuleEntity;
 use App\Src\modules\kernel\KernelModules;
+use App\Src\modules\repository\base_repository\StatusModulesRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use function Webmozart\Assert\Tests\StaticAnalysis\inArray;
@@ -104,9 +105,7 @@ abstract class AbstractModulesProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->registrationMigration();
-        $this->registrationRoutes();
-        $this->registrationViews();
+
     }
 
     /**
@@ -121,10 +120,25 @@ abstract class AbstractModulesProvider extends ServiceProvider
         $module_entity = new ModuleEntity($module);
         $modules[$module::getNameModule()] = $module_entity;
 
-        /** @var StatusModules $status */
-        $status = StatusModules::where(['name' => $module->getNameModule()])->first();
-        if ($status) {
-            $module_entity->setStatus($status->active);
+        /** todo Тут что-нибудь придумать */
+        if ($this->app->runningInConsole()) {
+            $module_entity->setStatus(true);
+        } else {
+            /** @var StatusModules $status */
+            $status = StatusModulesRepository::getStatusModuleByName($module->getNameModule());
+            if (!$status) {
+                $status = StatusModulesRepository::createStatusModule($module->getNameModule(), $module->requireModule());
+            }
+
+            if ($module->requireModule()) {
+                $module_entity->setStatus($module->requireModule());
+            } else {
+                $module_entity->setStatus($status->active);
+            }
         }
+
+        $this->registrationMigration();
+        $this->registrationRoutes();
+        $this->registrationViews();
     }
 }
