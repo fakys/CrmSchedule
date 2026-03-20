@@ -15,7 +15,7 @@ return [
     \App\Modules\Crm\schedule_plan\providers\SchedulePlanProvider::class,
     \App\Modules\Crm\student_groups\providers\StudentGroupsProvider::class,
     \App\Modules\Crm\system_settings\providers\SystemSettingsProvider::class,
-    \App\Modules\Crm\users_interface\providers\UsersInterfaceeProvider::class,
+    \App\Modules\Crm\users_interface\providers\UsersInterfaceProvider::class,
     \App\Modules\RestApi\schedule_api\providers\RestApiProvider::class,
     //Сборка ядра
     App\Providers\InitKernelProvider::class,

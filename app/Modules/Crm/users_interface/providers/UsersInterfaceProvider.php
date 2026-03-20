@@ -5,7 +5,7 @@ namespace App\Modules\Crm\users_interface\providers;
 use App\Modules\Crm\users_interface\InfoModule;
 use App\Src\modules\providers\AbstractModulesProvider;
 
-class UsersInterfaceeProvider extends AbstractModulesProvider
+class UsersInterfaceProvider extends AbstractModulesProvider
 {
 
     public function prefixModulePathName(): string

@@ -57,13 +57,6 @@ interface RepositoryInterface{
     public function getFullUsersInfo();
 
     /**
-     * Возвращает пользователя по id
-     * @param $id
-     * @return User
-     */
-    public function getUserById($id);
-
-    /**
      * Обновляет пользователя по id
      * @param $id
      * @param $data
@@ -187,23 +180,6 @@ interface RepositoryInterface{
      * @return User|null
      */
     public function createUser($data);
-
-    /**
-     * Репозиторий создает информацию пользователя
-     * @param $data
-     * @param $user_id
-     * @return UserInfo|null
-     */
-    public function createUserInfo($data, $user_id);
-
-    /**
-     * Репозиторий создает документы пользователя
-     * @param $data
-     * @param $user_id
-     * @return UserDocumet|null
-     */
-    public function createUserDocument($data, $user_id);
-
 
     /**
      * Создание специальности

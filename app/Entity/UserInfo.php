@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $patronymic Отчество
  * @property string $email email
  * @property string $number_phone Номер телефона
- * @property string $photo фото
  * @property string $birthday дата рождения
  * @property integer $user_id
  */

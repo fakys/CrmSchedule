@@ -70,8 +70,8 @@ abstract class AbstractModulesProvider extends ServiceProvider
     //Регистрируем миграции
     private function registrationMigration()
     {
-        if (is_dir($this->module_path . $this->migrationPath())) {
-            $this->loadMigrationsFrom($this->module_path . $this->migrationPath());
+        if (is_dir($this->module_path . DIRECTORY_SEPARATOR . $this->migrationPath())) {
+            $this->loadMigrationsFrom($this->module_path . DIRECTORY_SEPARATOR . $this->migrationPath());
         }
     }
 

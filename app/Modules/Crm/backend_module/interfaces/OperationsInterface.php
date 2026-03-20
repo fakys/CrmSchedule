@@ -9,6 +9,9 @@ use App\Modules\Crm\schedule_plan\operation\SchedulePlan;
 use App\Modules\Crm\schedule_plan\operation\SchedulePlanSave;
 use App\Modules\Crm\schedule_plan\operation\SchedulePlanType;
 use App\Modules\Crm\schedule_plan\operation\ValidateSchedulePlan;
+use App\Modules\Crm\users_interface\operations\UsersGroupOperations;
+use App\Modules\Crm\users_interface\operations\UsersOperation;
+use App\Modules\Crm\users_interface\operations\ValidationUserDataOperation;
 use App\Modules\Crm\users_interface\src\UserData;
 
 /**
@@ -19,17 +22,13 @@ use App\Modules\Crm\users_interface\src\UserData;
  * @mixin ValidateSchedulePlan
  * @mixin AddLessonOperation
  * @mixin SchedulePlanSave
+ * @mixin ValidationUserDataOperation
+ * @mixin UsersOperation
+ * @mixin UsersGroupOperations
+ *
  */
 interface OperationsInterface
 {
-    /**
-     * Добавляет пользователя в группы
-     * @param $userId
-     * @param $groups
-     * @return true
-     */
-    public function addUserInGroups($userId, $groups);
-
     /**
      * Добавление настроек
      * @param $data
@@ -56,14 +55,6 @@ interface OperationsInterface
      * @return array
      */
     public function hasAccessesByUrl($url);
-
-    /**
-     * Операция добавляет пользователя
-     * @param $data
-     * @return UserData
-     * @throws \Exception
-     */
-    public function addUser($data);
 
     /**
      * Возвращает не добавленные модули

@@ -30,7 +30,7 @@ abstract class AbstractAccessRoute
     protected function setAccessInContext()
     {
         if (
-            $this->access && $this->access->getAccess()
+            $this->access && $this->access->getAccess() && !app()->runningInConsole()
         ) {
             context()->setAccess($this->access);
         }

@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\users_interface\controllers;
 
 use App\Modules\Crm\schedule_plan\src\ExcelPlanSchedule;
+use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Modules\Crm\users_interface\model\AddUser;
 use App\Modules\Crm\users_interface\model\MasseAddTeacherModel;
 use App\Modules\Crm\users_interface\src\ExcelMasseAddTeachers;
@@ -105,7 +106,13 @@ class UsersController extends AbstractController {
             $file = request()->file('file');
             $spreadsheet = IOFactory::load($file->getRealPath());
             $schedule_data_file = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+
+            /** @var  $data */
             $data = ExcelMasseAddTeachers::parseData($schedule_data_file, $validate);
+            /** todo отправка временного пароля */
+            foreach ($data as $item) {
+                BackendHelper::getOperations()->addUser($item);
+            }
         }
         return view('users_interface::users.masse_add_teachers', []);
     }

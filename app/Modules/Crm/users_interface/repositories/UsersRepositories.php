@@ -81,7 +81,7 @@ class UsersRepositories extends AbstractRepositories
         if ($login || $fio || $number || $email || $inn || $groups) {
             $sql .= " WHERE ".implode(" AND ", $sql_arr);
         }
-        dd($sql);
+
         return DB::select($sql, $arr_params);
     }
 
@@ -182,7 +182,6 @@ class UsersRepositories extends AbstractRepositories
         $user_info->email = $data['email'];
         $user_info->number_phone = $data['number_phone'];
         $user_info->birthday = $data['birthday'];
-        $user_info->photo = $data['photo'];
         $user_info->user_id = $user_id;
         if($user_info->save()){
             return $user_info;
@@ -235,6 +234,20 @@ class UsersRepositories extends AbstractRepositories
     public function getStyleByUserId($user_id)
     {
         return UserStyle::where(['user_id' => $user_id])->first();
+    }
+
+    public function getUserBySeriesAndNumber($series_number)
+    {
+        $users = DB::select(
+            "SELECT
+                    *
+                FROM users
+                    join users_documents as u_doc on u_doc.user_id = users.id
+                WHERE u_doc.passport_series ||' '|| u_doc.passport_number = :series_number",
+            [':series_number' => $series_number]
+        );
+
+        return $users;
     }
 
     public function getName(): string

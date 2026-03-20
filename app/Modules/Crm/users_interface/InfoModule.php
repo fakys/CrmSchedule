@@ -7,6 +7,7 @@ use App\Modules\Crm\users_interface\controllers\UsersController;
 use App\Modules\Crm\users_interface\operations\UserAccessOperation;
 use App\Modules\Crm\users_interface\operations\UsersGroupOperations;
 use App\Modules\Crm\users_interface\operations\UsersOperation;
+use App\Modules\Crm\users_interface\operations\ValidationUserDataOperation;
 use App\Modules\Crm\users_interface\repositories\UserGroupsRepositories;
 use App\Modules\Crm\users_interface\repositories\UsersRepositories;
 use App\Src\modules\InfoModuleModel;
@@ -44,7 +45,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
         return [
             UsersOperation::class,
             UserAccessOperation::class,
-            UsersGroupOperations::class
+            UsersGroupOperations::class,
+            ValidationUserDataOperation::class
         ];
     }
 

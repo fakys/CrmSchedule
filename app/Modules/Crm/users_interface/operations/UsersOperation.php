@@ -4,6 +4,8 @@ namespace App\Modules\Crm\users_interface\operations;
 use App\Modules\Crm\users_interface\src\UserData;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UsersOperation extends AbstractOperation {
 
@@ -47,6 +49,7 @@ class UsersOperation extends AbstractOperation {
         $user_model = new UserData($data);
 
         try {
+            DB::beginTransaction();
             $new_user = BackendHelper::getRepositories()->createUser($user_model->getDataForUsersTable());
 
             $user_info = BackendHelper::getRepositories()->createUserInfo(
@@ -60,17 +63,15 @@ class UsersOperation extends AbstractOperation {
             BackendHelper::getOperations()->addUserInGroups($new_user->id, $user_model->getGroups());
 
             if ($new_user && $user_document && $user_info) {
+                DB::commit();
                 return $user_model;
             }
 
-            if($new_user){
-                $new_user->delete();
-            }
+            DB::rollBack();
             throw new \Exception('При создание пользователя, произошла ошибка');
         } catch (\Exception $e) {
-            if($new_user){
-                $new_user->delete();
-            }
+            DB::rollBack();
+            Log::error($e->getMessage()." ".$e->getTraceAsString());
             throw new \Exception('При создание пользователя, произошла ошибка: ' . $e->getMessage()." ".$e->getTraceAsString());
         }
     }
