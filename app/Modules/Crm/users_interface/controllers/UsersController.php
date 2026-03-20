@@ -1,12 +1,17 @@
 <?php
 namespace App\Modules\Crm\users_interface\controllers;
 
+use App\Modules\Crm\schedule_plan\src\ExcelPlanSchedule;
 use App\Modules\Crm\users_interface\model\AddUser;
+use App\Modules\Crm\users_interface\model\MasseAddTeacherModel;
+use App\Modules\Crm\users_interface\src\ExcelMasseAddTeachers;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class UsersController extends AbstractController {
     public static function loadController(\App\Src\modules\kernel\KernelModules $kernel)
@@ -26,6 +31,11 @@ class UsersController extends AbstractController {
             ->RmGroupList('operations')
             ->RmLink('add_user')->setText('Добавить пользователя')
             ->setLink(route('users_interface.add_user'));
+
+        $kernel->getControllerLoader()->RmGroup('rm_administrator')
+            ->RmGroupList('operations')
+            ->RmLink('add_user')->setText('Массовое добавление учителей')
+            ->setLink(route('users_interface.masse_add_teacher'));
     }
 
     public function actionUsersInfo()
@@ -35,7 +45,6 @@ class UsersController extends AbstractController {
 
         if (request()->method() == 'POST') {
             $data = BackendHelper::getRepositories()->getFullUsersInfoSearch(request()->post());
-            dd($data);
             if($search_data){
                 request()->session()->forget('search-user-info');
             }
@@ -80,5 +89,24 @@ class UsersController extends AbstractController {
             }
         }
         return redirect()->route('users_interface.users_info');
+    }
+
+    public function actionDownloadTemplateMasseAddTeacher()
+    {
+        return Excel::download(new ExcelMasseAddTeachers(), 'add_teachers.xlsx');
+    }
+
+    public function actionMasseAddTeachers()
+    {
+        if (request()->method() == 'POST') {
+            $model = new MasseAddTeacherModel();
+            $validate = Validator::make($model->getData(), $model->rules());
+            $validate->validate();
+            $file = request()->file('file');
+            $spreadsheet = IOFactory::load($file->getRealPath());
+            $schedule_data_file = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            $data = ExcelMasseAddTeachers::parseData($schedule_data_file, $validate);
+        }
+        return view('users_interface::users.masse_add_teachers', []);
     }
 }

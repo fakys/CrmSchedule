@@ -225,3 +225,14 @@ Route::post("/$module/set-user-style-tab",
     ]
 )->name("$module.tabs.set_user_style_tab");
 
+AccessRoute::access("{$module}_masse_add_teacher")->route(
+    Route::any("$module/masse-add-teacher", [
+        \App\Modules\Crm\users_interface\controllers\UsersController::class,
+        'actionMasseAddTeachers'
+    ])->name("$module.masse_add_teacher")
+)->description('Массовое добавление учителей');
+
+Route::get("$module/download-template-masse-add-teacher", [
+    \App\Modules\Crm\users_interface\controllers\UsersController::class,
+    'actionDownloadTemplateMasseAddTeacher'
+])->name("$module.download_template_masse_add_teacher");

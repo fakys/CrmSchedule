@@ -287,7 +287,6 @@ class SchedulePlanController extends AbstractController
                 return redirect()->back();
 
             } catch (\Throwable $throwable) {
-                dd($throwable);
                 $validate->errors()->add('file_error', 'Ошибка в содержимом файла: ' . $throwable->getMessage());
                 return redirect()->back()
                     ->withErrors($validate)
