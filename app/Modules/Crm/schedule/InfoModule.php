@@ -11,6 +11,9 @@ use App\Modules\Crm\schedule\operations\SemestersOperation;
 use App\Modules\Crm\schedule\operations\TimeOperation;
 use App\Modules\Crm\schedule\repositories\ScheduleRepository;
 use App\Modules\Crm\schedule\repositories\SemestersRepository;
+use App\Modules\Crm\schedule\schedule_manger\plugins\BaseSchedulePlugin;
+use App\Modules\Crm\schedule\schedule_manger\plugins\HolidaysPlugin;
+use App\Modules\Crm\schedule\schedule_manger\plugins\WeekendsPlugin;
 use App\Modules\Crm\schedule\schedule_manger\ScheduleManger;
 use App\Modules\Crm\schedule\tasks\CashScheduleTask;
 use App\Src\modules\InfoModuleModel;
@@ -73,7 +76,11 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 
     public static function components(): array
     {
-        return [];
+        return [
+            BaseSchedulePlugin::class,
+            HolidaysPlugin::class,
+            WeekendsPlugin::class,
+        ];
     }
 
     public static function crons(): array

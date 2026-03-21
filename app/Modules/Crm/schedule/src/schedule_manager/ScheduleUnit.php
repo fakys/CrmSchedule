@@ -20,7 +20,6 @@ class ScheduleUnit
     private $description;
     private $semester;
     private $is_base_schedule;
-    private $semester_name;
 
     /** @var bool $weekday */
     private $week_end = false;
@@ -118,7 +117,6 @@ class ScheduleUnit
             $user = BackendHelper::getRepositories()->getUserById($this->user_id)->getInfo();
             return sprintf('%s %s %s', $user->first_name, $user->last_name, $user->patronymic);
         }
-
     }
 
     public function setFormatPair($format_pair_id)
@@ -151,14 +149,10 @@ class ScheduleUnit
         $this->semester = $semester_id;
     }
 
-    public function setSemesterName($semester_name)
-    {
-        $this->semester_name = $semester_name;
-    }
-
     public function getSemesterName()
     {
-        return $this->semester_name;
+        $semester = BackendHelper::getRepositories()->getSemesterById($this->getSemester());
+        return $semester->name;
     }
 
     public function getWeekEnd()

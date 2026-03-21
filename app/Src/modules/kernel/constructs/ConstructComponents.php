@@ -50,7 +50,8 @@ class ConstructComponents
     public function collectComponentsByModulesForKernel()
     {
         /** @var Collection $modules */
-        $modules = $this->kernel->getLaravelApp()->get(KernelModules::MODULE_KEY);
+        $modules = app()->get(KernelModules::MODULE_KEY);
+
         foreach ($modules as $module) {
             if ($module->getStatus()) {
                 foreach ($module->getModule()->operations() as $operation) {
@@ -64,6 +65,10 @@ class ConstructComponents
 
                 foreach ($module->getModule()->repositories() as $repository) {
                     $obj = new $repository($this->kernel);
+                    if ($obj instanceof AbstractTagComponents && $obj->getTag()) {
+                        $this->components_by_tag[$obj->getTag()][] = $obj;
+                    }
+
                     if ($obj instanceof AbstractRepositories) {
                         $module->appendComponents(new ComponentsEntity(self::REPOSITORY_TYPE, $obj->getName(), $obj));
                         $this->components[$obj->getName()] = $obj;
@@ -72,6 +77,10 @@ class ConstructComponents
 
                 foreach ($module->getModule()->tasks() as $task) {
                     $obj = new $task($this->kernel);
+                    if ($obj instanceof AbstractTagComponents && $obj->getTag()) {
+                        $this->components_by_tag[$obj->getTag()][] = $obj;
+                    }
+
                     if ($obj instanceof AbstractComponents) {
                         $module->appendComponents(new ComponentsEntity(self::TASK_TYPE, $obj->getName(), $obj));
                         $this->components[$obj->getName()] = $obj;
@@ -80,6 +89,10 @@ class ConstructComponents
 
                 foreach ($module->getModule()->mangers() as $mangers) {
                     $obj = new $mangers($this->kernel);
+                    if ($obj instanceof AbstractTagComponents && $obj->getTag()) {
+                        $this->components_by_tag[$obj->getTag()][] = $obj;
+                    }
+
                     if ($obj instanceof AbstractComponents) {
                         $module->appendComponents(new ComponentsEntity(self::MANGER_TYPE, $obj->getName(), $obj));
                         $this->components[$obj->getName()] = $obj;
@@ -88,6 +101,10 @@ class ConstructComponents
 
                 foreach ($module->getModule()->crons() as $crons) {
                     $obj = new $crons($this->kernel);
+                    if ($obj instanceof AbstractTagComponents && $obj->getTag()) {
+                        $this->components_by_tag[$obj->getTag()][] = $obj;
+                    }
+
                     if ($obj instanceof AbstractComponents) {
                         $module->appendComponents(new ComponentsEntity(self::CRON_TYPE, $obj->getName(), $obj));
                         $this->components[$obj->getName()] = $obj;
@@ -96,6 +113,10 @@ class ConstructComponents
 
                 foreach ($module->getModule()->components() as $component) {
                     $obj = new $component($this->kernel);
+                    if ($obj instanceof AbstractTagComponents && $obj->getTag()) {
+                      $this->components_by_tag[$obj->getTag()][] = $obj;
+                    }
+
                     if ($obj instanceof AbstractComponents) {
                         $module->appendComponents(new ComponentsEntity(self::COMPONENTS_TYPE, $obj->getName(), $obj));
                         $this->components[$obj->getName()] = $obj;

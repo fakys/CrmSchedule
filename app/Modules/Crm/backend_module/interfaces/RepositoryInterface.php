@@ -284,12 +284,6 @@ interface RepositoryInterface{
     public function getSearchSubjectInfo($searchData);
 
     /**
-     * Возвращает все последовательности пар
-     * @return PairNumber[]
-     */
-    public function getNumberPair();
-
-    /**
      * Возвращает последовательность пар по id
      * @param $id
      */

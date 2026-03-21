@@ -99,7 +99,6 @@ class ExcelMasseAddTeachers implements FromArray, ShouldAutoSize
             $validator->errors()->add('file', $exception->getMessage());
             throw new ValidationException($validator);
         } catch (\Throwable $exception) {
-            dd($exception->getMessage());
             Log::error('[ExcelMasseAddTeachers][Error] ' . $exception->getMessage() . $exception->getTraceAsString());
             $validator->errors()->add('file', 'Ошибка парсинга файла!');
             throw new ValidationException($validator);

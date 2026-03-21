@@ -17,15 +17,15 @@ class PairNumberEntity
      */
     public function __construct($pairNumbers)
     {
-        if (!$pairNumbers) {
-            throw new HolidayException('Отсутствуют номера пар');
-        }
         foreach ($pairNumbers as $pairNumber) {
             $this->pairNumbers[] = ['id' => $pairNumber->id,'number' => $pairNumber->number, 'name'=>$pairNumber->name];
         }
 
     }
 
+    /**
+     * @return array
+     */
     public function getPairNumbers()
     {
         return $this->pairNumbers;

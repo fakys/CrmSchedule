@@ -3,79 +3,78 @@ namespace App\Modules\Crm\schedule\schedule_manger\plugins;
 
 use App\Entity\Holiday;
 use App\Modules\Crm\holidays\model\HolidaySetting;
-use App\Modules\Crm\schedule\src\entity\ScheduleSearchData;
+use App\Modules\Crm\schedule\schedule_manger\plugins\abstracts\AbstractSchedulePlugin;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\HolidayEntity;
-use App\Modules\Crm\schedule\src\schedule_manager\entity\PairNumberEntity;
-use App\Modules\Crm\schedule\src\schedule_manager\entity\PlanScheduleEntity;
-use App\Modules\Crm\schedule\src\schedule_manager\entity\SemesterEntity;
-use App\Modules\Crm\schedule\src\schedule_manager\Schedule;
 use App\Modules\Crm\schedule\src\schedule_manager\ScheduleUnit;
 use App\Src\BackendHelper;
-use App\Src\modules\plugins\AbstractPlugin;
+
 
 /**
  * Плагин назначающий каникулы
- * @property ScheduleSearchData $searchData
- * @property Schedule $schedule
- * @property SemesterEntity $semesters
- * @property PairNumberEntity $pair_numbers
- * @property PlanScheduleEntity $planScheduleRepository
- * @property HolidaySetting $holiday_setting
- * @property Holiday[] $all_holidays
  */
-class HolidaysPlugin extends AbstractPlugin
+class HolidaysPlugin extends AbstractSchedulePlugin
 {
 
-    public function pluginName()
+    public function getTag()
+    {
+        return 'schedule_manger';
+    }
+
+    public function getName(): string
     {
         return 'holidays_plugin';
     }
 
+    public function index()
+    {
+        return 1;
+    }
+
     public function Execute()
     {
-        if (BackendHelper::getKernel()->getModuleByName('holidays')->getStatus()) {
-            $this->holiday_setting = BackendHelper::getSystemSettings('holiday_settings');
-            $this->all_holidays = BackendHelper::getRepositories()->getAllHolidays();
-            if ($this->schedule) {
-                if ($this->holiday_setting->use_settings) {
-                    if (
-                        $this->holiday_setting->use_priority_setting &&
-                        $this->holiday_setting->priority_setting &&
-                        $this->holiday_setting->replace_no_priority_setting
-                    ) {
-                        switch ($this->holiday_setting->priority_setting) {
-                            case HolidaySetting::MAIN_SETTING:
-                                foreach ($this->schedule->getScheduleUnits() as $unit) {
-                                    $this->setHolidayByDate($unit);
-                                    $this->setHolidaySettings($unit, true);
-                                }
-                                break;
-                            default:
-                                foreach ($this->schedule->getScheduleUnits() as $unit) {
-                                    $this->setHolidaySettings($unit);
-                                    $this->setHolidayByDate($unit, true);
-                                }
-                                break;
-                        }
-                    } else {
-                        switch ($this->holiday_setting->priority_setting){
-                            case HolidaySetting::MAIN_SETTING:
-                                foreach ($this->schedule->getScheduleUnits() as $unit) {
-                                    $this->setHolidayByDate($unit);
-                                    $this->setHolidaySettings($unit);
-                                }
-                                break;
-                            default:
-                                foreach ($this->schedule->getScheduleUnits() as $unit) {
-                                    $this->setHolidaySettings($unit);
-                                    $this->setHolidayByDate($unit);
-                                }
-                                break;
-                        }
-                    }
-                }
-            }
-        }
+//        if (BackendHelper::getKernel()->getModuleByName('holidays')->getStatus()) {
+//            $this->holiday_setting = BackendHelper::getSystemSettings('holiday_settings');
+//            $this->all_holidays = BackendHelper::getRepositories()->getAllHolidays();
+//            if ($this->schedule) {
+//                if ($this->holiday_setting->use_settings) {
+//                    if (
+//                        $this->holiday_setting->use_priority_setting &&
+//                        $this->holiday_setting->priority_setting &&
+//                        $this->holiday_setting->replace_no_priority_setting
+//                    ) {
+//                        switch ($this->holiday_setting->priority_setting) {
+//                            case HolidaySetting::MAIN_SETTING:
+//                                foreach ($this->schedule->getScheduleUnits() as $unit) {
+//                                    $this->setHolidayByDate($unit);
+//                                    $this->setHolidaySettings($unit, true);
+//                                }
+//                                break;
+//                            default:
+//                                foreach ($this->schedule->getScheduleUnits() as $unit) {
+//                                    $this->setHolidaySettings($unit);
+//                                    $this->setHolidayByDate($unit, true);
+//                                }
+//                                break;
+//                        }
+//                    } else {
+//                        switch ($this->holiday_setting->priority_setting){
+//                            case HolidaySetting::MAIN_SETTING:
+//                                foreach ($this->schedule->getScheduleUnits() as $unit) {
+//                                    $this->setHolidayByDate($unit);
+//                                    $this->setHolidaySettings($unit);
+//                                }
+//                                break;
+//                            default:
+//                                foreach ($this->schedule->getScheduleUnits() as $unit) {
+//                                    $this->setHolidaySettings($unit);
+//                                    $this->setHolidayByDate($unit);
+//                                }
+//                                break;
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 
 
@@ -193,4 +192,5 @@ class HolidaysPlugin extends AbstractPlugin
             }
         }
     }
+
 }

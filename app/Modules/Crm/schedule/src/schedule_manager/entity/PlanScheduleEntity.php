@@ -1,25 +1,29 @@
 <?php
 namespace App\Modules\Crm\schedule\src\schedule_manager\entity;
 
-use App\Entity\PairNumber;
-use App\Modules\Crm\schedule\exceptions\HolidayException;
+use App\Entity\PlanSchedule;
 use App\Src\BackendHelper;
-use GuzzleHttp\Test\StrClass;
 
 /** Сущность для плана пар из репозитория */
 class PlanScheduleEntity
 {
-    /**
-     * @var StrClass[]
-     */
-    private $planSchedule;
+    private array $planSchedule;
 
     /**
-     * @param array $planSchedule
+     * @param PlanSchedule[] $planSchedule
      */
     public function __construct($planSchedule)
     {
-        $this->planSchedule = $planSchedule;
+        foreach ($planSchedule as $item) {
+            $this->planSchedule[$item->semester_id]
+            [$item->student_group_id][$item->getDuration()->week_number][$item->getDuration()->week_day][] = $planSchedule;
+        }
+
+    }
+
+    public function getPlanScheduleBySemesterAndGroup($semester_id, $group_id): array
+    {
+        return $this->planSchedule[$semester_id][$group_id] ?? [];
     }
 
     /**

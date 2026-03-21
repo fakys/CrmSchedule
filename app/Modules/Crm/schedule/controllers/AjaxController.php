@@ -4,6 +4,7 @@ namespace App\Modules\Crm\schedule\controllers;
 use App\Modules\Crm\schedule\exceptions\ScheduleEditValidException;
 use App\Modules\Crm\schedule\models\EditScheduleModel;
 use App\Modules\Crm\schedule\models\ScheduleManagerModel;
+use App\Modules\Crm\schedule\schedule_manger\ScheduleManger;
 use App\Modules\Crm\schedule\src\schedule_manager\return_data_schedule\ScheduleManagerReturnData;
 use App\Modules\Crm\schedule\tasks\CashScheduleTask;
 use App\Modules\Crm\system_settings\models\ScheduleSetting;
@@ -32,8 +33,9 @@ class AjaxController extends Controller
 
         $searchData = request()->session()->get('schedule_manager_request');
         if (request()->post() && $searchData) {
-            $manager = BackendHelper::getManager('schedule_manger')->Execute();
-            $schedules = (new ScheduleManagerReturnData($manager->getResult()))->getSchedule();
+            /** @var ScheduleManger $manager */
+            $manager = BackendHelper::getManager('schedule_manger');
+            $schedules = $manager->constrictSchedule($searchData)->getSchedule();
             $subjects = BackendHelper::getRepositories()->getFullSubject();
             $pair_number = BackendHelper::getRepositories()->getNumberPair();
             $users = BackendHelper::getRepositories()->getAllTeachers();
@@ -91,8 +93,9 @@ class AjaxController extends Controller
     {
         $searchData = request()->session()->get('schedule_manager_request');
         if (request()->post() && $searchData) {
-            $manager = BackendHelper::getManager('schedule_manger')->Execute();
-            $schedules = (new ScheduleManagerReturnData($manager->getResult()))->getSchedule();
+            /** @var ScheduleManger $manager */
+            $manager = BackendHelper::getManager('schedule_manger');
+            $schedules = $manager->constrictSchedule($searchData)->getSchedule();
             $subjects = BackendHelper::getRepositories()->getFullSubject();
             $pair_number = BackendHelper::getRepositories()->getNumberPair();
             $users = BackendHelper::getRepositories()->getAllTeachers();
