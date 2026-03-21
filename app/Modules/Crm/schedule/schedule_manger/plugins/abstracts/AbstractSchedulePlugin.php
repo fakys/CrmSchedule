@@ -4,12 +4,12 @@ namespace App\Modules\Crm\schedule\schedule_manger\plugins\abstracts;
 
 
 use App\Modules\Crm\schedule\src\entity\ScheduleSearchData;
+use App\Modules\Crm\schedule\src\schedule_manager\entity\ChangeScheduleEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PairNumberEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PlanScheduleEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\SemesterEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\Schedule;
 use App\Modules\Crm\schedule\src\schedule_manager\ScheduleUnit;
-use App\Modules\Crm\schedule_plan\src\SchedulePlanEntity;
 use App\Src\modules\plugins\AbstractPlugin;
 use DateTime;
 
@@ -22,6 +22,8 @@ abstract class AbstractSchedulePlugin extends AbstractPlugin
     private PairNumberEntity $pair_numbers;
 
     private PlanScheduleEntity $schedule_plan;
+
+    private ChangeScheduleEntity $changeScheduleEntity;
 
     abstract public function Execute();
 
@@ -112,6 +114,16 @@ abstract class AbstractSchedulePlugin extends AbstractPlugin
     public function setSchedulePlan(PlanScheduleEntity $schedule_plan)
     {
         $this->schedule_plan = $schedule_plan;
+    }
+
+    public function getChangeScheduleEntity(): ChangeScheduleEntity
+    {
+        return $this->changeScheduleEntity;
+    }
+
+    public function setChangeScheduleEntity(ChangeScheduleEntity $change_schedule_entity)
+    {
+        $this->changeScheduleEntity = $change_schedule_entity;
     }
 
     abstract public function index();

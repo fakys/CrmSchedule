@@ -115,6 +115,12 @@ class ScheduleManagerOperation extends AbstractOperation
                 'description',
                 $schedule
             );
+            BackendHelper::getOperations()->checkScheduleData(
+                $unit->getFormatPair(),
+                $schedule->format_lesson_id,
+                'format_lesson_id',
+                $schedule
+            );
             if ($lessons) {
                 BackendHelper::getOperations()->checkScheduleData(
                     $unit->getSubject(),
@@ -126,12 +132,6 @@ class ScheduleManagerOperation extends AbstractOperation
                     $unit->getUser(),
                     $lessons->user_id,
                     'user_id',
-                    $lessons
-                );
-                BackendHelper::getOperations()->checkScheduleData(
-                    $unit->getFormatPair(),
-                    $lessons->format_lesson_id,
-                    'format_lesson_id',
                     $lessons
                 );
             }

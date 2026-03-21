@@ -62,14 +62,22 @@ class BaseSchedulePlugin extends AbstractSchedulePlugin
                     $unit->setSchedulePlanType($schedule_plan_type_by_semester[$current_semester['id']][$groupId]);
 
                     /** @var PlanSchedule $schedule */
-                    $schedule = $this->getSchedulePlan()->getPlanScheduleByData(
-                        $current_semester['id'],
-                        $unit->getGroup(),
-                        $unit->getWeekNumber(),
-                        $unit->getWeekDay(),
-                        $unit->getPairNumber()
+                    $schedule = $this->getChangeScheduleEntity()->getScheduleByData(
+                        $groupId,
+                        $current_date,
+                        $number['number'],
                     );
 
+                    if (!$schedule) {
+                        /** @var PlanSchedule $schedule */
+                        $schedule = $this->getSchedulePlan()->getPlanScheduleByData(
+                            $current_semester['id'],
+                            $unit->getGroup(),
+                            $unit->getWeekNumber(),
+                            $unit->getWeekDay(),
+                            $unit->getPairNumber()
+                        );
+                    }
                     if ($schedule) {
                         $unit->setTimeStart($schedule->getDuration()->time_start);
                         $unit->setTimeEnd($schedule->getDuration()->time_end);

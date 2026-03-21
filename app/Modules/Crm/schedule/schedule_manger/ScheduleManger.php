@@ -4,6 +4,7 @@ namespace App\Modules\Crm\schedule\schedule_manger;
 
 use App\Modules\Crm\schedule\schedule_manger\plugins\abstracts\AbstractSchedulePlugin;
 use App\Modules\Crm\schedule\src\entity\ScheduleSearchData;
+use App\Modules\Crm\schedule\src\schedule_manager\entity\ChangeScheduleEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PairNumberEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PlanScheduleEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\SemesterEntity;
@@ -47,6 +48,10 @@ class ScheduleManger extends AbstractManger
             $plugin->setSchedulePlan(
                 new PlanScheduleEntity($this->getSchedulePlan(ArrayHelper::getColumn($plugin->getSemesters()->getSemesters(), 'id'), $searchData->getGroupsId()))
             );
+
+            $plugin->setChangeScheduleEntity(new ChangeScheduleEntity(
+                BackendHelper::getRepositories()->getScheduleByGroupAndDate($searchData->getGroupsId(), $searchData->getDateStart()->format('Y-m-d'), $searchData->getDateEnd()->format('Y-m-d'))
+            ));
             $plugin->Execute();
         }
         return new ScheduleManagerReturnData($schedule);

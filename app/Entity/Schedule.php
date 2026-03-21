@@ -42,4 +42,12 @@ class Schedule extends Model
     public function getLesson() {
         return $this->hasOne(Lesson::class, 'id', 'lessons_id')->first();
     }
+
+    /**
+     * @return PairNumber
+     */
+    public function getPairNumber()
+    {
+        return $this->hasOne(PairNumber::class, 'id', 'pair_number_id')->first();
+    }
 }
