@@ -57,8 +57,9 @@ class ScheduleManger extends AbstractManger
         $data = [];
         foreach ($semesters_id as $semester_id) {
             foreach ($groups_id as $group_id) {
-
-                $data = array_merge($data, BackendHelper::getRepositories()->getPlanScheduleByGroups($group_id, $semester_id)->toArray());
+                foreach (BackendHelper::getRepositories()->getPlanScheduleByGroups($group_id, $semester_id) as $planSchedule) {
+                    $data[] = $planSchedule;
+                }
             }
         }
         return $data;

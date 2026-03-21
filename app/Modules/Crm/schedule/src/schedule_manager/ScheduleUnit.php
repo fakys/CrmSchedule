@@ -2,8 +2,10 @@
 
 namespace App\Modules\Crm\schedule\src\schedule_manager;
 
+use App\Entity\SchedulePlanType;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\HolidayEntity;
 use App\Src\BackendHelper;
+use stdClass;
 
 class ScheduleUnit
 {
@@ -23,8 +25,11 @@ class ScheduleUnit
 
     /** @var bool $weekday */
     private $week_end = false;
+
     /** @var HolidayEntity $holiday */
     private $holiday;
+
+    private ?stdClass $schedulePlanType = null;
 
 
     public function setDate(\DateTime $date)
@@ -210,6 +215,16 @@ class ScheduleUnit
     public function getHoliday()
     {
         return $this->holiday;
+    }
+
+    public function getSchedulePlanType()
+    {
+        return $this->schedulePlanType;
+    }
+
+    public function setSchedulePlanType($schedulePlanType)
+    {
+        $this->schedulePlanType = $schedulePlanType;
     }
 
     /**

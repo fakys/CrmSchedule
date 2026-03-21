@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\schedule;
 
 
+use App\Modules\Crm\holidays\schedule_manger\HolidaysPlugin;
 use App\Modules\Crm\schedule\controllers\ScheduleController;
 use App\Modules\Crm\schedule\controllers\SemestersController;
 use App\Modules\Crm\schedule\crons\CashScheduleCron;
@@ -12,7 +13,6 @@ use App\Modules\Crm\schedule\operations\TimeOperation;
 use App\Modules\Crm\schedule\repositories\ScheduleRepository;
 use App\Modules\Crm\schedule\repositories\SemestersRepository;
 use App\Modules\Crm\schedule\schedule_manger\plugins\BaseSchedulePlugin;
-use App\Modules\Crm\schedule\schedule_manger\plugins\HolidaysPlugin;
 use App\Modules\Crm\schedule\schedule_manger\plugins\WeekendsPlugin;
 use App\Modules\Crm\schedule\schedule_manger\ScheduleManger;
 use App\Modules\Crm\schedule\tasks\CashScheduleTask;
@@ -78,7 +78,6 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     {
         return [
             BaseSchedulePlugin::class,
-            HolidaysPlugin::class,
             WeekendsPlugin::class,
         ];
     }

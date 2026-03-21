@@ -2,9 +2,9 @@
 
 namespace App\Modules\Crm\schedule\schedule_manger\plugins;
 
+use App\Entity\PlanSchedule;
 use App\Modules\Crm\schedule\exceptions\ScheduleManagerException;
 use App\Modules\Crm\schedule\schedule_manger\plugins\abstracts\AbstractSchedulePlugin;
-use App\Modules\Crm\schedule\src\schedule_manager\entity\units\SemesterUnit;
 use App\Src\BackendHelper;
 
 /**
@@ -36,13 +36,16 @@ class BaseSchedulePlugin extends AbstractSchedulePlugin
     {
         $current_date = clone $this->getSearchData()->getDateStart();
         $date_end = clone $this->getSearchData()->getDateEnd();
+        $schedule_plan_type_by_semester = [];
 
         while ($current_date < $date_end) {
             $current_semester = $this->getSemesters()->getSemesterByDate($current_date);
-
-            foreach ($this->getPairNumbers()->getPairNumbers() as $number) {
-
-                foreach ($this->getSearchData()->getGroupsId() as $groupId) {
+            foreach ($this->getSearchData()->getGroupsId() as $groupId) {
+                $schedule_plan_type_by_semester[$current_semester['id']][$groupId] = BackendHelper::getRepositories()->getSchedulePlanTypeByGroupSemester(
+                    $current_semester['id'],
+                    $groupId,
+                );
+                foreach ($this->getPairNumbers()->getPairNumbers() as $number) {
                     $unit = $this->addUnit(
                         clone $current_date,
                         $number['number'],
@@ -55,21 +58,37 @@ class BaseSchedulePlugin extends AbstractSchedulePlugin
                         ),
                         $current_date->format('w')
                     );
+                    $unit->setBaseSchedule(true);
+                    $unit->setSchedulePlanType($schedule_plan_type_by_semester[$current_semester['id']][$groupId]);
+
+                    /** @var PlanSchedule $schedule */
+                    $schedule = $this->getSchedulePlan()->getPlanScheduleByData(
+                        $current_semester['id'],
+                        $unit->getGroup(),
+                        $unit->getWeekNumber(),
+                        $unit->getWeekDay(),
+                        $unit->getPairNumber()
+                    );
+
+                    if ($schedule) {
+                        $unit->setTimeStart($schedule->getDuration()->time_start);
+                        $unit->setTimeEnd($schedule->getDuration()->time_end);
+                        $unit->setSubject($schedule->getLesson()->subject_id);
+                        $unit->setUser($schedule->getLesson()->user_id);
+                        $unit->setDescription($schedule->description);
+                        $unit->setFormatPair($schedule->format_lesson_id);
+                        $unit->setBaseSchedule(false);
+                    }
                 }
             }
 
             /** todo Тут бы в настройку вынести */
             $current_date->modify('+1 day');
         }
-//        dd($this->getSchedule());
         return $this->getSchedule();
     }
 
-    /**
-     * @param \DateTime $date
-     * @param SemesterUnit $semester_unit
-     * @return int
-     */
+
     public function getNumberWeekBySemester($date, $semester_start, $weeks)
     {
         return BackendHelper::getOperations()->getCurrentWeek(

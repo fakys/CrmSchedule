@@ -27,6 +27,7 @@ use App\Modules\Crm\reports\repositories\ReportsRepository;
 use App\Modules\Crm\schedule\models\SemestersModel;
 use App\Modules\Crm\schedule\repositories\ScheduleRepository;
 use App\Modules\Crm\schedule_plan\repositories\SchedulePlanRepository;
+use App\Modules\Crm\schedule_plan\repositories\SchedulePlanTypeRepository;
 use App\Modules\Crm\student_groups\repositories\StudentGroupRepositories;
 use App\Modules\Crm\users_interface\repositories\UsersRepositories;
 
@@ -40,6 +41,7 @@ use App\Modules\Crm\users_interface\repositories\UsersRepositories;
  * @mixin StudentGroupRepositories
  * @mixin SchedulePlanRepository
  * @mixin LessonsRepository
+ * @mixin SchedulePlanTypeRepository
  *
  */
 interface RepositoryInterface{
@@ -575,13 +577,6 @@ interface RepositoryInterface{
      * @return PlanSchedule
      */
     public function getFirstPlanSchedule($group_id, $semester_id);
-
-    /**
-     * Возвращает план по семестру и группе
-     * @param $semester_id
-     * @param $group_id
-     */
-    public function getSchedulePlanTypeByGroupSemester($semester_id, $group_id);
 
     /**
      * Создает запись о празднике

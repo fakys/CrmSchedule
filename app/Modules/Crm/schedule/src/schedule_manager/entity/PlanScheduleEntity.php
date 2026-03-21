@@ -16,7 +16,7 @@ class PlanScheduleEntity
     {
         foreach ($planSchedule as $item) {
             $this->planSchedule[$item->semester_id]
-            [$item->student_group_id][$item->getDuration()->week_number][$item->getDuration()->week_day][] = $planSchedule;
+            [$item->student_group_id][$item->getDuration()->week_number][$item->getDuration()->week_day][$item->getPairNumber()->number] = $item;
         }
 
     }
@@ -34,29 +34,9 @@ class PlanScheduleEntity
      * @param $week_day
      * @return array
      */
-    public function getPlanScheduleByData($group_id, $semester, $pair_number, $week_day, $current_day)
+    public function getPlanScheduleByData($semester_id, $group_id, $week_number, $week_day, $pair_number)
     {
-        foreach ($this->planSchedule as $planSchedule) {
-            if (
-                $planSchedule->group_id == $group_id &&
-                $planSchedule->semester_id == $semester['id'] &&
-                $planSchedule->pair_number == $pair_number &&
-                $planSchedule->week_day == $week_day
-            ) {
-                $params = json_decode($planSchedule->type_prams, 1);
-                if (isset($params['weeks'])) {
-                    $week_count = count($params['weeks']);
-                    if (
-                        $planSchedule->week_number == BackendHelper::getOperations()->getCurrentWeek($current_day, new \DateTime($semester['date_start']), $week_count)
-                    ) {
-                        return $planSchedule;
-                    }
-                }else {
-                    return $planSchedule;
-                }
-
-            }
-        }
+        return $this->planSchedule[$semester_id][$group_id][$week_number][$week_day][$pair_number] ?? null;
     }
 
 

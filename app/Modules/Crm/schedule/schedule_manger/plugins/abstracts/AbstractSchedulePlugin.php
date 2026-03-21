@@ -43,7 +43,7 @@ abstract class AbstractSchedulePlugin extends AbstractPlugin
                  $teacher_id = null,
                  $format_lesson_id = null,
                  $schedule_description = null,
-    )
+    ): ScheduleUnit
     {
         $schedule_unit = new ScheduleUnit();
         $schedule_unit->setDate($date);
@@ -60,6 +60,8 @@ abstract class AbstractSchedulePlugin extends AbstractPlugin
         $schedule_unit->setWeekDay($schedule_week_day);
 
         $this->schedule->addUnit($schedule_unit);
+
+        return $schedule_unit;
     }
 
     public function getSchedule()

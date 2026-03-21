@@ -34,6 +34,10 @@ class PlanSchedule extends Model
         'format_lesson_id'
     ];
 
+    public function getPlanType()
+    {
+        return $this->hasOne(SchedulePlanType::class, 'id', 'plan_type_id')->first();
+    }
 
     /**
      * @return PlanDurationLesson|null
