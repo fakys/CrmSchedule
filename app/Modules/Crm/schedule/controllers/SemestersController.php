@@ -35,6 +35,11 @@ class SemestersController extends AbstractController {
             ->setLink(route('schedule.semesters'));
     }
 
+    static function assets(): array
+    {
+        return [];
+    }
+
     /** Акшен семестров */
     public function actionSemesters()
     {

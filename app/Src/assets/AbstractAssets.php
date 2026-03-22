@@ -1,19 +1,9 @@
 <?php
 namespace App\Src\assets;
 
-abstract class AbstractAssets {
-    public static function JsFiles() : array
-    {
-        return [];
-    }
+use App\Services\AssetsBundle\Domain\Services\AssetBundleInterface;
 
-    public static function CssFiles() : array
-    {
-        return [];
-    }
-
-    public function register()
-    {
-
-    }
+abstract class AbstractAssets implements AssetBundleInterface
+{
+    const MAIN_DIR = 'resources/';
 }

@@ -47,6 +47,7 @@
     43 => 'App\\Modules\\Crm\\users_interface\\providers\\UsersInterfaceProvider',
     44 => 'App\\Modules\\RestApi\\schedule_api\\providers\\RestApiProvider',
     45 => 'App\\Providers\\InitKernelProvider',
+    46 => 'App\\Services\\ProviderLoader\\Providers\\ProviderLoaderProvider',
   ),
   'eager' => 
   array (
@@ -81,6 +82,7 @@
     28 => 'App\\Modules\\Crm\\users_interface\\providers\\UsersInterfaceProvider',
     29 => 'App\\Modules\\RestApi\\schedule_api\\providers\\RestApiProvider',
     30 => 'App\\Providers\\InitKernelProvider',
+    31 => 'App\\Services\\ProviderLoader\\Providers\\ProviderLoaderProvider',
   ),
   'deferred' => 
   array (

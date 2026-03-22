@@ -42,6 +42,11 @@ class StudentGroupsController extends AbstractController {
             ->setLink(route('student_groups.add_group'));
     }
 
+    static function assets(): array
+    {
+        return [];
+    }
+
     public function actionStudentGroupsInfo()
     {
         if(request()->isMethod('post')){

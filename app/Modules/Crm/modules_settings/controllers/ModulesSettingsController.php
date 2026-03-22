@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\modules_settings\controllers;
 
+use App\Modules\Crm\modules_settings\assets\SystemSettingsBundle;
 use App\Modules\Crm\modules_settings\InfoModule;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
@@ -18,6 +19,13 @@ class ModulesSettingsController extends AbstractController {
             ->setText('Модули')
             ->setIcon('fa fa-sitemap')
             ->setLink(route('modules_settings.settings'));
+    }
+
+    static function assets(): array
+    {
+        return [
+            SystemSettingsBundle::class
+        ];
     }
 
 

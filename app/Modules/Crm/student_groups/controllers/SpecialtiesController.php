@@ -20,6 +20,12 @@ class SpecialtiesController extends AbstractController
             ->setText('Добавить специальность')
             ->setLink(route('student_groups.add_specialty'));
     }
+
+    static function assets(): array
+    {
+        return [];
+    }
+
     public function actionAddSpecialty()
     {
         return view('student_groups::specialties.add_specialty', ['nav_operation'=>true]);

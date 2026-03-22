@@ -2,6 +2,10 @@
 
 namespace App\Src\Html;
 
+use App\Services\AssetsBundle\Domain\Services\AssetsBundleManagerInterface;
+use App\Src\Html\assets\SelectSearchBundle;
+use App\Src\Html\assets\SelectSearchMultipleBundle;
+
 class Html
 {
     public static function miniSelect($name, $label, $data, $value='')
@@ -31,11 +35,17 @@ class Html
 
     public static function select_search($label, $name, $data = [], $value = [], $class = '', $multiple = true, $addJsCssFiles = true, $disabled = false)
     {
+        /** @var AssetsBundleManagerInterface $asset */
+        $asset = app(AssetsBundleManagerInterface::class);
+        $asset->appendBundle(new SelectSearchBundle());
         return view('Html::form_inputs.select_search', ['name'=>$name, 'label'=>$label, 'data'=>$data, 'value'=>$value, 'class'=>$class, 'multiple'=>$multiple, 'addJsCssFiles'=>$addJsCssFiles, 'disabled'=>$disabled]);
     }
 
     public static function select_duallistbox_multiple($label, $name,$data = [] , $value = [], $class = '')
     {
+        /** @var AssetsBundleManagerInterface $asset */
+        $asset = app(AssetsBundleManagerInterface::class);
+        $asset->appendBundle(new SelectSearchMultipleBundle());
         return view('Html::form_inputs.select_search_multiple', ['name'=>$name, 'label'=>$label, 'data'=>$data, 'value'=>$value, 'class'=>$class]);
     }
 

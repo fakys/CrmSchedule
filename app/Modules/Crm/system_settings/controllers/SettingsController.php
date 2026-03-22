@@ -1,6 +1,8 @@
 <?php
 namespace App\Modules\Crm\system_settings\controllers;
 
+use App\Assets\LayoutBundle;
+use App\Modules\Crm\system_settings\assets\ScheduleSettingsBundle;
 use App\Modules\Crm\system_settings\models\CrmSetting;
 use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Modules\Crm\system_settings\models\SystemSetting;
@@ -8,7 +10,6 @@ use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Routing\Controller;
 class SettingsController extends AbstractController {
 
     public static function loadController(\App\Src\modules\kernel\KernelModules $kernel)
@@ -19,6 +20,13 @@ class SettingsController extends AbstractController {
             ->setText('Настройки системы')
             ->setIcon('fa fa-cog')
             ->setLink(route('system_settings.crm_settings'));
+    }
+
+    static function assets(): array
+    {
+        return [
+            ScheduleSettingsBundle::class
+        ];
     }
 
 

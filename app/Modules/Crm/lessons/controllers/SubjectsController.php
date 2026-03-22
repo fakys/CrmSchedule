@@ -40,6 +40,11 @@ class SubjectsController extends AbstractController
             ->setLink(route('lessons.action_add_subject'));
     }
 
+    static function assets(): array
+    {
+        return [];
+    }
+
     public function actionAddSubject()
     {
         return view('lessons::subjects.add_subject', ['nav_operation' => true]);

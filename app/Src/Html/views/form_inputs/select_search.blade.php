@@ -1,7 +1,3 @@
-<link rel="stylesheet" href="{{asset('assets/plugins/css/select2.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/plugins/css/select2-bootstrap4.min.css')}}">
-<script src="{{asset('assets/plugins/js/select2.js')}}"></script>
-
 <?php $class_select = rand(1, 999); ?>
 <script>
     $(document).ready(function (){

@@ -38,6 +38,11 @@ class ScheduleController extends AbstractController
             ->setText('Менеджер расписаний');
     }
 
+    static function assets(): array
+    {
+        return [];
+    }
+
     public function actionScheduleManager()
     {
         $student_group = ArrayHelper::getColumn(BackendHelper::getRepositories()->getFullStudentGroups(), 'name', 'id');

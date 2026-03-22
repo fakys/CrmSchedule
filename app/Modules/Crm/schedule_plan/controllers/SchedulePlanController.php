@@ -48,6 +48,11 @@ class SchedulePlanController extends AbstractController
             ->setLink(route('schedule_plan.schedule_plan'));
     }
 
+    static function assets(): array
+    {
+        return [];
+    }
+
     /**
      * Проверяет поля при заполнении в конструкторе
      */

@@ -42,6 +42,11 @@ class ReportsController extends AbstractController
             ->setLink(route('reports.report_for_teachers'));
     }
 
+    static function assets(): array
+    {
+        return [];
+    }
+
     public function actionReportForGroup()
     {
         $students_groups = ArrayHelper::getColumn(BackendHelper::getRepositories()->getFullStudentGroups(), 'number', 'id');

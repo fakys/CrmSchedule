@@ -36,6 +36,11 @@ class SchedulePlanTypeController extends AbstractController {
             ->setLink(route('schedule_plan.schedule_plan_types'));
     }
 
+    static function assets(): array
+    {
+        return [];
+    }
+
     public function actionSchedulePlanType()
     {
         $types = BackendHelper::getRepositories()->allSchedulePlanType();

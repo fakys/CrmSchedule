@@ -21,6 +21,11 @@ class SettingsController extends AbstractController
             ->setLink(route(\App\Modules\Crm\holidays\InfoModule::getNameModule().'.settings'));
     }
 
+    static function assets(): array
+    {
+        return [];
+    }
+
     public function actionIndex()
     {
         $setting = BackendHelper::getSystemSettings(HolidaySetting::getSettingName())->getSettings();

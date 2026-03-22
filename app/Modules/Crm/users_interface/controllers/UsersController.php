@@ -39,6 +39,11 @@ class UsersController extends AbstractController {
             ->setLink(route('users_interface.masse_add_teacher'));
     }
 
+    static function assets(): array
+    {
+        return [];
+    }
+
     public function actionUsersInfo()
     {
         $search_data = request()->session()->has('search-user-info')

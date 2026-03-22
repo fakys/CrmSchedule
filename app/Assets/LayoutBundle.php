@@ -6,23 +6,29 @@ use App\Src\assets\AbstractAssets;
 
 class LayoutBundle extends AbstractAssets
 {
-    public static function JsFiles() : array
+
+    public function headerFiles(): array
     {
         return [
-            'resources/plugins/js/jquery.min.js',
-            'resources/js/base.js',
-            'resources/plugins/js/bootstrap.min.js',
-            'resources/layouts/js/adminlte.js'
+            self::MAIN_DIR . 'layouts/css/adminlte.min.css',
+            self::MAIN_DIR . 'plugins/css/all.min.css',
+            self::MAIN_DIR . 'plugins/Html/css/styles.css',
+            self::MAIN_DIR . 'layouts/css/base_layout.css'
         ];
     }
 
-    public static function CssFiles() : array
+    public function bodyFiles(): array
     {
         return [
-            'resources/layouts/css/adminlte.min.css',
-            'resources/plugins/css/all.min.css',
-            'resources/plugins/Html/css/styles.css',
-            'resources/layouts/css/base_layout.css'
+            self::MAIN_DIR . 'plugins/js/jquery.min.js',
+            self::MAIN_DIR . 'js/base.js',
+            self::MAIN_DIR . 'plugins/js/bootstrap.min.js',
+            self::MAIN_DIR . 'layouts/js/adminlte.js'
         ];
+    }
+
+    public function dependsBundle(): array
+    {
+        return [];
     }
 }

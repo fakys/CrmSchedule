@@ -15,6 +15,11 @@ class AccessesController extends AbstractController {
             ->setLink(route('users_interface.accesses'));
     }
 
+    static function assets(): array
+    {
+        return [];
+    }
+
     public function actionAccesses()
     {
         $accesses = BackendHelper::getKernel()->getContext()->getAccesses();

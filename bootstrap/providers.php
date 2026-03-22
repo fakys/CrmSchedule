@@ -1,5 +1,7 @@
 <?php
 
+use App\Services\ProviderLoader\Providers\ProviderLoaderProvider;
+
 return [
     //Точка старта
     App\Providers\AppServiceProvider::class,
@@ -19,4 +21,5 @@ return [
     \App\Modules\RestApi\schedule_api\providers\RestApiProvider::class,
     //Сборка ядра
     App\Providers\InitKernelProvider::class,
+    ProviderLoaderProvider::class,
 ];

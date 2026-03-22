@@ -17,6 +17,12 @@ class UserGroupsController extends AbstractController {
             ->RmLink('users_group')->setText('Группы')
             ->setLink(route('users_interface.user_groups_info'));
     }
+
+    static function assets(): array
+    {
+        return [];
+    }
+
     public function actionUserGroupsInfo()
     {
         $user_groups = BackendHelper::getRepositories()->getAllUsersGroup();

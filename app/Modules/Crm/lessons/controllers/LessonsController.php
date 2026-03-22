@@ -31,6 +31,11 @@ class LessonsController extends AbstractController
 
     }
 
+    static function assets(): array
+    {
+        return [];
+    }
+
     public function actionLessons()
     {
         $lessons = BackendHelper::getRepositories()->getAllLessonsInfo();
