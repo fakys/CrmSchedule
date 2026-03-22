@@ -2,8 +2,11 @@
 
 namespace App\Modules\Crm\lessons\controllers;
 
+use App\Assets\LayoutBundle;
+use App\Modules\Crm\lessons\assets\PairNumberBundle;
 use App\Modules\Crm\lessons\models\LessonModel;
 use App\Modules\Crm\lessons\models\AddNumberPairs;
+use App\Services\AssetsBundle\Domain\Services\AssetsBundleManagerInterface;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
@@ -33,7 +36,9 @@ class LessonsController extends AbstractController
 
     static function assets(): array
     {
-        return [];
+        return [
+            LayoutBundle::class
+        ];
     }
 
     public function actionLessons()
@@ -76,8 +81,10 @@ class LessonsController extends AbstractController
     /**
      * Последовательность пар
      */
-    public function actionNumberPair()
+    public function actionNumberPair(AssetsBundleManagerInterface $assetsBundleManager)
     {
+        $assetsBundleManager->appendBundle(new PairNumberBundle());
+
         $pair_number = BackendHelper::getRepositories()->getNumberPair();
         return view('lessons::lessons.pair_number', [
             'pair_number' => $pair_number,

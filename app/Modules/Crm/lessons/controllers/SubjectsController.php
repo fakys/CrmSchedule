@@ -2,6 +2,7 @@
 
 namespace App\Modules\Crm\lessons\controllers;
 
+use App\Assets\LayoutBundle;
 use App\Modules\Crm\lessons\models\AddSubject;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
@@ -42,12 +43,14 @@ class SubjectsController extends AbstractController
 
     static function assets(): array
     {
-        return [];
+        return [
+            LayoutBundle::class
+        ];
     }
 
     public function actionAddSubject()
     {
-        return view('lessons::subjects.add_subject', ['nav_operation' => true]);
+        return view('lessons::subjects.add_subject');
     }
 
     public function addSubject()

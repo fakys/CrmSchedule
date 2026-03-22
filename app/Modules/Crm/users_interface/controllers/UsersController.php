@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\users_interface\controllers;
 
+use App\Assets\LayoutBundle;
 use App\Modules\Crm\schedule_plan\src\ExcelPlanSchedule;
 use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Modules\Crm\users_interface\model\AddUser;
@@ -41,7 +42,9 @@ class UsersController extends AbstractController {
 
     static function assets(): array
     {
-        return [];
+        return [
+            LayoutBundle::class
+        ];
     }
 
     public function actionUsersInfo()

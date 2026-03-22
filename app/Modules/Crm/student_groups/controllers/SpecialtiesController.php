@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\student_groups\controllers;
 
+use App\Assets\LayoutBundle;
 use App\Modules\Crm\student_groups\models\AddSpecialty;
 use App\Modules\Crm\student_groups\models\AddStudentGroup;
 use App\Src\BackendHelper;
@@ -23,7 +24,9 @@ class SpecialtiesController extends AbstractController
 
     static function assets(): array
     {
-        return [];
+        return [
+            LayoutBundle::class
+        ];
     }
 
     public function actionAddSpecialty()

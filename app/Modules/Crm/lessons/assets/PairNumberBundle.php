@@ -2,21 +2,29 @@
 
 namespace App\Modules\Crm\lessons\assets;
 
+use App\Assets\LayoutBundle;
 use App\Src\assets\AbstractAssets;
 
 class PairNumberBundle extends AbstractAssets
 {
-    public static function JsFiles() : array
+    public function headerFiles(): array
+    {
+        return [
+            'app/Modules/Crm/lessons/resources/css/pair_info.css'
+        ];
+    }
+
+    public function bodyFiles(): array
     {
         return [
             'app/Modules/Crm/lessons/resources/js/pair_number.js',
         ];
     }
 
-    public static function CssFiles() : array
+    public function dependsBundle(): array
     {
         return [
-            'app/Modules/Crm/lessons/resources/css/pair_info.css'
+            LayoutBundle::class,
         ];
     }
 }

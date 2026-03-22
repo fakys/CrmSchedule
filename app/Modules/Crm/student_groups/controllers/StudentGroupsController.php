@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\Crm\student_groups\controllers;
 
+use App\Assets\LayoutBundle;
 use App\Modules\Crm\student_groups\models\AddStudentGroup;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
@@ -44,7 +45,9 @@ class StudentGroupsController extends AbstractController {
 
     static function assets(): array
     {
-        return [];
+        return [
+            LayoutBundle::class
+        ];
     }
 
     public function actionStudentGroupsInfo()
