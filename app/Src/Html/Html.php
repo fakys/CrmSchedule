@@ -5,6 +5,7 @@ namespace App\Src\Html;
 use App\Services\AssetsBundle\Domain\Services\AssetsBundleManagerInterface;
 use App\Src\Html\assets\SelectSearchBundle;
 use App\Src\Html\assets\SelectSearchMultipleBundle;
+use App\Src\Html\assets\TableJsBundle;
 
 class Html
 {
@@ -25,6 +26,9 @@ class Html
     }
     public static function js_table($fields, $data, $url='')
     {
+        /** @var AssetsBundleManagerInterface $asset */
+        $asset = app(AssetsBundleManagerInterface::class);
+        $asset->appendBundle(new TableJsBundle());
         return view('Html::tables.js_table', ['fields'=>$fields, 'data'=>$data, 'url'=>$url]);
     }
 

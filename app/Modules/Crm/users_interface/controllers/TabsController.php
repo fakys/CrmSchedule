@@ -2,8 +2,10 @@
 
 namespace App\Modules\Crm\users_interface\controllers;
 
+use App\Modules\Crm\users_interface\assets\UserTabsBundle;
 use App\Modules\Crm\users_interface\model\UserAddGroups;
 use App\Modules\Crm\users_interface\model\EditUserTabs;
+use App\Services\AssetsBundle\Domain\Services\AssetsBundleManagerInterface;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use Illuminate\Routing\Controller;
@@ -12,8 +14,9 @@ use Illuminate\Support\Facades\Validator;
 class TabsController extends Controller
 {
 
-    public function getUsersTableTabs()
+    public function getUsersTableTabs(AssetsBundleManagerInterface $bundleManager)
     {
+        $bundleManager->appendBundle(new UserTabsBundle());
         return view('users_interface::tabs.users_table_tabs');
     }
 

@@ -38,7 +38,7 @@ class AssetBundleManager implements \App\Services\AssetsBundle\Domain\Services\A
     public function registerFile(string $filePath): HtmlString
     {
         $element = $this->factory->createAssetFileEntity($filePath);
-        $this->assetBundle->buildFile($element);
+        $element = $this->assetBundle->buildFile($element);
 
         return $this->assetRegister->renderAssetFileEntity($element);
     }

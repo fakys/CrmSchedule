@@ -4,9 +4,11 @@ namespace App\Modules\Crm\users_interface\controllers;
 use App\Assets\LayoutBundle;
 use App\Modules\Crm\schedule_plan\src\ExcelPlanSchedule;
 use App\Modules\Crm\system_settings\models\ScheduleSetting;
+use App\Modules\Crm\users_interface\assets\UserInfoBundle;
 use App\Modules\Crm\users_interface\model\AddUser;
 use App\Modules\Crm\users_interface\model\MasseAddTeacherModel;
 use App\Modules\Crm\users_interface\src\ExcelMasseAddTeachers;
+use App\Services\AssetsBundle\Domain\Services\AssetsBundleManagerInterface;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
@@ -43,12 +45,13 @@ class UsersController extends AbstractController {
     static function assets(): array
     {
         return [
-            LayoutBundle::class
+            LayoutBundle::class,
         ];
     }
 
-    public function actionUsersInfo()
+    public function actionUsersInfo(AssetsBundleManagerInterface $assetsBundleManager)
     {
+        $assetsBundleManager->appendBundle(new UserInfoBundle());
         $search_data = request()->session()->has('search-user-info')
             ? request()->session()->get('search-user-info') : [];
 

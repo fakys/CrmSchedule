@@ -26,7 +26,7 @@ class AssetBundleBuilder
      * @param \App\Services\AssetsBundle\Domain\Entity\AssetEntityFile $entity
      * @return mixed
      */
-    public function buildFile(AssetEntityFile $entity)
+    public function buildFile(AssetEntityFile $entity): AssetEntityFile
     {
         return $this->driver->buildFile($entity);
     }

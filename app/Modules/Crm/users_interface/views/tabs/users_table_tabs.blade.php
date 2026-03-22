@@ -1,5 +1,11 @@
-<link rel="stylesheet" href="{{asset('assets/css/tabs.css')}}">
-<link rel="stylesheet" href="{{asset('assets/css/tabs/users_info.css')}}">
+<?php
+/**
+ * @var \App\Services\AssetsBundle\Domain\Services\AssetsBundleManagerInterface $assetsBundleManager
+ */
+?>
+
+{{$assetsBundleManager->registerFile('app/Modules/Crm/users_interface/resources/css/tabs.css')}}
+{{$assetsBundleManager->registerFile('app/Modules/Crm/users_interface/resources/css/users_info.css')}}
 <div>
     @csrf
     <div class="tabs-container">
@@ -54,4 +60,4 @@
     </div>
     <div class="tabs-content"></div>
 </div>
-<script src="{{asset('assets/js/tabs/tabs.js')}}"></script>
+{{$assetsBundleManager->registerFile('app/Modules/Crm/users_interface/resources/js/tabs.js')}}
