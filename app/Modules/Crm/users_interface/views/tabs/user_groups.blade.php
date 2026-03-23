@@ -1,3 +1,4 @@
+{{$assetsBundleManager->registerHeaderFiles()}}
 <div class="container">
     <div class="card-header"><div class="h5">Группы пользователя</div></div>
     <div class="card">
@@ -14,4 +15,5 @@
         </div>
     </div>
 </div>
-<script src="{{asset('assets/js/tabs/edits/user_groups_edit.js')}}"></script>
+{{$assetsBundleManager->registerBodyFiles()}}
+{{$assetsBundleManager->registerFile('app/Modules/Crm/users_interface/resources/js/user_groups_edit.js')}}

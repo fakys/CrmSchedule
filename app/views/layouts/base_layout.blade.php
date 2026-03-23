@@ -225,7 +225,7 @@ use App\Src\BackendHelper;
             </div><!-- /.container-fluid -->
         </div>
         <!-- jQuery -->
-        <script src="{{asset('assets/plugins/js/jquery.min.js')}}"></script>
+        {{$assetsBundleManager->registerFile('resources/plugins/js/jquery.min.js')}}
         <!-- Main content -->
         <div class="content">
             <!-- alert -->
@@ -239,7 +239,7 @@ use App\Src\BackendHelper;
                     </div>
                 </div>
             </div>
-            <script src="{{asset('assets/js/alert.js')}}"></script>
+            {{$assetsBundleManager->registerFile('resources/js/alert.js')}}
 
             @yield('content')
         </div>

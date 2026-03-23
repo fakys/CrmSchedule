@@ -1,12 +1,4 @@
 @extends("layout::base_layout")
-@section('css_files')
-    <link rel="stylesheet" href="{{asset('assets/css/user_groups_info.css')}}">
-@endsection
-
-@section('js_files')
-    <script src="{{asset('assets/js/pair_number.js')}}"></script>
-@endsection
-
 @section('content')
     <div class="container pb-4">
         <div class="card">

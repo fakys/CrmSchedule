@@ -2,12 +2,12 @@
 
 namespace App\Modules\Crm\users_interface\controllers;
 
+use App\Assets\SelectSearchMultipleBundle;
 use App\Modules\Crm\users_interface\assets\UserTabsBundle;
-use App\Modules\Crm\users_interface\model\UserAddGroups;
 use App\Modules\Crm\users_interface\model\EditUserTabs;
+use App\Modules\Crm\users_interface\model\UserAddGroups;
 use App\Services\AssetsBundle\Domain\Services\AssetsBundleManagerInterface;
 use App\Src\BackendHelper;
-use App\Src\helpers\ArrayHelper;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 
@@ -105,6 +105,9 @@ class TabsController extends Controller
      */
     public function getUserGroupsTabs()
     {
+        /** @var AssetsBundleManagerInterface $asset */
+        $asset = app(AssetsBundleManagerInterface::class);
+        $asset->appendBundle(new SelectSearchMultipleBundle());
         $users_groups = BackendHelper::getRepositories()->getAllUsersGroup();
         $user_in_group = BackendHelper::getRepositories()->getGroupsUserByUserId(request()->post('id'));
         return view('users_interface::tabs.user_groups', compact('users_groups', 'user_in_group'));

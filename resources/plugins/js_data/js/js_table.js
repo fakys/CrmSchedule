@@ -1,3 +1,5 @@
+var context_id;
+
 $(document).ready(function (){
     $('.js-table-row').on('click', function (){
         let id = $(this).data('id')
@@ -17,7 +19,7 @@ $(document).ready(function (){
                 $('.content-tabs-js-table').append(data)
                 $(".tabs-button").on('click', function (){
                     let btn = $(this)
-                    let context_id = $('.active_row').data('id')
+                    context_id = $('.active_row').data('id')
                     let csrf = $('input[name="_token"]').val()
                     let data = {'_token': csrf, 'id':context_id};
                     let url = btn.data('url')

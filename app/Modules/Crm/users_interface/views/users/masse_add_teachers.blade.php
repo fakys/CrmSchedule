@@ -1,10 +1,7 @@
 @extends("layout::base_layout")
 
-@section('js_files')
-    <script src="{{asset('assets/modules/users_interface/masseAddTeachers.js')}}"></script>
-@endsection
-
 @section('content')
+    {{$assetsBundleManager->registerFile('app/Modules/Crm/users_interface/resources/js/masseAddTeachers.js')}}
     <div id="download_template_url" data-url="{{route('users_interface.download_template_masse_add_teacher')}}"></div>
     <div class="container">
         <div class="card">
