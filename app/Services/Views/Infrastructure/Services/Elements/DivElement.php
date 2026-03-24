@@ -6,10 +6,12 @@ use App\Services\Views\Infrastructure\Services\Elements\AdditionalParams\ViewEle
 
 class DivElement extends AbstractViewNestedElement
 {
+    private $text;
 
-    public function __construct(ViewElementAdditionalParams $additionalParams)
+    public function __construct(ViewElementAdditionalParams $additionalParams, $text = '')
     {
         $this->additionalParams = $additionalParams;
+        $this->text = $text;
     }
 
     public function getTemplate(): string
@@ -20,5 +22,10 @@ class DivElement extends AbstractViewNestedElement
     public function getPrefixTemplate(): string
     {
         return 'HTML';
+    }
+
+    public function getText(): string
+    {
+        return $this->text;
     }
 }

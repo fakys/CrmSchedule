@@ -19,6 +19,8 @@ abstract class AbstractFormElement extends AbstractViewNestedElement implements 
     const STRING_TYPE = 'string';
     const FILE_TYPE = 'file';
     const ARRAY_TYPE = 'array';
+    const BOOLEAN_TYPE = 'boolean';
+
 
     protected $value;
     protected string $name;

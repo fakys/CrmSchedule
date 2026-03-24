@@ -35,7 +35,7 @@ class AuthController extends AbstractController
         $form = new LoginFormModel('login_form', new FormAdditionalParam('POST', route('auth.login')));
         ViewManager::appendElement($form);
 
-        return view('auth::login', compact('form'));
+        return view('auth::login');
     }
 
     public function login()
@@ -46,7 +46,7 @@ class AuthController extends AbstractController
             $form->getValidationBuilder()->validate();
             /** @var LoginFormReturnData $return_data */
             $return_data = $form->getReturnData();
-            if(BackendHelper::getOperations()->loginUser($return_data->getLogin(), $return_data->getPassword())){
+            if(BackendHelper::getOperations()->loginUser($return_data->getLogin(), $return_data->getPassword(), $return_data->getRemember())){
                 return redirect(route('interface.index'));
             }
         }

@@ -1,11 +1,9 @@
 <?php
 namespace App\Modules\Crm\auth\models;
 
-use App\Src\BackendHelper;
 use App\Src\modules\models\InterfaceModel;
 use App\Src\modules\models\Model;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+
 
 class LoginModel extends Model implements InterfaceModel
 {

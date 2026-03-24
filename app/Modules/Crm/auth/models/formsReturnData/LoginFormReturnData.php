@@ -13,9 +13,17 @@ class LoginFormReturnData implements FromReturnDataInterface
     #[ReturnDataFieldAttribute('password')]
     private $password;
 
+    #[ReturnDataFieldAttribute('remember')]
+    private $remember = false;
+
     public function getLogin(): string
     {
         return $this->login;
+    }
+
+    public function getRemember():bool
+    {
+        return (bool)$this->remember;
     }
 
     public function getPassword(): string

@@ -8,6 +8,7 @@ use App\Services\Forms\Infrastructure\Services\AdditionalParams\FormAdditionalPa
 use App\Services\Forms\Infrastructure\Services\AdditionalParams\FromParams\FormElementAdditionalParams;
 use App\Services\Forms\Infrastructure\Services\AdditionalParams\LabelAdditionalParams;
 use App\Services\Forms\Infrastructure\Services\FormElement\Button;
+use App\Services\Forms\Infrastructure\Services\FormElement\Checkbox;
 use App\Services\Forms\Infrastructure\Services\FormElement\Input;
 use App\Services\Views\Infrastructure\Services\Elements\AdditionalParams\ViewElementAdditionalParams;
 use App\Services\Views\Infrastructure\Services\Elements\DivElement;
@@ -41,6 +42,10 @@ class LoginFormModel extends AbstractForm
         $this->appendElements(
             new Input('password', 'password', new LabelAdditionalParams('Пароль'), new FormElementAdditionalParams()),
         );
+        $div = new DivElement(new ViewElementAdditionalParams('', ['form-check']));
+        $div->appendElements(new Checkbox('remember', new LabelAdditionalParams('Запомнить меня'), new FormElementAdditionalParams()));
+        $this->appendElements($div);
+
         $div = new DivElement(new ViewElementAdditionalParams('', ['d-flex', 'justify-content-center']));
         $div->appendElements(new Button('Войти', 'submit', new FormElementAdditionalParams()));
         $this->appendElements(

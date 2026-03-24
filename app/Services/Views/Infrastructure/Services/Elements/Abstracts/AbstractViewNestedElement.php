@@ -25,7 +25,12 @@ abstract class AbstractViewNestedElement extends AbstractViewElement implements 
 
     public function appendElements(ViewNestedElementInterface|ViewElementInterface $elements)
     {
-        $this->elements[$elements->getTag()] = $elements;
+        if (!$elements->getTag()) {
+            $this->elements[] = $elements;
+        } else {
+            $this->elements[$elements->getTag()] = $elements;
+        }
+
     }
 
     public function getElementsByGroup($group): array
