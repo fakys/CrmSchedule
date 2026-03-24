@@ -1,7 +1,8 @@
 <?php
-namespace App\Services\Abstracts\Infrastructure\Assets;
+namespace App\Services\Validation\Infrastructure\Services\Assets;
 
 
+use App\Services\Abstracts\Infrastructure\Assets\AssetMainBundle;
 use App\Services\AssetsBundle\Domain\Services\AssetBundleInterface;
 
 class AssetJsValidateBundle implements AssetBundleInterface
@@ -10,14 +11,13 @@ class AssetJsValidateBundle implements AssetBundleInterface
 
     public function dependsBundle(): array
     {
-        return [
-            AssetMainBundle::class,
-        ];
+        return [];
     }
 
     public function bodyFiles(): array
     {
         return [
+            self::CONTEXT . 'plugins/js/jquery.min.js',
             self::CONTEXT . 'js/validation/jquery.validate.min.js',
             self::CONTEXT . 'js/validation/validator.js',
         ];

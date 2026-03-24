@@ -5,7 +5,7 @@ namespace App\Services\Forms\Infrastructure\Services\FormElement\DoubleRange;
 use App\Domains\User\Infrastructure\Assets\AssetSettingsUserBundle;
 use App\Services\Forms\Domain\Services\AdditionalParams\LabelAdditionalParamsInterface;
 use App\Services\Forms\Infrastructure\Services\AdditionalParams\FromParams\DoubleRangeElementAdditionalParams;
-use App\Services\Forms\Infrastructure\Services\AdditionalParams\FromParams\FromElementAdditionalParams;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\FromParams\FormElementAdditionalParams;
 use App\Services\Forms\Infrastructure\Services\FormElement\Abstracts\AbstractFormElement;
 use App\Services\Views\Infrastructure\Services\Elements\Abstracts\AbstractViewNestedElement;
 
@@ -29,10 +29,10 @@ class DoubleRange extends AbstractViewNestedElement
         $this->labels = $label;
 
         $this->appendElements(
-            new InputFromDoubleRange($additionalParams->getMinName(), new FromElementAdditionalParams())
+            new InputFromDoubleRange($additionalParams->getMinName(), new FormElementAdditionalParams())
         );
         $this->appendElements(
-            new InputFromDoubleRange($additionalParams->getMaxName(), new FromElementAdditionalParams())
+            new InputFromDoubleRange($additionalParams->getMaxName(), new FormElementAdditionalParams())
         );
     }
 
@@ -70,6 +70,6 @@ class DoubleRange extends AbstractViewNestedElement
 
     public function getPrefixTemplate(): string
     {
-        return AbstractFormElement::DEFAULT_PREFIX_ELEMENTS;
+        return AbstractFormElement::PREFIX_ELEMENTS;
     }
 }

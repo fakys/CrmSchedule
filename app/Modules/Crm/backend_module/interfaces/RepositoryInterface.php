@@ -46,13 +46,6 @@ use App\Modules\Crm\users_interface\repositories\UsersRepositories;
  */
 interface RepositoryInterface{
     /**
-     * Возвращает пользователей по условию
-     * @param $data
-     * @return User[]
-     */
-    public function getUserList($data);
-
-    /**
      * Возвращает расширенную информацию по пользователю
      * @return mixed
      */

@@ -29,7 +29,7 @@ class ViewProvider extends ServiceProvider implements ProviderInterface
                 return $manager;
             }
         );
-        $this->loadViewsFrom(base_path('resources/views/services/html'), 'HTML');
+        $this->loadViewsFrom(base_path('app/views/html'), 'HTML');
     }
 
     public function boot()

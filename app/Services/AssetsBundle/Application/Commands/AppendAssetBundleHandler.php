@@ -15,6 +15,9 @@ class AppendAssetBundleHandler extends AbstractHandler
     public function handle(AppendAssetBundleDto $handler)
     {
         foreach ($handler->getAssets() as $asset) {
+            if (is_string($asset)) {
+                $asset = new $asset();
+            }
             $this->assetBundleManager->appendBundle($asset);
         }
     }

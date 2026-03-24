@@ -51,7 +51,7 @@ class ValidationProvider extends ServiceProvider implements ProviderInterface {
         );
 
         $this->loadViewsFrom(
-            base_path('resources/views/services/validate_rules'),
+            base_path('app/views/validate_rules'),
             AbstractRule::PREFIX_TEMPLATE
         );
     }

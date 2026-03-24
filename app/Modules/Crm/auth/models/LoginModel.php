@@ -36,15 +36,6 @@ class LoginModel extends Model implements InterfaceModel
 
     public function login()
     {
-        $users = BackendHelper::getRepositories()->getUserList(['username'=>$this->getData()['username']]);
-        $remember = isset($this->getData()['remember'])?$this->getData()['remember']:0;
-        if($users->count()){
-            $user = $users->first();
-            if(Hash::check($this->getData()['password'], $user->password)){
-                Auth::login($user, );
-                return true;
-            }
-        }
-        return false;
+
     }
 }

@@ -18,8 +18,8 @@ class FromManagerProvider extends ServiceProvider implements ProviderInterface
     {
         $this->app->bind(FormLoaderInterface::class, FormLoader::class);
         $this->app->bind(FromReturnDataBuilderInterface::class, FromReturnDataBuilder::class);
-        $this->loadViewsFrom(base_path('resources/views/services/forms/default_form'), AbstractForm::DEFAULT_FORM_PREFIX);
-        $this->loadViewsFrom(base_path('resources/views/services/forms/fields'), AbstractFormElement::DEFAULT_PREFIX_ELEMENTS);
+        $this->loadViewsFrom(base_path('app/views/forms/default_form'), AbstractForm::FORM_PREFIX);
+        $this->loadViewsFrom(base_path('app/views/forms/fields'), AbstractFormElement::PREFIX_ELEMENTS);
     }
 
     public static function serviceName(): string

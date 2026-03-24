@@ -16,7 +16,7 @@ use App\Services\Views\Infrastructure\Services\Elements\Abstracts\AbstractViewNe
 
 abstract class AbstractForm extends AbstractViewNestedElement implements FormInterface
 {
-    const DEFAULT_FORM_PREFIX = 'default_form';
+    const FORM_PREFIX = 'default_form';
     private FormLoaderInterface $formLoader;
 
     private FromReturnDataInterface $formReturnData;
@@ -70,7 +70,7 @@ abstract class AbstractForm extends AbstractViewNestedElement implements FormInt
 
     public function getPrefixTemplate(): string
     {
-        return self::DEFAULT_FORM_PREFIX;
+        return self::FORM_PREFIX;
     }
 
     public function getValidationBuilder(): ValidationBuilderInterface

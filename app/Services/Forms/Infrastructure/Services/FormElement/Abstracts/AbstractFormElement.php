@@ -8,11 +8,13 @@ use App\Services\Forms\Domain\Services\AdditionalParams\LabelAdditionalParamsInt
 use App\Services\Forms\Domain\Services\FormElements\FormElementInterface;
 use App\Services\Views\Infrastructure\Services\Elements\Abstracts\AbstractViewNestedElement;
 
-/** todo Сделать интерфейс для элементов формы */
 abstract class AbstractFormElement extends AbstractViewNestedElement implements FormElementInterface
 {
-    const DEFAULT_PREFIX_ELEMENTS = 'DefaultPrefixElements';
+    const PREFIX_ELEMENTS = 'PrefixElements';
 
+    /**
+     * Типы данных
+     */
     const NUMERIC_TYPE = 'numeric';
     const STRING_TYPE = 'string';
     const FILE_TYPE = 'file';
@@ -24,7 +26,6 @@ abstract class AbstractFormElement extends AbstractViewNestedElement implements 
     protected $tag;
 
     protected ?LabelAdditionalParamsInterface $label;
-    protected array $validationJsRules;
 
 
     public function __construct(
@@ -43,7 +44,7 @@ abstract class AbstractFormElement extends AbstractViewNestedElement implements 
 
     public function getPrefixTemplate(): string
     {
-        return self::DEFAULT_PREFIX_ELEMENTS;
+        return self::PREFIX_ELEMENTS;
     }
 
     public function getName(): string

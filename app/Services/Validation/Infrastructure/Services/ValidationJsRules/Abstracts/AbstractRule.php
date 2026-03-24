@@ -4,6 +4,7 @@ namespace App\Services\Validation\Infrastructure\Services\ValidationJsRules\Abst
 
 use App\Services\Validation\Domain\Services\ValidationJsRules\ValidationJsRulesInterface;
 use App\Services\Validation\Domain\Services\ValidationJsRules\ValidationRulesAdditionalParamsInterface;
+use App\Services\Validation\Infrastructure\Services\Assets\AssetJsValidateBundle;
 use App\Services\Views\Infrastructure\Services\Elements\Abstracts\AbstractViewElement;
 
 abstract class AbstractRule extends AbstractViewElement implements ValidationJsRulesInterface
@@ -11,6 +12,13 @@ abstract class AbstractRule extends AbstractViewElement implements ValidationJsR
     public function __construct(ValidationRulesAdditionalParamsInterface $additionalParams)
     {
         $this->additionalParams = $additionalParams;
+    }
+
+    public function getAssets(): array
+    {
+        return [
+            new AssetJsValidateBundle()
+        ];
     }
 
     const PREFIX_TEMPLATE = 'RulesTemplate';

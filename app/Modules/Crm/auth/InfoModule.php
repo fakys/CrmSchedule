@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\auth;
 
 
+use App\Modules\Crm\auth\operations\AuthOperation;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
@@ -33,38 +34,13 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function operations(): array
     {
         return [
+            AuthOperation::class
         ];
     }
     public static function runConfig()
     {
         Config::set('view.paths', array(__DIR__.'/views'));
     }
-
-    public static function tasks(): array
-    {
-        return  [];
-    }
-
-    public static function mangers(): array
-    {
-        return [];
-    }
-
-    public static function components(): array
-    {
-        return [];
-    }
-
-    public static function crons(): array
-    {
-        return [];
-    }
-
-    public static function controllers(): array
-    {
-        return [];
-    }
-
     public function requireModule(): bool
     {
         return true;
