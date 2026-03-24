@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 $module = InfoModule::getNameModule();
 AccessRoute::access("{$module}_crm_settings")->route(
-    Route::get("/$module/crm-settings",
+    Route::any("/$module/crm-settings",
         [
             \App\Modules\Crm\system_settings\controllers\SettingsController::class,
             'actionCRMSettings'

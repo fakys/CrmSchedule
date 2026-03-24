@@ -1,10 +1,11 @@
 <?php
 /**
- * @var \App\Core\Forms\Infrastructure\Services\FormElement\Select $element
+ * @var Select $element
  * @var ViewErrorBag $errors
  * @var \App\Core\Views\Infrastructure\Services\ViewManager $viewManager
  */
 
+use App\Services\Forms\Infrastructure\Services\FormElement\Select;
 use App\Services\Validation\Infrastructure\Services\ValidationJsBuilder;
 use Illuminate\Support\ViewErrorBag;
 
@@ -40,7 +41,11 @@ use Illuminate\Support\ViewErrorBag;
             name="<?=$element->getName()?>"
         >
             <?php foreach ($element->getOptions() as $value => $name): ?>
-                <option value="<?=$value?>"><?=$name?></option>
+                <?php if($element->getValue() == $value): ?>
+                    <option value="<?=$value?>" selected><?=$name?></option>
+                <?php else: ?>
+                    <option value="<?=$value?>"><?=$name?></option>
+                <?php endif;?>
             <?php endforeach;?>
         </select>
 

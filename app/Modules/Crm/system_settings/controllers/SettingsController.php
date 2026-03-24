@@ -6,6 +6,9 @@ use App\Modules\Crm\system_settings\assets\ScheduleSettingsBundle;
 use App\Modules\Crm\system_settings\models\CrmSetting;
 use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Modules\Crm\system_settings\models\SystemSetting;
+use App\Modules\Crm\system_settings\models\SystemSettingsFormModel;
+use App\Services\Abstracts\Domain\Facades\ViewManager;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\FormAdditionalParam;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
@@ -36,34 +39,18 @@ class SettingsController extends AbstractController {
      */
     public function actionCRMSettings()
     {
-        $setting = BackendHelper::getSystemSettings(CrmSetting::getSettingName());
-        $systemName = config('app.name');
-
-        if($setting->system_name){
-            $systemName = $setting->system_name;
-        }
-
         $title = 'Настройки системы';
-        $allTimezones = [
-            'Europe/Kaliningrad' => '+2',
-            'Europe/Moscow' => '+3',
-            'Europe/Samara' => '+4',
-            'Asia/Yekaterinburg' => '+5',
-            'Asia/Omsk' => '+6',
-            'Asia/Krasnoyarsk' => '+7',
-            'Asia/Irkutsk' => '+8',
-            'Asia/Yakutsk' => '+9',
-            'Asia/Vladivostok' => '+10',
-            'Asia/Magadan'=> '+11',
-            'Asia/Kamchatka' => '+12',
-        ];
+        $setting = BackendHelper::getSystemSettings(CrmSetting::getSettingName());
 
-        $systemLang = [
-            'ru'=>'Русский',
-            'en'=>'English'
-        ];
-        return view('system_settings::settings.crm_settings',
-            compact('title', 'allTimezones', 'systemName', 'systemLang', 'setting'));
+        $form = new SystemSettingsFormModel('settings_form', new FormAdditionalParam('POST', route('system_settings.crm_settings')));
+        $form->load($setting->getSettings());
+
+        if (request()->isMethod('POST')) {
+            $form->load(request()->post());
+            $form->getValidationBuilder()->validate();
+        }
+        ViewManager::appendElement($form);
+        return view('system_settings::settings.crm_settings', compact('title'));
     }
 
     public function setCrmSettings()

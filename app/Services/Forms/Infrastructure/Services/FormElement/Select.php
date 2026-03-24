@@ -3,13 +3,14 @@
 namespace App\Services\Forms\Infrastructure\Services\FormElement;
 
 use App\Services\Forms\Domain\Services\AdditionalParams\LabelAdditionalParamsInterface;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\FromParams\FormElementAdditionalParams;
 use App\Services\Forms\Infrastructure\Services\AdditionalParams\FromParams\SelectElementAdditionalParams;
 use App\Services\Forms\Infrastructure\Services\FormElement\Abstracts\AbstractFormElement;
 
 class Select extends AbstractFormElement
 {
     private array $options = [];
-    public function __construct(string $name, $options, LabelAdditionalParamsInterface $label, SelectElementAdditionalParams $additionalParams, ?array $value = [])
+    public function __construct(string $name, $options, LabelAdditionalParamsInterface $label, FormElementAdditionalParams $additionalParams, ?array $value = [])
     {
         parent::__construct($name, $label, $additionalParams, $value);
         $this->options = $options;
