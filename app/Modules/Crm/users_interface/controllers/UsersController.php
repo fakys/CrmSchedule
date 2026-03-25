@@ -3,12 +3,16 @@ namespace App\Modules\Crm\users_interface\controllers;
 
 use App\Assets\LayoutBundle;
 use App\Modules\Crm\schedule_plan\src\ExcelPlanSchedule;
+use App\Modules\Crm\student_groups\models\SpecialtyFrom;
 use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Modules\Crm\users_interface\assets\UserInfoBundle;
 use App\Modules\Crm\users_interface\model\AddUser;
 use App\Modules\Crm\users_interface\model\MasseAddTeacherModel;
+use App\Modules\Crm\users_interface\model\UserBaseInfoFrom;
 use App\Modules\Crm\users_interface\src\ExcelMasseAddTeachers;
+use App\Services\Abstracts\Domain\Facades\ViewManager;
 use App\Services\AssetsBundle\Domain\Services\AssetsBundleManagerInterface;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\FormAdditionalParam;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
@@ -38,7 +42,7 @@ class UsersController extends AbstractController {
 
         $kernel->getControllerLoader()->RmGroup('rm_administrator')
             ->RmGroupList('operations')
-            ->RmLink('add_user')->setText('Массовое добавление учителей')
+            ->RmLink('masse_add_user')->setText('Массовое добавление учителей')
             ->setLink(route('users_interface.masse_add_teacher'));
     }
 
@@ -77,30 +81,21 @@ class UsersController extends AbstractController {
             'nav_users'=>true
         ]);
     }
-
-    public function checkUserAccess()
-    {
-        $url = request()->post('links');
-        return BackendHelper::getOperations()->hasAccessesByUrl($url);
-    }
-
     public function actionAddUser()
     {
-        $users_group = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllUsersGroup(), 'name', 'id');
-        return view('users_interface::users.add_user', ['users_group'=>$users_group, 'nav_operation'=>true]);
-    }
+        $form = new UserBaseInfoFrom('form', new FormAdditionalParam('post', route('users_interface.add_user')));
 
-    public function addUser()
-    {
-        if (request()->method() == 'POST') {
-            $model = new AddUser();
-            $model->load(request()->post());
-            $validate = Validator::make($model->getData(), $model->rules());
-            if($validate->validate() && $model->parseFio()){
-                BackendHelper::getOperations()->addUser($model->getData());
-            }
+        if (request()->post()) {
+            $form->load(request()->post());
+            $form->getValidationBuilder()->validate();
+            $return_data = $form->getReturnData();
+
+            BackendHelper::getOperations()->addUser($return_data->toArray());
+            return redirect()->route('users_interface.add_user');
         }
-        return redirect()->route('users_interface.users_info');
+
+        ViewManager::appendElement($form);
+        return view('users_interface::users.add_user');
     }
 
     public function actionDownloadTemplateMasseAddTeacher()

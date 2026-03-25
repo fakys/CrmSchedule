@@ -1,0 +1,70 @@
+<?php
+/**
+ * @var Select $element
+ * @var ViewErrorBag $errors
+ * @var \App\Core\Views\Infrastructure\Services\ViewManager $viewManager
+ */
+
+use App\Services\Forms\Infrastructure\Services\FormElement\Select;
+use App\Services\Validation\Infrastructure\Services\ValidationJsBuilder;
+use Illuminate\Support\ViewErrorBag;
+
+?>
+
+<script>
+    $(document).ready(function () {
+        //Bootstrap Duallistbox
+        $('#<?=$element->getAdditionalParams()->getElementId() ? $element->getAdditionalParams()->getElementId() : $element->getName()?>').bootstrapDualListbox()
+    })
+</script>
+<div class="form-group">
+    <?php if ($element->getLabel()): ?>
+        <label
+            for="<?= $element->getName() ?>"
+            <?php if ($element->getLabel()->getLabelId()): ?>
+                id="<?= $element->getLabel()->getLabelId() ?>"
+            <?php endif; ?>
+            <?php if ($element->getLabel()->getLabelClass()): ?>
+                class="<?= implode(' ', $element->getLabel()->getLabelClass()) ?>"
+            <?php endif; ?>
+        >
+            <?= $element->getLabel()->getLabel() ?>
+        </label>
+    <?php endif ?>
+    <div>
+        <select
+            <?php if ($element->getAdditionalParams() && $element->getAdditionalParams()->getElementId()): ?>
+                id="<?= $element->getAdditionalParams()->getElementId() ?>"
+            <?php else:?>
+                id="<?= $element->getName() ?>"
+            <?php endif; ?>
+            multiple
+            <?php if ($element->getAdditionalParams() && $element->getAdditionalParams()->getElementClasses()): ?>
+                class="<?= implode(' ', $element->getAdditionalParams()->getElementClasses()) ?>
+                <?php if ($errors->get($element->getName())): ?> is-invalid <?php endif; ?>"
+            <?php else: ?>
+                class="duallistbox <?php if ($errors->get($element->getName())): ?> is-invalid <?php endif; ?>"
+            <?php endif; ?>
+            name="<?=$element->getName()?>[]"
+        >
+            <?php foreach ($element->getOptions() as $value => $name): ?>
+                <?php if($element->getValue() == $value): ?>
+                    <option value="<?=$value?>" selected><?=$name?></option>
+                <?php else: ?>
+                    <option value="<?=$value?>"><?=$name?></option>
+                <?php endif;?>
+            <?php endforeach;?>
+        </select>
+
+        <div id="<?=$element->getName()?>_error" class="invalid-feedback">
+            <?php if ($errors->get($element->getName())): ?>
+                <?=$errors->get($element->getName())[0]?>
+            <?php endif; ?>
+        </div>
+
+        <?php foreach ($element->getElementsByGroup(ValidationJsBuilder::ELEMENT_GROUP_NAME) as $rule):?>
+            <?=$viewManager->renderElement($rule)?>
+        <?php endforeach;?>
+    </div>
+</div>
+

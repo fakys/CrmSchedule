@@ -14,18 +14,11 @@ AccessRoute::access("{$module}_users_info")->route(
 );
 
 AccessRoute::access("{$module}_add_user")->route(
-    Route::get("$module/add-user", [
+    Route::any("$module/add-user", [
         \App\Modules\Crm\users_interface\controllers\UsersController::class,
         'actionAddUser'
     ])->name("$module.add_user")
 )->description('Страница добавления пользователя');
-
-AccessRoute::access("{$module}_add_user_post")->route(
-    Route::post("$module/add-user-post", [
-        \App\Modules\Crm\users_interface\controllers\UsersController::class,
-        'addUser'
-    ])->name("$module.add_user_post")
-)->description('Ссылка для сохранения добавленного пользователя');
 
 
 AccessRoute::access("{$module}_tabs_users_tabs")->route(
@@ -124,12 +117,6 @@ Route::post("$module/edit-users-group", [
     \App\Modules\Crm\users_interface\controllers\UserGroupsController::class,
     'editUserGroups'
 ])->name("$module.edit_users_group");
-
-
-Route::post("$module/user/check-accesses", [
-    \App\Modules\Crm\users_interface\controllers\UsersController::class,
-    'checkUserAccess'
-])->name("$module.check_accesses");
 
 AccessRoute::access("{$module}_delete_user_groups")->route(
     Route::post("/$module/delete-user-groups",

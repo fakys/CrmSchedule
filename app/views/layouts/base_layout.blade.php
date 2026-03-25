@@ -18,7 +18,6 @@ use App\Src\BackendHelper;
 </head>
 <body class="hold-transition sidebar-mini">
 @csrf
-<div id="access_route" data-url="{{route('users_interface.check_accesses')}}"></div>
 <div class="wrapper">
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <ul class="navbar-nav ml-auto">

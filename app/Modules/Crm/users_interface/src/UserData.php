@@ -43,6 +43,14 @@ class UserData
      */
     private function init()
     {
+
+        if (isset($this->data['fio'])) {
+            $fio = explode(' ', $this->data['fio']);
+            $this->data['first_name'] = $fio[0];
+            $this->data['last_name']= $fio[1];
+            $this->data['patronymic'] = $fio[2];
+        }
+
         $this->username = isset($this->data['username']) ? $this->data['username'] : null;
         $this->password = isset($this->data['password']) ? $this->data['password'] : null;
         $this->first_name = isset($this->data['first_name']) ? $this->data['first_name'] : null;
