@@ -22,6 +22,7 @@ class RmGroupLoader extends AbstractLinkLoader {
      * @var RmLinkLoader[]
      */
     private $links = [];
+    private $position = -1;
 
     public function __construct($name)
     {
@@ -124,5 +125,16 @@ class RmGroupLoader extends AbstractLinkLoader {
     public function getAllLinks()
     {
         return $this->links;
+    }
+
+    public function setPosition($position)
+    {
+        $this->position = $position;
+        return $this;
+    }
+
+    public function getPosition()
+    {
+        return $this->position;
     }
 }

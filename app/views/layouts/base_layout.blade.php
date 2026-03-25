@@ -217,8 +217,14 @@ use App\Src\BackendHelper;
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard v3</li>
+                            <li class="breadcrumb-item"><a href="{{route('interface.index')}}">Главная</a></li>
+                            @foreach(BackendHelper::getKernel()->getControllerLoader()->getNavigation() as $link => $navigation)
+                                @if(is_string($link))
+                                    <li class="breadcrumb-item"><a href="{{$link}}">{{$navigation}}</a></li>
+                                @else
+                                    <li class="breadcrumb-item">{{$navigation}}</li>
+                                @endif
+                            @endforeach
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -241,6 +247,22 @@ use App\Src\BackendHelper;
             </div>
             {{$assetsBundleManager->registerFile('resources/js/alert.js')}}
 
+            <div class="container">
+                @foreach(BackendHelper::getKernel()->getControllerLoader()->getNavbars() as $navbar)
+                    @if($navbar->getActive())
+                        <div class="main-nav-tabs">
+                            <ul class="nav nav-tabs">
+                                @foreach($navbar->getLinks() as $link)
+                                    <li class="nav-item">
+                                        <a class="nav-link nav-tabs-link @if($link->getActive()) active @endif" href="{{$link->getLink()}}">{{$link->getText()}}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @break
+                    @endif
+                @endforeach
+            </div>
             @yield('content')
         </div>
         <!-- /.content -->

@@ -3,6 +3,7 @@
 namespace App\Src\modules\kernel\constructs;
 
 use App\Src\modules\controllers\ControllerLoader;
+use App\Src\modules\kernel\entity\ModuleEntity;
 use App\Src\modules\kernel\KernelModules;
 use App\Src\traits\TraitObjects;
 
@@ -35,10 +36,13 @@ class ConstructControllers
 
     public function collectControllerByModulesForKernel()
     {
+        /** @var ModuleEntity $module */
         foreach (app()->get(KernelModules::MODULE_KEY) as $module) {
-            foreach ($module->getModule()->controllers() as $controller) {
-                $this->controllers[] = $controller;
-                $controller::loadController($this->kernel);
+            if ($module->getStatus()) {
+                foreach ($module->getModule()->controllers() as $controller) {
+                    $this->controllers[] = $controller;
+                    $controller::loadController($this->kernel);
+                }
             }
         }
     }

@@ -20,10 +20,32 @@ class SettingsController extends AbstractController {
     {
         $kernel->getControllerLoader()
             ->RmGroup('rm_administrator')
+            ->setPosition(0)
             ->RmLink('system_settings')
             ->setText('Настройки системы')
             ->setIcon('fa fa-cog')
             ->setLink(route('system_settings.settings'));
+
+        $kernel->getControllerLoader()
+            ->Navbar('settings_navbar')
+            ->NavbarLink('system_settings')
+            ->setText('Настройки системы')
+            ->setLink(route('system_settings.settings'))
+            ->setRmLinkName('system_settings');
+
+        $kernel->getControllerLoader()
+            ->Navbar('settings_navbar')
+            ->NavbarLink('crm_settings')
+            ->setText('Настройки Сrm')
+            ->setLink(route('system_settings.crm_settings'))
+            ->setRmLinkName('system_settings');
+
+        $kernel->getControllerLoader()
+            ->Navbar('settings_navbar')
+            ->NavbarLink('schedule_settings')
+            ->setText('Настройки расписания')
+            ->setLink(route('system_settings.schedule_settings'))
+            ->setRmLinkName('system_settings');
     }
 
     static function assets(): array

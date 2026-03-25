@@ -2,11 +2,6 @@
 
 @section('content')
     <div class="container">
-        {{\App\Src\Html\Html::nav_tabs([
-            ['name'=>'Настройки CRM', 'url'=>route('system_settings.crm_settings')],
-            ['name'=>'Настройки системы', 'url'=>route('system_settings.settings'), 'active'=>true],
-            ['name'=>'Настройки расписания', 'url'=>route('system_settings.schedule_settings')]
-        ])}}
         <div class="card">
             <div class="card-body">
                 {{$viewManager->renderElementByTag('settings_form')}}
