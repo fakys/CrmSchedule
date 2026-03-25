@@ -2,13 +2,12 @@
 namespace App\Modules\Crm\student_groups;
 
 
+use App\Modules\Crm\student_groups\components\repositories\SpecialtiesRepositories;
+use App\Modules\Crm\student_groups\components\repositories\StudentGroupRepositories;
 use App\Modules\Crm\student_groups\controllers\SpecialtiesController;
 use App\Modules\Crm\student_groups\controllers\StudentGroupsController;
-use App\Modules\Crm\student_groups\repositories\SpecialtiesRepositories;
-use App\Modules\Crm\student_groups\repositories\StudentGroupRepositories;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
-use Illuminate\Support\Facades\Config;
 
 class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 {

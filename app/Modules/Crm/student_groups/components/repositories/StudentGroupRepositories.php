@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Crm\student_groups\repositories;
+namespace App\Modules\Crm\student_groups\components\repositories;
 
 use App\Entity\StudentGroup;
 use App\Src\modules\repository\AbstractRepositories;

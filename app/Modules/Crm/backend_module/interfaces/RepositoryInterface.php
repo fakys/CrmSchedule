@@ -24,7 +24,7 @@ use App\Modules\Crm\schedule\models\SemestersModel;
 use App\Modules\Crm\schedule\repositories\ScheduleRepository;
 use App\Modules\Crm\schedule_plan\repositories\SchedulePlanRepository;
 use App\Modules\Crm\schedule_plan\repositories\SchedulePlanTypeRepository;
-use App\Modules\Crm\student_groups\repositories\StudentGroupRepositories;
+use App\Modules\Crm\student_groups\components\repositories\StudentGroupRepositories;
 use App\Modules\Crm\users_interface\components\repositories\UsersRepositories;
 
 
@@ -34,7 +34,7 @@ use App\Modules\Crm\users_interface\components\repositories\UsersRepositories;
  * @mixin UsersRepositories
  * @mixin ScheduleRepository
  * @mixin CronRepository
- * @mixin StudentGroupRepositories
+ * @mixin \App\Modules\Crm\student_groups\components\repositories\StudentGroupRepositories
  * @mixin SchedulePlanRepository
  * @mixin \App\Modules\Crm\lessons\components\repositories\LessonsRepository
  * @mixin SchedulePlanTypeRepository
@@ -183,13 +183,6 @@ interface RepositoryInterface{
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getAllSpecialties();
-
-
-    /**
-     * Создание студенческой группы
-     * @return StudentGroup|null
-     */
-    public function createStudentGroup($number, $name, $specialty_id = '');
 
     /**
      * Создает предмет

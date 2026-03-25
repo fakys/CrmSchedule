@@ -3,6 +3,10 @@ namespace App\Modules\Crm\student_groups\controllers;
 
 use App\Assets\LayoutBundle;
 use App\Modules\Crm\student_groups\models\AddStudentGroup;
+use App\Modules\Crm\student_groups\models\SpecialtyFrom;
+use App\Modules\Crm\student_groups\models\StudentGroupFrom;
+use App\Services\Abstracts\Domain\Facades\ViewManager;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\FormAdditionalParam;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
@@ -68,18 +72,18 @@ class StudentGroupsController extends AbstractController {
     }
     public function actionAddGroup()
     {
-        $specialties = BackendHelper::getRepositories()->getAllSpecialties();
-        return view('student_groups::groups.add_group', ['specialties'=>$specialties, 'nav_operation'=>true]);
-    }
+        $form = new StudentGroupFrom('form', new FormAdditionalParam('post', route('student_groups.add_group')));
 
-    public function addGroup()
-    {
-        $model = new AddStudentGroup();
-        $model->load(request()->post());
-        $validate = Validator::make($model->getData(), $model->rules());
-        if($validate->validate()){
-            BackendHelper::getRepositories()->createStudentGroup($model->number, $model->name, $model->specialty);
+        if (request()->post()) {
+            $form->load(request()->post());
+            $form->getValidationBuilder()->validate();
+            $return_data = $form->getReturnData();
+
+            BackendHelper::getRepositories()->createStudentGroup($return_data->getNumber(), $return_data->getName(), $return_data->getSpecialty());
+            return redirect()->route('student_groups.add_group');
         }
-        return redirect()->route('student_groups.add_group');
+
+        ViewManager::appendElement($form);
+        return view('student_groups::groups.add_group');
     }
 }

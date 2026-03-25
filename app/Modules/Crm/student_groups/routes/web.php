@@ -20,13 +20,9 @@ AccessRoute::access($module."_search_student_groups_info")->route(
 
 
 AccessRoute::access($module."_add_group")->route(
-    Route::get("$module/add-group", [StudentGroupsController::class, 'actionAddGroup'])->name("$module.add_group")
+    Route::any("$module/add-group", [StudentGroupsController::class, 'actionAddGroup'])->name("$module.add_group")
 )->description('Страничка добавления студенческих групп');
 
 AccessRoute::access($module."_add_specialty")->route(
-    Route::get("$module/add-specialty", [SpecialtiesController::class, 'actionAddSpecialty'])->name("$module.add_specialty")
+    Route::any("$module/add-specialty", [SpecialtiesController::class, 'actionAddSpecialty'])->name("$module.add_specialty")
 )->description('Страничка добавления специальностей');
-
-Route::post("$module/add-specialty-post", [SpecialtiesController::class, 'addSpecialty'])->name("$module.add_specialty_post");
-
-Route::post("$module/add-student-group-post", [StudentGroupsController::class, 'addGroup'])->name("$module.add_student_group_post");

@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Crm\student_groups\repositories;
+namespace App\Modules\Crm\student_groups\components\repositories;
 
 use App\Entity\Specialty;
 use App\Entity\StudentGroup;
