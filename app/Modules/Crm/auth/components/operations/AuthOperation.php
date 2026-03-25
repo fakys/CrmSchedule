@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Crm\auth\operations;
+namespace App\Modules\Crm\auth\components\operations;
 
 use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;

@@ -11,25 +11,21 @@ use App\Entity\PlanDurationLesson;
 use App\Entity\PlanSchedule;
 use App\Entity\Schedule;
 use App\Entity\SchedulePlanType;
-use App\Entity\ScheduleTask;
 use App\Entity\Semester;
 use App\Entity\Specialty;
 use App\Entity\StudentGroup;
 use App\Entity\Subject;
 use App\Entity\User;
-use App\Entity\UserDocumet;
 use App\Entity\UserGroup;
-use App\Entity\UserInfo;
 use App\Modules\Crm\backend_module\repositories\CronRepository;
 use App\Modules\Crm\backend_module\repositories\TaskRepository;
-use App\Modules\Crm\lessons\repositories\LessonsRepository;
 use App\Modules\Crm\reports\repositories\ReportsRepository;
 use App\Modules\Crm\schedule\models\SemestersModel;
 use App\Modules\Crm\schedule\repositories\ScheduleRepository;
 use App\Modules\Crm\schedule_plan\repositories\SchedulePlanRepository;
 use App\Modules\Crm\schedule_plan\repositories\SchedulePlanTypeRepository;
 use App\Modules\Crm\student_groups\repositories\StudentGroupRepositories;
-use App\Modules\Crm\users_interface\repositories\UsersRepositories;
+use App\Modules\Crm\users_interface\components\repositories\UsersRepositories;
 
 
 /**
@@ -40,7 +36,7 @@ use App\Modules\Crm\users_interface\repositories\UsersRepositories;
  * @mixin CronRepository
  * @mixin StudentGroupRepositories
  * @mixin SchedulePlanRepository
- * @mixin LessonsRepository
+ * @mixin \App\Modules\Crm\lessons\components\repositories\LessonsRepository
  * @mixin SchedulePlanTypeRepository
  *
  */
@@ -277,27 +273,6 @@ interface RepositoryInterface{
      * @return array
      */
     public function getSearchSubjectInfo($searchData);
-
-    /**
-     * Возвращает последовательность пар по id
-     * @param $id
-     */
-    public function getNumberPairById($id);
-
-    /**
-     * Создает последовательность пар
-     * @param array $data
-     * @return bool
-     */
-    public function addNumberPair($data);
-
-    /**
-     * Обновляет последовательность пар по id
-     * @param $data
-     * @param $id
-     * @return bool
-     */
-    public function updateNumberPairById($data, $id);
 
     /**
      * Удаляет последовательность пар по id

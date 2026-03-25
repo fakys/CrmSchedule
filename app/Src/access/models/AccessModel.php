@@ -8,7 +8,7 @@ class AccessModel{
 
     protected $route;
 
-    protected string $redirect_route;
+    protected string $redirect_route = '';
 
     protected $description;
 

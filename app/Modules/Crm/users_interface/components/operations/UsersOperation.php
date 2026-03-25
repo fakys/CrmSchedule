@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Crm\users_interface\operations;
+namespace App\Modules\Crm\users_interface\components\operations;
 
 use App\Modules\Crm\users_interface\src\UserData;
 use App\Src\BackendHelper;

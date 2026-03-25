@@ -1,18 +1,17 @@
 <?php
 namespace App\Modules\Crm\users_interface;
 
+use App\Modules\Crm\users_interface\components\operations\UserAccessOperation;
+use App\Modules\Crm\users_interface\components\operations\UsersGroupOperations;
+use App\Modules\Crm\users_interface\components\operations\UsersOperation;
+use App\Modules\Crm\users_interface\components\operations\ValidationUserDataOperation;
+use App\Modules\Crm\users_interface\components\repositories\UserGroupsRepositories;
+use App\Modules\Crm\users_interface\components\repositories\UsersRepositories;
 use App\Modules\Crm\users_interface\controllers\AccessesController;
 use App\Modules\Crm\users_interface\controllers\UserGroupsController;
 use App\Modules\Crm\users_interface\controllers\UsersController;
-use App\Modules\Crm\users_interface\operations\UserAccessOperation;
-use App\Modules\Crm\users_interface\operations\UsersGroupOperations;
-use App\Modules\Crm\users_interface\operations\UsersOperation;
-use App\Modules\Crm\users_interface\operations\ValidationUserDataOperation;
-use App\Modules\Crm\users_interface\repositories\UserGroupsRepositories;
-use App\Modules\Crm\users_interface\repositories\UsersRepositories;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
-use Illuminate\Support\Facades\Config;
 
 class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 {

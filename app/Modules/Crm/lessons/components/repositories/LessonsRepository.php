@@ -1,11 +1,10 @@
 <?php
-namespace App\Modules\Crm\lessons\repositories;
+namespace App\Modules\Crm\lessons\components\repositories;
 
 use App\Entity\DurationLesson;
 use App\Entity\FormatLesson;
 use App\Entity\Lesson;
 use App\Entity\PairNumber;
-use App\Entity\ScheduleTask;
 use App\Src\modules\repository\AbstractRepositories;
 use Illuminate\Support\Facades\DB;
 
@@ -23,6 +22,7 @@ class LessonsRepository extends AbstractRepositories{
     /**
      * Возвращает последовательность пар по id
      * @param $id
+     * @return PairNumber|null
      */
     public function getNumberPairById($id)
     {

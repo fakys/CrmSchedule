@@ -3,7 +3,9 @@
 namespace App\Modules\Crm\lessons\controllers;
 
 use App\Assets\LayoutBundle;
-use App\Modules\Crm\lessons\models\AddSubject;
+use App\Modules\Crm\lessons\models\AddSubjectFormModel;
+use App\Services\Abstracts\Domain\Facades\ViewManager;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\FormAdditionalParam;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
@@ -50,18 +52,18 @@ class SubjectsController extends AbstractController
 
     public function actionAddSubject()
     {
-        return view('lessons::subjects.add_subject');
-    }
+        $form = new AddSubjectFormModel('add_subject', new FormAdditionalParam('post', route('lessons.action_add_subject')));
 
-    public function addSubject()
-    {
-        $model = new AddSubject();
-        $model->load(request()->post());
-        $validate = Validator::make($model->getData(), $model->rules());
-        if ($validate->validate()) {
-            BackendHelper::getRepositories()->createSubject($model->name, $model->full_name, $model->description);
+        if (request()->post()) {
+            $form->load(request()->post());
+            $form->getValidationBuilder()->validate();
+            $data = $form->getReturnData();
+            BackendHelper::getRepositories()->createSubject($data->getName(), $data->getFullName(), $data->getDescription());
         }
-        return redirect()->route('lessons.action_add_subject');
+
+        ViewManager::appendElement($form);
+
+        return view('lessons::subjects.add_subject');
     }
 
     public function actionSubjectsInfo()

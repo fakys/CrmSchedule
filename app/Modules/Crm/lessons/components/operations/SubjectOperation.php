@@ -1,7 +1,8 @@
 <?php
-namespace App\Modules\Crm\lessons\operations;
+namespace App\Modules\Crm\lessons\components\operations;
 
 use App\Src\modules\operations\AbstractOperation;
+
 class SubjectOperation extends AbstractOperation {
 
 

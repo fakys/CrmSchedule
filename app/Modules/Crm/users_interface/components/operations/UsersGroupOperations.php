@@ -1,8 +1,7 @@
 <?php
-namespace App\Modules\Crm\users_interface\operations;
+namespace App\Modules\Crm\users_interface\components\operations;
 
 use App\Src\BackendHelper;
-use App\Src\helpers\ArrayHelper;
 use App\Src\modules\operations\AbstractOperation;
 use Mockery\Exception;
 

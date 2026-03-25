@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Crm\users_interface\repositories;
+namespace App\Modules\Crm\users_interface\components\repositories;
 
 
 

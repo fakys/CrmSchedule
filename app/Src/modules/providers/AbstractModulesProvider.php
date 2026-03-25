@@ -48,7 +48,7 @@ abstract class AbstractModulesProvider extends ServiceProvider
 
     protected function viewsPath()
     {
-        return "views";
+        return "resources/views";
     }
 
     protected function middlewares(): array

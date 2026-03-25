@@ -1,10 +1,11 @@
 <?php
-namespace App\Modules\Crm\lessons\operations;
+namespace App\Modules\Crm\lessons\components\operations;
 
 use App\Entity\Lesson;
 use App\Modules\Crm\lessons\models\LessonModel;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
+
 class AddLessonOperation extends AbstractOperation
 {
 

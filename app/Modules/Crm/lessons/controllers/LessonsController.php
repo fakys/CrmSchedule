@@ -6,7 +6,10 @@ use App\Assets\LayoutBundle;
 use App\Modules\Crm\lessons\assets\PairNumberBundle;
 use App\Modules\Crm\lessons\models\LessonModel;
 use App\Modules\Crm\lessons\models\AddNumberPairs;
+use App\Modules\Crm\lessons\models\PairNumberFormModel;
+use App\Services\Abstracts\Domain\Facades\ViewManager;
 use App\Services\AssetsBundle\Domain\Services\AssetsBundleManagerInterface;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\FormAdditionalParam;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
@@ -95,23 +98,22 @@ class LessonsController extends AbstractController
 
     public function actionAddNumberPair()
     {
-        return view('lessons::lessons.form_pair_number', [
-            'title' => 'Добавить последовательность пар',
-            'nav_subject' => true
-        ]);
-    }
+        $form = new PairNumberFormModel('form_pair', new FormAdditionalParam('POST', route('lessons.action_add_pair_number')));
 
-    public function addNumberPair()
-    {
-        if (request()->isMethod('POST')) {
-            $model = new AddNumberPairs();
-            $model->load(request()->all());
-            $validate = Validator::make($model->getData(), $model->rules());
-            if ($validate->validate()) {
-                BackendHelper::getRepositories()->addNumberPair($model->getData());
-            }
+        if (request()->post()) {
+            $form->load(request()->post());
+            $form->getValidationBuilder()->validate();
+            $return_data = $form->getReturnData();
+
+            BackendHelper::getRepositories()->addNumberPair($return_data->toArray());
+            return redirect()->route('lessons.pair_number');
         }
-        return redirect()->route('lessons.pair_number');
+
+        ViewManager::appendElement($form);
+
+        return view('lessons::lessons.form_pair_number', [
+            'title' => 'Добавить последовательность пар'
+        ]);
     }
 
     public function actionUpdateNumberPair()
@@ -121,25 +123,29 @@ class LessonsController extends AbstractController
         if (!$number_pair) {
             abort(404);
         }
+
+        $form = new PairNumberFormModel(
+            'form_pair',
+            new FormAdditionalParam('POST', route('lessons.action_update_pair_number', ['id' => $id])),
+            true
+        );
+        $form->load($number_pair->toArray());
+
+        if (request()->post()) {
+            $form->load(request()->post());
+            $form->getValidationBuilder()->validate();
+            $return_data = $form->getReturnData();
+            BackendHelper::getRepositories()->updateNumberPairById($return_data->toArray(), $id);
+            return redirect()->route('lessons.pair_number');
+        }
+
+        ViewManager::appendElement($form);
+
         return view('lessons::lessons.form_pair_number', [
             'title' => 'Добавить последовательность пар',
             'number_pair' => $number_pair,
             'nav_subject' => true
         ]);
-    }
-
-    public function updateNumberPair()
-    {
-        if (request()->isMethod('POST')) {
-            $id = request()->get('id');
-            $model = new AddNumberPairs();
-            $model->load(request()->all());
-            $validate = Validator::make($model->getData(), $model->rules());
-            if ($validate->validate()) {
-                BackendHelper::getRepositories()->updateNumberPairById($model->getData(), $id);
-            }
-        }
-        return redirect()->route('lessons.pair_number');
     }
 
     public function deleteNumberPaid()

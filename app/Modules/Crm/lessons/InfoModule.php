@@ -2,15 +2,14 @@
 namespace App\Modules\Crm\lessons;
 
 
+use App\Modules\Crm\lessons\components\operations\AddLessonOperation;
+use App\Modules\Crm\lessons\components\operations\SubjectOperation;
+use App\Modules\Crm\lessons\components\repositories\LessonsRepository;
+use App\Modules\Crm\lessons\components\repositories\SubjectsRepository;
 use App\Modules\Crm\lessons\controllers\LessonsController;
 use App\Modules\Crm\lessons\controllers\SubjectsController;
-use App\Modules\Crm\lessons\operations\AddLessonOperation;
-use App\Modules\Crm\lessons\operations\SubjectOperation;
-use App\Modules\Crm\lessons\repositories\LessonsRepository;
-use App\Modules\Crm\lessons\repositories\SubjectsRepository;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
-use Illuminate\Support\Facades\Config;
 
 class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 {

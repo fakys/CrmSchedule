@@ -2,6 +2,7 @@
 namespace App\Src\access;
 
 use App\Entity\User;
+use App\Modules\Crm\system_settings\components\settings\CrmSetting;
 use App\Modules\Crm\system_settings\components\settings\SystemSetting;
 use App\Src\access\abstract\AbstractAccessRoute;
 use App\Src\BackendHelper;
@@ -59,15 +60,16 @@ class ContextAccessRoute extends AbstractAccessRoute
      */
     protected function checkSystemUser($user)
     {
-        $settings = BackendHelper::getSystemSettings(SystemSetting::SETTING_NAME);
-        if($settings->system_users){
-            if (in_array($user->id, $settings->system_users)) {
+        /** @var CrmSetting $settings */
+        $settings = BackendHelper::getSystemSettings(CrmSetting::SETTING_NAME);
+        if($settings->getSystemUsers()){
+            if (in_array($user->id, $settings->getSystemUsers())) {
                 return true;
             }
         }
         foreach ($user->getGroupsUser() as $group) {
-            if($settings->system_user_groups){
-                if(in_array($group->group_id, $settings->system_user_groups)){
+            if($settings->getSystemUserGroups()){
+                if(in_array($group->group_id, $settings->getSystemUserGroups())){
                     return true;
                 }
             }

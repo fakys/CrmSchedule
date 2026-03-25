@@ -1,9 +1,8 @@
 <?php
-namespace App\Modules\Crm\users_interface\repositories;
+namespace App\Modules\Crm\users_interface\components\repositories;
 
 use App\Entity\GroupUser;
 use App\Entity\UserGroup;
-use App\Src\BackendHelper;
 use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
 

@@ -2,7 +2,7 @@
 namespace App\Modules\Crm\auth;
 
 
-use App\Modules\Crm\auth\operations\AuthOperation;
+use App\Modules\Crm\auth\components\operations\AuthOperation;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
@@ -39,7 +39,7 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     }
     public static function runConfig()
     {
-        Config::set('view.paths', array(__DIR__.'/views'));
+        Config::set('view.paths', array(__DIR__ . '/views'));
     }
     public function requireModule(): bool
     {

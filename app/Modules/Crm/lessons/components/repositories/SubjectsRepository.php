@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Crm\lessons\repositories;
+namespace App\Modules\Crm\lessons\components\repositories;
 
 use App\Entity\Subject;
 use App\Src\modules\repository\AbstractRepositories;
