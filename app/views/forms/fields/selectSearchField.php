@@ -1,15 +1,16 @@
 <?php
 /**
- * @var Select $element
+ * @var \App\Services\Forms\Infrastructure\Services\FormElement\SelectSearch $element
  * @var ViewErrorBag $errors
- * @var \App\Core\Views\Infrastructure\Services\ViewManager $viewManager
+ * @var ViewManager $viewManager
  */
 
-use App\Services\Forms\Infrastructure\Services\FormElement\Select;
 use App\Services\Validation\Infrastructure\Services\ValidationJsBuilder;
+use App\Services\Views\Infrastructure\Services\ViewManager;
 use Illuminate\Support\ViewErrorBag;
 
 ?>
+
 
 <div class="form-group">
     <?php if ($element->getLabel()): ?>
@@ -44,7 +45,7 @@ use Illuminate\Support\ViewErrorBag;
             name="<?=$element->getName()?><?php if ($element->getAdditionalParams()->getMultiple()):?>[]<?php endif; ?>"
         >
             <?php foreach ($element->getOptions() as $value => $name): ?>
-                <?php if($element->getValue() == $value): ?>
+                <?php if(is_array($element->getValue()) && in_array($value, $element->getValue()) || $element->getValue() == $value): ?>
                     <option value="<?=$value?>" selected><?=$name?></option>
                 <?php else: ?>
                     <option value="<?=$value?>"><?=$name?></option>
@@ -61,6 +62,16 @@ use Illuminate\Support\ViewErrorBag;
         <?php foreach ($element->getElementsByGroup(ValidationJsBuilder::ELEMENT_GROUP_NAME) as $rule):?>
             <?=$viewManager->renderElement($rule)?>
         <?php endforeach;?>
+
+        <script>
+            $(document).ready(function (){
+                $('#<?=$element->getAdditionalParams()->getElementId() ? $element->getAdditionalParams()->getElementId() : $element->getName()?>').select2()
+
+                $('.select2bs4').select2({
+                    theme: 'bootstrap4'
+                })
+            })
+        </script>
     </div>
 </div>
 

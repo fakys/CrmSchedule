@@ -2,16 +2,15 @@
 
 namespace App\Services\Forms\Infrastructure\Services\FormElement;
 
-use App\Services\Forms\Domain\Services\AdditionalParams\FormElementAdditionalParamsInterface;
+use App\Assets\SelectSearchBundle;
 use App\Services\Forms\Domain\Services\AdditionalParams\LabelAdditionalParamsInterface;
-use App\Services\Forms\Infrastructure\Services\AdditionalParams\FromParams\FormElementAdditionalParams;
 use App\Services\Forms\Infrastructure\Services\AdditionalParams\FromParams\SelectElementAdditionalParams;
 use App\Services\Forms\Infrastructure\Services\FormElement\Abstracts\AbstractFormElement;
 
 /**
- * @method SelectElementAdditionalParams getAdditionalParams()
+ * Селект с поиском
  */
-class Select extends AbstractFormElement
+class SelectSearch extends AbstractFormElement
 {
     private array $options = [];
     public function __construct(string $name, $options, LabelAdditionalParamsInterface $label, SelectElementAdditionalParams $additionalParams, ?array $value = [])
@@ -22,12 +21,14 @@ class Select extends AbstractFormElement
 
     public function getAssets(): array
     {
-        return [];
+        return [
+            SelectSearchBundle::class
+        ];
     }
 
     public function getTemplate(): string
     {
-        return 'selectField';
+        return 'selectSearchField';
     }
 
     public function getOptions(): array

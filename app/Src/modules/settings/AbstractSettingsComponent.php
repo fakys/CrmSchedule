@@ -14,7 +14,7 @@ abstract class AbstractSettingsComponent extends AbstractComponents
     {
         parent::__construct($kernel);
         /** @var SystemSetting $settings */
-        $settings = SystemSetting::where('name', $this->getName())->orderBy('id', 'asc')->first();
+        $settings = SystemSetting::where('name', $this->getName())->where('active', true)->orderBy('id', 'desc')->first();
         if (!$settings) {
             $this->settings = $this->getDefaultSettings();
         } else {

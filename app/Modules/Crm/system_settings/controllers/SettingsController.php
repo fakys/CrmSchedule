@@ -5,6 +5,8 @@ use App\Modules\Crm\system_settings\assets\ScheduleSettingsBundle;
 use App\Modules\Crm\system_settings\components\settings\CrmSetting;
 use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
 use App\Modules\Crm\system_settings\components\settings\SystemSetting;
+use App\Modules\Crm\system_settings\models\CrmSettingsFormModel;
+use App\Modules\Crm\system_settings\models\ScheduleSettingsFormModel;
 use App\Modules\Crm\system_settings\models\SystemSettingsFormModel;
 use App\Services\Abstracts\Domain\Facades\ViewManager;
 use App\Services\Forms\Infrastructure\Services\AdditionalParams\FormAdditionalParam;
@@ -21,7 +23,7 @@ class SettingsController extends AbstractController {
             ->RmLink('system_settings')
             ->setText('Настройки системы')
             ->setIcon('fa fa-cog')
-            ->setLink(route('system_settings.crm_settings'));
+            ->setLink(route('system_settings.settings'));
     }
 
     static function assets(): array
@@ -40,8 +42,7 @@ class SettingsController extends AbstractController {
     {
         $title = 'Настройки Сrm';
         $setting = BackendHelper::getSystemSettings(CrmSetting::SETTING_NAME);
-
-        $form = new SystemSettingsFormModel('settings_form', new FormAdditionalParam('POST', route('system_settings.crm_settings')));
+        $form = new CrmSettingsFormModel('settings_form', new FormAdditionalParam('POST', route('system_settings.crm_settings')));
         $form->load($setting->getSettings());
 
         if (request()->isMethod('POST')) {
@@ -59,9 +60,7 @@ class SettingsController extends AbstractController {
      */
     public function actionSystemSettings()
     {
-        $title = 'Настройки Сrm';
-//        $groups = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllUsersGroup(), 'name', 'id');
-//        $users = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllActiveUsers(), 'username', 'id');
+        $title = 'Настройки системы';
         /** @var SystemSetting $setting */
         $setting = BackendHelper::getSystemSettings(SystemSetting::SETTING_NAME);
         $form = new SystemSettingsFormModel('settings_form', new FormAdditionalParam('POST', route('system_settings.settings')));
@@ -78,15 +77,19 @@ class SettingsController extends AbstractController {
 
     public function actionScheduleSettings()
     {
-        $settings = BackendHelper::getSystemSettings(ScheduleSetting::SETTING_NAME);
-        $users_groups_settings = $settings->users_groups;
-        $users_groups = BackendHelper::getRepositories()->getAllUsersGroup();
-        $type_weeks = [1 => 'Шестидневка', 2 => 'Пятидневка'];
-        return view('system_settings::settings.schedule_settings', [
-            'users_groups'=>$users_groups,
-            'users_groups_settings'=>$users_groups_settings,
-            'type_weeks'=>$type_weeks,
-            'settings'=>$settings
-        ]);
+        $title = 'Настройки расписания';
+        $setting = BackendHelper::getSystemSettings(ScheduleSetting::SETTING_NAME);
+
+        $form = new ScheduleSettingsFormModel('settings_form', new FormAdditionalParam('POST', route('system_settings.schedule_settings')));
+        $form->load($setting->getSettings());
+
+        if (request()->isMethod('POST')) {
+            $form->load(request()->post());
+            $form->getValidationBuilder()->validate();
+            $setting->loadSettings($form->getReturnData()->toArray());
+        }
+        ViewManager::appendElement($form);
+
+        return view('system_settings::settings.schedule_settings', compact('title'));
     }
 }

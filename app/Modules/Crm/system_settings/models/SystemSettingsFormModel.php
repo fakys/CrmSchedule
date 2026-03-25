@@ -2,16 +2,14 @@
 namespace App\Modules\Crm\system_settings\models;
 
 use App\Assets\BaseLayoutBundle;
-use App\Modules\Crm\auth\models\formsReturnData\LoginFormReturnData;
 use App\Modules\Crm\system_settings\models\returnData\SystemSettingsReturnData;
 use App\Services\Forms\Infrastructure\Services\AbstractForm;
 use App\Services\Forms\Infrastructure\Services\AdditionalParams\FromParams\FormElementAdditionalParams;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\FromParams\SelectElementAdditionalParams;
 use App\Services\Forms\Infrastructure\Services\AdditionalParams\LabelAdditionalParams;
 use App\Services\Forms\Infrastructure\Services\FormElement\Button;
 use App\Services\Forms\Infrastructure\Services\FormElement\Input;
 use App\Services\Forms\Infrastructure\Services\FormElement\Select;
-use App\Services\Views\Infrastructure\Services\Elements\AdditionalParams\ViewElementAdditionalParams;
-use App\Services\Views\Infrastructure\Services\Elements\DivElement;
 
 class SystemSettingsFormModel extends AbstractForm
 {
@@ -59,22 +57,20 @@ class SystemSettingsFormModel extends AbstractForm
         ];
 
         $this->appendElements(
-            new Select('site_tome_zone', $allTimezones, new LabelAdditionalParams('Часовой пояс системы'), new FormElementAdditionalParams('', ['mini-select'])),
+            new Select('site_tome_zone', $allTimezones, new LabelAdditionalParams('Часовой пояс системы'), new SelectElementAdditionalParams()),
         );
         $this->appendElements(
-            new Select('db_tome_zone', $allTimezones, new LabelAdditionalParams('Часовой пояс базы данных'), new FormElementAdditionalParams('', ['mini-select'])),
+            new Select('db_tome_zone', $allTimezones, new LabelAdditionalParams('Часовой пояс базы данных'), new SelectElementAdditionalParams()),
         );
         $this->appendElements(
             new Input('text', 'system_name', new LabelAdditionalParams('Название системы'), new FormElementAdditionalParams()),
         );
         $this->appendElements(
-            new Select('system_lang', $systemLang, new LabelAdditionalParams('Название системы'), new FormElementAdditionalParams()),
+            new Select('system_lang', $systemLang, new LabelAdditionalParams('Название системы'), new SelectElementAdditionalParams()),
         );
 
-        $div = new DivElement(new ViewElementAdditionalParams('', ['d-flex', 'justify-content-center']));
-        $div->appendElements(new Button('Сохранить', 'submit', new FormElementAdditionalParams()));
         $this->appendElements(
-            $div
+            new Button('Сохранить', 'submit', new FormElementAdditionalParams())
         );
 
 

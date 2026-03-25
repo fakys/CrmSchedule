@@ -1,11 +1,14 @@
 <?php
+
 namespace App\Modules\Crm\system_settings\components\settings;
 
 use App\Src\modules\settings\AbstractSettingsComponent;
 
 /**
- * @property $system_users
- * @property $system_user_groups
+ * @property $system_lang
+ * @property $system_name
+ * @property $db_tome_zone
+ * @property $site_tome_zone
  */
 class SystemSetting extends AbstractSettingsComponent
 {
@@ -19,28 +22,30 @@ class SystemSetting extends AbstractSettingsComponent
     public function getDefaultSettings(): array
     {
         return [
-            'users_groups' => [],
-            'type_weeks' => []
+            'system_name' => env('APP_NAME'),
+            'system_lang' => 1,
+            'db_tome_zone' => 'Europe/Moscow',
+            'site_tome_zone' => 'Europe/Moscow',
         ];
     }
 
-    public function getSystemUsers(): array
+    public function getSystemLang(): string
     {
-        return $this->system_users;
+        return $this->system_lang;
     }
 
-    public function setSystemUsers(array $system_users)
+    public function getSystemName(): string
     {
-        $this->system_users = $system_users;
+        return $this->system_name;
     }
 
-    public function getSystemUserGroups(): array
+    public function getDbTomeZone(): string
     {
-        return $this->system_user_groups;
+        return $this->db_tome_zone;
     }
 
-    public function setSystemUserGroups(array $system_user_groups)
+    public function getSiteTomeZone(): string
     {
-        $this->system_user_groups = $system_user_groups;
+        return $this->site_tome_zone;
     }
 }

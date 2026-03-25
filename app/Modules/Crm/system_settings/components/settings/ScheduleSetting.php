@@ -22,7 +22,7 @@ class ScheduleSetting extends AbstractSettingsComponent
     public function getDefaultSettings(): array
     {
         return [
-            'type_weeks' => [],
+            'type_weeks' => self::SIX_DAY,
             'users_groups' => []
         ];
     }

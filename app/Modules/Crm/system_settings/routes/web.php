@@ -14,15 +14,8 @@ AccessRoute::access("{$module}_crm_settings")->route(
     )->name("$module.crm_settings")
 )->description('Настройки crm');
 
-Route::post("/$module/settings",
-    [
-        \App\Modules\Crm\system_settings\controllers\SettingsController::class,
-        'setCrmSettings'
-    ]
-)->name("$module.set-settings");
-
 AccessRoute::access("{$module}_settings")->route(
-    Route::get("/$module/settings",
+    Route::any("/$module/settings",
         [
             \App\Modules\Crm\system_settings\controllers\SettingsController::class,
             'actionSystemSettings'
@@ -31,17 +24,10 @@ AccessRoute::access("{$module}_settings")->route(
 )->description('Настройки системы');
 
 AccessRoute::access("{$module}_settings")->route(
-    Route::get("/$module/schedule-settings",
+    Route::any("/$module/schedule-settings",
         [
             \App\Modules\Crm\system_settings\controllers\SettingsController::class,
             'actionScheduleSettings'
         ]
     )->name("$module.schedule_settings")
 )->description('Настройки расписания');
-
-Route::post("/$module/set-schedule-settings",
-    [
-        \App\Modules\Crm\system_settings\controllers\SettingsController::class,
-        'setScheduleSettings'
-    ]
-)->name("$module.set_schedule_settings");

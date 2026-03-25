@@ -4,10 +4,8 @@ namespace App\Modules\Crm\system_settings\components\settings;
 use App\Src\modules\settings\AbstractSettingsComponent;
 
 /**
- * @property $system_lang
- * @property $system_name
- * @property $db_tome_zone
- * @property $site_tome_zone
+ * @property $system_users
+ * @property $system_user_groups
  */
 class CrmSetting extends AbstractSettingsComponent
 {
@@ -21,45 +19,28 @@ class CrmSetting extends AbstractSettingsComponent
     public function getDefaultSettings(): array
     {
         return [
-            'system_name' => env('APP_NAME'),
-            'system_lang' => 1,
-            'db_tome_zone' => 'Europe/Moscow',
-            'site_tome_zone' => 'Europe/Moscow',
+            'system_users' => [],
+            'system_user_groups' => [],
         ];
     }
 
-    public function getSystemLang()
+    public function getSystemUsers()
     {
-        return $this->system_lang;
+        return $this->system_users;
     }
 
-    public function setSystemLang($system_lang)
+    public function getSystemUserGroups()
     {
-        $this->system_lang = $system_lang;
+        return $this->system_user_groups;
     }
 
-    public function getSystemName()
+    public function setSystemUsers(array $users)
     {
-        return $this->system_name;
+        $this->system_users = $users;
     }
 
-    public function setSystemName($system_name)
+    public function setSystemUserGroups(array $groups)
     {
-        $this->system_name = $system_name;
-    }
-
-    public function getDbTomeZone()
-    {
-        return $this->db_tome_zone;
-    }
-
-    public function setDbTomeZone($db_tome_zone)
-    {
-        $this->db_tome_zone = $db_tome_zone;
-    }
-
-    public function getSiteTomeZone()
-    {
-        return $this->site_tome_zone;
+        $this->system_user_groups = $groups;
     }
 }

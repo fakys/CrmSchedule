@@ -9,24 +9,7 @@
         ])}}
         <div class="card">
             <div class="card-body">
-                <form method="post" class="form" action="">
-                    @csrf
-                    <div>
-                        {{\App\Src\Html\Html::select_search('Системные пользователи', 'system_users', $users, $settings_users)}}
-                        @error('system_users')
-                        <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div>
-                        {{\App\Src\Html\Html::select_search('Системные группы', 'system_user_groups', $groups, $settings_group)}}
-                        @error('system_user_groups')
-                        <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div>
-                        <input type="submit" class="btn-main" value="Сохранить">
-                    </div>
-                </form>
+                {{$viewManager->renderElementByTag('settings_form')}}
             </div>
         </div>
     </div>
