@@ -42,14 +42,10 @@ class LoginFormModel extends AbstractForm
         $this->appendElements(
             new Input('password', 'password', new LabelAdditionalParams('Пароль'), new FormElementAdditionalParams()),
         );
-        $div = new DivElement(new ViewElementAdditionalParams('', ['form-check']));
-        $div->appendElements(new Checkbox('remember', new LabelAdditionalParams('Запомнить меня'), new FormElementAdditionalParams()));
-        $this->appendElements($div);
+        $this->appendElements(new Checkbox('remember', new LabelAdditionalParams('Запомнить меня'), new FormElementAdditionalParams()));
 
-        $div = new DivElement(new ViewElementAdditionalParams('', ['d-flex', 'justify-content-center']));
-        $div->appendElements(new Button('Войти', 'submit', new FormElementAdditionalParams()));
         $this->appendElements(
-            $div
+            new Button('Войти', 'submit', new FormElementAdditionalParams())
         );
 
 

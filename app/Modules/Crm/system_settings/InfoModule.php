@@ -1,12 +1,14 @@
 <?php
 namespace App\Modules\Crm\system_settings;
 
+use App\Modules\Crm\system_settings\components\operations\SystemSettingsOperations;
+use App\Modules\Crm\system_settings\components\repositories\SystemSettingRepository;
+use App\Modules\Crm\system_settings\components\settings\CrmSetting;
+use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
+use App\Modules\Crm\system_settings\components\settings\SystemSetting;
 use App\Modules\Crm\system_settings\controllers\SettingsController;
-use App\Modules\Crm\system_settings\operations\SystemSettingsOperations;
-use App\Modules\Crm\system_settings\repositories\SystemSettingRepository;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
-use Illuminate\Support\Facades\Config;
 
 class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 {
@@ -44,6 +46,15 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     {
         return [
             SettingsController::class
+        ];
+    }
+
+    public static function components(): array
+    {
+        return [
+            CrmSetting::class,
+            SystemSetting::class,
+            ScheduleSetting::class
         ];
     }
 

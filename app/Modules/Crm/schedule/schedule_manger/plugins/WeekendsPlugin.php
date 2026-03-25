@@ -2,7 +2,7 @@
 namespace App\Modules\Crm\schedule\schedule_manger\plugins;
 
 use App\Modules\Crm\schedule\schedule_manger\plugins\abstracts\AbstractSchedulePlugin;
-use App\Modules\Crm\system_settings\models\ScheduleSetting;
+use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
 use App\Src\BackendHelper;
 
 /**
@@ -26,7 +26,7 @@ class WeekendsPlugin extends AbstractSchedulePlugin
 
     public function Execute()
     {
-        $settings = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName());
+        $settings = BackendHelper::getSystemSettings(ScheduleSetting::SETTING_NAME);
         $type_weeks = $settings->type_weeks;
 
         if ($this->getSchedule()->getScheduleUnits()) {

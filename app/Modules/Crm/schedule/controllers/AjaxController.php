@@ -7,7 +7,7 @@ use App\Modules\Crm\schedule\models\ScheduleManagerModel;
 use App\Modules\Crm\schedule\schedule_manger\ScheduleManger;
 use App\Modules\Crm\schedule\src\schedule_manager\return_data_schedule\ScheduleManagerReturnData;
 use App\Modules\Crm\schedule\tasks\CashScheduleTask;
-use App\Modules\Crm\system_settings\models\ScheduleSetting;
+use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
 use App\Src\BackendHelper;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -41,7 +41,8 @@ class AjaxController extends Controller
             $users = BackendHelper::getRepositories()->getAllTeachers();
             $pair_format = BackendHelper::getRepositories()->getFullFormatLessons();
             $student_groups = BackendHelper::getRepositories()->getFullStudentGroups();
-            $use_cash = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName())->cash_schedule;
+            /** todo убрать */
+            $use_cash = BackendHelper::getSystemSettings(ScheduleSetting::SETTING_NAME)->cash_schedule;
             return view('schedule::schedule_manager.add_schedule', [
                 'schedules' => $schedules,
                 'subjects' => $subjects,
@@ -66,7 +67,7 @@ class AjaxController extends Controller
             if ($model->schedule) {
                 if ($model->validate()) {
                     BackendHelper::getOperations()->editSchedule($model->schedule);
-                    if (BackendHelper::getSystemSettings(ScheduleSetting::getSettingName())->cash_schedule) {
+                    if (BackendHelper::getSystemSettings(ScheduleSetting::SETTING_NAME)->cash_schedule) {
                         BackendHelper::taskCreate(CashScheduleTask::TASK_NAME);
                     }
                     return true;

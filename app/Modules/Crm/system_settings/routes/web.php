@@ -30,13 +30,6 @@ AccessRoute::access("{$module}_settings")->route(
     )->name("$module.settings")
 )->description('Настройки системы');
 
-Route::post("/$module/set-system-settings",
-    [
-        \App\Modules\Crm\system_settings\controllers\SettingsController::class,
-        'setSystemSettings'
-    ]
-)->name("$module.set_system_settings");
-
 AccessRoute::access("{$module}_settings")->route(
     Route::get("/$module/schedule-settings",
         [

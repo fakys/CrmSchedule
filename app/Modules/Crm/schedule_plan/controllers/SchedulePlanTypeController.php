@@ -2,12 +2,9 @@
 namespace App\Modules\Crm\schedule_plan\controllers;
 
 use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
-use App\Modules\Crm\system_settings\models\ScheduleSetting;
+use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
 use App\Src\BackendHelper;
 use App\Src\modules\controllers\AbstractController;
-use App\Src\modules\controllers\loaders\RmGroupLinkLoader;
-use App\Src\modules\controllers\loaders\RmLink;
-use App\Src\modules\controllers\RmGroupLoader;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -67,7 +64,7 @@ class SchedulePlanTypeController extends AbstractController {
 
     public function formAddTypeSchedulePlan()
     {
-        $five_day = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName())->type_weeks == ScheduleSetting::FIVE_DAY;
+        $five_day = BackendHelper::getSystemSettings(ScheduleSetting::SETTING_NAME)->type_weeks == ScheduleSetting::FIVE_DAY;
         $number_week = request()->post('number_week');
         $week_data = request()->post('week_data');
         return view('schedule_plan::schedule_plan_type.form_add', compact('five_day', 'number_week', 'week_data'));

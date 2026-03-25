@@ -43,4 +43,9 @@ abstract class AbstractViewNestedElement extends AbstractViewElement implements 
         }
         return $elements;
     }
+
+    public function getElementByTag(string $tag): ViewElementInterface
+    {
+        return $this->elements[$tag];
+    }
 }

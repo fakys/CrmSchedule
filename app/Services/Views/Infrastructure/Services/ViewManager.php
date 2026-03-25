@@ -24,7 +24,7 @@ class ViewManager implements ViewManagerInterface
         return $this->viewBuilder->hasElementByTag($tag);
     }
 
-    public function getElementByTag(string $tag): ViewElementInterface
+    public function getElementByTag(string $tag): ViewElementInterface|ViewNestedElementInterface
     {
         return $this->viewBuilder->getElementByTag($tag);
     }

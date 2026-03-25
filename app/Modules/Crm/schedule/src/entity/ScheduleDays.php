@@ -2,7 +2,7 @@
 namespace App\Modules\Crm\schedule\src\entity;
 
 
-use App\Modules\Crm\system_settings\models\ScheduleSetting;
+use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
 use App\Src\BackendHelper;
 use function Symfony\Component\String\b;
 
@@ -39,7 +39,7 @@ class ScheduleDays
 
     private function setSetting()
     {
-        $settings = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName());
+        $settings = BackendHelper::getSystemSettings(ScheduleSetting::SETTING_NAME);
 
         /**
          * По умолчанию берем шестидневку

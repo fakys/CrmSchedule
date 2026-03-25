@@ -1,0 +1,63 @@
+<?php
+namespace App\Modules\Crm\system_settings\models;
+
+use App\Assets\BaseLayoutBundle;
+use App\Modules\Crm\auth\models\formsReturnData\LoginFormReturnData;
+use App\Modules\Crm\system_settings\models\returnData\SystemSettingsReturnData;
+use App\Services\Forms\Infrastructure\Services\AbstractForm;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\FromParams\FormElementAdditionalParams;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\LabelAdditionalParams;
+use App\Services\Forms\Infrastructure\Services\FormElement\Button;
+use App\Services\Forms\Infrastructure\Services\FormElement\Input;
+use App\Services\Forms\Infrastructure\Services\FormElement\Select;
+use App\Services\Views\Infrastructure\Services\Elements\AdditionalParams\ViewElementAdditionalParams;
+use App\Services\Views\Infrastructure\Services\Elements\DivElement;
+
+class ScheduleSettingsFormModel extends AbstractForm
+{
+    public function getAssets(): array
+    {
+        return [
+            BaseLayoutBundle::class,
+        ];
+    }
+    public function getAttribute(): array
+    {
+        return [
+            'users_groups',
+            'type_weeks',
+        ];
+    }
+
+    public function returnData(): string
+    {
+        return SystemSettingsReturnData::class;
+    }
+
+    public function buildForm()
+    {
+        $this->appendElements(
+            new Select('users_groups', [], new LabelAdditionalParams('Часовой пояс системы'), new FormElementAdditionalParams('', ['mini-select'])),
+        );
+        $this->appendElements(
+            new Select('type_weeks', [], new LabelAdditionalParams('Часовой пояс базы данных'), new FormElementAdditionalParams('', ['mini-select'])),
+        );
+
+        $div = new DivElement(new ViewElementAdditionalParams('', ['d-flex', 'justify-content-center']));
+        $div->appendElements(new Button('Сохранить', 'submit', new FormElementAdditionalParams()));
+        $this->appendElements(
+            $div
+        );
+
+
+//        $this->getValidationBuilder()->getSetRules(
+//            [
+//                'system_name' => ['required', 'max:255', 'min:3', 'string'],
+//                'db_tome_zone' => ['required'],
+//                'site_tome_zone' => ['required'],
+//                'system_lang' => ['required']
+//            ]
+//        );
+    }
+}
+

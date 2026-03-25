@@ -8,7 +8,7 @@ use App\Modules\Crm\schedule\src\EditNewScheduleData;
 use App\Modules\Crm\schedule\src\entity\ScheduleUnit;
 use App\Modules\Crm\schedule\src\ScheduleManager;
 use App\Modules\Crm\schedule_plan\exceptions\SchedulePlanAddException;
-use App\Modules\Crm\system_settings\models\ScheduleSetting;
+use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
 use App\Src\redis\RedisManager;
@@ -240,7 +240,7 @@ class ScheduleManagerOperation extends AbstractOperation
     public function cashSchedule()
     {
         $redis = new RedisManager();
-        $settings = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName());
+        $settings = BackendHelper::getSystemSettings(ScheduleSetting::SETTING_NAME);
 
         if (!$redis->redis->get('schedule') && $settings->cash_schedule && $settings->count_minutes_for_cash > 1) {
             /** Получаем расписание для кеша */

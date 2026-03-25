@@ -8,13 +8,11 @@ use App\Modules\Crm\schedule_plan\models\SchedulePlanModel;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
 use App\Modules\Crm\schedule_plan\src\ExcelPlanSchedule;
 use App\Modules\Crm\schedule_plan\src\SchedulePlanReturnData;
-use App\Modules\Crm\system_settings\models\ScheduleSetting;
+
+use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
-use App\Src\modules\controllers\loaders\RmGroupLinkLoader;
-use App\Src\modules\controllers\loaders\RmLink;
-use App\Src\modules\controllers\RmGroupLoader;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -107,7 +105,7 @@ class SchedulePlanController extends AbstractController
         $model->load(request()->post());
         $validate = Validator::make($model->getData(), $model->rules());
         if ($validate->validate() && $model->validatePlan()) {
-            if (BackendHelper::getSystemSettings(ScheduleSetting::getSettingName())->cash_schedule) {
+            if (BackendHelper::getSystemSettings(ScheduleSetting::SETTING_NAME)->cash_schedule) {
                 BackendHelper::taskCreate(CashScheduleTask::TASK_NAME);
             }
             BackendHelper::getOperations()->addSchedulePlan($model->schedule_data, $model->group_id, $model->semester_id, $model->type_id);

@@ -5,7 +5,7 @@ namespace App\Modules\Crm\users_interface\src;
 use App\Entity\SchedulePlanType;
 use App\Entity\StudentGroup;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
-use App\Modules\Crm\system_settings\models\ScheduleSetting;
+use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
 use App\Modules\Crm\users_interface\exceptions\MasseAddTeachersExceptions;
 use App\Src\BackendHelper;
 use Illuminate\Support\Facades\Log;
@@ -28,7 +28,7 @@ class ExcelMasseAddTeachers implements FromArray, ShouldAutoSize
     public static function parseData($data, $validator): array
     {
         try {
-            $settings = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName());
+            $settings = BackendHelper::getSystemSettings(ScheduleSetting::SETTING_NAME);
 
             unset($data[array_key_first($data)]);
             $all_user_data = [];

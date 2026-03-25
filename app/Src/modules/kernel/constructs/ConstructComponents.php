@@ -157,7 +157,7 @@ class ConstructComponents
                 }
             }
         }
-        return [];
+        return null;
     }
 
     public function getComponentsForKernelByType($type)

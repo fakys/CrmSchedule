@@ -9,6 +9,7 @@ use Illuminate\Contracts\Support\Htmlable;
 interface ViewManagerInterface {
     public function appendElement(ViewNestedElementInterface|ViewElementInterface $element);
     public function hasElementByTag(string $tag): bool;
+    public function getElementByTag(string $tag): ViewElementInterface|ViewNestedElementInterface;
     public function renderElement(ViewElementInterface $element): Htmlable;
     public function renderElementByTag(string $tag): Htmlable;
 

@@ -1,11 +1,10 @@
 <?php
 namespace App\Modules\Crm\system_settings\controllers;
 
-use App\Assets\LayoutBundle;
 use App\Modules\Crm\system_settings\assets\ScheduleSettingsBundle;
-use App\Modules\Crm\system_settings\models\CrmSetting;
-use App\Modules\Crm\system_settings\models\ScheduleSetting;
-use App\Modules\Crm\system_settings\models\SystemSetting;
+use App\Modules\Crm\system_settings\components\settings\CrmSetting;
+use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
+use App\Modules\Crm\system_settings\components\settings\SystemSetting;
 use App\Modules\Crm\system_settings\models\SystemSettingsFormModel;
 use App\Services\Abstracts\Domain\Facades\ViewManager;
 use App\Services\Forms\Infrastructure\Services\AdditionalParams\FormAdditionalParam;
@@ -39,8 +38,8 @@ class SettingsController extends AbstractController {
      */
     public function actionCRMSettings()
     {
-        $title = 'Настройки системы';
-        $setting = BackendHelper::getSystemSettings(CrmSetting::getSettingName());
+        $title = 'Настройки Сrm';
+        $setting = BackendHelper::getSystemSettings(CrmSetting::SETTING_NAME);
 
         $form = new SystemSettingsFormModel('settings_form', new FormAdditionalParam('POST', route('system_settings.crm_settings')));
         $form->load($setting->getSettings());
@@ -48,23 +47,10 @@ class SettingsController extends AbstractController {
         if (request()->isMethod('POST')) {
             $form->load(request()->post());
             $form->getValidationBuilder()->validate();
+            $setting->loadSettings($form->getReturnData()->toArray());
         }
         ViewManager::appendElement($form);
         return view('system_settings::settings.crm_settings', compact('title'));
-    }
-
-    public function setCrmSettings()
-    {
-        $model = new CrmSetting();
-        $model->load(request()->post());
-        $validate = Validator::make($model->getData(), $model->rules());
-        if(request()->post() && $validate->validate()){
-            $settings = json_encode($model->getData());
-            BackendHelper::getOperations()->createSystemSettings(
-                ['name'=>CrmSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>BackendHelper::getKernel()->getContext()->getUser()->id, 'active'=>true]
-            );
-        }
-        return redirect()->route('system_settings.crm_settings');
     }
 
     /**
@@ -73,31 +59,26 @@ class SettingsController extends AbstractController {
      */
     public function actionSystemSettings()
     {
-        $groups = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllUsersGroup(), 'name', 'id');
-        $users = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllActiveUsers(), 'username', 'id');
-        $settings = BackendHelper::getSystemSettings(SystemSetting::getSettingName());
-        $settings_group = ArrayHelper::arrayInt($settings->system_user_groups);
-        $settings_users = ArrayHelper::arrayInt($settings->system_users);
-        return view('system_settings::settings.system_settings', ['groups'=>$groups, 'users'=>$users, 'settings_group'=>$settings_group, 'settings_users'=>$settings_users]);
-    }
+        $title = 'Настройки Сrm';
+//        $groups = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllUsersGroup(), 'name', 'id');
+//        $users = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllActiveUsers(), 'username', 'id');
+        /** @var SystemSetting $setting */
+        $setting = BackendHelper::getSystemSettings(SystemSetting::SETTING_NAME);
+        $form = new SystemSettingsFormModel('settings_form', new FormAdditionalParam('POST', route('system_settings.settings')));
+        $form->load($setting->getSettings());
 
-    public function setSystemSettings()
-    {
-        $model = new SystemSetting();
-        $model->load(request()->post());
-        $validate = Validator::make($model->getData(), $model->rules());
-        if($validate->validate() || (!$validate->validate() && !$model->getData())){
-            $settings = json_encode($model->getData());
-            BackendHelper::getOperations()->createSystemSettings(
-                ['name'=>SystemSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>BackendHelper::getKernel()->getContext()->getUser()->id, 'active'=>true]
-            );
+        if (request()->isMethod('POST')) {
+            $form->load(request()->post());
+            $form->getValidationBuilder()->validate();
+            $setting->loadSettings($form->getReturnData()->toArray());
         }
-        return redirect()->route('system_settings.settings');
+        ViewManager::appendElement($form);
+        return view('system_settings::settings.system_settings', compact('title'));
     }
 
     public function actionScheduleSettings()
     {
-        $settings = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName());
+        $settings = BackendHelper::getSystemSettings(ScheduleSetting::SETTING_NAME);
         $users_groups_settings = $settings->users_groups;
         $users_groups = BackendHelper::getRepositories()->getAllUsersGroup();
         $type_weeks = [1 => 'Шестидневка', 2 => 'Пятидневка'];
@@ -107,19 +88,5 @@ class SettingsController extends AbstractController {
             'type_weeks'=>$type_weeks,
             'settings'=>$settings
         ]);
-    }
-
-    public function setScheduleSettings()
-    {
-        $model = new ScheduleSetting();
-        $model->load(request()->post());
-        $validate = Validator::make($model->getData(), $model->rules());
-        if($validate->validate() || (!$validate->validate() && !$model->getData())){
-            $settings = json_encode($model->getData());
-            BackendHelper::getOperations()->createSystemSettings(
-                ['name'=>ScheduleSetting::getSettingName(), 'settings'=>$settings, 'create_user_id'=>BackendHelper::getKernel()->getContext()->getUser()->id, 'active'=>true]
-            );
-        }
-        return redirect()->route('system_settings.schedule_settings');
     }
 }

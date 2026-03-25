@@ -11,6 +11,7 @@ use App\Src\modules\interfaces\InterfaceInfoModule;
 use App\Src\modules\kernel\KernelModules;
 use App\Src\modules\operations\OperationsContext;
 use App\Src\modules\repository\RepositoriesContext;
+use App\Src\modules\settings\AbstractSettingsComponent;
 use App\Src\modules\settings\Settings;
 use App\Src\modules\task\AbstractTask;
 
@@ -67,12 +68,11 @@ class BackendHelper
     /**
      * Получает настройки по названию
      * @param $name
-     * @return Settings
+     * @return AbstractSettingsComponent
      */
     public static function getSystemSettings($name)
     {
-        $settings = new Settings(BackendHelper::getOperations()->getCurrentSystemSettings($name));
-        return $settings;
+        return self::getKernel()->getComponentByName($name)->getComponent();
     }
 
     public static function taskCreate($task_name, $args = [])

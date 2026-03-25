@@ -9,7 +9,7 @@
         ])}}
         <div class="card">
             <div class="card-body">
-                <form method="post" class="form" action="{{route('system_settings.set_system_settings')}}">
+                <form method="post" class="form" action="">
                     @csrf
                     <div>
                         {{\App\Src\Html\Html::select_search('Системные пользователи', 'system_users', $users, $settings_users)}}

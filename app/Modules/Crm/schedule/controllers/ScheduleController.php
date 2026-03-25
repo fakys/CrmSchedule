@@ -2,13 +2,10 @@
 
 namespace App\Modules\Crm\schedule\controllers;
 
-use App\Modules\Crm\system_settings\models\ScheduleSetting;
+use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
-use App\Src\modules\controllers\loaders\RmGroupLinkLoader;
-use App\Src\modules\controllers\loaders\RmLink;
-use App\Src\modules\controllers\RmGroupLoader;
 use App\Src\modules\kernel\KernelModules;
 
 
@@ -48,7 +45,7 @@ class ScheduleController extends AbstractController
         $student_group = ArrayHelper::getColumn(BackendHelper::getRepositories()->getFullStudentGroups(), 'name', 'id');
         $specialties = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllSpecialties(), 'name', 'id');
         $session_data = request()->session()->get('schedule_manager_request');
-        $setting_weekend = BackendHelper::getSystemSettings(ScheduleSetting::getSettingName())->type_weeks;
+        $setting_weekend = BackendHelper::getSystemSettings(ScheduleSetting::SETTING_NAME)->type_weeks;
 
         return view('schedule::schedule_manager.index', [
             'title' => 'Менеджер расписаний',

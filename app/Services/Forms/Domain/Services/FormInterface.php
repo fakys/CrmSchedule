@@ -7,6 +7,7 @@ use App\Services\Forms\Domain\Services\AdditionalParams\FormAdditionalParamInter
 use App\Services\Forms\Domain\Services\FormReturnData\FromReturnDataInterface;
 use App\Services\Validation\Domain\Services\ValidationBuilderInterface;
 use App\Services\Views\Domain\Services\Elements\ViewElementInterface;
+use Illuminate\Support\HtmlString;
 
 interface FormInterface extends ViewElementInterface
 {
@@ -31,4 +32,6 @@ interface FormInterface extends ViewElementInterface
      */
     public function getAllFields(): array;
     public function buildForm();
+    public function startForm(): ViewElementInterface;
+    public function endForm(): ViewElementInterface;
 }

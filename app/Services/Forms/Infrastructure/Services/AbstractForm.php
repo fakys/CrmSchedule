@@ -9,10 +9,14 @@ use App\Services\Forms\Domain\Services\FormLoader\FormLoaderInterface;
 use App\Services\Forms\Domain\Services\FormReturnData\FromReturnDataBuilderInterface;
 use App\Services\Forms\Domain\Services\FormReturnData\FromReturnDataInterface;
 use App\Services\Forms\Infrastructure\Services\FormElement\Abstracts\AbstractFormElement;
+use App\Services\Forms\Infrastructure\Services\FormElement\Form\FormEndElement;
+use App\Services\Forms\Infrastructure\Services\FormElement\Form\FormHeaderElement;
 use App\Services\Validation\Domain\Services\Factory\ValidationBuilderFactoryInterface;
 use App\Services\Validation\Domain\Services\ValidationBuilderInterface;
+use App\Services\Views\Domain\Services\Elements\ViewElementInterface;
 use App\Services\Views\Domain\Services\Elements\ViewNestedElementInterface;
 use App\Services\Views\Infrastructure\Services\Elements\Abstracts\AbstractViewNestedElement;
+use Illuminate\Support\HtmlString;
 
 abstract class AbstractForm extends AbstractViewNestedElement implements FormInterface
 {
@@ -26,6 +30,9 @@ abstract class AbstractForm extends AbstractViewNestedElement implements FormInt
 
     private array $allElements = [];
 
+    protected FormHeaderElement $form_header;
+    protected FormEndElement $form_end;
+
     public function __construct(string $formTag, FormAdditionalParamInterface $additionalParam)
     {
         /** Тут сделать загрузку контекста */
@@ -38,6 +45,9 @@ abstract class AbstractForm extends AbstractViewNestedElement implements FormInt
         /** @var ValidationBuilderFactoryInterface $factory */
         $factory = app(ValidationBuilderFactoryInterface::class);
         $this->validationBuilder = $factory->createValidationBuilder($this);
+
+        $this->form_header = new FormHeaderElement($this);
+        $this->form_end = new FormEndElement();
 
         $this->buildForm();
     }
@@ -119,5 +129,15 @@ abstract class AbstractForm extends AbstractViewNestedElement implements FormInt
     public function getReturnData(): FromReturnDataInterface
     {
         return $this->formReturnData;
+    }
+
+    public function startForm(): ViewElementInterface
+    {
+        return $this->form_header;
+    }
+
+    public function endForm(): ViewElementInterface
+    {
+        return $this->form_end;
     }
 }

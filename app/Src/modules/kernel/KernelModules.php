@@ -132,6 +132,9 @@ class KernelModules
         return $this->app->get(KernelModules::MODULE_KEY);
     }
 
+    /**
+     * @return AbstractContext
+     */
     public function getContext()
     {
         return $this->context;

@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Crm\system_settings\repositories;
+namespace App\Modules\Crm\system_settings\components\repositories;
 
 use App\Entity\SystemSetting;
 use App\Src\modules\repository\AbstractRepositories;

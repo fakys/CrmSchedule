@@ -12,4 +12,5 @@ interface ViewNestedElementInterface extends ViewElementInterface {
     public function hasElement(string $tag): bool;
     public function appendElements(ViewNestedElementInterface|ViewElementInterface $elements);
     public function getElementsByGroup(string $group): array;
+    public function getElementByTag(string $tag): ViewElementInterface;
 }
