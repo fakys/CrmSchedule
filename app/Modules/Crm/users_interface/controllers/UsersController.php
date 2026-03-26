@@ -7,6 +7,7 @@ use App\Modules\Crm\student_groups\models\SpecialtyFrom;
 use App\Modules\Crm\system_settings\models\ScheduleSetting;
 use App\Modules\Crm\users_interface\assets\UserInfoBundle;
 use App\Modules\Crm\users_interface\model\AddUser;
+use App\Modules\Crm\users_interface\model\AllUsersTable;
 use App\Modules\Crm\users_interface\model\MasseAddTeacherModel;
 use App\Modules\Crm\users_interface\model\UserBaseInfoFrom;
 use App\Modules\Crm\users_interface\src\ExcelMasseAddTeachers;
@@ -74,11 +75,12 @@ class UsersController extends AbstractController {
             }
         }
 
+        $table = new AllUsersTable('user_table', $data, route('users_interface.tabs.users_tabs'));
+        ViewManager::appendElement($table);
         $users_group = ArrayHelper::getColumn(BackendHelper::getRepositories()->getAllUsersGroup(), 'name', 'id');
         return view('users_interface::users.users_info', ['data' => $data, 'title'=>'Пользователи',
             'users_group'=>$users_group,
-            'search_data'=>$search_data,
-            'nav_users'=>true
+            'search_data'=>$search_data
         ]);
     }
     public function actionAddUser()

@@ -7,29 +7,12 @@ use App\Services\AssetsBundle\Domain\Services\AssetsBundleManagerInterface;
 
 class Html
 {
-    public static function miniSelect($name, $label, $data, $value='')
-    {
-        return view('Html::form_inputs.mini_select', ['name'=>$name, 'label'=>$label, 'data'=>$data, 'value'=>$value]);
-    }
-    public static function baseSelect($name, $label, $data, $value='')
-    {
-        return view('Html::form_inputs.base_select', ['name'=>$name, 'label'=>$label, 'data'=>$data, 'value'=>$value]);
-    }
-    public static function textInput($name, $label,  $value='')
-    {
-        return view('Html::form_inputs.text_input', ['name'=>$name, 'label'=>$label, 'value'=>$value]);
-    }
     public static function checkbox($name, $label = false,  $value='', $class=''){
         return view('Html::form_inputs.checkbox', ['name'=>$name, 'label'=>$label, 'value'=>$value, 'class'=>$class]);
     }
     public static function js_table($fields, $data, $url='')
     {
         return view('Html::tables.js_table', ['fields'=>$fields, 'data'=>$data, 'url'=>$url]);
-    }
-
-    public static function nav_tabs($arr)
-    {
-        return view('Html::nav_tabs', ['arr'=>$arr]);
     }
 
     public static function select_search($label, $name, $data = [], $value = [], $class = '', $multiple = true, $addJsCssFiles = true, $disabled = false)

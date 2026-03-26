@@ -63,13 +63,14 @@
                     </div>
                 </form>
                 <div>
-                    {{
-                        App\Src\Html\Html::js_table([
-                            'name'=>'Логин', 'fio'=>'ФИО', 'email'=>'Email',
-                            'number_phone'=>'Мобильный телефон', 'inn'=>'ИНН',
-                            'snils'=>'СНИЛС', 'birthday'=>'Дата рождения'
-                    ], $data, route('users_interface.tabs.users_tabs'))
-                    }}
+                    {{$viewManager->renderElementByTag('user_table')}}
+{{--                    {{--}}
+{{--                        App\Src\Html\Html::js_table([--}}
+{{--                            'name'=>'Логин', 'fio'=>'ФИО', 'email'=>'Email',--}}
+{{--                            'number_phone'=>'Мобильный телефон', 'inn'=>'ИНН',--}}
+{{--                            'snils'=>'СНИЛС', 'birthday'=>'Дата рождения'--}}
+{{--                    ], $data, route('users_interface.tabs.users_tabs'))--}}
+{{--                    }}--}}
                 </div>
 
             </div>

@@ -7,10 +7,6 @@
 
 @section('content')
     <div class="container">
-        {{\App\Src\Html\Html::nav_tabs([
-        ['name'=>'Общие настройки', 'url'=>route('holidays.settings')],
-        ['name'=>'Настройки по дате', 'url'=>route('holidays.holidays'), 'active'=>true]
-    ])}}
         <div id="url_delete" data-url="{{route('holidays.delete_holidays')}}"></div>
         <div class="p-3 bg-white container">
             <h4 class="mb-3">Настройки праздничных дней по датам</h4>

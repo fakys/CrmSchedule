@@ -7,10 +7,6 @@
 
 @section('content')
     <div class="container">
-        {{\App\Src\Html\Html::nav_tabs([
-        ['name'=>'Общие настройки', 'url'=>route('holidays.settings'), 'active'=>true],
-        ['name'=>'Настройки по дате', 'url'=>route('holidays.holidays')]
-    ])}}
         <div class="bg-white p-3 container">
             <div id="holiday_form" data-url="{{route('holidays.holiday_form')}}"></div>
             <div id="holiday_save" data-url="{{route('holidays.set_holiday_form')}}"></div>

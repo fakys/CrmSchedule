@@ -1,4 +1,7 @@
 {{$assetsBundleManager->registerFile('resources/plugins/js_data/css/dataTables.bootstrap4.min.css')}}
+
+
+
 {{$assetsBundleManager->registerFile('resources/plugins/js_data/js/jquery.dataTables.min.js')}}
 {{$assetsBundleManager->registerFile('resources/plugins/js_data/js/dataTables.bootstrap4.min.js')}}
 {{$assetsBundleManager->registerFile('resources/plugins/js_data/js/responsive.bootstrap4.min.js')}}
