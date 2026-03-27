@@ -25,6 +25,7 @@ use App\Modules\Crm\schedule\repositories\ScheduleRepository;
 use App\Modules\Crm\schedule_plan\repositories\SchedulePlanRepository;
 use App\Modules\Crm\schedule_plan\repositories\SchedulePlanTypeRepository;
 use App\Modules\Crm\student_groups\components\repositories\StudentGroupRepositories;
+use App\Modules\Crm\users_interface\components\repositories\UserGroupsRepositories;
 use App\Modules\Crm\users_interface\components\repositories\UsersRepositories;
 
 
@@ -38,6 +39,7 @@ use App\Modules\Crm\users_interface\components\repositories\UsersRepositories;
  * @mixin SchedulePlanRepository
  * @mixin \App\Modules\Crm\lessons\components\repositories\LessonsRepository
  * @mixin SchedulePlanTypeRepository
+ * @mixin UserGroupsRepositories
  *
  */
 interface RepositoryInterface{
@@ -101,29 +103,6 @@ interface RepositoryInterface{
      * @return GroupUser[]
      */
     public function getGroupsUserByUserId($user_id);
-
-    /**
-     * Возвращает группы пользователей по id
-     * @param $id
-     * @return UserGroup
-     */
-    public function getUsersGroupById($id);
-
-    /**
-     * Создает группу пользователей
-     * @param string $name
-     * @param string $access
-     * @return bool
-     */
-    public function updateUserGroup($group_id, $name, $access, $active = true, $description = '');
-
-    /**
-     * Создает группу пользователей
-     * @param string $name
-     * @param string $access
-     * @return bool
-     */
-    public function createUsersGroup($name, $access, $active = true, $description ='');
 
     /**
      * Удаляет группу пользователей по id

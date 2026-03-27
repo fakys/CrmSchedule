@@ -79,7 +79,7 @@ AccessRoute::access("{$module}_user_groups_info")->route(
 );
 
 AccessRoute::access("{$module}_user_groups_add")->route(
-    Route::get("$module/user-groups-add", [
+    Route::any("$module/user-groups-add", [
         \App\Modules\Crm\users_interface\controllers\UserGroupsController::class,
         'actionUserGroupsAdd'
     ])->name("$module.user_groups_add")
@@ -100,23 +100,11 @@ AccessRoute::access("{$module}_tabs_set_users_group_tabs")->route(
 );
 
 AccessRoute::access("{$module}_edit_users_group_action")->route(
-    Route::get("$module/edit-users-group", [
+    Route::any("$module/edit-users-group", [
         \App\Modules\Crm\users_interface\controllers\UserGroupsController::class,
         'actionEditUserGroups'
     ])->name("$module.edit_users_group_action")
 );
-
-AccessRoute::access("{$module}_edit_users_group")->route(
-    Route::post("$module/edit-users-group", [
-        \App\Modules\Crm\users_interface\controllers\UserGroupsController::class,
-        'editUserGroups'
-    ])->name("$module.edit_users_group")
-);
-
-Route::post("$module/edit-users-group", [
-    \App\Modules\Crm\users_interface\controllers\UserGroupsController::class,
-    'editUserGroups'
-])->name("$module.edit_users_group");
 
 AccessRoute::access("{$module}_delete_user_groups")->route(
     Route::post("/$module/delete-user-groups",

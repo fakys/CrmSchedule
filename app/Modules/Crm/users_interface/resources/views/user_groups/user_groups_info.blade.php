@@ -1,8 +1,4 @@
 @extends("layout::base_layout")
-@section('css_files')
-    <link rel="stylesheet" href="{{asset('assets/css/user_groups_info.css')}}">
-@endsection
-
 @section('content')
 <div class="container pb-4">
     <div class="card">
@@ -57,7 +53,4 @@
         </div>
     </div>
 </div>
-@endsection
-@section('js_files')
-    <script src="{{asset('assets/js/user_groups_info.js')}}"></script>
 @endsection

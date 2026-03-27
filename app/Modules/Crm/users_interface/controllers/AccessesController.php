@@ -1,6 +1,9 @@
 <?php
 namespace App\Modules\Crm\users_interface\controllers;
 
+use App\Assets\LayoutBundle;
+use App\Modules\Crm\users_interface\model\AccessTable;
+use App\Services\Abstracts\Domain\Facades\ViewManager;
 use App\Src\BackendHelper;
 use App\Src\modules\controllers\AbstractController;
 use Illuminate\Routing\Controller;
@@ -17,7 +20,9 @@ class AccessesController extends AbstractController {
 
     static function assets(): array
     {
-        return [];
+        return [
+            LayoutBundle::class
+        ];
     }
 
     public function actionAccesses()
@@ -42,6 +47,9 @@ class AccessesController extends AbstractController {
             }
         }
 
-        return view('users_interface::accesses.index', ['data'=>$data, 'title'=>'Все доступы', 'nav_users'=>true]);
+        $table = new AccessTable('table', $data);
+        ViewManager::appendElement($table);
+
+        return view('users_interface::accesses.index', ['title'=>'Все доступы']);
     }
 }

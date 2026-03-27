@@ -24,7 +24,7 @@ use Illuminate\Support\ViewErrorBag;
             class="form-check-input <?php if ($errors->get($element->getName())): ?> is-invalid <?php endif; ?>"
         <?php endif; ?>
            name="<?= $element->getName() ?>"
-           <?php if($element->getValue()): ?> value="<?= $element->getValue() ?>" <?php endif; ?>
+           <?php if($element->getValue() || old($element->getName())): ?> checked <?php endif; ?>
     >
     <?php if ($element->getLabel()): ?>
         <label

@@ -18,7 +18,6 @@ abstract class AbstractTable extends AbstractViewNestedElement implements TableI
         $this->tag = $tag;
         $this->data = $data;
         $this->url_tabs = $url_tabs;
-        $this->buildTable();
     }
 
     public function getData(): array
@@ -45,7 +44,5 @@ abstract class AbstractTable extends AbstractViewNestedElement implements TableI
     {
         $this->appendElements(new TabElement($text, $icon, $url, $color, $access));
     }
-
-    abstract public function buildTable();
     abstract public function getColumns(): array;
 }

@@ -127,7 +127,7 @@ class LessonsController extends AbstractController
         $form = new PairNumberFormModel(
             'form_pair',
             new FormAdditionalParam('POST', route('lessons.action_update_pair_number', ['id' => $id])),
-            true
+            $id
         );
         $form->load($number_pair->toArray());
 

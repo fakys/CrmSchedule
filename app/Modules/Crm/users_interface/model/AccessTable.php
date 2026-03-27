@@ -4,7 +4,7 @@ namespace App\Modules\Crm\users_interface\model;
 use App\Assets\JsTableBundle;
 use App\Services\Table\Infrastructure\Services\AbstractTable;
 
-class AllUsersTable extends AbstractTable
+class AccessTable extends AbstractTable
 {
 
     public function getAssets(): array
@@ -17,13 +17,8 @@ class AllUsersTable extends AbstractTable
     public function getColumns(): array
     {
         return [
-            'name' => 'Логин',
-            'fio' => 'ФИО',
-            'email' => 'Email',
-            'number_phone' => 'Мобильный телефон',
-            'inn' => 'ИНН',
-            'snils' => 'СНИЛС',
-            'birthday' => 'Дата рождения'
+            'id'=>'#', 'name'=>'Название', 'url'=>'Url',
+            'description'=>'Описание'
         ];
     }
 }

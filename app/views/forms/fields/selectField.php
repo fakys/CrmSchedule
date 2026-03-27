@@ -44,7 +44,7 @@ use Illuminate\Support\ViewErrorBag;
             name="<?=$element->getName()?><?php if ($element->getAdditionalParams()->getMultiple()):?>[]<?php endif; ?>"
         >
             <?php foreach ($element->getOptions() as $value => $name): ?>
-                <?php if($element->getValue() == $value): ?>
+                <?php if($element->getValue() == $value || old($element->getName()) == $value): ?>
                     <option value="<?=$value?>" selected><?=$name?></option>
                 <?php else: ?>
                     <option value="<?=$value?>"><?=$name?></option>

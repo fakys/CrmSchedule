@@ -1,7 +1,13 @@
 <?php
 namespace App\Modules\Crm\users_interface\controllers;
+use App\Assets\LayoutBundle;
+use App\Modules\Crm\users_interface\assets\UserGroupBundle;
 use App\Modules\Crm\users_interface\model\UserAddGroups;
 use App\Modules\Crm\users_interface\model\UsersGroup;
+use App\Modules\Crm\users_interface\model\UsersGroupFrom;
+use App\Services\Abstracts\Domain\Facades\ViewManager;
+use App\Services\AssetsBundle\Domain\Facades\AssetBundleManager;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\FormAdditionalParam;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
@@ -26,29 +32,30 @@ class UserGroupsController extends AbstractController {
     public function actionUserGroupsInfo()
     {
         $user_groups = BackendHelper::getRepositories()->getAllUsersGroup();
+        AssetBundleManager::appendBundle(new UserGroupBundle());
+
         return view('users_interface::user_groups.user_groups_info', [
             'title'=>'Группы пользователей', 'user_groups' => $user_groups, 'nav_users'=>true
         ]);
     }
     public function actionUserGroupsAdd()
     {
-        $access = BackendHelper::getOperations()->getAccessForForm();
-        return view('users_interface::user_groups.add_user_groups', ['title'=>'Группы пользователей', 'access' => $access]);
-    }
+        AssetBundleManager::appendBundle(new LayoutBundle());
+        $form = new UsersGroupFrom('form', new FormAdditionalParam('post', route('users_interface.user_groups_add')));
 
-    /**
-     * Таб для добавления групп
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function createUserGroups()
-    {
-        $model = new UsersGroup();
-        $model->load(request()->post());
-        $validate = Validator::make($model->getData(), $model->rules());
-        if($validate->validate()){
-            BackendHelper::getRepositories()->createUsersGroup($model->name, $model->getAccesses(), $model->active, $model->description);
+        if (request()->post()) {
+            $form->load(request()->post());
+            $form->getValidationBuilder()->validate();
+            $return_data = $form->getReturnData();
+
+            BackendHelper::getRepositories()->createUsersGroup($return_data->getName(), json_encode($return_data->getAccesses()), $return_data->getDescription());
+            return redirect()
+                ->route('users_interface.user_groups_info')
+                ->with(['successMessage' => 'Группа пользователя успешно создана']);
         }
-        return redirect()->route('users_interface.user_groups_info');
+
+        ViewManager::appendElement($form);
+        return view('users_interface::user_groups.add_user_groups', ['title'=>'Группы пользователей']);
     }
 
     /**
@@ -66,7 +73,6 @@ class UserGroupsController extends AbstractController {
     /**
      * Страничка редактирования групп пользователей
      * @param $user_group_id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|void
      */
     public function actionEditUserGroups()
     {
@@ -74,14 +80,35 @@ class UserGroupsController extends AbstractController {
             $group_id = request()->get('group_id');
             $group = BackendHelper::getRepositories()->getUsersGroupById($group_id);
             if($group){
-                $access = BackendHelper::getOperations()->getAccessForForm();
-                $access_data = ArrayHelper::valueIsKey($group->getAccesses());
-                return view('users_interface::user_groups.add_user_groups', [
-                    'title'=>'Группы пользователей',
-                    'access' => $access,
-                    'access_data' => $access_data,
-                    'group' => $group
-                ]);
+                AssetBundleManager::appendBundle(new LayoutBundle());
+                $form = new UsersGroupFrom(
+                    'form',
+                    new FormAdditionalParam(
+                        'post',
+                        route('users_interface.edit_users_group_action', ['group_id' => $group_id])
+                    ),
+                    $group_id
+                );
+                $group_data = $group->toArray();
+                $group_data['accesses'] = json_decode($group_data['accesses'], 1);
+                $form->load($group_data);
+                if (request()->post()) {
+                    $form->load(request()->post());
+                    $form->getValidationBuilder()->validate();
+                    $return_data = $form->getReturnData();
+
+                    BackendHelper::getRepositories()->updateUserGroup(
+                        $group_id,
+                        $return_data->getName(), json_encode($return_data->getAccesses()),
+                        $return_data->getDescription()
+                    );
+                    return redirect()
+                        ->route('users_interface.user_groups_info')
+                        ->with(['successMessage' => 'Группа пользователя успешно обновлена']);
+                }
+
+                ViewManager::appendElement($form);
+                return view('users_interface::user_groups.add_user_groups', ['title'=>'Изменение группы '.$group->name]);
             }
         }
         abort(404);

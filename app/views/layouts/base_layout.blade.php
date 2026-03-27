@@ -247,6 +247,11 @@ use App\Src\BackendHelper;
             {{$assetsBundleManager->registerFile('resources/js/alert.js')}}
 
             <div class="container">
+                @if(session('successMessage'))
+                    <div class="alert alert-success">
+                        <strong>{{session('successMessage')}}</strong>
+                    </div>
+                @endif
                 @foreach(BackendHelper::getKernel()->getControllerLoader()->getNavbars() as $navbar)
                     @if($navbar->getActive())
                         <div class="main-nav-tabs">
