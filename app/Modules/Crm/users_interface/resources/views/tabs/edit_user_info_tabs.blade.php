@@ -138,9 +138,9 @@
         </div>
     </div>
 </div>
-<script src="{{asset('assets/plugins/js/jquery.inputmask.min.js')}}"></script>
-<script src="{{asset('assets/js/tabs/edits/user_info.js')}}"></script>
-<script src="{{asset('assets/plugins/js/moment.min.js')}}"></script>
+{{$assetsBundleManager->registerFile('resources/plugins/js/jquery.inputmask.min.js')}}
+{{$assetsBundleManager->registerFile('app/Modules/Crm/users_interface/resources/js/user_info.js')}}
+{{$assetsBundleManager->registerFile('resources/plugins/js/moment.min.js')}}
 <script>
     $('[data-mask]').inputmask()
 </script>

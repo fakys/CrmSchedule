@@ -29,4 +29,4 @@
         </div>
     </div>
 </div>
-<script src="{{asset('assets/js/tabs/edits/access_edit_tab.js')}}"></script>
+{{$assetsBundleManager->registerFile('resources/js/tabs/edits/access_edit_tab.js')}}

@@ -35,7 +35,7 @@ use Illuminate\Support\ViewErrorBag;
             class="form-control <?php if ($errors->get($element->getName())): ?> is-invalid <?php endif; ?>"
         <?php endif; ?>
         name="<?=$element->getName()?>"
-    ><?=$element->getValue()??old($element->getName())?></textarea>
+    ><?=$element->getValue() ? $element->getValue() : old($element->getName())?></textarea>
     <?php if ($errors->get($element->getName())): ?>
         <div id="<?=$element->getName()?>_error" class="invalid-feedback">
             <?=$errors->get($element->getName())[0]?>

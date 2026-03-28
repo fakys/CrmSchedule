@@ -3,9 +3,11 @@
 namespace App\Modules\Crm\users_interface\controllers;
 
 use App\Assets\SelectSearchMultipleBundle;
+use App\Modules\Crm\users_interface\assets\SubjectTabsBundle;
 use App\Modules\Crm\users_interface\assets\UserTabsBundle;
 use App\Modules\Crm\users_interface\model\EditUserTabs;
 use App\Modules\Crm\users_interface\model\UserAddGroups;
+use App\Services\AssetsBundle\Domain\Facades\AssetBundleManager;
 use App\Services\AssetsBundle\Domain\Services\AssetsBundleManagerInterface;
 use App\Src\BackendHelper;
 use Illuminate\Routing\Controller;
@@ -57,7 +59,7 @@ class TabsController extends Controller
     public function setEditUserInfoTabs()
     {
         if (request()->post()) {
-            $model = new EditUserTabs();
+            $model = new EditUserTabs(request()->post()['id']);
             $model->load([request()->post()['field'] => isset(request()->post()['value']) ? request()->post()['value'] : '']);
             $validate = Validator::make($model->getData(), $model->rules());
             if ($validate->validate() && $model->customValidate()) {
@@ -79,6 +81,7 @@ class TabsController extends Controller
     {
         $id = request()->post('id');
         $user = BackendHelper::getRepositories()->getUserById($id);
+        /** todo сделать через форму */
         return view('users_interface::tabs.access_tabs', compact('user'));
     }
 
@@ -172,6 +175,7 @@ class TabsController extends Controller
      */
     public function getTabForSubjects()
     {
+        AssetBundleManager::appendBundle(new SubjectTabsBundle());
         return view('users_interface::tabs.subjects_tabs');
     }
 

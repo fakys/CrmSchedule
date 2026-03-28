@@ -30,9 +30,7 @@
                         <div class="btn-main clear-btn-user-info"><i class="fa fa-times" aria-hidden="true"></i> Очистить</div><input type="submit" class="btn-main" value="Найти">
                     </div>
                 </form>
-                {{\App\Src\Html\Html::js_table([
-    'fio'=>'Фио преподавателя', 'subject_full_name'=>'Название предмета']
-    , $lessons, route('lessons.get_tabs'))}}
+                {{$viewManager->renderElementByTag('table')}}
             </div>
         </div>
     </div>

@@ -44,9 +44,9 @@
         </div>
     </div>
 </div>
-<script src="{{asset('assets/plugins/js/jquery.inputmask.min.js')}}"></script>
-<script src="{{asset('assets/js/tabs/edits/edit_tabs.js')}}"></script>
-<script src="{{asset('assets/plugins/js/moment.min.js')}}"></script>
+{{$assetsBundleManager->registerFile('resources/plugins/js/jquery.inputmask.min.js')}}
+{{$assetsBundleManager->registerFile('resources/js/tabs/edits/edit_tabs.js')}}
+{{$assetsBundleManager->registerFile('resources/plugins/js/moment.min.js')}}
 <script>
     $('[data-mask]').inputmask()
 </script>

@@ -29,10 +29,7 @@
                         <div class="btn-main ml-auto clear-btn-user-info"><i class="fa fa-times" aria-hidden="true"></i> Очистить</div><input type="submit" class="btn-main" value="Найти">
                     </div>
                 </form>
-                {{\App\Src\Html\Html::js_table([
-    'name'=>'Название', 'full_name'=>'Полное название',
-     'description'=>'Описание', 'created_at'=>'Дата добавления']
-    , $subjects, route('users_interface.get_tab_for_subjects'))}}
+                {{$viewManager->renderElementByTag('table')}}
             </div>
         </div>
     </div>

@@ -8,15 +8,23 @@ use App\Services\Forms\Infrastructure\Services\FormElement\Abstracts\AbstractFor
 class Button extends AbstractFormElement
 {
     protected $text;
-    public function __construct(string $text, string $name, AbstractElementAdditionalParams $additionalParams)
+    protected $type;
+
+    public function __construct(string $text, string $name, AbstractElementAdditionalParams $additionalParams, $type = 'submit')
     {
         parent::__construct($name, null, $additionalParams);
         $this->text = $text;
+        $this->type = $type;
     }
 
     public function getText(): string
     {
         return $this->text;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 
     public function getAssets(): array

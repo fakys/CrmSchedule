@@ -7,4 +7,4 @@
     <div class="d-flex"><div class="btn-main" id="btn_save">Сохранить</div></div>
 </div>
 
-<script src="{{asset('assets/js/tabs/edits/user_style_tabs.js')}}"></script>
+{{$assetsBundleManager->registerFile('app/Modules/Crm/users_interface/resources/js/user_style_tabs.js')}}

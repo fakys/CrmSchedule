@@ -1,5 +1,4 @@
-<link rel="stylesheet" href="{{asset('assets/css/tabs.css')}}">
-<link rel="stylesheet" href="{{asset('assets/css/tabs/student_groups.css')}}">
+{{$assetsBundleManager->registerHeaderFiles()}}
 <div>
     @csrf
     <div class="tabs-container">
@@ -24,4 +23,4 @@
     </div>
     <div class="tabs-content"></div>
 </div>
-<script src="{{asset('assets/js/tabs/tabs.js')}}"></script>
+{{$assetsBundleManager->registerBodyFiles()}}

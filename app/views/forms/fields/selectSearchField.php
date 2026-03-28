@@ -65,7 +65,6 @@ use Illuminate\Support\ViewErrorBag;
         <?php foreach ($element->getElementsByGroup(ValidationJsBuilder::ELEMENT_GROUP_NAME) as $rule):?>
             <?=$viewManager->renderElement($rule)?>
         <?php endforeach;?>
-
         <script>
             $(document).ready(function (){
                 $('#<?=$element->getAdditionalParams()->getElementId() ? $element->getAdditionalParams()->getElementId() : $element->getName()?>').select2()

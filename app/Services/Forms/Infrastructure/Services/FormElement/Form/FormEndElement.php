@@ -8,9 +8,11 @@ use App\Services\Views\Infrastructure\Services\Elements\Abstracts\AbstractViewEl
 class FormEndElement extends AbstractViewElement
 {
     const FORM_END_TAG = 'end';
+    private AbstractForm $form;
 
-    public function __construct()
+    public function __construct($form)
     {
+        $this->form = $form;
         $this->tag = self::FORM_END_TAG;
     }
 
@@ -22,5 +24,10 @@ class FormEndElement extends AbstractViewElement
     public function getPrefixTemplate(): string
     {
         return AbstractForm::FORM_PREFIX;
+    }
+
+    public function getForm(): AbstractForm
+    {
+        return $this->form;
     }
 }

@@ -47,7 +47,7 @@ abstract class AbstractForm extends AbstractViewNestedElement implements FormInt
         $this->validationBuilder = $factory->createValidationBuilder($this);
 
         $this->form_header = new FormHeaderElement($this);
-        $this->form_end = new FormEndElement();
+        $this->form_end = new FormEndElement($this);
 
         $this->buildForm();
     }
@@ -139,5 +139,10 @@ abstract class AbstractForm extends AbstractViewNestedElement implements FormInt
     public function endForm(): ViewElementInterface
     {
         return $this->form_end;
+    }
+
+    public function isAjax()
+    {
+        return false;
     }
 }

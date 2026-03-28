@@ -1,9 +1,9 @@
-<div id="url_edit_lesson" data-url="{{route('lessons.edit_lessons_info')}}"></div>
-
+{{$assetsBundleManager->registerHeaderFiles()}}
 <div class="container">
-    {{\App\Src\Html\Html::select_search('Преподаватель', 'teacher', $teachers, [$lesson->user_id], '', false)}}
-    {{\App\Src\Html\Html::select_search('Предмет', 'subject', $subjects, [$lesson->subject_id], '', false)}}
-    <div><button class="btn-main" id="bnt_save">Сохранить</button></div>
+    {{$viewManager->renderElementByTag('form')}}
+{{--    {{\App\Src\Html\Html::select_search('Преподаватель', 'teacher', $teachers, [$lesson->user_id], '', false)}}--}}
+{{--    {{\App\Src\Html\Html::select_search('Предмет', 'subject', $subjects, [$lesson->subject_id], '', false)}}--}}
+{{--    <div><button class="btn-main" id="bnt_save">Сохранить</button></div>--}}
 </div>
-
-<script src="{{asset('assets/modules/lessons/edit_lessons_info.js')}}"></script>
+{{$assetsBundleManager->registerBodyFiles()}}
+{{$assetsBundleManager->registerFile('app/Modules/Crm/lessons/resources/js/edit_lessons_info.js')}}

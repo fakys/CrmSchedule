@@ -39,7 +39,7 @@ use Illuminate\Support\ViewErrorBag;
                 class="form-control <?php if ($errors->get($element->getName())): ?> is-invalid <?php endif; ?>"
             <?php endif; ?>
             name="<?=$element->getName()?>"
-            value="<?=$element->getValue()??old($element->getName())?>"
+            value="<?=$element->getValue() ? $element->getValue() : old($element->getName())?>"
             placeholder="<?=$element->getAdditionalParams()->getPlaceholder()?>"
         >
 

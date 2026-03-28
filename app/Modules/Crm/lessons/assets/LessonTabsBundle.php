@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Modules\Crm\users_interface\assets;
+namespace App\Modules\Crm\lessons\assets;
 
-use App\Assets\LayoutBundle;
 use App\Src\assets\AbstractAssets;
 
 
-class UserTabsBundle extends AbstractAssets
+class LessonTabsBundle extends AbstractAssets
 {
 
     public function headerFiles(): array
     {
         return [
             'resources/tabs/tabs.css',
-            'app/Modules/Crm/users_interface/resources/css/tabs/users_info.css'
+            'app/Modules/Crm/users_interface/resources/css/tabs/lessons.css'
         ];
     }
 

@@ -4,13 +4,11 @@ namespace App\Modules\Crm\lessons\controllers;
 
 use App\Assets\LayoutBundle;
 use App\Modules\Crm\lessons\models\AddSubjectFormModel;
+use App\Modules\Crm\lessons\models\AllSubjectTable;
 use App\Services\Abstracts\Domain\Facades\ViewManager;
 use App\Services\Forms\Infrastructure\Services\AdditionalParams\FormAdditionalParam;
 use App\Src\BackendHelper;
-use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Validator;
 
 class SubjectsController extends AbstractController
 {
@@ -86,9 +84,11 @@ class SubjectsController extends AbstractController
             }
         }
 
+        $table = new AllSubjectTable('table', $subjects, route('users_interface.get_tab_for_subjects'));
+        ViewManager::appendElement($table);
+
         return view('lessons::subjects.subjects_info', [
             'subjects' => $subjects,
-            'nav_subject' => true,
             'title' => 'Все предметы',
             'search_data' => $search_data
         ]);

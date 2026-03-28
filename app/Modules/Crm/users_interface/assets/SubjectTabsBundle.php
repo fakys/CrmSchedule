@@ -6,14 +6,14 @@ use App\Assets\LayoutBundle;
 use App\Src\assets\AbstractAssets;
 
 
-class UserTabsBundle extends AbstractAssets
+class SubjectTabsBundle extends AbstractAssets
 {
 
     public function headerFiles(): array
     {
         return [
             'resources/tabs/tabs.css',
-            'app/Modules/Crm/users_interface/resources/css/tabs/users_info.css'
+            'app/Modules/Crm/users_interface/resources/css/tabs/student_groups.css'
         ];
     }
 

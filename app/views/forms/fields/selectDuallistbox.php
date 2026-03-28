@@ -48,7 +48,8 @@ use Illuminate\Support\ViewErrorBag;
             name="<?=$element->getName()?>[]"
         >
             <?php foreach ($element->getOptions() as $value => $name): ?>
-                <?php if($element->getValue() == $value): ?>
+                <?php if($element->getValue() && in_array($value, $element->getValue()) ||
+                    old($element->getName()) && in_array($value, old($element->getName()))): ?>
                     <option value="<?=$value?>" selected><?=$name?></option>
                 <?php else: ?>
                     <option value="<?=$value?>"><?=$name?></option>

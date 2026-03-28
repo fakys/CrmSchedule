@@ -16,6 +16,7 @@ class SelectSearchBundle implements AssetBundleInterface {
     public function bodyFiles(): array
     {
         return [
+            'resources/plugins/js/jquery.min.js',
             'resources/plugins/js/select2.js'
         ];
     }

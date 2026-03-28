@@ -7,7 +7,7 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <table id="example2" class="table table-bordered table-hover" data-url="<?=$element->getUrlTabs()?>">
+            <table id="example2" class="table table-bordered table-hover" <?php if($element->getUrlTabs()):?> data-url="<?=$element->getUrlTabs()?>"<?php endif; ?>>
                 <thead>
                 <tr>
                     <?php foreach ($element->getColumns() as $field): ?>

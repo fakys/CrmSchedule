@@ -7,6 +7,7 @@ use App\Modules\Crm\lessons\assets\PairNumberBundle;
 use App\Modules\Crm\lessons\models\LessonModel;
 use App\Modules\Crm\lessons\models\AddNumberPairs;
 use App\Modules\Crm\lessons\models\PairNumberFormModel;
+use App\Modules\Crm\users_interface\model\SubjectsTable;
 use App\Services\Abstracts\Domain\Facades\ViewManager;
 use App\Services\AssetsBundle\Domain\Services\AssetsBundleManagerInterface;
 use App\Services\Forms\Infrastructure\Services\AdditionalParams\FormAdditionalParam;
@@ -47,8 +48,10 @@ class LessonsController extends AbstractController
     public function actionLessons()
     {
         $lessons = BackendHelper::getRepositories()->getAllLessonsInfo();
+        $table = new SubjectsTable('table', $lessons, route('lessons.get_tabs'));
+        ViewManager::appendElement($table);
         $title = 'Предметы преподавателя';
-        return view('lessons::lessons.lessons_info', compact('lessons', 'title'));
+        return view('lessons::lessons.lessons_info', compact('title'));
     }
 
     public function setLesson()
