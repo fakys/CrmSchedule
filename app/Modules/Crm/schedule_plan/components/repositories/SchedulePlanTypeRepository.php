@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Crm\schedule_plan\repositories;
+namespace App\Modules\Crm\schedule_plan\components\repositories;
 
 use App\Entity\SchedulePlanType;
 use App\Src\modules\repository\AbstractRepositories;

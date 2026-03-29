@@ -2,18 +2,16 @@
 namespace App\Modules\Crm\schedule_plan;
 
 
+use App\Modules\Crm\schedule_plan\components\operation\SchedulePlan;
+use App\Modules\Crm\schedule_plan\components\operation\SchedulePlanSave;
+use App\Modules\Crm\schedule_plan\components\operation\SchedulePlanType;
+use App\Modules\Crm\schedule_plan\components\operation\ValidateSchedulePlan;
+use App\Modules\Crm\schedule_plan\components\repositories\SchedulePlanRepository;
+use App\Modules\Crm\schedule_plan\components\repositories\SchedulePlanTypeRepository;
 use App\Modules\Crm\schedule_plan\controllers\SchedulePlanController;
 use App\Modules\Crm\schedule_plan\controllers\SchedulePlanTypeController;
-use App\Modules\Crm\schedule_plan\operation\SchedulePlan;
-use App\Modules\Crm\schedule_plan\operation\SchedulePlanSave;
-use App\Modules\Crm\schedule_plan\operation\SchedulePlanType;
-use App\Modules\Crm\schedule_plan\operation\ValidateSchedulePlan;
-use App\Modules\Crm\schedule_plan\repositories\SchedulePlanRepository;
-use App\Modules\Crm\schedule_plan\repositories\SchedulePlanTypeRepository;
-use App\Modules\Crm\schedule_plan\schedule_plan\SchedulePlanManager;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
-use Illuminate\Support\Facades\Config;
 
 class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
 {
@@ -59,7 +57,7 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function mangers(): array
     {
         return [
-            SchedulePlanManager::class
+            components\schedule_plan\SchedulePlanManager::class
         ];
     }
 

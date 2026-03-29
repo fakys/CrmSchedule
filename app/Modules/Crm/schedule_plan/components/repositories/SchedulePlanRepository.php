@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Modules\Crm\schedule_plan\repositories;
+namespace App\Modules\Crm\schedule_plan\components\repositories;
 
 use App\Entity\PlanDurationLesson;
 use App\Entity\PlanSchedule;
-use App\Entity\SchedulePlanType;
 use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
 

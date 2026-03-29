@@ -1,12 +1,10 @@
 <?php
-namespace App\Modules\Crm\schedule_plan\operation;
+namespace App\Modules\Crm\schedule_plan\components\operation;
 
 use App\Modules\Crm\schedule_plan\exceptions\SchedulePlanAddException;
 use App\Modules\Crm\schedule_plan\src\SchedulePlanReturnData;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
-use App\Src\redis\RedisManager;
-use Illuminate\Support\Facades\DB;
 
 class SchedulePlanSave extends AbstractOperation
 {

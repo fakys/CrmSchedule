@@ -3,7 +3,6 @@ namespace App\Modules\Crm\users_interface\controllers;
 use App\Assets\LayoutBundle;
 use App\Modules\Crm\users_interface\assets\UserGroupBundle;
 use App\Modules\Crm\users_interface\model\UserAddGroups;
-use App\Modules\Crm\users_interface\model\UsersGroup;
 use App\Modules\Crm\users_interface\model\UsersGroupFrom;
 use App\Services\Abstracts\Domain\Facades\ViewManager;
 use App\Services\AssetsBundle\Domain\Facades\AssetBundleManager;

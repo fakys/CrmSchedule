@@ -21,9 +21,8 @@ use App\Modules\Crm\backend_module\repositories\TaskRepository;
 use App\Modules\Crm\reports\repositories\ReportsRepository;
 use App\Modules\Crm\schedule\components\repositories\ScheduleRepository;
 use App\Modules\Crm\schedule\components\repositories\SemestersRepository;
-use App\Modules\Crm\schedule\models\SemestersModel;
-use App\Modules\Crm\schedule_plan\repositories\SchedulePlanRepository;
-use App\Modules\Crm\schedule_plan\repositories\SchedulePlanTypeRepository;
+use App\Modules\Crm\schedule_plan\components\repositories\SchedulePlanRepository;
+use App\Modules\Crm\schedule_plan\components\repositories\SchedulePlanTypeRepository;
 use App\Modules\Crm\users_interface\components\repositories\UserGroupsRepositories;
 use App\Modules\Crm\users_interface\components\repositories\UsersRepositories;
 
@@ -35,9 +34,9 @@ use App\Modules\Crm\users_interface\components\repositories\UsersRepositories;
  * @mixin ScheduleRepository
  * @mixin CronRepository
  * @mixin \App\Modules\Crm\student_groups\components\repositories\StudentGroupRepositories
- * @mixin SchedulePlanRepository
+ * @mixin \App\Modules\Crm\schedule_plan\components\repositories\SchedulePlanRepository
  * @mixin \App\Modules\Crm\lessons\components\repositories\LessonsRepository
- * @mixin SchedulePlanTypeRepository
+ * @mixin \App\Modules\Crm\schedule_plan\components\repositories\SchedulePlanTypeRepository
  * @mixin UserGroupsRepositories
  * @mixin SemestersRepository
  *
@@ -73,13 +72,6 @@ interface RepositoryInterface{
      */
     public function updateUsersDocumentById($id, $value);
 
-    /**
-     * Обновляет доступ(Логин и пароль) пользователя по id
-     * @param $id
-     * @param $value
-     * @return bool
-     */
-    public function saveAccessUser($id, $model);
 
     /**
      * Добавляет пользователя в группу

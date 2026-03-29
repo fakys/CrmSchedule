@@ -2,23 +2,21 @@
 namespace App\Modules\Crm\backend_module\interfaces;
 
 use App\Modules\Crm\auth\components\operations\AuthOperation;
-use App\Modules\Crm\schedule\components\operations\ScheduleApiOperation;
-use App\Modules\Crm\schedule\components\operations\ScheduleManagerOperation;
 use App\Modules\Crm\schedule\src\entity\ScheduleUnit;
-use App\Modules\Crm\schedule_plan\operation\SchedulePlan;
-use App\Modules\Crm\schedule_plan\operation\SchedulePlanSave;
-use App\Modules\Crm\schedule_plan\operation\SchedulePlanType;
-use App\Modules\Crm\schedule_plan\operation\ValidateSchedulePlan;
+use App\Modules\Crm\schedule_plan\components\operation\SchedulePlan;
+use App\Modules\Crm\schedule_plan\components\operation\SchedulePlanSave;
+use App\Modules\Crm\schedule_plan\components\operation\SchedulePlanType;
+use App\Modules\Crm\schedule_plan\components\operation\ValidateSchedulePlan;
 use App\Modules\Crm\users_interface\components\operations\ValidationUserDataOperation;
 
 /**
  * @mixin \App\Modules\Crm\schedule\components\operations\ScheduleManagerOperation
  * @mixin \App\Modules\Crm\schedule\components\operations\ScheduleApiOperation
  * @mixin SchedulePlanType
- * @mixin SchedulePlan
- * @mixin ValidateSchedulePlan
+ * @mixin \App\Modules\Crm\schedule_plan\components\operation\SchedulePlan
+ * @mixin \App\Modules\Crm\schedule_plan\components\operation\ValidateSchedulePlan
  * @mixin \App\Modules\Crm\lessons\components\operations\AddLessonOperation
- * @mixin SchedulePlanSave
+ * @mixin \App\Modules\Crm\schedule_plan\components\operation\SchedulePlanSave
  * @mixin ValidationUserDataOperation
  * @mixin \App\Modules\Crm\users_interface\components\operations\UsersOperation
  * @mixin \App\Modules\Crm\users_interface\components\operations\UsersGroupOperations

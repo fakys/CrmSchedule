@@ -1,7 +1,7 @@
 <?php
-namespace App\Modules\Crm\schedule_plan\schedule_plan;
+namespace App\Modules\Crm\schedule_plan\components\schedule_plan;
 
-use App\Modules\Crm\schedule_plan\schedule_plan\plugins\SchedulePlanBasePlugin;
+use App\Modules\Crm\schedule_plan\components\schedule_plan\plugins\SchedulePlanBasePlugin;
 use App\Src\modules\plugins\mangers\AbstractManger;
 
 class SchedulePlanManager extends AbstractManger  {

@@ -1,11 +1,8 @@
 <?php
 
-namespace App\Modules\Crm\schedule_plan\operation;
+namespace App\Modules\Crm\schedule_plan\components\operation;
 
-use App\Modules\Crm\schedule_plan\exceptions\SchedulePlanAddException;
-use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
-use App\Src\redis\RedisManager;
 
 class ValidateSchedulePlan extends AbstractOperation
 {

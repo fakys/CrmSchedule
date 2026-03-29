@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Crm\schedule_plan\schedule_plan\plugins;
+namespace App\Modules\Crm\schedule_plan\components\schedule_plan\plugins;
 
 use App\Entity\SchedulePlanType;
 use App\Entity\Semester;
