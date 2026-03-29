@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Crm\schedule\schedule_manger\plugins\abstracts;
+namespace App\Modules\Crm\schedule\components\schedule_manger\plugins\abstracts;
 
 
 use App\Modules\Crm\schedule\src\entity\ScheduleSearchData;

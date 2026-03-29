@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Modules\Crm\schedule\schedule_manger;
+namespace App\Modules\Crm\schedule\components\schedule_manger;
 
-use App\Modules\Crm\schedule\schedule_manger\plugins\abstracts\AbstractSchedulePlugin;
+use App\Modules\Crm\schedule\components\schedule_manger\plugins\abstracts\AbstractSchedulePlugin;
 use App\Modules\Crm\schedule\src\entity\ScheduleSearchData;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\ChangeScheduleEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\PairNumberEntity;
@@ -10,11 +10,9 @@ use App\Modules\Crm\schedule\src\schedule_manager\entity\PlanScheduleEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\SemesterEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\return_data_schedule\ScheduleManagerReturnData;
 use App\Modules\Crm\schedule\src\schedule_manager\Schedule;
-use App\Modules\Crm\schedule_plan\src\SchedulePlanEntity;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use App\Src\modules\plugins\mangers\AbstractManger;
-use Illuminate\Database\Eloquent\Collection;
 
 /** Менеджер возвращает расписание */
 class ScheduleManger extends AbstractManger

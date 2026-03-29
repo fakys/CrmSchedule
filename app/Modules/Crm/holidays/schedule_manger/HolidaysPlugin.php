@@ -2,7 +2,7 @@
 namespace App\Modules\Crm\holidays\schedule_manger;
 
 use App\Entity\Holiday;
-use App\Modules\Crm\schedule\schedule_manger\plugins\abstracts\AbstractSchedulePlugin;
+use App\Modules\Crm\schedule\components\schedule_manger\plugins\abstracts\AbstractSchedulePlugin;
 use App\Modules\Crm\schedule\src\schedule_manager\entity\HolidayEntity;
 use App\Modules\Crm\schedule\src\schedule_manager\ScheduleUnit;
 

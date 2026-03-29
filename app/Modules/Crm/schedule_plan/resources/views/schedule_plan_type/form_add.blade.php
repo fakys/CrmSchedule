@@ -109,5 +109,4 @@
     </div>
 </div>
 
-
-<script src="{{asset('assets/js/add_type_schedule_week.js')}}"></script>
+{{$assetsBundleManager->registerFile('app/Modules/Crm/schedule_plan/resources/js/add_type_schedule_week.js')}}

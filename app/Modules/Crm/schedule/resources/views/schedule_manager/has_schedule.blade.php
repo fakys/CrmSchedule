@@ -4,7 +4,7 @@
  */
 ?>
 
-<link rel="stylesheet" href="{{asset('assets/css/schedule_style.css')}}">
+{{$assetsBundleManager->registerFile('app/Modules/Crm/schedule/resources/css/schedule_style.css')}}
 
 <div class="container pt-3">
     <div class="schedule-errors-block"></div>

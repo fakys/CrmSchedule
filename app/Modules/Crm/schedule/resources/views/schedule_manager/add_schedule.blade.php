@@ -4,7 +4,7 @@
  */
 ?>
 
-<link rel="stylesheet" href="{{asset('assets/css/schedule_style.css')}}">
+{{$assetsBundleManager->registerFile('app/Modules/Crm/schedule/resources/css/schedule_style.css')}}
 
 <div class="btn-save-manager-container">
     <button class="btn-main btn-save-schedule">Сохранить</button>
@@ -191,5 +191,5 @@
     @else
         <h5>Нет данных</h5>
     @endif
-    <script src="{{asset('assets/js/schedule_table.js')}}"></script>
+    {{$assetsBundleManager->registerFile('app/Modules/Crm/schedule/resources/js/schedule_table.js')}}
 </div>

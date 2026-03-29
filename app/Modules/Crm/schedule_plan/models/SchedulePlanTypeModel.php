@@ -4,6 +4,7 @@ namespace App\Modules\Crm\schedule_plan\models;
 
 use App\Src\modules\models\InterfaceModel;
 use App\Src\modules\models\Model;
+use Illuminate\Validation\Rule;
 
 /**
  * @property string $data
@@ -11,6 +12,15 @@ use App\Src\modules\models\Model;
  */
 class SchedulePlanTypeModel extends Model implements InterfaceModel
 {
+
+    private $edit_id;
+
+    public function __construct($edit_id = null)
+    {
+        parent::__construct();
+        $this->edit_id = $edit_id;
+    }
+
     const WEEK_DAYS = [
         1=>'Пн',
         2=>'Вт',
@@ -31,7 +41,7 @@ class SchedulePlanTypeModel extends Model implements InterfaceModel
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
+            'name' => ['required', 'string', Rule::unique('schedule_plan_type', 'name')->ignore($this->edit_id)],
             'data' => ['required'],
         ];
     }

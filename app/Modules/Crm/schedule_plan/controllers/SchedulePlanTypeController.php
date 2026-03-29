@@ -1,8 +1,11 @@
 <?php
 namespace App\Modules\Crm\schedule_plan\controllers;
 
+use App\Modules\Crm\schedule_plan\assets\SchedulePlanAssets;
+use App\Modules\Crm\schedule_plan\assets\SchedulePlanTypeAssets;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
 use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
+use App\Services\AssetsBundle\Domain\Facades\AssetBundleManager;
 use App\Src\BackendHelper;
 use App\Src\modules\controllers\AbstractController;
 use Illuminate\Support\Facades\Validator;
@@ -41,6 +44,7 @@ class SchedulePlanTypeController extends AbstractController {
     public function actionSchedulePlanType()
     {
         $types = BackendHelper::getRepositories()->allSchedulePlanType();
+        AssetBundleManager::appendBundle(new SchedulePlanTypeAssets());
         return view('schedule_plan::schedule_plan_type.index', ['title'=>'Тип плана расписания', 'types'=>$types, 'nav_schedule' => true]);
     }
 
@@ -87,7 +91,7 @@ class SchedulePlanTypeController extends AbstractController {
     {
         $data = request()->post();
         $id  = request()->post('id');
-        $model = new SchedulePlanTypeModel();
+        $model = new SchedulePlanTypeModel($id);
         $model->load($data);
         $validate = Validator::make($model->getData(), $model->rules());
         if ($validate->validate()) {

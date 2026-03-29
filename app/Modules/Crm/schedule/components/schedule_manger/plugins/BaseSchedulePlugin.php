@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\Crm\schedule\schedule_manger\plugins;
+namespace App\Modules\Crm\schedule\components\schedule_manger\plugins;
 
 use App\Entity\PlanSchedule;
+use App\Modules\Crm\schedule\components\schedule_manger\plugins\abstracts\AbstractSchedulePlugin;
 use App\Modules\Crm\schedule\exceptions\ScheduleManagerException;
-use App\Modules\Crm\schedule\schedule_manger\plugins\abstracts\AbstractSchedulePlugin;
 use App\Src\BackendHelper;
 
 /**

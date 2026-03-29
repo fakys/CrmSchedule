@@ -1,7 +1,7 @@
 <?php
-namespace App\Modules\Crm\schedule\schedule_manger\plugins;
+namespace App\Modules\Crm\schedule\components\schedule_manger\plugins;
 
-use App\Modules\Crm\schedule\schedule_manger\plugins\abstracts\AbstractSchedulePlugin;
+use App\Modules\Crm\schedule\components\schedule_manger\plugins\abstracts\AbstractSchedulePlugin;
 use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
 use App\Src\BackendHelper;
 
@@ -33,7 +33,7 @@ class WeekendsPlugin extends AbstractSchedulePlugin
             /** Устанавливаем выходные */
             foreach ($this->getSchedule()->getScheduleUnits() as $schedule) {
                 $plan_type = $schedule->getSchedulePlanType();
-                if ($plan_type->plan_type_data) {
+                if ($plan_type && $plan_type->plan_type_data) {
                     $week_ends = json_decode($plan_type->plan_type_data, 1)['weeks'][$schedule->getWeekNumber()]['week_end'];
                     $schedule->setWeekEnd($week_ends[$schedule->getWeekDay()] == 'true');
                 } else {
