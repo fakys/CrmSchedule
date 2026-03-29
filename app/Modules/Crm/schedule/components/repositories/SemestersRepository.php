@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Modules\Crm\schedule\repositories;
+namespace App\Modules\Crm\schedule\components\repositories;
 
-use App\Entity\Schedule;
 use App\Entity\Semester;
 use App\Modules\Crm\schedule\models\SemestersModel;
-use App\Src\BackendHelper;
 use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
-use Illuminate\Support\Facades\DB;
 
 class SemestersRepository extends AbstractRepositories
 {
@@ -25,14 +22,14 @@ class SemestersRepository extends AbstractRepositories
      * @param SemestersModel $model
      * @return Semester|bool
      */
-    public function createSemester($model)
+    public function createSemester($name, $date_start, $date_end, $year_start, $year_end)
     {
         $semester = new Semester();
-        $semester->name = $model->name;
-        $semester->date_start = (new \DateTime($model->date_start))->format('Y-m-d');
-        $semester->date_end = (new \DateTime($model->date_end))->format('Y-m-d');
-        $semester->year_start = $model->year_start;
-        $semester->year_end = $model->year_end;
+        $semester->name = $name;
+        $semester->date_start = $date_start;
+        $semester->date_end = $date_end;
+        $semester->year_start = $year_start;
+        $semester->year_end =$year_end;
         if ($semester->save()) {
             return $semester;
         }

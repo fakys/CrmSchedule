@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Crm\schedule\operations;
+namespace App\Modules\Crm\schedule\components\operations;
 
 use App\Src\modules\operations\AbstractOperation;
 

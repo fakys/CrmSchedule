@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Crm\schedule\crons;
+namespace App\Modules\Crm\schedule\components\crons;
 
 
 use App\Src\BackendHelper;

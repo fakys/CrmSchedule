@@ -2,13 +2,12 @@
 
 namespace App\Modules\Crm\schedule_plan\controllers;
 
-use App\Modules\Crm\schedule\tasks\CashScheduleTask;
+use App\Modules\Crm\schedule\components\tasks\CashScheduleTask;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanFileModel;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanModel;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
 use App\Modules\Crm\schedule_plan\src\ExcelPlanSchedule;
 use App\Modules\Crm\schedule_plan\src\SchedulePlanReturnData;
-
 use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
@@ -17,7 +16,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use function Laravel\Prompts\error;
 
 
 class SchedulePlanController extends AbstractController

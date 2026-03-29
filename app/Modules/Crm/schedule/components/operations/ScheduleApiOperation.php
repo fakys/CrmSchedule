@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Crm\schedule\operations;
+namespace App\Modules\Crm\schedule\components\operations;
 
 use App\Modules\Crm\schedule\src\schedule_manager\return_data_schedule\ScheduleManagerReturnDataApi;
 use App\Modules\Crm\schedule\src\schedule_manager\Schedule;

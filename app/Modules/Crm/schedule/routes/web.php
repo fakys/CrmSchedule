@@ -35,18 +35,11 @@ Route::post(
 )->description('Страница с семестрами');
 
 \App\Src\access\AccessRoute::access("$module.add_semesters")->route(
-    Route::get(
+    Route::any(
         "$module/add_semesters",
         [\App\Modules\Crm\schedule\controllers\SemestersController::class, "actionSemestersAdd"]
     )->name("$module.add_semesters")
 )->description('Страница добавления семестра');
-
-\App\Src\access\AccessRoute::access("$module.add_semesters")->route(
-    Route::post(
-        "$module/add_semesters",
-        [\App\Modules\Crm\schedule\controllers\SemestersController::class, "semestersAdd"]
-    )->name("$module.add_semesters_post")
-);
 \App\Src\access\AccessRoute::access("$module.delete_semester")->route(
     Route::post(
         "$module/delete_semester",

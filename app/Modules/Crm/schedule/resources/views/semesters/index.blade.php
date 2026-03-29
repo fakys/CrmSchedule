@@ -69,8 +69,5 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('js_files')
-    <script src="{{asset('assets/js/semesters.js')}}"></script>
+    {{$assetsBundleManager->registerFile('app/Modules/Crm/schedule/resources/js/semesters.js')}}
 @endsection

@@ -6,10 +6,9 @@ use App\Modules\Crm\backend_module\operations\TestOperation;
 use App\Modules\Crm\backend_module\repositories\CronRepository;
 use App\Modules\Crm\backend_module\repositories\TaskRepository;
 use App\Modules\Crm\backend_module\tasks\TestTask;
-use App\Modules\Crm\schedule\operations\ScheduleApiOperation;
+use App\Modules\Crm\schedule\components\operations\ScheduleApiOperation;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
-use Illuminate\Support\Facades\Config;
 
 class InfoModule extends InfoModuleModel implements InterfaceInfoModule
 {

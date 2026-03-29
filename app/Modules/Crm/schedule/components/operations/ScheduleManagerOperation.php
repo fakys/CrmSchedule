@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Modules\Crm\schedule\operations;
+namespace App\Modules\Crm\schedule\components\operations;
 
-use App\Entity\Lesson;
 use App\Entity\Schedule;
 use App\Modules\Crm\schedule\src\EditNewScheduleData;
 use App\Modules\Crm\schedule\src\entity\ScheduleUnit;

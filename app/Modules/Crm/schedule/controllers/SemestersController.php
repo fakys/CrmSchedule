@@ -1,7 +1,11 @@
 <?php
 namespace App\Modules\Crm\schedule\controllers;
 
+use App\Assets\LayoutBundle;
+use App\Modules\Crm\schedule\models\SemesterFormModel;
 use App\Modules\Crm\schedule\models\SemestersModel;
+use App\Services\Abstracts\Domain\Facades\ViewManager;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\FormAdditionalParam;
 use App\Src\BackendHelper;
 use App\Src\modules\controllers\AbstractController;
 use App\Src\modules\controllers\loaders\RmGroupLinkLoader;
@@ -37,7 +41,9 @@ class SemestersController extends AbstractController {
 
     static function assets(): array
     {
-        return [];
+        return [
+            LayoutBundle::class
+        ];
     }
 
     /** Акшен семестров */
@@ -45,29 +51,35 @@ class SemestersController extends AbstractController {
     {
         $semesters = BackendHelper::getOperations()->getSemesters();
         $title = 'Семестры';
-        $nav_schedule = true;
-        return view('schedule::semesters.index', compact('semesters','title', 'nav_schedule'));
+        return view('schedule::semesters.index', compact('semesters','title'));
     }
 
     /** Акшен создания семестров */
     public function actionSemestersAdd()
     {
         $title = 'Добавить семестр';
-        $nav_schedule = true;
-        return view('schedule::semesters.form', compact('title', 'nav_schedule'));
-    }
+        $form = new SemesterFormModel('form', new FormAdditionalParam('post', route('schedule.add_semesters')));
 
-    /** Акшен сохранения семестров в бд */
-    public function semestersAdd()
-    {
-        $model = new SemestersModel();
-        $model->load(request()->post());
-        $validate = Validator::make($model->getData(), $model->rules());
-        if($validate->validate()){
-            BackendHelper::getRepositories()->createSemester($model);
-            return redirect(route('schedule.semesters'));
+        if (request()->isMethod('POST')) {
+            $form->load(request()->post());
+            $form->getValidationBuilder()->validate();
+            $return_data = $form->getReturnData();
+
+            BackendHelper::getRepositories()->createSemester(
+                $return_data->getName(),
+                date('Y-m-d', strtotime($return_data->getDateStart())),
+                date('Y-m-d', strtotime($return_data->getDateEnd())),
+                $return_data->getYearStart(),
+                $return_data->getYearEnd()
+            );
+
+            return redirect()
+                ->route('schedule.semesters')
+                ->with(['successMessage' => 'Семестр успешно создан']);
         }
-        abort(500);
+
+        ViewManager::appendElement($form);
+        return view('schedule::semesters.form', compact('title'));
     }
 
     /** Акшен удаления семестров из бд */
@@ -86,8 +98,25 @@ class SemestersController extends AbstractController {
         $title = 'Изменить семестр';
         $semester_id = request()->get('semester_id');
         $semester = BackendHelper::getRepositories()->getSemesterById($semester_id);
-        $nav_schedule = true;
-        return view('schedule::semesters.form', compact('title', 'semester', 'nav_schedule'));
+        $form = new SemesterFormModel('form', new FormAdditionalParam('post', route('schedule.semester_edit')), $semester->id);
+
+        $data = $semester->toArray();
+        $data['date_start'] = date('Y-m-d', strtotime($data['date_start']));
+        $data['date_end'] = date('Y-m-d', strtotime($data['date_end']));
+        $form->load($data);
+
+        if (request()->isMethod('POST')) {
+            $form->load(request()->post());
+            $form->getValidationBuilder()->validate();
+            $return_data = $form->getReturnData();
+            BackendHelper::getRepositories()->updateSemester($semester_id, $return_data->toArray());
+
+            return redirect()
+                ->route('schedule.semesters')
+                ->with(['successMessage' => 'Семестр успешно обновлен']);
+        }
+        ViewManager::appendElement($form);
+        return view('schedule::semesters.form', compact('title'));
     }
 
     public function semestersEdit()
@@ -99,7 +128,7 @@ class SemestersController extends AbstractController {
         $model->id = $semester_id;
         $validate = Validator::make($model->getData(), $model->rules());
         if ($semester && $validate->validate() && $model->dateValidate()) {
-            BackendHelper::getRepositories()->updateSemester($semester->id, $model->getData());
+
         }
         return redirect(route('schedule.semesters'));
     }

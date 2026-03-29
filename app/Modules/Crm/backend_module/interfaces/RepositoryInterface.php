@@ -16,15 +16,14 @@ use App\Entity\Specialty;
 use App\Entity\StudentGroup;
 use App\Entity\Subject;
 use App\Entity\User;
-use App\Entity\UserGroup;
 use App\Modules\Crm\backend_module\repositories\CronRepository;
 use App\Modules\Crm\backend_module\repositories\TaskRepository;
 use App\Modules\Crm\reports\repositories\ReportsRepository;
+use App\Modules\Crm\schedule\components\repositories\ScheduleRepository;
+use App\Modules\Crm\schedule\components\repositories\SemestersRepository;
 use App\Modules\Crm\schedule\models\SemestersModel;
-use App\Modules\Crm\schedule\repositories\ScheduleRepository;
 use App\Modules\Crm\schedule_plan\repositories\SchedulePlanRepository;
 use App\Modules\Crm\schedule_plan\repositories\SchedulePlanTypeRepository;
-use App\Modules\Crm\student_groups\components\repositories\StudentGroupRepositories;
 use App\Modules\Crm\users_interface\components\repositories\UserGroupsRepositories;
 use App\Modules\Crm\users_interface\components\repositories\UsersRepositories;
 
@@ -40,6 +39,7 @@ use App\Modules\Crm\users_interface\components\repositories\UsersRepositories;
  * @mixin \App\Modules\Crm\lessons\components\repositories\LessonsRepository
  * @mixin SchedulePlanTypeRepository
  * @mixin UserGroupsRepositories
+ * @mixin SemestersRepository
  *
  */
 interface RepositoryInterface{
@@ -345,12 +345,6 @@ interface RepositoryInterface{
     public function getAllSemesters();
 
     /**
-     * @param SemestersModel $model
-     * @return Semester|bool
-     */
-    public function createSemester($model);
-
-    /**
      * Удаляет сестер
      * @param $id
      * @return false
@@ -363,16 +357,6 @@ interface RepositoryInterface{
      * @return Semester
      */
     public function getSemesterById($id);
-
-    /**
-     * Обновляет по id
-     * @param $id
-     * @param $field
-     * @param $value
-     * @return void
-     */
-    public function updateSemester($id, $data);
-
     /**
      * Возвращает специальность по id
      * @return Specialty

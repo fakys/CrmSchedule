@@ -1,13 +1,8 @@
 <?php
-namespace App\Modules\Crm\schedule\tasks;
+namespace App\Modules\Crm\schedule\components\tasks;
 
-use App\Entity\User;
-use App\Exports\ExportExcel;
 use App\Src\BackendHelper;
 use App\Src\modules\task\AbstractTask;
-use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Facades\Excel;
-use function Symfony\Component\Translation\t;
 
 class CashScheduleTask extends AbstractTask
 {

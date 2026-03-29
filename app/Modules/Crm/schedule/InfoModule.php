@@ -2,20 +2,19 @@
 namespace App\Modules\Crm\schedule;
 
 
-use App\Modules\Crm\holidays\schedule_manger\HolidaysPlugin;
+use App\Modules\Crm\schedule\components\crons\CashScheduleCron;
+use App\Modules\Crm\schedule\components\operations\ScheduleApiOperation;
+use App\Modules\Crm\schedule\components\operations\ScheduleManagerOperation;
+use App\Modules\Crm\schedule\components\operations\SemestersOperation;
+use App\Modules\Crm\schedule\components\operations\TimeOperation;
+use App\Modules\Crm\schedule\components\repositories\ScheduleRepository;
+use App\Modules\Crm\schedule\components\repositories\SemestersRepository;
+use App\Modules\Crm\schedule\components\tasks\CashScheduleTask;
 use App\Modules\Crm\schedule\controllers\ScheduleController;
 use App\Modules\Crm\schedule\controllers\SemestersController;
-use App\Modules\Crm\schedule\crons\CashScheduleCron;
-use App\Modules\Crm\schedule\operations\ScheduleApiOperation;
-use App\Modules\Crm\schedule\operations\ScheduleManagerOperation;
-use App\Modules\Crm\schedule\operations\SemestersOperation;
-use App\Modules\Crm\schedule\operations\TimeOperation;
-use App\Modules\Crm\schedule\repositories\ScheduleRepository;
-use App\Modules\Crm\schedule\repositories\SemestersRepository;
 use App\Modules\Crm\schedule\schedule_manger\plugins\BaseSchedulePlugin;
 use App\Modules\Crm\schedule\schedule_manger\plugins\WeekendsPlugin;
 use App\Modules\Crm\schedule\schedule_manger\ScheduleManger;
-use App\Modules\Crm\schedule\tasks\CashScheduleTask;
 use App\Src\modules\InfoModuleModel;
 use App\Src\modules\interfaces\InterfaceInfoModule;
 use Illuminate\Support\Facades\Config;
