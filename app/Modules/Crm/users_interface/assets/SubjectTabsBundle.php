@@ -20,7 +20,6 @@ class SubjectTabsBundle extends AbstractAssets
     public function bodyFiles(): array
     {
         return [
-            'app/Modules/Crm/users_interface/resources/js/tabs.js'
         ];
     }
 

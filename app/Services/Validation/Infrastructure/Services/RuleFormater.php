@@ -18,6 +18,9 @@ class RuleFormater implements RuleFormaterInterface
             $data = [];
 
             foreach ($rule as $value) {
+                if (is_callable($value)) {
+                    continue;
+                }
                 if (strpos($value, ':') !== false) {
                     /** Это простейшая реализация, ри необходимости можно менять */
                     $data[] = ['name' => explode(':', $value)[0], 'rule' => $value];

@@ -24,15 +24,18 @@ class LessonFormModel extends AbstractForm
 {
     private $update_id;
 
-    public function __construct(string $formTag, FormAdditionalParamInterface $additionalParam, $update_id = null)
+    private $is_ajax = false;
+
+    public function __construct(string $formTag, FormAdditionalParamInterface $additionalParam, $update_id = null, $is_ajax = false)
     {
         $this->update_id = $update_id;
+        $this->is_ajax = $is_ajax;
         parent::__construct($formTag, $additionalParam);
     }
 
     public function isAjax()
     {
-        return true;
+        return $this->is_ajax;
     }
 
     public function getAssets(): array
@@ -73,8 +76,20 @@ class LessonFormModel extends AbstractForm
 
         $this->getValidationBuilder()->getSetRules(
             [
-                'teacher' => ['required', 'exists:users,id'],
-                'subject' => ['required', 'exists:subjects,id'],
+                'teacher' => [
+                    'required',
+                    'exists:users,id',
+                    function ($attribute, $value, $fail) {
+                        $return_data = $this->getReturnData();
+                        if (BackendHelper::getRepositories()->checkLessonByTeacherAndSubject($return_data->getTeacher(), $return_data->getSubject())) {
+                            $fail('Данная связь уже существует');
+                        }
+                    },
+                ],
+                'subject' => [
+                    'required',
+                    'exists:subjects,id'
+                ],
             ]
         );
     }

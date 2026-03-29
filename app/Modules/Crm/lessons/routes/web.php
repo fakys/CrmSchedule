@@ -88,19 +88,12 @@ Route::post("$module/get-edit-lessons-info-tab/",
     ]
 )->name("$module.get_edit_lessons_info_tab");
 
-Route::get("$module/add-lesson/",
+Route::any("$module/add-lesson/",
     [
         \App\Modules\Crm\lessons\controllers\LessonsController::class,
         'actionAddLesson'
     ]
 )->name("$module.add_lesson");
-
-Route::post("$module/set-lesson/",
-    [
-        \App\Modules\Crm\lessons\controllers\LessonsController::class,
-        'setLesson'
-    ]
-)->name("$module.set_lesson");
 
 Route::post("$module/edit-lessons-info/",
     [

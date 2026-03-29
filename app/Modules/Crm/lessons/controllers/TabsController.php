@@ -35,7 +35,19 @@ class TabsController extends Controller
         $lesson = BackendHelper::getRepositories()->getLessonsById(
             request()->post('id')
         );
-        $form = new LessonFormModel('form', new FormAdditionalParam('post', route('lessons.edit_lessons_info', ['id' => $lesson->id])));
+        $form = new LessonFormModel(
+            'form',
+            new FormAdditionalParam(
+                'post',
+                route(
+                    'lessons.edit_lessons_info',
+                    ['id' => $lesson->id]
+                )
+            ),
+            request()->get('id'),
+            true
+        );
+
         ViewManager::appendElement($form);
         $form->load([
             'teacher' => $lesson->user_id,
@@ -50,21 +62,25 @@ class TabsController extends Controller
         $lesson = BackendHelper::getRepositories()->getLessonsById(
             request()->get('id')
         );
-        $form = new LessonFormModel('form', new FormAdditionalParam('post', route('lessons.edit_lessons_info', ['id' => $lesson->id])));
+        $form = new LessonFormModel(
+            'form',
+            new FormAdditionalParam(
+                'post',
+                route('lessons.edit_lessons_info',
+                    ['id' => $lesson->id]
+                )
+            ),
+            request()->get('id'),
+            true
+        );
+
         $form->load(request()->post());
         $validate = $form->getValidationBuilder();
         if ($validate->validate()) {
             $return_data = $form->getReturnData();
-            if (!BackendHelper::getRepositories()->checkLessonByTeacherAndSubject($return_data->getTeacher(), $return_data->getSubject())) {
-                $lesson->user_id = $return_data->getTeacher();
-                $lesson->subject_id = $return_data->getSubject();
-                BackendHelper::getRepositories()->setLesson($lesson);
-            } else {
-                return response()->json([
-                    'message' => 'Данная связь уже существует',
-                    'errors' => []
-                ], 422);
-            }
+            $lesson->user_id = $return_data->getTeacher();
+            $lesson->subject_id = $return_data->getSubject();
+            BackendHelper::getRepositories()->setLesson($lesson);
         }
 
     }

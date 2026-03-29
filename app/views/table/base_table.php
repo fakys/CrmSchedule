@@ -3,7 +3,6 @@
  * @var \App\Services\Table\Infrastructure\Services\AbstractTable $element
  */
 ?>
-
 <div class="container">
     <div class="card">
         <div class="card-body">

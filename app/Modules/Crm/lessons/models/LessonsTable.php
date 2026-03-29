@@ -1,10 +1,10 @@
 <?php
-namespace App\Modules\Crm\users_interface\model;
+namespace App\Modules\Crm\lessons\models;
 
 use App\Assets\JsTableBundle;
 use App\Services\Table\Infrastructure\Services\AbstractTable;
 
-class SubjectsTable extends AbstractTable
+class LessonsTable extends AbstractTable
 {
 
     public function getAssets(): array

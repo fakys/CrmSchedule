@@ -14,7 +14,7 @@ AccessRoute::access($module."_student_groups_info")->route(
 )->description('Страничка просмотра студенческих групп');
 
 AccessRoute::access($module."_search_student_groups_info")->route(
-    Route::post("$module/search-student-groups-info", [StudentGroupsController::class, 'actionStudentGroupsInfo'])
+    Route::post("$module/student-groups-info", [StudentGroupsController::class, 'actionStudentGroupsInfo'])
         ->name("$module.search_student_groups_info")
 )->description('Страничка поиска студенческих групп');
 

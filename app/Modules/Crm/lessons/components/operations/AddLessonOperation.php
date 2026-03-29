@@ -8,17 +8,6 @@ use App\Src\modules\operations\AbstractOperation;
 
 class AddLessonOperation extends AbstractOperation
 {
-
-    /**
-     * Добавляет связь предмета и преподавателя
-     * @param LessonModel $model
-     * @return Lesson
-     */
-    public function addLesson(LessonModel $model)
-    {
-        return BackendHelper::getRepositories()->createLessons($model->subject, $model->teacher);
-    }
-
     public function getName(): string
     {
         return 'subject_operation';

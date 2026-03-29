@@ -74,9 +74,4 @@
         </div>
     </div>
 </div>
-<script src="{{asset('assets/plugins/js/jquery.inputmask.min.js')}}"></script>
-<script src="{{asset('assets/js/tabs/edits/student_groups.js')}}"></script>
-<script src="{{asset('assets/plugins/js/moment.min.js')}}"></script>
-<script>
-    $('[data-mask]').inputmask()
-</script>
+{{$assetsBundleManager->registerFile('app/Modules/Crm/student_groups/resources/js/student_groups.js')}}

@@ -4,7 +4,7 @@
  */
 ?>
 
-{{$assetsBundleManager->registerFile('app/Modules/Crm/users_interface/resources/css/tabs.css')}}
+{{$assetsBundleManager->registerFile('resources/tabs/tabs.css')}}
 {{$assetsBundleManager->registerFile('app/Modules/Crm/users_interface/resources/css/users_info.css')}}
 <div>
     @csrf
@@ -60,4 +60,3 @@
     </div>
     <div class="tabs-content"></div>
 </div>
-{{$assetsBundleManager->registerFile('app/Modules/Crm/users_interface/resources/js/tabs.js')}}

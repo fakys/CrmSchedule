@@ -4,18 +4,15 @@ namespace App\Modules\Crm\lessons\controllers;
 
 use App\Assets\LayoutBundle;
 use App\Modules\Crm\lessons\assets\PairNumberBundle;
-use App\Modules\Crm\lessons\models\LessonModel;
 use App\Modules\Crm\lessons\models\AddNumberPairs;
+use App\Modules\Crm\lessons\models\LessonFormModel;
+use App\Modules\Crm\lessons\models\LessonsTable;
 use App\Modules\Crm\lessons\models\PairNumberFormModel;
-use App\Modules\Crm\users_interface\model\SubjectsTable;
 use App\Services\Abstracts\Domain\Facades\ViewManager;
 use App\Services\AssetsBundle\Domain\Services\AssetsBundleManagerInterface;
 use App\Services\Forms\Infrastructure\Services\AdditionalParams\FormAdditionalParam;
 use App\Src\BackendHelper;
-use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Validator;
 
 class LessonsController extends AbstractController
 {
@@ -48,40 +45,37 @@ class LessonsController extends AbstractController
     public function actionLessons()
     {
         $lessons = BackendHelper::getRepositories()->getAllLessonsInfo();
-        $table = new SubjectsTable('table', $lessons, route('lessons.get_tabs'));
+        $table = new LessonsTable('table', $lessons, route('lessons.get_tabs'));
         ViewManager::appendElement($table);
         $title = 'Предметы преподавателя';
         return view('lessons::lessons.lessons_info', compact('title'));
     }
 
-    public function setLesson()
-    {
-        $model = new LessonModel();
-        $model->load(request()->post());
-        $validate = Validator::make($model->getData(), $model->rules());
-        if ($validate->validate()) {
-            if ($model->validateLesson()) {
-                BackendHelper::getOperations()->addLesson($model);
-            } else {
-                $validate->errors()->add('teacher', 'Данная связь уже существует');
-                return redirect()->back()
-                    ->withErrors($validate)
-                    ->withInput();
-            }
-
-        }
-        return redirect()->route('lessons.lessons');
-    }
-
     public function actionAddLesson()
     {
         $title = 'Добавить связь';
-        $subjects = ArrayHelper::getColumn(BackendHelper::getRepositories()->getSubjectInfo(), 'name', 'id');
-        $teachers = [];
-        foreach (BackendHelper::getRepositories()->getAllTeachers() as $teacher) {
-            $teachers[$teacher->id] = $teacher->getFio();
+        $form = new LessonFormModel(
+            'form',
+            new FormAdditionalParam(
+                'post',
+                route('lessons.add_lesson')
+            ),
+            request()->get('id')
+        );
+
+        if (request()->isMethod('POST')) {
+            $form->load(request()->post());
+            $form->getValidationBuilder()->validate();
+            $return_data = $form->getReturnData();
+            BackendHelper::getRepositories()->createLessons($return_data->getSubject(), $return_data->getTeacher());
+            return redirect()
+                ->route('lessons.add_lesson')
+                ->with(['successMessage' => 'Связь успешно создана']);
         }
-        return view('lessons::lessons.add_lesson', compact('title', 'subjects', 'teachers'));
+
+        ViewManager::appendElement($form);
+
+        return view('lessons::lessons.add_lesson', compact('title'));
     }
 
     /**
