@@ -260,67 +260,68 @@ $(document).ready(function () {
         }
     })
 
-    $('.btn_save_schedule').on('click', function () {
-        let card_id = $('#card_id_pair_form').data('card_id')
-        let all_schedule_data = {}
-        let pair_data = {};
-
-        for (let key in schedule_data) {
-            if (key != card_id) {
-                all_schedule_data[key] = {
-                    cardName: schedule_data[key].cardName,
-                    numberPair: schedule_data[key].numberPair,
-                    weekDay: schedule_data[key].weekDay,
-                    weekNumber: schedule_data[key].weekNumber,
-                    group: schedule_data[key].group,
-                    user: schedule_data[key].user,
-                    subject: schedule_data[key].subject,
-                    time_start: schedule_data[key].time_start,
-                    time_end: schedule_data[key].time_end,
-                    description: schedule_data[key].description,
-                    plan_type: plan_type,
-                    semester: semester
-                }
-            } else {
-                pair_data = {
-                    cardName: schedule_data[key].cardName,
-                    numberPair: schedule_data[key].numberPair,
-                    weekDay: schedule_data[key].weekDay,
-                    weekNumber: schedule_data[key].weekNumber,
-                    group: schedule_data[key].group,
-                }
-            }
-        }
-        for (let input of $('.schedule-input')) {
-            pair_data[$(input).attr('name').replace(/\[|\]/g, '')] = $(input).val()
-        }
-
-        $.ajax({
-            url: $('#validate_card').data('url'),
-            method: 'post',
-            data: {'card_data': pair_data, 'all_schedule_data':all_schedule_data, '_token': csrf},
-            success: function (data) {
-                let result = JSON.parse(data)
-                if (!result.result) {
-                    for (let input of $('.schedule-input')) {
-                        for (let key in result.errors) {
-                            if (result.errors[key][$(input).attr('name')]) {
-                                $(input).parent().find('.error-block').html(result.errors[key][$(input).attr('name').replace(/\[|\]/g, '')])
-                            }
-                        }
-
-                    }
-                    return false
-                }
-                for (let input of $('.schedule-input')) {
-                    schedule_data[card_id][$(input).attr('name').replace(/\[|\]/g, '')] = $(input).val()
-                }
-
-                restyleCard(card_id)
-            }
-        });
-
-    })
+    // $('.btn_save_schedule').on('click', function () {
+    //     let card_id = $('#card_id_pair_form').data('card_id')
+    //     let all_schedule_data = {}
+    //     let pair_data = {};
+    //
+    //     for (let key in schedule_data) {
+    //         if (key != card_id) {
+    //             all_schedule_data[key] = {
+    //                 cardName: schedule_data[key].cardName,
+    //                 numberPair: schedule_data[key].numberPair,
+    //                 weekDay: schedule_data[key].weekDay,
+    //                 weekNumber: schedule_data[key].weekNumber,
+    //                 group: schedule_data[key].group,
+    //                 user: schedule_data[key].user,
+    //                 subject: schedule_data[key].subject,
+    //                 time_start: schedule_data[key].time_start,
+    //                 time_end: schedule_data[key].time_end,
+    //                 description: schedule_data[key].description,
+    //                 plan_type: plan_type,
+    //                 semester: semester
+    //             }
+    //         } else {
+    //             pair_data = {
+    //                 cardName: schedule_data[key].cardName,
+    //                 numberPair: schedule_data[key].numberPair,
+    //                 weekDay: schedule_data[key].weekDay,
+    //                 weekNumber: schedule_data[key].weekNumber,
+    //                 group: schedule_data[key].group,
+    //             }
+    //         }
+    //     }
+    //     for (let input of $('.schedule-input')) {
+    //         pair_data[$(input).attr('name').replace(/\[|\]/g, '')] = $(input).val()
+    //     }
+    //
+    //     $.ajax({
+    //         url: $('#validate_card').data('url'),
+    //         method: 'post',
+    //         data: {'card_data': pair_data, 'all_schedule_data':all_schedule_data, '_token': csrf},
+    //         success: function (data) {
+    //             alert(data)
+    //             let result = JSON.parse(data)
+    //             if (!result.result) {
+    //                 for (let input of $('.schedule-input')) {
+    //                     for (let key in result.errors) {
+    //                         if (result.errors[key][$(input).attr('name')]) {
+    //                             $(input).parent().find('.error-block').html(result.errors[key][$(input).attr('name').replace(/\[|\]/g, '')])
+    //                         }
+    //                     }
+    //
+    //                 }
+    //                 return false
+    //             }
+    //             for (let input of $('.schedule-input')) {
+    //                 schedule_data[card_id][$(input).attr('name').replace(/\[|\]/g, '')] = $(input).val()
+    //             }
+    //             restyleCard(card_id)
+    //             $('#card_model_data').hide()
+    //         }
+    //     });
+    //
+    // })
 
     $('.save-plan_schedule').on('click', function () {
         $.ajax({

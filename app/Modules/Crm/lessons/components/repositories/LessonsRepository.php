@@ -16,7 +16,7 @@ class LessonsRepository extends AbstractRepositories{
      */
     public function getNumberPair()
     {
-        return PairNumber::all();
+        return PairNumber::query()->orderBy('number','asc')->get();
     }
 
     /**

@@ -167,14 +167,16 @@ class SchedulePlanController extends AbstractController
             'groups',
             $groups,
             new LabelAdditionalParams('Группы'),
-            new SelectElementAdditionalParams(true, '', ['form-control', 'select_group'])
+            new SelectElementAdditionalParams(true, '', ['form-control', 'select_group']),
+            $cash_data['groups']??null
         );
 
         $plan_type = new SelectSearch(
             'plan_type',
             $plan_types,
             new LabelAdditionalParams('Тип недель'),
-            new SelectElementAdditionalParams(false, '', ['form-control','plan_type'])
+            new SelectElementAdditionalParams(false, '', ['form-control','plan_type']),
+            $cash_data['plan_type']??null
         );
         ViewManager::appendElement($select);
         ViewManager::appendElement($plan_type);
@@ -203,9 +205,27 @@ class SchedulePlanController extends AbstractController
             $users[$user->id] = $user->getFio();
         }
 
-        $users_select = new SelectSearch('user', [], new LabelAdditionalParams('Преподаватель'), new SelectElementAdditionalParams(false, '', ['form-control', 'subject_select', 'schedule-input']));
-        $subject_select = new SelectSearch('subject', [], new LabelAdditionalParams('Предмет'), new SelectElementAdditionalParams(false, '', ['form-control', 'subject_select', 'schedule-input']));
-        $format_select = new SelectSearch('format', [], new LabelAdditionalParams('Формат пары'), new SelectElementAdditionalParams(false, '', ['form-control', 'subject_select', 'schedule-input']));
+        $users_select = new SelectSearch(
+            'user',
+            $users, new LabelAdditionalParams('Преподаватель'),
+            new SelectElementAdditionalParams(false, '', ['form-control', 'users_select', 'schedule-input'])
+        );
+
+        $subject_select = new SelectSearch(
+            'subject',
+            $subject,
+            new LabelAdditionalParams('Предмет'),
+            new SelectElementAdditionalParams(false, '', ['form-control', 'subject_select', 'schedule-input']
+            )
+        );
+
+        $format_select = new SelectSearch(
+            'format',
+            $formats,
+            new LabelAdditionalParams('Формат пары'),
+            new SelectElementAdditionalParams(false, '', ['form-control', 'subject_select', 'schedule-input']
+            )
+        );
 
         ViewManager::appendElement($users_select);
         ViewManager::appendElement($subject_select);

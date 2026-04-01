@@ -77,7 +77,7 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     if (JSON.parse(data).result) {
-                        success_alert('Данные успешно сохранены в кеше')
+                        // success_alert('Данные успешно сохранены в кеше')
                     } else {
                         error_alert('Ошибка сохранения в кеше')
                     }
@@ -302,13 +302,16 @@ $(document).ready(function () {
             success: function (data) {
                 let result = JSON.parse(data)
                 if (!result.result) {
+                    console.log(1)
                     for (let input of $('.schedule-input')) {
-                        for (let key in result.errors) {
-                            if (result.errors[key][$(input).attr('name')]) {
-                                $(input).parent().find('.error-block').html(result.errors[key][$(input).attr('name').replace(/\[|\]/g, '')])
+                        for (let error of result.errors) {
+                            for (let key in error) {
+                                if (key === $(input).attr('name')) {
+                                    $(`#${key}_error`).html(error[key])
+                                    $(`#${key}_error`).css({display:'block'})
+                                }
                             }
                         }
-
                     }
                     return false
                 }
@@ -317,6 +320,9 @@ $(document).ready(function () {
                 }
 
                 restyleCard(card_id)
+                const modalElement = $('#card_model_data')[0];
+                const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+                modal.hide();
             }
         });
 

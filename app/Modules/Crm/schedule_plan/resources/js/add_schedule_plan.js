@@ -64,7 +64,6 @@ $(document).ready(function (){
             error_alert('Выберите семестр!')
             return
         }
-        console.log(groups)
         if (!groups.length) {
             error_alert('Выберите группу!')
             return

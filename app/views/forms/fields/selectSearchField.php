@@ -43,6 +43,7 @@ use Illuminate\Support\ViewErrorBag;
                 class="form-control <?php if ($errors->get($element->getName())): ?> is-invalid <?php endif; ?>"
             <?php endif; ?>
             name="<?=$element->getName()?><?php if ($element->getAdditionalParams()->getMultiple()):?>[]<?php endif; ?>"
+            style="width: 100%;"
         >
             <?php foreach ($element->getOptions() as $value => $name): ?>
                 <?php if(

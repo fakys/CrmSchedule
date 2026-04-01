@@ -13,7 +13,7 @@ use App\Services\Forms\Infrastructure\Services\FormElement\Abstracts\AbstractFor
 class SelectSearch extends AbstractFormElement
 {
     private array $options = [];
-    public function __construct(string $name, $options, LabelAdditionalParamsInterface $label, SelectElementAdditionalParams $additionalParams, ?array $value = [])
+    public function __construct(string $name, $options, LabelAdditionalParamsInterface $label, SelectElementAdditionalParams $additionalParams, $value = [])
     {
         parent::__construct($name, $label, $additionalParams, $value);
         $this->options = $options;
