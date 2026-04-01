@@ -11,7 +11,13 @@ use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
 use App\Modules\Crm\schedule_plan\src\ExcelPlanSchedule;
 use App\Modules\Crm\schedule_plan\src\SchedulePlanReturnData;
 use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
+use App\Services\Abstracts\Domain\Facades\ViewManager;
 use App\Services\AssetsBundle\Domain\Facades\AssetBundleManager;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\FromParams\FormElementAdditionalParams;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\FromParams\SelectElementAdditionalParams;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\LabelAdditionalParams;
+use App\Services\Forms\Infrastructure\Services\FormElement\PeriodDatePicker;
+use App\Services\Forms\Infrastructure\Services\FormElement\SelectSearch;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
@@ -156,7 +162,24 @@ class SchedulePlanController extends AbstractController
         $specialties = BackendHelper::getRepositories()->getSpecialtyById($specialties_id);
         $groups = ArrayHelper::getColumn($specialties->getGroups(), 'name', 'id');
         $plan_types = ArrayHelper::getColumn(BackendHelper::getRepositories()->allSchedulePlanType(), 'name', 'id');
-        return view('schedule_plan::schedule_plan.group_input', compact('groups', 'plan_types', 'cash_data'));
+
+        $select = new SelectSearch(
+            'groups',
+            $groups,
+            new LabelAdditionalParams('Группы'),
+            new SelectElementAdditionalParams(true, '', ['form-control', 'select_group'])
+        );
+
+        $plan_type = new SelectSearch(
+            'plan_type',
+            $plan_types,
+            new LabelAdditionalParams('Тип недель'),
+            new SelectElementAdditionalParams(false, '', ['form-control','plan_type'])
+        );
+        ViewManager::appendElement($select);
+        ViewManager::appendElement($plan_type);
+
+        return view('schedule_plan::schedule_plan.group_input', compact('cash_data'));
     }
 
     public function getFormForPair()
@@ -179,6 +202,14 @@ class SchedulePlanController extends AbstractController
         foreach ($users_obj as $user) {
             $users[$user->id] = $user->getFio();
         }
+
+        $users_select = new SelectSearch('user', [], new LabelAdditionalParams('Преподаватель'), new SelectElementAdditionalParams(false, '', ['form-control', 'subject_select', 'schedule-input']));
+        $subject_select = new SelectSearch('subject', [], new LabelAdditionalParams('Предмет'), new SelectElementAdditionalParams(false, '', ['form-control', 'subject_select', 'schedule-input']));
+        $format_select = new SelectSearch('format', [], new LabelAdditionalParams('Формат пары'), new SelectElementAdditionalParams(false, '', ['form-control', 'subject_select', 'schedule-input']));
+
+        ViewManager::appendElement($users_select);
+        ViewManager::appendElement($subject_select);
+        ViewManager::appendElement($format_select);
 
         return view('schedule_plan::schedule_plan.pair_from', compact('data', 'users', 'subject', 'card_id', 'formats', 'format'));
     }

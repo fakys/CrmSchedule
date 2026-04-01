@@ -1,13 +1,5 @@
 @extends("layout::base_layout")
 
-@section('css_files')
-    <link rel="stylesheet" href="{{asset('assets/css/schedule_plan.css')}}">
-@endsection
-
-@section('js_files')
-    <script src="{{asset('assets/js/type_plan_schedule.js')}}"></script>
-@endsection
-
 @section('content')
     @csrf
     <div id="url_search_operation" data-url="{{route('schedule_plan.operation_schedule_plan_types')}}"></div>

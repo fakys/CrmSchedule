@@ -1,16 +1,8 @@
 @extends("layout::base_layout")
 
-@section('css_files')
-    <link rel="stylesheet" href="{{asset('assets/css/schedule_plan.css')}}">
-@endsection
-
-@section('js_files')
-    <script src="{{asset('assets/js/add_schedule_plan.js')}}"></script>
-@endsection
-
 @section('content')
     @csrf
-    <div class="container">
+    <div>
         <div id="delete_session" data-url="{{route('schedule_plan.delete_session')}}"></div>
         <div id="get_group" data-url="{{route('schedule_plan.get_group_input')}}"></div>
         <div id="check_schedule_plan" data-url="{{route('schedule_plan.check_schedule_plan')}}"></div>
@@ -20,7 +12,7 @@
                 <div class="title-schedule-plan">Добавить плана расписания</div>
             </div>
             <div class="card-body">
-                <div>
+                <div class="container">
                     @error('file_error')
                     <div class="error">
                         <div style="font-size: 18px">Ошибки в загруженном файле: </div>
@@ -57,7 +49,7 @@
 
                     </div>
                 </div>
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 justify-content-center">
                     <div>
                         <div class="btn btn-main" id="add_plan_schedule">Составить расписание на семестр</div>
                     </div>

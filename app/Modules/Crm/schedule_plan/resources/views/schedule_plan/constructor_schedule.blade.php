@@ -162,7 +162,7 @@
     </div>
 </div>
 
-<script src="{{ asset('assets/plugins/js/jquery-ui.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/js/dashboard.js') }}"></script>
-<script src="{{ asset('assets/js/construct_schedule.js') }}"></script>
+{{$assetsBundleManager->registerFile('resources/plugins/js/jquery-ui.min.js')}}
+{{$assetsBundleManager->registerFile('resources/plugins/js/dashboard.js')}}
+{{$assetsBundleManager->registerFile('app/Modules/Crm/schedule_plan/resources/js/construct_schedule.js')}}
 
