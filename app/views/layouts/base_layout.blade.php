@@ -252,6 +252,11 @@ use App\Src\BackendHelper;
                         <strong>{{session('successMessage')}}</strong>
                     </div>
                 @endif
+                @if(session('errorMessage'))
+                    <div class="alert alert-danger">
+                        <strong>{{session('errorMessage')}}</strong>
+                    </div>
+                @endif
                 @foreach(BackendHelper::getKernel()->getControllerLoader()->getNavbars() as $navbar)
                     @if($navbar->getActive())
                         <div class="main-nav-tabs">

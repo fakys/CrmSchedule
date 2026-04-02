@@ -4,6 +4,7 @@ namespace App\Modules\Crm\schedule_plan\components\operation;
 use App\Modules\Crm\schedule_plan\exceptions\SchedulePlanAddException;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
 use App\Modules\Crm\schedule_plan\src\ExcelPlanSchedule;
+use App\Modules\Crm\schedule_plan\src\schedule_parse\ScheduleParseReturnData;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
 use App\Src\redis\RedisManager;
@@ -177,109 +178,40 @@ class SchedulePlan extends AbstractOperation{
         return json_decode($json, true)[$user_id]??null;
     }
 
-    public function uploadFileSchedulePlan($file, $semester, $plan_schedule)
+    /**
+     * @param ScheduleParseReturnData[] $parseData
+     * @param $semester
+     * @param $plan_schedule
+     * @return array
+     */
+    public function uploadFileSchedulePlan(array $parseData, $semester, $plan_schedule)
     {
         $main_data = [];
-        $last_pair_start_row = null;
-        $pair_arr = [];
-        foreach (BackendHelper::getRepositories()->getNumberPair() as $pair) {
-            $pair_arr[$pair->id] = [];
-        }
-        foreach ($file as $key=>$data) {
-            if (strpos($data['A'], ExcelPlanSchedule::GROUP_STRING) !== false) { //Если мы находим группу, добавляем её в массив
-                $group = BackendHelper::getRepositories()->getStudentGroupByName(trim(str_replace(ExcelPlanSchedule::GROUP_STRING, '', $data['A'])));
-                if (!$group) {
-                    throw new SchedulePlanAddException('Группа '.trim(str_replace(ExcelPlanSchedule::GROUP_STRING, '', $data['A'])) .' не найдена');
-                }
-                $main_data[$group[0]->id] = [];
-            }
-            if (strpos($data['A'], ExcelPlanSchedule::WEEK_STRING) !== false) {
-                //закидываем в последнюю группу
-                $main_data[array_key_last($main_data)][trim(str_replace(ExcelPlanSchedule::WEEK_STRING, '', $data['A']))] = [];
-            }
-            if ($data['A'] === ExcelPlanSchedule::PAIR_NUMBER_STRING) {
-                $last_pair_start_row = $data;
+
+        foreach ($parseData as $entity) {
+
+            $pairNumber = BackendHelper::getRepositories()->getPairByNumber($entity->getPairNumber());
+
+            if (!$pairNumber) {
                 continue;
             }
 
-            if ($last_pair_start_row && $last_pair_start_row['A'] === ExcelPlanSchedule::PAIR_NUMBER_STRING) { //Значит далее идет расписание
-                try {
-                    if (
-                        isset($main_data[array_key_last($main_data)][array_key_last($main_data[array_key_last($main_data)])])
-                    ) {
-                        if (
-                            isset($main_data[array_key_last($main_data)][array_key_last($main_data[array_key_last($main_data)])])
-                        ) {
-                            foreach (SchedulePlanTypeModel::WEEK_DAYS as $week_number => $week) {
-                                $main_data[array_key_last($main_data)][array_key_last($main_data[array_key_last($main_data)])][$week_number] = $pair_arr;
-                            }
-                        }
-                    }
-                } catch (\Throwable $throwable) {
-                    dd($data);
-                }
-
-
-                foreach ($main_data[array_key_last($main_data)][array_key_last($main_data[array_key_last($main_data)])] as $week_day => $week_day_data) {
-                    if (!$week_day_data[array_key_last($week_day_data)]) {
-                        break;
-                    }
-                }
-
-                $pair_number = trim($data['A']);
-                unset($data['A']);
-                foreach ($main_data[array_key_last($main_data)][array_key_last($main_data[array_key_last($main_data)])] as $day => $day_data) {
-                    $string_exel = $data[array_key_first($data)];
-
-                    $user_id = null;
-                    $user_str = $this->parseFileData(ExcelPlanSchedule::USER_STRING, $string_exel);
-                    if ($user_str) {
-                        $user = BackendHelper::getRepositories()->getFullUsersInfoSearch(['fio' => $user_str]);
-                        if (!$user) {
-                            throw new SchedulePlanAddException('Пользователь по ФИО '.$user_str.' не найден');
-                        }
-                        $user_id = $user[0]->id;
-                    }
-
-                    $subject_id = null;
-                    $subject_str = $this->parseFileData(ExcelPlanSchedule::SUBJECT_STRING, $string_exel);
-                    if ($subject_str) {
-                        $subject = BackendHelper::getRepositories()->getSearchSubjectInfo(['name' => $subject_str]);
-                        if (!$subject) {
-                            throw new SchedulePlanAddException('Предмет по названию '.$this->parseFileData(ExcelPlanSchedule::SUBJECT_STRING, $string_exel).' не найден');
-                        }
-                        $subject_id = $subject[0]->id;
-                    }
-
-
-                    $format_id = null;
-                    $format_str = $this->parseFileData(ExcelPlanSchedule::FORMAT_STRING, $string_exel);
-                    if ($format_str) {
-                        $format = BackendHelper::getRepositories()->getFormatLessonsByName($format_str);
-                        if (!$format) {
-                            throw new SchedulePlanAddException('Формат по названию '.$format_str.' не найден');
-                        }
-                        $format_id = $format->id;
-                    }
-
-
-                    $arr_schedule_data = [
-                        'user' => $user_id,
-                        'subject' => $subject_id,
-                        'format' => $format_id,
-                        'time_start' => $this->parseFileData(ExcelPlanSchedule::TIME_START_STRING, $string_exel),
-                        'time_end' => $this->parseFileData(ExcelPlanSchedule::TIME_END_STRING, $string_exel),
-                        'description' => $this->parseFileData(ExcelPlanSchedule::DESCRIPTION_STRING, $string_exel),
-                        'cardName' => $user_id && $subject_id ? $user_str .' - '.$subject_str: null,
-                    ];
-
-                    $main_data[array_key_last($main_data)]
-                    [array_key_last($main_data[array_key_last($main_data)])][$day]
-                    [$pair_number] = $arr_schedule_data;
-                    unset($data[array_key_first($data)]);
-                }
+            if (!$entity->getTeacherId()) {
+                dd($entity);
             }
+
+            $arr_schedule_data = [
+                'user' => $entity->getSubjectId(),
+                'subject' => $entity->getSubjectId(),
+                'format' => 1,
+                'time_start' => $pairNumber->time_start,
+                'time_end' => $pairNumber->time_end,
+                'description' => '',
+                'cardName' => $this->cardName($entity->getTeacherId(), $entity->getSubjectId()),
+            ];
+            $main_data[] = $arr_schedule_data;
         }
+        dd($main_data);
 
         return $this->formatForCard($main_data, $semester, $plan_schedule);
     }
@@ -304,15 +236,6 @@ class SchedulePlan extends AbstractOperation{
             }
         }
         return $main_data;
-    }
-
-    private function parseFileData($field, $string)
-    {
-        preg_match(sprintf('/%s\s*([^;]+)/', $field), $string, $subject_arr);
-        if ($subject_arr[1] != ExcelPlanSchedule::NullString && $subject_arr[1] != ExcelPlanSchedule::NullTime) {
-            return $subject_arr[1];
-        }
-        return null;
     }
 
     public function getName(): string

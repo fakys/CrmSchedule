@@ -17,7 +17,7 @@ class SubjectsRepository extends AbstractRepositories
      * @param $description
      * @return Subject|null
      */
-    public function createSubject($name, $full_name, $description = '')
+    public function createSubject($name, $full_name = null, $description = '')
     {
         $subject = new Subject();
         $subject->name = $name;
@@ -103,6 +103,11 @@ class SubjectsRepository extends AbstractRepositories
         }
 
         return $subject->save();
+    }
+
+    public function getSubjectByName($name)
+    {
+        return Subject::query()->where('name', $name)->orWhere('full_name', $name)->first();
     }
 
     public function getName(): string

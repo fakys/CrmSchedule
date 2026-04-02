@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\student_groups;
 
 
+use App\Modules\Crm\student_groups\components\operations\StudentsGroupOperation;
 use App\Modules\Crm\student_groups\components\repositories\SpecialtiesRepositories;
 use App\Modules\Crm\student_groups\components\repositories\StudentGroupRepositories;
 use App\Modules\Crm\student_groups\controllers\SpecialtiesController;
@@ -40,6 +41,13 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
         return [
             SpecialtiesController::class,
             StudentGroupsController::class,
+        ];
+    }
+
+    public static function operations(): array
+    {
+        return [
+            StudentsGroupOperation::class,
         ];
     }
 

@@ -5,6 +5,7 @@ namespace App\Modules\Crm\schedule_plan\controllers;
 use App\Assets\LayoutBundle;
 use App\Modules\Crm\schedule\components\tasks\CashScheduleTask;
 use App\Modules\Crm\schedule_plan\assets\SchedulePlanAssets;
+use App\Modules\Crm\schedule_plan\components\parse_schedule\ParseScheduleManager;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanFileModel;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanModel;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
@@ -329,8 +330,14 @@ class SchedulePlanController extends AbstractController
             try {
                 $file = request()->file('file');
                 $spreadsheet = IOFactory::load($file->getRealPath());
-                $schedule_data_file = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
-                $schedule_data = BackendHelper::getOperations()->uploadFileSchedulePlan($schedule_data_file, $model->semester, $model->plan_type);
+                $schedule_data_file = $spreadsheet->getActiveSheet()->toArray(null, true, false, false);
+
+                /** @var ParseScheduleManager $manager */
+                $manager = BackendHelper::getManager(ParseScheduleManager::ManagerName);
+                $data = $manager->parseFileDataByPlugin($schedule_data_file);
+
+                $schedule_data = BackendHelper::getOperations()->uploadFileSchedulePlan($data, $model->semester, $model->plan_type);
+                dd(1);
                 $group = BackendHelper::getRepositories()->getStudentGroupById($model->groups[0]);
                 BackendHelper::getOperations()->setSchedulePlanCash([
                     'semester' => $model->semester,
@@ -343,6 +350,7 @@ class SchedulePlanController extends AbstractController
                 return redirect()->back();
 
             } catch (\Throwable $throwable) {
+                dd('error: '.$throwable->getMessage().$throwable->getTraceAsString());
                 $validate->errors()->add('file_error', 'Ошибка в содержимом файла: ' . $throwable->getMessage());
                 return redirect()->back()
                     ->withErrors($validate)

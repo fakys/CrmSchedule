@@ -21,7 +21,7 @@
                             <tbody>
                             @foreach($pair_number as $val)
                                 <tr pair_id="{{$val->id}}">
-                                    <td class="pl-5"><div class="h5">{{$val->name}}</div></td>
+                                    <td class="pl-5"><div class="d-flex gap-3"><div class="h5">{{$val->name}}</div> <div style="font-size: 14px; color: #878787">{{$val->time_start}} - {{$val->time_end}}</div></div></td>
                                     <td class="pr-5">
                                         <div class="d-flex justify-content-end gap-4">
                                             <div><div data-pair_id="{{$val->id}}" class="delete-user-group-btn btn btn-danger"><i class="fa fa-ban" aria-hidden="true"></i></div></div>

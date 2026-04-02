@@ -14,6 +14,7 @@ use App\Services\Forms\Infrastructure\Services\AdditionalParams\LabelAdditionalP
 use App\Services\Forms\Infrastructure\Services\FormElement\Button;
 use App\Services\Forms\Infrastructure\Services\FormElement\Input;
 use App\Services\Forms\Infrastructure\Services\FormElement\Textarea;
+use App\Services\Forms\Infrastructure\Services\FormElement\TimePicker;
 use Illuminate\Validation\Rule;
 
 /**
@@ -58,12 +59,20 @@ class PairNumberFormModel extends AbstractForm
             new Input('number', 'number', new LabelAdditionalParams('Номер'), new FormElementAdditionalParams('', [], 'Номер')),
         );
         $this->appendElements(
+            new TimePicker('time_start', new LabelAdditionalParams('Базовое время начала пары'), new FormElementAdditionalParams('', [], 'Базовое время начала пары')),
+        );
+        $this->appendElements(
+            new TimePicker('time_end', new LabelAdditionalParams('Базовое время окончания пары'), new FormElementAdditionalParams('', [], 'Базовое время окончания пары')),
+        );
+        $this->appendElements(
             new Button($this->update_id ? 'Обновить' : 'Создать', 'submit', new FormElementAdditionalParams())
         );
 
         $rules = [
             'number' => ['required', $this->update_id ? Rule::unique('pair_numbers')->ignore($this->update_id) : Rule::unique('pair_numbers'), 'min:0', 'max:10'],
             'name' => ['required', $this->update_id ? Rule::unique('pair_numbers')->ignore($this->update_id) : Rule::unique('pair_numbers'), 'min:3', 'max:255', 'string'],
+            'time_start' => ['required'],
+            'time_end' => ['required'],
         ];
 
         $this->getValidationBuilder()->getSetRules($rules);

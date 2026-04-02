@@ -12,6 +12,12 @@ class PairNumberReturnData implements FromReturnDataInterface
     #[ReturnDataFieldAttribute('number')]
     private $number;
 
+    #[ReturnDataFieldAttribute('time_start')]
+    private $time_start;
+
+    #[ReturnDataFieldAttribute('time_end')]
+    private $time_end;
+
     public function getName(): string
     {
         return $this->name;
@@ -22,11 +28,23 @@ class PairNumberReturnData implements FromReturnDataInterface
         return $this->number;
     }
 
+    public function getTimeStart(): string
+    {
+        return $this->time_start;
+    }
+
+    public function getTimeEnd(): string
+    {
+        return $this->time_end;
+    }
+
     public function toArray(): array
     {
         return [
             'name' => $this->getName(),
             'number' => $this->getNumber(),
+            'time_start' => $this->getTimeStart(),
+            'time_end' => $this->getTimeEnd(),
         ];
     }
 }

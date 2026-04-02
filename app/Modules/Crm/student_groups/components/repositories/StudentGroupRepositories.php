@@ -12,7 +12,7 @@ class StudentGroupRepositories extends AbstractRepositories
      * @param array $data
      * @return StudentGroup|null
      */
-    public function createStudentGroup($number, $name, $specialty_id = '')
+    public function createStudentGroup($number, $name, $specialty_id)
     {
         $group = new StudentGroup();
         $group->name = $name;
@@ -80,6 +80,11 @@ class StudentGroupRepositories extends AbstractRepositories
     public function getFullStudentGroups()
     {
         return StudentGroup::all();
+    }
+
+    public function searchStudentGroupByNumberOrName($data)
+    {
+        return StudentGroup::query()->where('name', '=', $data)->orWhere('number', '=', $data)->first();
     }
 
     /**

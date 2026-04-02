@@ -26,6 +26,15 @@ class UsersRepositories extends AbstractRepositories
         return $users;
     }
 
+    public function getUserByFioInInitials($string)
+    {
+        $users = DB::selectOne(
+            "SELECT users.id FROM users
+                join users_info as u_info on u_info.user_id = users.id
+                where LOWER(u_info.last_name) ||' '|| LOWER(LEFT(u_info.first_name, 1)) || ' '|| LOWER(LEFT(u_info.patronymic, 1)) ilike :string", ['string' => $string]);
+        return $users;
+    }
+
     /**
      * Выдает информацию по пользователю с поиском
      * @param $data

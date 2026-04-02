@@ -6,6 +6,8 @@ use App\Modules\Crm\schedule_plan\components\operation\SchedulePlan;
 use App\Modules\Crm\schedule_plan\components\operation\SchedulePlanSave;
 use App\Modules\Crm\schedule_plan\components\operation\SchedulePlanType;
 use App\Modules\Crm\schedule_plan\components\operation\ValidateSchedulePlan;
+use App\Modules\Crm\schedule_plan\components\parse_schedule\ParseScheduleManager;
+use App\Modules\Crm\schedule_plan\components\parse_schedule\plugins\BaseScheduleParsePlugin;
 use App\Modules\Crm\schedule_plan\components\repositories\SchedulePlanRepository;
 use App\Modules\Crm\schedule_plan\components\repositories\SchedulePlanTypeRepository;
 use App\Modules\Crm\schedule_plan\controllers\SchedulePlanController;
@@ -57,7 +59,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function mangers(): array
     {
         return [
-            components\schedule_plan\SchedulePlanManager::class
+            ParseScheduleManager::class,
+            BaseScheduleParsePlugin::class,
         ];
     }
 

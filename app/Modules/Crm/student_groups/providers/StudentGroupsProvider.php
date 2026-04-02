@@ -3,6 +3,7 @@
 namespace App\Modules\Crm\student_groups\providers;
 
 use App\Modules\Crm\student_groups\InfoModule;
+use App\Modules\Crm\student_groups\requests\MasseAddStudentGroupRequest;
 use App\Src\modules\providers\AbstractModulesProvider;
 
 class StudentGroupsProvider extends AbstractModulesProvider
@@ -24,7 +25,7 @@ class StudentGroupsProvider extends AbstractModulesProvider
     public function register(): void
     {
         parent::register();
-
+        $this->app->bind(MasseAddStudentGroupRequest::class, MasseAddStudentGroupRequest::class);
     }
 
     /**

@@ -26,3 +26,12 @@ AccessRoute::access($module."_add_group")->route(
 AccessRoute::access($module."_add_specialty")->route(
     Route::any("$module/add-specialty", [SpecialtiesController::class, 'actionAddSpecialty'])->name("$module.add_specialty")
 )->description('Страничка добавления специальностей');
+
+
+AccessRoute::access($module."_add_specialty")->route(
+    Route::get("$module/masse-add-students-group", [StudentGroupsController::class, 'actionMasseAddStudentGroup'])->name("$module.masse_add_students_group")
+)->description('Страничка добавления специальностей');
+Route::post("$module/masse-add-students-group", [StudentGroupsController::class, 'masseAddStudentGroup'])->name("$module.masse_add_students_group");
+
+Route::get("$module/download-template-masse-add-students-group", [StudentGroupsController::class, 'actionDownloadTemplateMasseAddTeacher'])
+    ->name("$module.download_template_masse_add_students_group");

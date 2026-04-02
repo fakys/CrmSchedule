@@ -55,4 +55,26 @@ class ArrayHelper
         }
         return $new_arr;
     }
+
+    public static function getNextKey(array $array, $currentKey) {
+        $keys = array_keys($array);
+        $currentIndex = array_search($currentKey, $keys, true);
+
+        if ($currentIndex !== false && isset($keys[$currentIndex + 1])) {
+            return $keys[$currentIndex + 1];
+        }
+
+        return null;
+    }
+
+    public static function sliceArrayFromKey(array $array, $startKey): array {
+        $keys = array_keys($array);
+        $startIndex = array_search($startKey, $keys, true);
+
+        if ($startIndex === false) {
+            return [];
+        }
+        $startIndex++;
+        return array_slice($array, $startIndex, null, true);
+    }
 }

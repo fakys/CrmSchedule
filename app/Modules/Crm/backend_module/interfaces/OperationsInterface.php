@@ -7,6 +7,7 @@ use App\Modules\Crm\schedule_plan\components\operation\SchedulePlan;
 use App\Modules\Crm\schedule_plan\components\operation\SchedulePlanSave;
 use App\Modules\Crm\schedule_plan\components\operation\SchedulePlanType;
 use App\Modules\Crm\schedule_plan\components\operation\ValidateSchedulePlan;
+use App\Modules\Crm\student_groups\components\operations\StudentsGroupOperation;
 use App\Modules\Crm\users_interface\components\operations\ValidationUserDataOperation;
 
 /**
@@ -21,6 +22,7 @@ use App\Modules\Crm\users_interface\components\operations\ValidationUserDataOper
  * @mixin \App\Modules\Crm\users_interface\components\operations\UsersOperation
  * @mixin \App\Modules\Crm\users_interface\components\operations\UsersGroupOperations
  * @mixin AuthOperation
+ * @mixin StudentsGroupOperation
  *
  */
 interface OperationsInterface

@@ -18,6 +18,7 @@ use App\Entity\Subject;
 use App\Entity\User;
 use App\Modules\Crm\backend_module\repositories\CronRepository;
 use App\Modules\Crm\backend_module\repositories\TaskRepository;
+use App\Modules\Crm\lessons\components\repositories\SubjectsRepository;
 use App\Modules\Crm\reports\repositories\ReportsRepository;
 use App\Modules\Crm\schedule\components\repositories\ScheduleRepository;
 use App\Modules\Crm\schedule\components\repositories\SemestersRepository;
@@ -39,6 +40,7 @@ use App\Modules\Crm\users_interface\components\repositories\UsersRepositories;
  * @mixin \App\Modules\Crm\schedule_plan\components\repositories\SchedulePlanTypeRepository
  * @mixin UserGroupsRepositories
  * @mixin SemestersRepository
+ * @mixin SubjectsRepository
  *
  */
 interface RepositoryInterface{
@@ -156,25 +158,11 @@ interface RepositoryInterface{
     public function getAllSpecialties();
 
     /**
-     * Создает предмет
-     * @param $name
-     * @param $full_name
-     * @param $description
-     * @return Subject|null
-     */
-    public function createSubject($name, $full_name, $description = '');
-
-    /**
      * Возвращает все группы со специальностями
      * @return array
      */
     public function getStudentGroupsInfo();
 
-    /**
-     * Поиск групп студентов
-     * @return array
-     */
-    public function searchStudentGroups($data);
 
     /**
      * Возвращает предметы для таблицы
