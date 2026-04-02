@@ -273,9 +273,15 @@ class SchedulePlanController extends AbstractController
                 BackendHelper::getRepositories()->deletePlanScheduleByGroups($cash_data['groups'], $cash_data['semester']);
             }
             DB::beginTransaction();
-            foreach ($cash_data['schedule_data'] as $card_data) {
-                BackendHelper::getOperations()->saveSchedulePlan($card_data);
+            try {
+                foreach ($cash_data['schedule_data'] as $card_data) {
+                    BackendHelper::getOperations()->saveSchedulePlan($card_data);
+                }
+            } catch (\Throwable $throwable) {
+                DB::rollBack();
+                throw $throwable;
             }
+
             DB::commit();
         }
         BackendHelper::getOperations()->deleteSchedulePlanCashByUserId();

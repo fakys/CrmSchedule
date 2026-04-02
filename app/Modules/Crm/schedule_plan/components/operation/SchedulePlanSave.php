@@ -10,6 +10,7 @@ class SchedulePlanSave extends AbstractOperation
 {
 
     /**
+     * todo сделать через DTO
      * @param array $card_data
      * @return void
      */
@@ -40,25 +41,31 @@ class SchedulePlanSave extends AbstractOperation
                 throw new SchedulePlanAddException('Не найдена пара');
             }
 
-            $duration = BackendHelper::getRepositories()->addPlanDurationLessons(
-                $schedule_obj->getWeekDay(),
+            /** todo Сделать длительность в минутах */
+            $duration = BackendHelper::getRepositories()->createDurationLessons(
                 $schedule_obj->getTimeStart(),
-                $schedule_obj->getTimeEnd(),
-                $schedule_obj->getWeekNumber()
+                $schedule_obj->getTimeEnd()
             );
 
             if (empty($duration)) {
                 throw new SchedulePlanAddException('Ошибка создания длительности пары');
             }
-            BackendHelper::getRepositories()->addSchedulePlan(
+
+            $schedule = BackendHelper::getRepositories()->addSchedule(
                 $duration->id,
                 $pair_number->id,
+                $schedule_obj->getDescription(),
                 $schedule_obj->getGroupId(),
-                $schedule_obj->getSemesterId(),
-                $schedule_obj->getPlanTypeId(),
                 $lesson->id,
                 $schedule_obj->getFormat(),
-                $schedule_obj->getDescription(),
+            );
+
+            BackendHelper::getRepositories()->addSchedulePlan(
+                $schedule->id,
+                $schedule_obj->getSemesterId(),
+                $schedule_obj->getPlanTypeId(),
+                $schedule_obj->getWeekDay(),
+                $schedule_obj->getWeekNumber()
             );
         }
     }

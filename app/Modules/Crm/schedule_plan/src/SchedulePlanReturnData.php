@@ -4,6 +4,7 @@ namespace App\Modules\Crm\schedule_plan\src;
 
 
 use App\Entity\PlanSchedule;
+use App\Entity\Schedule;
 use App\Src\BackendHelper;
 
 class SchedulePlanReturnData
@@ -139,23 +140,25 @@ class SchedulePlanReturnData
     {
         $schedule_data = ['schedule_data' => []];
         foreach ($plan as $key => $value) {
-            $lesson = $value->getLesson();
-            $pair_number = $value->getPairNumber();
-            $plan_duration = $value->getDuration();
+            /** @var Schedule $schedule */
+            $schedule = $value->schedule()->first();
+            $lesson = $schedule->getLesson();
+            $pair_number = $schedule->getPairNumber();
+            $plan_duration = $schedule->getDuration();
             $schedule_data['schedule_data'][] = [
                 'cardName' => BackendHelper::getOperations()->cardName($lesson->user_id, $lesson->subject_id),
                 'numberPair' => $pair_number->number,
-                'weekDay' => $plan_duration->week_day,
-                'weekNumber' => $plan_duration->week_number,
-                'group' => $value->student_group_id,
+                'weekDay' => $value->week_day,
+                'weekNumber' => $value->week_number,
+                'group' => $schedule->student_group_id,
                 'user' => $lesson->user_id,
                 'subject' => $lesson->subject_id,
                 'time_start' => $plan_duration->time_start,
                 'time_end' => $plan_duration->time_end,
-                'description' => $value->description,
+                'description' => $schedule->description,
                 'semester' => $value->semester_id,
                 'plan_type' => $value->plan_type_id,
-                'format' => $value->format_lesson_id,
+                'format' => $schedule->format_lesson_id,
             ];
         }
 

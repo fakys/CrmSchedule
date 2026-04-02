@@ -59,36 +59,24 @@ class SchedulePlanRepository extends AbstractRepositories
 
     /**
      * Создает план расписания
-     * @param $plan_duration_lesson_id
-     * @param $pair_number_id
-     * @param $student_group_id
      * @param $semester_id
      * @param $plan_type_id
-     * @param $lessons_id
-     * @param $format_id
-     * @param $description
      * @return PlanSchedule|false
      */
     public function addSchedulePlan(
-        $plan_duration_lesson_id,
-        $pair_number_id,
-        $student_group_id,
+        $schedule_id,
         $semester_id,
         $plan_type_id,
-        $lessons_id,
-        $format_id,
-        $description = ''
+        $week_day,
+        $week_number,
     )
     {
         $schedule = new PlanSchedule();
-        $schedule->pair_number_id = $pair_number_id;
-        $schedule->student_group_id = $student_group_id;
         $schedule->semester_id = $semester_id;
-        $schedule->plan_duration_lesson_id = $plan_duration_lesson_id;
-        $schedule->description = $description;
-        $schedule->lessons_id = $lessons_id;
-        $schedule->format_lesson_id = $format_id;
         $schedule->plan_type_id = $plan_type_id;
+        $schedule->week_day = $week_day;
+        $schedule->week_number = $week_number;
+        $schedule->schedule_id = $schedule_id;
         if ($schedule->save()) {
             return $schedule;
         }
@@ -129,16 +117,26 @@ class SchedulePlanRepository extends AbstractRepositories
      * Получает план по группам и семестру
      * @param $groups_id
      * @param $semester_id
-     * @return PlanSchedule[]
+
      */
     public function getPlanScheduleByGroups($groups_id, $semester_id)
     {
-        return PlanSchedule::where(['semester_id'=>$semester_id, 'student_group_id'=>$groups_id])->get();
+        return PlanSchedule::query()
+            ->with('schedule')
+            ->whereHas('schedule', function ($query) use ($groups_id, $semester_id) {
+                $query->where(['student_group_id'=>$groups_id]);
+            })->where('semester_id', $semester_id)
+            ->get();
     }
 
     public function deletePlanScheduleByGroups($groups_id, $semester_id)
     {
-        return PlanSchedule::where(['semester_id'=>$semester_id, 'student_group_id'=>$groups_id])->delete();
+        return PlanSchedule::query()
+            ->with('schedule')
+            ->whereHas('schedule', function ($query) use ($groups_id, $semester_id) {
+                $query->where(['student_group_id'=>$groups_id]);
+            })->where('semester_id', $semester_id)
+            ->delete();
     }
 
     /**

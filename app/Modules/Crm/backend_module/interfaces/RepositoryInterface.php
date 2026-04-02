@@ -262,16 +262,6 @@ interface RepositoryInterface{
     public function getSchedulesById($id);
 
     /**
-     * Создает длительность пары
-     * @param $date_start
-     * @param $time_start
-     * @param $time_end
-     * @param string $duration_minutes
-     * @return DurationLesson|null
-     */
-    public function createDurationLessons($date_start, $time_start, $time_end, $duration_minutes = '');
-
-    /**
      * Получает расписание по данным
      * @param $date
      * @param $group_id
@@ -429,29 +419,6 @@ interface RepositoryInterface{
      * @return PlanDurationLesson|false
      */
     public function updatePlanDurationLessons($id, $week_day, $time_start, $time_end, $week_number, $duration_minutes = null);
-
-    /**
-     * Создает план расписания
-     * @param $plan_duration_lesson_id
-     * @param $pair_number_id
-     * @param $student_group_id
-     * @param $semester_id
-     * @param $plan_type_id
-     * @param $lessons_id
-     * @param $format_id
-     * @param $description
-     * @return PlanSchedule|false
-     */
-    public function addSchedulePlan(
-        $plan_duration_lesson_id,
-        $pair_number_id,
-        $student_group_id,
-        $semester_id,
-        $plan_type_id,
-        $lessons_id,
-        $format_id,
-        $description = ''
-    );
 
     /**
      * Обновление урок для расписания

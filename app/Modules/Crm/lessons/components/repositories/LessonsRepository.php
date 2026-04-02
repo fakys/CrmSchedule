@@ -115,16 +115,14 @@ class LessonsRepository extends AbstractRepositories{
 
     /**
      * Создает длительность пары
-     * @param $date_start
      * @param $time_start
      * @param $time_end
      * @param $duration_minutes
      * @return DurationLesson|null
      */
-    public function createDurationLessons($date_start, $time_start, $time_end, $duration_minutes = '')
+    public function createDurationLessons($time_start, $time_end, $duration_minutes = null)
     {
         $duration = new DurationLesson();
-        $duration->date_start = $date_start;
         $duration->time_start = $time_start;
         $duration->time_end = $time_end;
         $duration->duration_minutes = $duration_minutes;

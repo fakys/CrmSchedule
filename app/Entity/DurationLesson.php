@@ -5,7 +5,6 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property $id
- * @property $date_start
  * @property $time_start
  * @property $time_end
  * @property $duration_minutes

@@ -10,6 +10,36 @@ class ScheduleRepository extends AbstractRepositories
 {
 
     /**
+     * Создает расписание
+     * @param $duration_lesson_id
+     * @param $pair_number_id
+     * @param $description
+     * @param $student_group_id
+     * @param $lessons_id
+     * @param $format_lesson_id
+     * @return Schedule
+     */
+    public function addSchedule(
+        $duration_lesson_id,
+        $pair_number_id,
+        $description,
+        $student_group_id,
+        $lessons_id,
+        $format_lesson_id,
+    )
+    {
+        $schedule = new Schedule();
+        $schedule->duration_lesson_id = $duration_lesson_id;
+        $schedule->pair_number_id = $pair_number_id;
+        $schedule->description = $description;
+        $schedule->student_group_id = $student_group_id;
+        $schedule->format_lesson_id = $format_lesson_id;
+        $schedule->lessons_id = $lessons_id;
+        $schedule->save();
+        return $schedule;
+    }
+
+    /**
      * Возвращает готовые юниты по дате и группе
      * @param $date_start
      * @param $date_end

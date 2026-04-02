@@ -4,14 +4,15 @@ namespace App\Entity;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property $id
  * @property $duration_lesson_id
- * @property $lessons_id
  * @property $pair_number_id
- * @property $format_lesson_id
- * @property $student_group_id
  * @property $description
- * @property $created_at
+ * @property $student_group_id
  * @property $updated_at
+ * @property $lessons_id
+ * @property $format_lesson_id
+ * @property $created_at
  */
 class Schedule extends Model
 {
