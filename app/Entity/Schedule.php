@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property $description
  * @property $student_group_id
  * @property $updated_at
- * @property $lessons_id
  * @property $format_lesson_id
  * @property $created_at
  */

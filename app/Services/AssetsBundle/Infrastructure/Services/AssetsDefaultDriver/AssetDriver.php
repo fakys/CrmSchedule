@@ -45,6 +45,21 @@ class AssetDriver implements AssetDriverInterface
         $pathNewFile = self::ASSETS_DIR.'/'.$entity->getTypeFile()->getValue().'/'.$newFileName;
         $fullPathNewFile = public_path($pathNewFile);
         if (!File::exists($fullPathNewFile)) {
+            //Для дева чистим все асеты
+            if (config('app.env') !== 'production') {
+                $allFiles = File::files(public_path(self::ASSETS_DIR.'/'.$entity->getTypeFile()->getValue()));
+                foreach ($allFiles as $file) {
+                    if (
+                        $file->isFile() &&
+                        preg_match(
+                            sprintf('/%s[a-f0-9]+\.%s/', pathinfo($filePath, PATHINFO_FILENAME) , $entity->getTypeFile()->getValue()),
+                            $file->getFilename()
+                        )
+                    ) {
+                        File::delete($file->getPathname());
+                    }
+                }
+            }
             File::copy($fullFilePath, $fullPathNewFile);
         }
         return $this->factory->createAssetFileEntity($pathNewFile);

@@ -46,63 +46,63 @@ Route::post(
 
 Route::post(
     "$module/check-schedule-plan",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "checkSchedulePlan"]
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, "checkSchedulePlan"]
 )->name("$module.check_schedule_plan");
 
 Route::post(
     "$module/get-type-schedule-plan-form",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "getTypeSchedulePlanForm"]
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, "getTypeSchedulePlanForm"]
 )->name("$module.get_type_schedule_plan_form");
 
 Route::post(
     "$module/save-schedule-plan",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "savePlanSchedule"]
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, "savePlanSchedule"]
 )->name("$module.save_schedule_plan");
 Route::post(
     "$module/get-group-input",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "getGroupInput"]
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, "getGroupInput"]
 )->name("$module.get_group_input");
 Route::post(
     "$module/get-constructor-schedule",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "getConstructorSchedule"]
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, "getConstructorSchedule"]
 )->name("$module.get_constructor_schedule");
 Route::post(
     "$module/get-from-type-schedule-plan",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "getFormForPair"]
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, "getFormForPair"]
 )->name("$module.get_form_for_pair");
 Route::post(
     "$module/validate-schedule-fields",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "validateScheduleFields"]
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, "validateScheduleFields"]
 )->name("$module.validate_schedule_fields");
 Route::post(
     "$module/set-schedule-plan-cash",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "setSchedulePlanCash"]
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, "setSchedulePlanCash"]
 )->name("$module.set_schedule_plan_cash");
 Route::post(
     "$module/delete-session",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, "deleteSession"]
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, "deleteSession"]
 )->name("$module.delete_session");
 Route::post(
     "$module/get-new-card-name",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, 'getNewCardName']
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, 'getNewCardName']
 )->name("$module.get_new_card_name");
 Route::post(
     "$module/validate-card",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, 'validateCard']
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, 'validateCard']
 )->name("$module.validate_card");
 Route::post(
     "$module/get-subject-input",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, 'getSubjectInput']
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, 'getSubjectInput']
 )->name("$module.get_subject_input");
 Route::post(
     "$module/set-plan-schedule",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, 'setPlanSchedule']
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, 'setPlanSchedule']
 )->name("$module.set_plan_schedule");
 Route::get(
     "$module/download-template",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, 'downloadTemplate']
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, 'downloadTemplate']
 )->name("$module.download_template");
 Route::post(
     "$module/download-schedule-file",
-    [\App\Modules\Crm\schedule_plan\controllers\SchedulePlanController::class, 'downloadScheduleFile']
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, 'downloadScheduleFile']
 )->name("$module.download_schedule_file");

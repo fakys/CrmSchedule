@@ -3,6 +3,7 @@ namespace App\Modules\Crm\backend_module\interfaces;
 
 use App\Modules\Crm\auth\components\operations\AuthOperation;
 use App\Modules\Crm\schedule\src\entity\ScheduleUnit;
+use App\Modules\Crm\schedule_plan\components\operation\ScheduleCardPlan;
 use App\Modules\Crm\schedule_plan\components\operation\SchedulePlan;
 use App\Modules\Crm\schedule_plan\components\operation\SchedulePlanSave;
 use App\Modules\Crm\schedule_plan\components\operation\SchedulePlanType;
@@ -11,6 +12,7 @@ use App\Modules\Crm\student_groups\components\operations\StudentsGroupOperation;
 use App\Modules\Crm\users_interface\components\operations\ValidationUserDataOperation;
 
 /**
+ * @mixin ScheduleCardPlan
  * @mixin \App\Modules\Crm\schedule\components\operations\ScheduleManagerOperation
  * @mixin \App\Modules\Crm\schedule\components\operations\ScheduleApiOperation
  * @mixin SchedulePlanType

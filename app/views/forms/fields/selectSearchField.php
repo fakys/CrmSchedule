@@ -45,6 +45,9 @@ use Illuminate\Support\ViewErrorBag;
             name="<?=$element->getName()?><?php if ($element->getAdditionalParams()->getMultiple()):?>[]<?php endif; ?>"
             style="width: 100%;"
         >
+            <?php if (!$element->getAdditionalParams() || !$element->getAdditionalParams()->getMultiple()):?>
+                <option value="">Не выбрано</option>
+            <?php endif;?>
             <?php foreach ($element->getOptions() as $value => $name): ?>
                 <?php if(
                     (is_array($element->getValue()) && in_array($value, $element->getValue()) || $element->getValue() == $value) ||

@@ -9,11 +9,14 @@ abstract class AbstractElementAdditionalParams implements FormElementAdditionalP
     private $element_classes;
     private $placeholder;
 
-    public function __construct(string $element_id = '', array $element_classes = [], $placeholder = '')
+    private $styles;
+
+    public function __construct(string $element_id = '', array $element_classes = [], $placeholder = '', $styles = [])
     {
         $this->element_id = $element_id;
         $this->element_classes = $element_classes;
         $this->placeholder = $placeholder;
+        $this->styles = $styles;
     }
 
 
@@ -44,5 +47,15 @@ abstract class AbstractElementAdditionalParams implements FormElementAdditionalP
     public function setPlaceholder(string $placeholder): void
     {
         $this->placeholder = $placeholder;
+    }
+
+    public function getStyles(): array
+    {
+        return $this->styles;
+    }
+
+    public function setStyles(array $styles): void
+    {
+        $this->styles = $styles;
     }
 }

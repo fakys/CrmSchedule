@@ -245,6 +245,11 @@ class UsersRepositories extends AbstractRepositories
         return UserStyle::where(['user_id' => $user_id])->first();
     }
 
+    public function allUsersStyle()
+    {
+        return UserStyle::all();
+    }
+
     public function getUserBySeriesAndNumber($series_number)
     {
         $users = DB::select(

@@ -39,6 +39,11 @@ use Illuminate\Support\ViewErrorBag;
             <?php endif; ?>
             name="<?= $element->getName() ?>"
             value="<?=$element->getValue() ? $element->getValue() : old($element->getName())?>"
+            <?php if ($element->getAdditionalParams() && $element->getAdditionalParams()->getStyles()):?>
+                style="<?php foreach ($element->getAdditionalParams()->getStyles() as $attr => $value):?>
+                    <?=$attr?>:<?=$value?>;
+                <?php endforeach;?>"
+            <?php endif;?>
         ><span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
     </div>
     <?php if ($errors->get($element->getName())): ?>

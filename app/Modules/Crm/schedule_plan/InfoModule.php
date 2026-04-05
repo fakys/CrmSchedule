@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\schedule_plan;
 
 
+use App\Modules\Crm\schedule_plan\components\operation\ScheduleCardPlan;
 use App\Modules\Crm\schedule_plan\components\operation\SchedulePlan;
 use App\Modules\Crm\schedule_plan\components\operation\SchedulePlanSave;
 use App\Modules\Crm\schedule_plan\components\operation\SchedulePlanType;
@@ -48,6 +49,7 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
             SchedulePlan::class,
             SchedulePlanSave::class,
             ValidateSchedulePlan::class,
+            ScheduleCardPlan::class
         ];
     }
 

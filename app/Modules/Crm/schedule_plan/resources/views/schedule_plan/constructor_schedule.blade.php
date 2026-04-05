@@ -12,6 +12,11 @@
 <div id="set_schedule_plan_cash" data-url="{{ route('schedule_plan.set_schedule_plan_cash') }}"></div>
 <div id="get_new_card_name" data-url="{{ route('schedule_plan.get_new_card_name') }}"></div>
 <div id="validate_card" data-url="{{ route('schedule_plan.validate_card') }}"></div>
+<ul class="d-none pair_numbers">
+    @foreach($pairs as $pair)
+        <li data-number="{{$pair->number}}" data-time-start="{{$pair->time_start}}" data-time-end="{{$pair->time_end}}"></li>
+    @endforeach
+</ul>
 <div class="container_construct_schedule">
     <div class="construct_schedule_header">
         <div class="d-flex">
@@ -80,27 +85,25 @@
                                                 <div class="day-container">
                                                     <div class="day-header">
                                                         <div>{{ $week_days[$day+1] }}</div>
-                                                        <div class="add_card">{{'Добавить'}}</div>
                                                     </div>
                                                     @foreach($pairs as $number_pair)
                                                         <div class="d-flex flex-column align-items-center">
-                                                            <div class="card-slot connectedSortable ui-sortable" data-week_day="{{$day}}" data-number="{{$number_pair->number}}" data-week_number="{{$key}}" data-group="{{$group->id}}">
+                                                            <div class="card-slot connectedSortable ui-sortable" data-week-day="{{$day}}" data-number="{{$number_pair->number}}" data-week-number="{{$key}}" data-group-id="{{$group->id}}">
                                                                 @if($schedule_data)
                                                                     @foreach($schedule_data['schedule_data'] as $card)
-{{--                                                                        {{dd($group->id)}}--}}
-                                                                        @if($card['weekDay']==$day && $number_pair->number == $card['numberPair'] && $card['weekNumber']==$key && $card['group'] == $group->id)
+                                                                        @if($card['weekDay']==$day && $number_pair->number == $card['numberPair'] && $card['weekNumber']==$key && $card['groupId'] == $group->id)
                                                                                 <?php $count += 1; ?>
                                                                             <div
-                                                                                data-week_day="{{$day}}" data-number="{{$number_pair->number}}"
-                                                                                data-week_number="{{$key}}" card_id="{{$count}}"
-                                                                                data-subject="{{$card['subject']}}"
-                                                                                data-user="{{$card['user']}}"
+                                                                                data-week-day="{{$day}}" data-number-pair="{{$number_pair->number}}"
+                                                                                data-week-number="{{$key}}" data-card-id="{{$count}}"
+                                                                                data-subject-id="{{$card['subjectId']}}"
+                                                                                data-teacher-id="{{$card['teacherId']}}"
                                                                                 {{--                                                                    Все тут импользуется чисто при загрузке--}}
-                                                                                data-time_start="{{$card['time_start']??null}}" data-time_end="{{$card['time_end']??null}}"
-                                                                                data-description="{{$card['description']??null}}" data-group="{{$card['group']??null}}"
-                                                                                data-format="{{$card['format']??null}}"
-                                                                                @if(isset($card['user'])) <?php $style = \App\Src\BackendHelper::getRepositories()->getStyleByUserId($card['user']);?> style="background: {{$style?$style->user_color:''}};" @endif
-                                                                                class="pair-card pair-empty card mb-2 text-white @if(empty($card['user'])) bg-gradient-secondary @endif">
+                                                                                data-time-start="{{$card['timeStart']??null}}" data-time-end="{{$card['timeEnd']??null}}"
+                                                                                data-description="{{$card['description']??null}}" data-group-id="{{$card['groupId']??null}}"
+                                                                                data-format-id="{{$card['formatId']??null}}"
+                                                                                @if(isset($card['teacherId'])) style="background: {{$all_users_style[$card['teacherId']]??''}};" @endif
+                                                                                class="pair-card pair-empty card mb-2 text-white @if(empty($card['teacherId'])) bg-gradient-secondary @endif">
                                                                                 <div class="card-header border-0 ui-sortable-handle"
                                                                                      style="cursor: move;">
                                                                                     <h3 class="card-pair-title">
@@ -114,10 +117,9 @@
                                                                                 <div class="card-body-pair" data-bs-toggle="modal"
                                                                                      data-bs-target="#card_model_data">
                                                                                     <div class='card_time'>
-                                                                                        {{sprintf('%s - %s', $card['time_start']??null, $card['time_end']??null)}}
+                                                                                        {{sprintf('%s - %s', $card['timeStart']??null, $card['timeEnd']??null)}}
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="card-footer d-flex justify-content-center"><div class="btn btn-danger delete-card">Удалить карточку</div></div>
                                                                             </div>
                                                                             @break
                                                                         @endif
@@ -161,7 +163,9 @@
         </div>
     </div>
 </div>
+<div id="context-menu" class="custom-context-menu">
 
+</div>
 {{$assetsBundleManager->registerFile('resources/plugins/js/jquery-ui.min.js')}}
 {{$assetsBundleManager->registerFile('resources/plugins/js/dashboard.js')}}
 {{$assetsBundleManager->registerFile('app/Modules/Crm/schedule_plan/resources/js/construct_schedule.js')}}
