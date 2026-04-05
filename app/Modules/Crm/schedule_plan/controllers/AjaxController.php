@@ -290,10 +290,9 @@ class AjaxController extends AbstractController
                 /** @var ParseScheduleManager $manager */
                 $manager = BackendHelper::getManager(ParseScheduleManager::ManagerName);
                 $data = $manager->parseFileDataByPlugin($schedule_data_file);
+                $schedule_data = BackendHelper::getOperations()->cardEntityConvertToArray($data, $model->plan_type, $model->groups);
 
-                $schedule_data = BackendHelper::getOperations()->uploadFileSchedulePlan($data, $model->semester, $model->plan_type);
-                dd(1);
-                $group = BackendHelper::getRepositories()->getStudentGroupById($model->groups[0]);
+                $group = BackendHelper::getRepositories()->getStudentGroupById(is_array($model->groups) ? $model->groups[0]:$model->groups);
                 BackendHelper::getOperations()->setSchedulePlanCash([
                     'semester' => $model->semester,
                     'groups' => is_array($model->groups)?$model->groups:[$model->groups],

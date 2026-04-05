@@ -123,4 +123,21 @@ class CardEntity
     {
         return $this->semesterId;
     }
+
+    public function toArray()
+    {
+        return [
+            'cardId' => $this->cardId,
+            'cardName' => $this->cardName,
+            'numberPair' => $this->numberPair,
+            'weekDay' => $this->weekDay,
+            'weekNumber' => $this->weekNumber,
+            'groupId' => $this->groupId,
+            'teacherId' => $this->teacherId,
+            'subjectId' => $this->subjectId,
+            'timeStart' => $this->timeStart,
+            'timeEnd' => $this->timeEnd,
+            'description' => $this->description,
+        ];
+    }
 }

@@ -77,4 +77,18 @@ class ArrayHelper
         $startIndex++;
         return array_slice($array, $startIndex, null, true);
     }
+
+    public static function arrayColumnKey($arr, $key)
+    {
+        $data = [];
+        foreach ($arr as $k => $v) {
+            if (is_object($v)) {
+                $data[$v->$key] = $v;
+            } else {
+                $data[$v[$key]] = $v;
+            }
+        }
+
+        return $data;
+    }
 }

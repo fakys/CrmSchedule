@@ -43,7 +43,7 @@
                     <div class="d-flex gap-3">
                         <input type="number" name="semester" style="display: none" value="{{$semester_id}}">
                         <input type="number" name="plan_type" style="display: none" value="{{$plan_type_id}}">
-                        <select multiple name="groups" style="display: none">
+                        <select multiple name="groups[]" style="display: none">
                             @foreach($groups_id as $group)
                                 <option selected value="{{$group}}"></option>
                             @endforeach

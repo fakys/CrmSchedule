@@ -2,11 +2,7 @@
 
 namespace App\Modules\Crm\schedule_plan\components\operation;
 
-use App\Modules\Crm\schedule_plan\exceptions\SchedulePlanAddException;
-use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
 use App\Modules\Crm\schedule_plan\src\CardEntity;
-use App\Modules\Crm\schedule_plan\src\ExcelPlanSchedule;
-use App\Modules\Crm\schedule_plan\src\schedule_parse\ScheduleParseReturnData;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
 use App\Src\redis\RedisManager;
@@ -49,10 +45,17 @@ class ScheduleCardPlan extends AbstractOperation
     }
 
 
-    public function cardName($user_id, $subject_id)
+    public function cardName($user_id = null, $subject_id = null, $card_id = null)
     {
-        $teacher = BackendHelper::getRepositories()->getUserById($user_id);
-        $subject = BackendHelper::getRepositories()->getSubjectById($subject_id);
-        return sprintf('%s - %s', $teacher->getMinFio(), $subject->name);
+        if (!$user_id || !$subject_id) {
+            if (!$card_id) {
+                throw new \Exception('cardId не передан!');
+            }
+            return 'Новое расписание №'.$card_id;
+        } else {
+            $teacher = BackendHelper::getRepositories()->getUserById($user_id);
+            $subject = BackendHelper::getRepositories()->getSubjectById($subject_id);
+            return sprintf('%s - %s', $teacher->getMinFio(), $subject->name);
+        }
     }
 }

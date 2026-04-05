@@ -2,9 +2,7 @@
 namespace App\Modules\Crm\schedule_plan\components\operation;
 
 use App\Modules\Crm\schedule_plan\exceptions\SchedulePlanAddException;
-use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
-use App\Modules\Crm\schedule_plan\src\ExcelPlanSchedule;
-use App\Modules\Crm\schedule_plan\src\schedule_parse\ScheduleParseReturnData;
+use App\Modules\Crm\schedule_plan\src\CardEntity;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
 use App\Src\redis\RedisManager;
@@ -172,62 +170,22 @@ class SchedulePlan extends AbstractOperation{
     }
 
     /**
-     * @param ScheduleParseReturnData[] $parseData
-     * @param $semester
-     * @param $plan_schedule
+     * @param CardEntity[] $parseData
+     * @param int $plan_schedule_id
+     * @param array $groups
      * @return array
      */
-    public function uploadFileSchedulePlan(array $parseData, $semester, $plan_schedule)
+    public function cardEntityConvertToArray(array $parseData, $plan_schedule_id, array $groups)
     {
         $main_data = [];
-
+        $plan_schedule = BackendHelper::getRepositories()->getSchedulePlanTypeById($plan_schedule_id);
+        $weeks = $plan_schedule->getWeeks();
         foreach ($parseData as $entity) {
-
-            $pairNumber = BackendHelper::getRepositories()->getPairByNumber($entity->getPairNumber());
-
-            if (!$pairNumber) {
-                continue;
-            }
-
-            if (!$entity->getTeacherId()) {
-                dd($entity);
-            }
-
-            $arr_schedule_data = [
-                'user' => $entity->getSubjectId(),
-                'subject' => $entity->getSubjectId(),
-                'format' => 1,
-                'time_start' => $pairNumber->time_start,
-                'time_end' => $pairNumber->time_end,
-                'description' => '',
-                'cardName' => $this->cardName($entity->getTeacherId(), $entity->getSubjectId()),
-            ];
-            $main_data[] = $arr_schedule_data;
-        }
-        dd($main_data);
-
-        return $this->formatForCard($main_data, $semester, $plan_schedule);
-    }
-
-    private function formatForCard($data, $semester, $plan_schedule)
-    {
-        $main_data = [];
-        foreach ($data as $group_id=>$group_data) {
-            foreach ($group_data as $week_number=>$week_data) {
-                foreach ($week_data as $day=>$day_data) {
-                    foreach ($day_data as $pair_number=>$pair_data) {
-                        $main_data[] = array_merge([
-                            'weekDay' => $day - 1,
-                            'weekNumber' => $week_number,
-                            'numberPair' => $pair_number,
-                            'group' => $group_id,
-                            'semester' => $semester
-                        ],$pair_data);
-
-                    }
-                }
+            if (in_array($entity->getGroupId(), $groups) && isset($weeks[$entity->getWeekNumber()])) {
+                $main_data[] = $entity->toArray();
             }
         }
+
         return $main_data;
     }
 

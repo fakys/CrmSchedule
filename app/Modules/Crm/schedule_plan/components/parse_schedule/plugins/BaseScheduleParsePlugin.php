@@ -1,13 +1,13 @@
 <?php
+
 namespace App\Modules\Crm\schedule_plan\components\parse_schedule\plugins;
 
 
 use App\Entity\StudentGroup;
-use App\Entity\User;
 use App\Modules\Crm\schedule_plan\components\parse_schedule\ParseScheduleManager;
 use App\Modules\Crm\schedule_plan\components\parse_schedule\plugins\abstracts\AbstractScheduleParsePlugin;
 use App\Modules\Crm\schedule_plan\exceptions\ScheduleFileEmptyException;
-use App\Modules\Crm\schedule_plan\src\schedule_parse\ScheduleParseReturnData;
+use App\Modules\Crm\schedule_plan\src\CardEntity;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 
@@ -26,6 +26,9 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
         6 => '11-12',
     ];
 
+    /** @var $week_count - количество недель */
+    protected $week_count;
+
     public function getName(): string
     {
         return 'BaseScheduleParsePlugin';
@@ -34,6 +37,11 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
     public function getTag()
     {
         return ParseScheduleManager::ManagerName;
+    }
+
+    public function setWeekCount(int $week_count)
+    {
+        $this->week_count = $week_count;
     }
 
     public function parseFileData(array $data): array
@@ -73,7 +81,7 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
                 if ($rowNum != $currentRow && isset($pairStartArr[$rowNum])) {
                     $currentRow = $rowNum;
                     if ($pairStartArr[$currentRow] == 1)
-                    $weekDay++;
+                        $weekDay++;
                 }
 
                 if ($weekDay >= $dayCount) {
@@ -95,22 +103,41 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
                                 }
 
                                 if ($resCol) {
+                                    $unique_fio_arr = [];
+                                    for ($i = 0; $i < $this->week_count; $i++) {
+                                        if ((bool)preg_match("/^[А-ЯЁA-Z][а-яёa-z-]+\s+[А-ЯЁA-Z]\.\s*[А-ЯЁA-Z]\.?$/iu", str_replace(',', '.', $resCol))) {
+                                            if (empty($schedule[$group][$weekDay][$pairStartArr[$currentRow]][count($schedule[$group][$weekDay][$pairStartArr[$currentRow]]) - 1])) {
+                                                /** todo Предупреждение! */
+                                            }
 
-                                    if ((bool)preg_match("/^[А-ЯЁA-Z][а-яёa-z-]+\s+[А-ЯЁA-Z]\.\s*[А-ЯЁA-Z]\.?$/iu", str_replace(',', '.', $resCol))) {
-                                        if (empty($schedule[$group][$weekDay][$pairStartArr[$currentRow]][count($schedule[$group][$weekDay][$pairStartArr[$currentRow]])-1])) {
-                                            /** todo Предупреждение! */
-                                        }
-                                        $schedule[$group]
+                                            if (isset($schedule[$group][$weekDay][$pairStartArr[$currentRow]][$i]['fio'])) {
+                                                if (empty($unique_fio_arr[$this->fioFormater($resCol)])) {
+                                                    $unique_fio_arr[$this->fioFormater($resCol)] = true;
+                                                    continue;
+                                                } else {
+                                                    $schedule[$group]
+                                                    [$weekDay]
+                                                    [$pairStartArr[$currentRow]]
+                                                    [$i]
+                                                    ['fio'] = $this->fioFormater($resCol);
+                                                }
+                                            } else {
+                                                $schedule[$group]
+                                                [$weekDay]
+                                                [$pairStartArr[$currentRow]]
+                                                [$i]
+                                                ['fio'] = $this->fioFormater($resCol);
+                                            }
+
+
+                                        } else {
+                                            $schedule
+                                            [$group]
                                             [$weekDay]
-                                            [$pairStartArr[$currentRow]]
-                                            [count($schedule[$group][$weekDay][$pairStartArr[$currentRow]])-1]
-                                            ['fio'] = str_replace([',', '.'], ' ', $resCol);
-                                    } else {
-                                        $schedule
-                                        [$group]
-                                        [$weekDay]
-                                        [$pairStartArr[$currentRow]][]= ['subject' => $resCol];
+                                            [$pairStartArr[$currentRow]][$i] = ['subject' => $resCol];
+                                        }
                                     }
+
                                 }
                             }
                         }
@@ -120,7 +147,10 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
 
             }
         }
+
         $return_data = [];
+        $cardId =1;
+        $allPairData = ArrayHelper::arrayColumnKey(BackendHelper::getRepositories()->getNumberPair(), 'number');
         foreach ($schedule as $group_id => $scheduleByGroup) {
             foreach ($scheduleByGroup as $weekDay => $scheduleByWeek) {
                 foreach ($scheduleByWeek as $pairNumber => $pairsArr) {
@@ -142,16 +172,24 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
                         } else {
                             $user_id = $user->id;
                         }
-
-                        $entity = new ScheduleParseReturnData(
+                        $entity = new CardEntity(
+                            $cardId,
+                            BackendHelper::getOperations()->cardName($user_id, $subject_id, $cardId),
+                            $pairNumber,
                             $weekDay,
                             $weekNumber + 1,
-                            $pairNumber,
                             $group_id,
-                            $subject_id,
+                            2,
+                            1,
                             $user_id,
+                            $subject_id,
+                            $allPairData[$pairNumber]->time_start,
+                            $allPairData[$pairNumber]->time_end,
+                            '',
+                            1
                         );
                         $return_data[] = $entity;
+                        $cardId++;
                     }
                 }
             }
@@ -196,7 +234,6 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
 
         return $all_group_in_file;
     }
-
 
 
 }

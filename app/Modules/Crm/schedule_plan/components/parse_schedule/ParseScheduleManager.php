@@ -20,6 +20,7 @@ class ParseScheduleManager extends AbstractManger
 
         foreach ($plugins as $plugin) {
             if ($plugin->getName() === $pluginName) {
+                $plugin->setWeekCount(2);
                 $schedule_data = $plugin->parseFileData($data);
                 return $schedule_data;
             }
