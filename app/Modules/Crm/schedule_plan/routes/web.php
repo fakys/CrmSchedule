@@ -55,10 +55,6 @@ Route::post(
 )->name("$module.get_type_schedule_plan_form");
 
 Route::post(
-    "$module/save-schedule-plan",
-    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, "savePlanSchedule"]
-)->name("$module.save_schedule_plan");
-Route::post(
     "$module/get-group-input",
     [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, "getGroupInput"]
 )->name("$module.get_group_input");

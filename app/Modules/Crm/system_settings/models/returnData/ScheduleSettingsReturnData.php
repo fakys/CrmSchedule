@@ -6,6 +6,8 @@ use App\Services\Forms\Infrastructure\Services\Attributes\FromReturnData\ReturnD
 
 class ScheduleSettingsReturnData implements FromReturnDataInterface
 {
+    #[ReturnDataFieldAttribute('default_format')]
+    private $default_format;
     #[ReturnDataFieldAttribute('users_groups')]
     private $users_groups;
 
@@ -22,11 +24,17 @@ class ScheduleSettingsReturnData implements FromReturnDataInterface
         return $this->users_groups;
     }
 
+    public function getDefaultFormat()
+    {
+        return $this->default_format;
+    }
+
     public function toArray(): array
     {
         return [
             'users_groups' => $this->users_groups,
             'type_weeks' => $this->type_weeks,
+            'default_format' => $this->default_format,
         ];
     }
 }

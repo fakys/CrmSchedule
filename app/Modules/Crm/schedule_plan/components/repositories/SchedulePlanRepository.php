@@ -6,6 +6,7 @@ use App\Entity\PlanDurationLesson;
 use App\Entity\PlanSchedule;
 use App\Src\modules\repository\AbstractRepositories;
 use App\Src\modules\repository\Repository;
+use Illuminate\Database\Query\Builder;
 
 class SchedulePlanRepository extends AbstractRepositories
 {
@@ -117,14 +118,15 @@ class SchedulePlanRepository extends AbstractRepositories
      * Получает план по группам и семестру
      * @param $groups_id
      * @param $semester_id
-
+     * @return  PlanSchedule[]
+     *
      */
     public function getPlanScheduleByGroups($groups_id, $semester_id)
     {
         return PlanSchedule::query()
             ->with('schedule')
             ->whereHas('schedule', function ($query) use ($groups_id, $semester_id) {
-                $query->where(['student_group_id'=>$groups_id]);
+                $query->whereIn('student_group_id', $groups_id);
             })->where('semester_id', $semester_id)
             ->get();
     }

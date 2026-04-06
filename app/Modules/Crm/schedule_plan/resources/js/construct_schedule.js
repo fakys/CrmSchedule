@@ -62,6 +62,7 @@ $(document).ready(function () {
                 cardData.timeStart = pairData.timeStart
                 cardData.timeEnd = pairData.timeEnd
 
+                insertCard(slot, cardData)
                 if (cardData.teacherId && cardData.subjectId) {
                     let validate = validateCard(cardData)
                     validate.then(function (data) {
@@ -73,15 +74,18 @@ $(document).ready(function () {
                                 error_alert(
                                     Object.values(result.errors[0]).pop()
                                 )
+                                addCardError(cardData.cardId, Object.values(result.errors[0]).pop())
                             } else  {
                                 error_alert(
                                     'Ошибка вставки!'
                                 )
+                                addCardError(cardData.cardId, 'Ошибка вставки!')
                             }
                         }
+                        setScheduleCash()
                     })
                 } else {
-                    insertCard(slot, cardData)
+
                 }
             }
             $menu.hide();
@@ -119,9 +123,9 @@ $(document).ready(function () {
     let plan_type = $('select[name="plan_type"]').val()
     let semester = $('select[name="semester"]').val()
 
-    function restyleCard(card_id) {
+    async function restyleCard(card_id) {
         let doc_card_elem = $('div[data-card-id="' + card_id + '"]')
-        $.ajax({
+        return $.ajax({
             url: $('#get_new_card_name').data('url'),
             method: 'post',
             data: {
@@ -137,6 +141,8 @@ $(document).ready(function () {
                     schedule_data[card_id].cardName = card_data.cardName
                     doc_card_elem.find('.card-name').html(card_data.cardName)
                     doc_card_elem.find('.card-body-pair').html("<div class='card_time'>" + card_data.cardTime + "</div>")
+                    doc_card_elem.removeClass('cardError')
+                    schedule_data[card_id].errorMessage = null
 
                     if (card_data.color) {
                         doc_card_elem.removeClass('bg-gradient-secondary')
@@ -242,27 +248,26 @@ $(document).ready(function () {
 
                     let validationData = await validateCard(cardData)
                     let result = JSON.parse(validationData)
+                    schedule_data[cardData.cardId] = cardData
+                    await restyleCard(cardData.cardId)
                     if (result.result !== true) {
                         if (result.errors.length > 0) {
                             error_alert(
                                 Object.values(result.errors[0]).pop()
                             )
+                            addCardError(cardId, Object.values(result.errors[0]).pop())
                         } else {
                             error_alert(
                                 'Ошибка перемещения!'
                             )
                         }
-                        $(this).sortable('cancel');
-                    } else {
-                        schedule_data[cardData.cardId] = cardData
-                        restyleCard(cardData.cardId)
-                        setScheduleCash()
+                        // $(this).sortable('cancel');
                     }
                 }
+                setScheduleCash()
             },
             stop: function (event, ui) {
                 checkCard(ui.item)
-                setScheduleCash()
             }
         }).disableSelection();
     });
@@ -294,6 +299,7 @@ $(document).ready(function () {
         planTypeId,
         formatId,
         semesterId,
+        errorMessage = null
     ) {
         schedule_data[card_id] = {
             cardId: card_id,
@@ -309,7 +315,8 @@ $(document).ready(function () {
             description: description,
             planTypeId: planTypeId,
             semesterId: semesterId,
-            formatId: formatId
+            formatId: formatId,
+            errorMessage: errorMessage
         }
     }
 
@@ -345,8 +352,23 @@ $(document).ready(function () {
             $(card).data('description'),
             plan_type,
             $(card).data('formatId'),
-            semester
+            semester,
+            $(card).data('errorMessage')
         )
+    }
+
+    function addCardError(cardId, message, conflictCardId = null)
+    {
+        let card = schedule_data[cardId]
+        card.errorMessage = message
+        let doc_card_elem = $('div[data-card-id="' + cardId + '"]')
+        if (doc_card_elem.find('.error-text-card').length > 0) {
+            doc_card_elem.find('.error-text-card').html(message)
+        } else {
+            doc_card_elem.find('.card-body-pair').append(`<div class="error-text-card">${message}</div>`)
+            doc_card_elem.addClass('cardError')
+        }
+
     }
 
    function addCardUi(card_container) {
@@ -459,7 +481,7 @@ $(document).ready(function () {
             method: 'post',
             data: {'_token': csrf},
             success: function (data) {
-                window.location.reload()
+                // window.location.reload()
             },
             error: function (err) {
                 error_alert(err.responseJSON.message)

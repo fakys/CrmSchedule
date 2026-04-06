@@ -102,8 +102,9 @@
                                                                                 data-time-start="{{$card['timeStart']??null}}" data-time-end="{{$card['timeEnd']??null}}"
                                                                                 data-description="{{$card['description']??null}}" data-group-id="{{$card['groupId']??null}}"
                                                                                 data-format-id="{{$card['formatId']??null}}"
+                                                                                data-error-message="{{$card['errorMessage']}}"
                                                                                 @if(isset($card['teacherId'])) style="background: {{$all_users_style[$card['teacherId']]??''}};" @endif
-                                                                                class="pair-card pair-empty card mb-2 text-white @if(empty($card['teacherId'])) bg-gradient-secondary @endif">
+                                                                                class="pair-card pair-empty @if($card['errorMessage']) cardError @endif card mb-2 text-white @if(empty($card['teacherId'])) bg-gradient-secondary @endif">
                                                                                 <div class="card-header border-0 ui-sortable-handle"
                                                                                      style="cursor: move;">
                                                                                     <h3 class="card-pair-title">
@@ -119,6 +120,11 @@
                                                                                     <div class='card_time'>
                                                                                         {{sprintf('%s - %s', $card['timeStart']??null, $card['timeEnd']??null)}}
                                                                                     </div>
+                                                                                    @if($card['errorMessage'])
+                                                                                        <div class="error-text-card">
+                                                                                            {{$card['errorMessage']}}
+                                                                                        </div>
+                                                                                    @endif
                                                                                 </div>
                                                                             </div>
                                                                             @break

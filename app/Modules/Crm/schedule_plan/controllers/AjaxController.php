@@ -76,20 +76,6 @@ class AjaxController extends AbstractController
         return view('schedule_plan::schedule_plan.type_schedule_plan_form', ['types' => $types]);
     }
 
-    public function savePlanSchedule()
-    {
-        $model = new SchedulePlanModel();
-        $model->load(request()->post());
-        $validate = Validator::make($model->getData(), $model->rules());
-        if ($validate->validate() && $model->validatePlan()) {
-            if (BackendHelper::getSystemSettings(ScheduleSetting::SETTING_NAME)->cash_schedule) {
-                BackendHelper::taskCreate(CashScheduleTask::TASK_NAME);
-            }
-            BackendHelper::getOperations()->addSchedulePlan($model->schedule_data, $model->group_id, $model->semester_id, $model->type_id);
-        }
-        return 1;
-    }
-
     public function getConstructorSchedule()
     {
         $groups_id = request()->post('groups_id');
@@ -103,12 +89,17 @@ class AjaxController extends AbstractController
         }
         $pairs = BackendHelper::getRepositories()->getNumberPair();
         $week_days = SchedulePlanTypeModel::WEEK_DAYS;
-        $schedule_data_db = BackendHelper::getRepositories()->getPlanScheduleByGroups($groups_id, $semester_id);
         $schedule_data = null;
         if (BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id)) {
             $schedule_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
-        } elseif ($schedule_data_db) {
-            $schedule_data = SchedulePlanReturnData::cardCacheFormat($schedule_data_db);
+        } else {
+            $schedule_data = BackendHelper::getOperations()->formatScheduleCardsData(
+                BackendHelper::getOperations()->getPlanScheduleByGroupsCardFormatArray($groups_id, $semester_id),
+                $groups_id,
+                $plan_type_id,
+                $semester_id,
+                $data[0]->specialty_id
+            );
         }
         return view(
             'schedule_plan::schedule_plan.constructor_schedule',
@@ -211,7 +202,7 @@ class AjaxController extends AbstractController
             DB::beginTransaction();
             try {
                 foreach ($cash_data['schedule_data'] as $card_data) {
-                    BackendHelper::getOperations()->saveSchedulePlan($card_data);
+                    BackendHelper::getOperations()->saveSchedulePlan(BackendHelper::getOperations()->convertDataToCardEntity($card_data));
                 }
             } catch (\Throwable $throwable) {
                 DB::rollBack();
@@ -291,7 +282,6 @@ class AjaxController extends AbstractController
                 $manager = BackendHelper::getManager(ParseScheduleManager::ManagerName);
                 $data = $manager->parseFileDataByPlugin($schedule_data_file);
                 $schedule_data = BackendHelper::getOperations()->cardEntityConvertToArray($data, $model->plan_type, $model->groups);
-
                 $group = BackendHelper::getRepositories()->getStudentGroupById(is_array($model->groups) ? $model->groups[0]:$model->groups);
                 BackendHelper::getOperations()->setSchedulePlanCash([
                     'semester' => $model->semester,
@@ -300,11 +290,9 @@ class AjaxController extends AbstractController
                     'plan_type' => $model->plan_type,
                     'schedule_data' => $schedule_data
                 ]);
-                BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
                 return redirect()->back();
 
             } catch (\Throwable $throwable) {
-                dd('error: '.$throwable->getMessage().$throwable->getTraceAsString());
                 $validate->errors()->add('file_error', 'Ошибка в содержимом файла: ' . $throwable->getMessage());
                 return redirect()->back()
                     ->withErrors($validate)

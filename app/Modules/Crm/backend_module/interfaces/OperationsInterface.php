@@ -115,16 +115,6 @@ interface OperationsInterface
      */
     public function formatWeeks($weeks);
 
-    /**
-     * Добавляет план расписания
-     * @param $data
-     * @param $type_id
-     * @param $group_id
-     * @param $semester_id
-     * @return void
-     */
-    public function addSchedulePlan($data, $group_id, $semester_id, $type_id);
-
     public function checkStatusModule($name_module);
 
     /**

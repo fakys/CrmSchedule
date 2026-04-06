@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $student_group_id
  * @property $updated_at
  * @property $format_lesson_id
+ * @property $lesson_id
  * @property $created_at
  */
 class Schedule extends Model
@@ -40,7 +41,7 @@ class Schedule extends Model
      * @return Lesson|null
      */
     public function getLesson() {
-        return $this->hasOne(Lesson::class, 'id', 'lessons_id')->first();
+        return $this->hasOne(Lesson::class, 'id', 'lesson_id')->first();
     }
 
     /**

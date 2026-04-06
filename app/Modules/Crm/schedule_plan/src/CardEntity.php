@@ -19,6 +19,7 @@ class CardEntity
     private $planTypeId;
     private $formatId;
     private $semesterId;
+    private $errorMessage;
 
 
     public function __construct(
@@ -36,6 +37,7 @@ class CardEntity
         $timeEnd = null,
         $description = null,
         $formatId = null,
+        $errorMessage = null,
     )
     {
         $this->cardId = $cardId;
@@ -52,6 +54,7 @@ class CardEntity
         $this->planTypeId = $planTypeId;
         $this->formatId = $formatId;
         $this->semesterId = $semesterId;
+        $this->errorMessage = $errorMessage;
     }
 
     public function getCardId()
@@ -124,6 +127,11 @@ class CardEntity
         return $this->semesterId;
     }
 
+    public function getErrorMessage()
+    {
+        return $this->errorMessage;
+    }
+
     public function toArray()
     {
         return [
@@ -134,10 +142,14 @@ class CardEntity
             'weekNumber' => $this->weekNumber,
             'groupId' => $this->groupId,
             'teacherId' => $this->teacherId,
+            'planTypeId' => $this->planTypeId,
+            'semesterId' => $this->semesterId,
             'subjectId' => $this->subjectId,
             'timeStart' => $this->timeStart,
             'timeEnd' => $this->timeEnd,
+            'formatId' => $this->formatId,
             'description' => $this->description,
+            'errorMessage' => $this->errorMessage,
         ];
     }
 }

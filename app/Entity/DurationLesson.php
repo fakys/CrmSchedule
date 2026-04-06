@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use App\Casts\TimeFormatCast;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -22,5 +23,11 @@ class DurationLesson extends Model {
         'duration_minutes',
         'created_at',
         'updated_at'
+    ];
+
+
+    protected $casts = [
+        'time_start' => TimeFormatCast::class,
+        'time_end' => TimeFormatCast::class,
     ];
 }

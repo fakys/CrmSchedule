@@ -34,7 +34,7 @@ class ScheduleRepository extends AbstractRepositories
         $schedule->description = $description;
         $schedule->student_group_id = $student_group_id;
         $schedule->format_lesson_id = $format_lesson_id;
-        $schedule->lessons_id = $lessons_id;
+        $schedule->lesson_id = $lessons_id;
         $schedule->save();
         return $schedule;
     }

@@ -3,6 +3,7 @@
 namespace App\Modules\Crm\schedule_plan\components\operation;
 
 use App\Modules\Crm\schedule_plan\src\CardEntity;
+use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
 
 class ValidateSchedulePlan extends AbstractOperation
@@ -22,19 +23,19 @@ class ValidateSchedulePlan extends AbstractOperation
     {
         $errors = [];
         if (!$card_data->getTimeStart()) {
-            $errors[] = ['timeStart' => 'Обязательное поле'];
+            $errors[] = ['timeStart' => 'Обязательное поле "Время начала"'];
         }
         if (!$card_data->getTimeEnd()) {
-            $errors[] = ['timeEnd' => 'Обязательное поле'];
+            $errors[] = ['timeEnd' => 'Обязательное поле "Время окончание"'];
         }
         if (!$card_data->getTeacherId()) {
-            $errors[] = ['teacherId' => 'Обязательное поле'];
+            $errors[] = ['teacherId' => 'Обязательное поле "Преподаватель"'];
         }
         if (!$card_data->getSubjectId()) {
-            $errors[] = ['subjectId' => 'Обязательное поле'];
+            $errors[] = ['subjectId' => 'Обязательное поле "Предмет"'];
         }
         if (!$card_data->getFormatId()) {
-            $errors[] = ['formatId' => 'Обязательное поле'];
+            $errors[] = ['formatId' => 'Обязательное поле "Формат пары"'];
         }
 
         if ($errors) {
@@ -56,12 +57,14 @@ class ValidateSchedulePlan extends AbstractOperation
                     if (
                         $schedule_data->getTeacherId() == $card_data->getTeacherId() &&
                         $schedule_data->getWeekNumber() == $card_data->getWeekNumber() &&
+                        $schedule_data->getWeekDay() == $card_data->getWeekDay() &&
                         !(
                             ($time_start > $valid_time_end && $time_end > $valid_time_start) ||
                             ($valid_time_end > $time_start && $time_end < $valid_time_start)
                         )
                     ) {
-                        $errors[] = ['teacherId' => 'Этот преподаватель пересекается с '.$schedule_data->getCardName()];
+                        $group = BackendHelper::getRepositories()->getStudentGroupById($schedule_data->getGroupId());
+                        $errors[] = ['teacherId' => 'Этот преподаватель пересекается с '.$schedule_data->getCardName().' Группа: '.$group->name];
                         break;
                     } elseif (
                         $schedule_data->getWeekNumber() == $card_data->getWeekNumber() &&

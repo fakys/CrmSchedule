@@ -8,6 +8,7 @@ use App\Modules\Crm\schedule_plan\components\parse_schedule\ParseScheduleManager
 use App\Modules\Crm\schedule_plan\components\parse_schedule\plugins\abstracts\AbstractScheduleParsePlugin;
 use App\Modules\Crm\schedule_plan\exceptions\ScheduleFileEmptyException;
 use App\Modules\Crm\schedule_plan\src\CardEntity;
+use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
 
@@ -46,6 +47,8 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
 
     public function parseFileData(array $data): array
     {
+        /** @var ScheduleSetting $scheduleSettings */
+        $scheduleSettings = BackendHelper::getSystemSettings(ScheduleSetting::SETTING_NAME);
         $schedule = [];
 
         $startRowNum = null;
@@ -186,7 +189,7 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
                             $allPairData[$pairNumber]->time_start,
                             $allPairData[$pairNumber]->time_end,
                             '',
-                            1
+                            $scheduleSettings->getDefaultFormat()
                         );
                         $return_data[] = $entity;
                         $cardId++;

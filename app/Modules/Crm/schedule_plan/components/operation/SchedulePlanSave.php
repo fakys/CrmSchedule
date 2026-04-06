@@ -2,7 +2,7 @@
 namespace App\Modules\Crm\schedule_plan\components\operation;
 
 use App\Modules\Crm\schedule_plan\exceptions\SchedulePlanAddException;
-use App\Modules\Crm\schedule_plan\src\SchedulePlanReturnData;
+use App\Modules\Crm\schedule_plan\src\CardEntity;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
 
@@ -10,32 +10,23 @@ class SchedulePlanSave extends AbstractOperation
 {
 
     /**
-     * todo сделать через DTO
-     * @param array $card_data
+     * @param CardEntity $card_data
      * @return void
      */
     public function saveSchedulePlan($card_data)
     {
         if (
-            isset($card_data['numberPair']) &&
-            isset($card_data['weekDay']) &&
-            isset($card_data['weekNumber']) &&
-            isset($card_data['group']) &&
-            isset($card_data['user']) &&
-            isset($card_data['subject']) &&
-            isset($card_data['time_start']) &&
-            isset($card_data['time_end']) &&
-            isset($card_data['format'])
+            $card_data->getTeacherId() &&
+            $card_data->getSubjectId() &&
+            $card_data->getTimeStart() &&
+            $card_data->getTimeEnd()
         ) {
-            $schedule_obj = new SchedulePlanReturnData();
-            $schedule_obj->cardFormater($card_data);
-
-            $lesson = BackendHelper::getRepositories()->getLessonByTeacherAndSubject($schedule_obj->getUserId(), $schedule_obj->getSubject());
+            $lesson = BackendHelper::getRepositories()->getLessonByTeacherAndSubject($card_data->getTeacherId(), $card_data->getSubjectId());
 
             if (!$lesson) {
                 throw new SchedulePlanAddException('связь предмета и преподавателя не была найдена');
             }
-            $pair_number = BackendHelper::getRepositories()->getPairByNumber($schedule_obj->getPairNumber());
+            $pair_number = BackendHelper::getRepositories()->getPairByNumber($card_data->getNumberPair());
 
             if (!$pair_number) {
                 throw new SchedulePlanAddException('Не найдена пара');
@@ -43,8 +34,8 @@ class SchedulePlanSave extends AbstractOperation
 
             /** todo Сделать длительность в минутах */
             $duration = BackendHelper::getRepositories()->createDurationLessons(
-                $schedule_obj->getTimeStart(),
-                $schedule_obj->getTimeEnd()
+                $card_data->getTimeStart(),
+                $card_data->getTimeEnd()
             );
 
             if (empty($duration)) {
@@ -54,18 +45,18 @@ class SchedulePlanSave extends AbstractOperation
             $schedule = BackendHelper::getRepositories()->addSchedule(
                 $duration->id,
                 $pair_number->id,
-                $schedule_obj->getDescription(),
-                $schedule_obj->getGroupId(),
+                $card_data->getDescription(),
+                $card_data->getGroupId(),
                 $lesson->id,
-                $schedule_obj->getFormat(),
+                $card_data->getFormatId(),
             );
 
             BackendHelper::getRepositories()->addSchedulePlan(
                 $schedule->id,
-                $schedule_obj->getSemesterId(),
-                $schedule_obj->getPlanTypeId(),
-                $schedule_obj->getWeekDay(),
-                $schedule_obj->getWeekNumber()
+                $card_data->getSemesterId(),
+                $card_data->getPlanTypeId(),
+                $card_data->getWeekDay(),
+                $card_data->getWeekNumber()
             );
         }
     }

@@ -1,11 +1,13 @@
 <?php
 namespace App\Modules\Crm\system_settings\components\settings;
 
+use App\Modules\Crm\backend_module\enums\FormatLessonEnum;
 use App\Src\modules\settings\AbstractSettingsComponent;
 
 /**
  * @property $users_groups
  * @property $type_weeks
+ * @property $default_format
  */
 class ScheduleSetting extends AbstractSettingsComponent
 {
@@ -23,7 +25,8 @@ class ScheduleSetting extends AbstractSettingsComponent
     {
         return [
             'type_weeks' => self::SIX_DAY,
-            'users_groups' => []
+            'users_groups' => [],
+            'default_format' => FormatLessonEnum::FACE_TO_FACE
         ];
     }
 
@@ -45,5 +48,15 @@ class ScheduleSetting extends AbstractSettingsComponent
     public function setTypeWeeks(array $type_weeks)
     {
         $this->type_weeks = $type_weeks;
+    }
+
+    public function getDefaultFormat()
+    {
+        return (int)$this->default_format;
+    }
+
+    public function setDefaultFormat($default_format)
+    {
+        $this->default_format = $default_format;
     }
 }
