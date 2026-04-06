@@ -37,11 +37,25 @@ class Schedule extends Model
         return $this->hasOne(DurationLesson::class, 'id', 'duration_lesson_id')->first();
     }
 
+    public function group()
+    {
+        return $this->hasOne(StudentGroup::class, 'id', 'student_group_id');
+    }
+
     /**
      * @return Lesson|null
      */
     public function getLesson() {
         return $this->hasOne(Lesson::class, 'id', 'lesson_id')->first();
+    }
+
+    public function lesson() {
+        return $this->hasOne(Lesson::class, 'id', 'lesson_id');
+    }
+
+    public function pairNumber()
+    {
+        return $this->hasOne(PairNumber::class, 'id', 'pair_number_id');
     }
 
     /**

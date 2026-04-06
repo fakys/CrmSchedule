@@ -244,7 +244,11 @@ class AjaxController extends AbstractController
         $model->load($validator->validate());
 
         $all_schedule_data = request()->post('all_schedule_data')??[];
-        $data = BackendHelper::getOperations()->validateCard($model->toEntity(), BackendHelper::getOperations()->convertDataToCardsEntities($all_schedule_data));
+        $data = BackendHelper::getOperations()->validateCard(
+            $model->toEntity(),
+            BackendHelper::getOperations()->convertDataToCardsEntities($all_schedule_data),
+            request()->post('groups')
+        );
 
         if ($data) {
             return json_encode(['result' => false, 'errors' => $data]);

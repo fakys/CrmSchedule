@@ -2,6 +2,9 @@
 
 namespace App\Modules\Crm\schedule_plan\components\operation;
 
+use App\Entity\Lesson;
+use App\Entity\Schedule;
+use App\Entity\StudentGroup;
 use App\Modules\Crm\schedule_plan\src\CardEntity;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
@@ -13,13 +16,40 @@ class ValidateSchedulePlan extends AbstractOperation
         return 'validate_schedule_plan_operation';
     }
 
+    public function validateCardThroughDataBaseInfo(CardEntity $card_data, $all_groups)
+    {
+         $schedules_plan = BackendHelper::getRepositories()->getPlanScheduleByDayAndException(
+             $card_data->getTeacherId(),
+             $card_data->getWeekDay(),
+             $card_data->getWeekNumber(),
+             $card_data->getSemesterId(),
+             $card_data->getNumberPair(),
+             $all_groups
+         );
+
+         if ($schedules_plan) {
+             /** @var Schedule $schedule */
+             $schedule = $schedules_plan->schedule()->first();
+             /** @var StudentGroup $group */
+             $group = $schedule->group()->first();
+             /** @var Lesson $lesson */
+             $lesson = $schedule->lesson()->first();
+
+             $errors = [
+                 ['teacherId' => 'Этот преподаватель пересекается с '.BackendHelper::getOperations()->cardName($lesson->user_id, $lesson->subject_id).' Группа: '.$group->number]
+             ];
+             return $errors;
+         }
+         return [];
+    }
+
     /**
      * @param CardEntity $card_data
      * @param CardEntity[] $all_schedule_data
      * @return array
      * @throws \DateMalformedStringException
      */
-    public function validateCard(CardEntity $card_data, $all_schedule_data)
+    public function validateCard(CardEntity $card_data, $all_schedule_data, $all_groups)
     {
         $errors = [];
         if (!$card_data->getTimeStart()) {
@@ -82,6 +112,13 @@ class ValidateSchedulePlan extends AbstractOperation
             }
         }
 
+        $errorsDB = BackendHelper::getOperations()->validateCardThroughDataBaseInfo(
+            $card_data,
+            $all_groups
+        );
+        if ($errorsDB) {
+            $errors = array_merge($errors, $errorsDB);
+        }
 
         return $errors;
     }

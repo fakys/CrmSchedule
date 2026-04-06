@@ -143,7 +143,7 @@ $(document).ready(function () {
                     doc_card_elem.find('.card-body-pair').html("<div class='card_time'>" + card_data.cardTime + "</div>")
                     doc_card_elem.removeClass('cardError')
                     schedule_data[card_id].errorMessage = null
-
+                    checkBtnSave()
                     if (card_data.color) {
                         doc_card_elem.removeClass('bg-gradient-secondary')
                         doc_card_elem.css({background:card_data.color});
@@ -156,6 +156,8 @@ $(document).ready(function () {
             }
         });
     }
+
+    checkBtnSave()
 
     function cardToJson(cardId)
     {
@@ -368,7 +370,17 @@ $(document).ready(function () {
             doc_card_elem.find('.card-body-pair').append(`<div class="error-text-card">${message}</div>`)
             doc_card_elem.addClass('cardError')
         }
+        checkBtnSave()
+    }
 
+    function checkBtnSave() {
+        if ($('.cardError').length > 0) {
+            $('.save-plan_schedule').attr({disabled:true})
+            $('.save-plan_schedule').addClass('disabled_btn')
+        } else {
+            $('.save-plan_schedule').attr({disabled:false})
+            $('.save-plan_schedule').removeClass('disabled_btn')
+        }
     }
 
    function addCardUi(card_container) {
@@ -421,7 +433,7 @@ $(document).ready(function () {
         return $.ajax({
             url: $('#validate_card').data('url'),
             method: 'post',
-            data: {'card_data': card_data, 'all_schedule_data':all_schedule_data, '_token': csrf},
+            data: {'card_data': card_data, 'all_schedule_data':all_schedule_data, 'groups': $('.select_group').val(), '_token': csrf},
             success: function (data) {
 
             },
@@ -431,6 +443,7 @@ $(document).ready(function () {
         })
     }
 
+    //Кнопка сохранить при редактировании карты
     $('.btn_save_schedule').on('click', function () {
         let card_id = $('#card_id_pair_form').data('cardId')
         let all_schedule_data = {}
@@ -475,7 +488,11 @@ $(document).ready(function () {
         })
     })
 
+    //Кнопка сохранить ВСЕ расписание
     $('.save-plan_schedule').on('click', function () {
+        if ($(this).hasClass('disabled_btn')) {
+            return;
+        }
         $.ajax({
             url: $('#set_plan_schedule').data('url'),
             method: 'post',
