@@ -61,18 +61,6 @@ class ScheduleCardPlan extends AbstractOperation
         }
     }
 
-    public function formatScheduleCardsData($card_data, $groups, $planType, $semester, $specialties)
-    {
-        $data = [
-            'schedule_data' => $card_data,
-            'groups' => $groups,
-            'semester' => $semester,
-            'specialties' => $specialties,
-            'plan_type' => $planType,
-        ];
-        return $data;
-    }
-
     public function getPlanScheduleByGroupsCardFormatArray($groups_id, $semester_id): array
     {
         $data = [];

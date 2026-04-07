@@ -3,6 +3,8 @@ namespace App\Modules\Crm\schedule_plan\components\operation;
 
 use App\Modules\Crm\schedule_plan\exceptions\SchedulePlanAddException;
 use App\Modules\Crm\schedule_plan\src\CardEntity;
+use App\Modules\Crm\schedule_plan\src\SchedulePlanReturnData;
+use App\Modules\Crm\schedule_plan\src\factories\SchedulePlanReturnDataFactory;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
 use App\Src\redis\RedisManager;
@@ -58,15 +60,24 @@ class SchedulePlan extends AbstractOperation{
      * Если пользователь не до конца заполнил расписание, сохраняем его в кеш на 1 час
      * @return void
      */
-    public function setSchedulePlanCash($data)
+    public function setSchedulePlanCash(SchedulePlanReturnData $data)
     {
+        /** todo сделать настройку на время жизни */
         $redis = new RedisManager();
-        $redis->redis->set(self::SchedulePlanRedis, json_encode([BackendHelper::getKernel()->getContext()->getUser()->id => $data]), ['EX' => 3600]);
+        $redis->redis->set(self::SchedulePlanRedis, json_encode([BackendHelper::getKernel()->getContext()->getUser()->id => $data->toArray()]), ['EX' => 3600]);
+    }
+
+    public function setSchedulePlanCashForUser(SchedulePlanReturnData $data, $userId)
+    {
+        /** todo сделать настройку на время жизни */
+        $redis = new RedisManager();
+        $redis->redis->set(self::SchedulePlanRedis, json_encode([$userId => $data->toArray()]), ['EX' => 3600]);
     }
 
     public function deleteSchedulePlanCashByUserId()
     {
         $redis = new RedisManager();
+        /** todo удалять только нужного пользователя */
         if ($redis->redis->get(self::SchedulePlanRedis)) {
             $redis->redis->del(self::SchedulePlanRedis);
         }
@@ -75,14 +86,17 @@ class SchedulePlan extends AbstractOperation{
     /**
      * Возвращает ранее составленное расписание
      * @param $user_id
-     * @return mixed|null
+     * @return SchedulePlanReturnData|null
      * @throws \RedisException
      */
     public function getSchedulePlanCashByUserId($user_id)
     {
         $redis = new RedisManager();
         $json = $redis->redis->get(self::SchedulePlanRedis);
-        return json_decode($json, true)[$user_id]??null;
+        if (isset(json_decode($json, true)[$user_id])) {
+            return SchedulePlanReturnDataFactory::createCashSchedulePlanEntity(json_decode($json, true)[$user_id]);
+        }
+        return null;
     }
 
     /**

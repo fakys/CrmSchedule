@@ -44,6 +44,9 @@ use Illuminate\Support\ViewErrorBag;
             <?php endif; ?>
             name="<?=$element->getName()?><?php if ($element->getAdditionalParams()->getMultiple()):?>[]<?php endif; ?>"
             style="width: 100%;"
+            <?php if($element->getAdditionalParams() && $element->getAdditionalParams()->getDisabled()): ?>
+                disabled="disabled"
+            <?php endif; ?>
         >
             <?php if (!$element->getAdditionalParams() || !$element->getAdditionalParams()->getMultiple()):?>
                 <option value="">Не выбрано</option>

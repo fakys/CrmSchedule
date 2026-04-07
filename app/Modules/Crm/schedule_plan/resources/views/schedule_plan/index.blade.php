@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\Modules\Crm\schedule_plan\src\SchedulePlanReturnData $cash_data
+ */
+?>
+
 @extends("layout::base_layout")
 
 @section('content')
@@ -31,7 +37,7 @@
                         <label>Семестр</label>
                         <select class="semester-select form-control" name="semester" id="select_semester_schedule_plan" @if($cash_data) disabled @endif>
                             @foreach($semesters as $semester)
-                                @if($cash_data && $semester->id == $cash_data['semester'])
+                                @if($cash_data && $semester->id == $cash_data->getSemesterId())
                                     <option value="{{$semester->id}}" selected>{{$semester->name}} {{$semester->year_start}}-{{$semester->year_end}}</option>
                                 @else
                                     <option value="{{$semester->id}}">{{$semester->name}} {{$semester->year_start}}-{{$semester->year_end}}</option>
@@ -39,9 +45,19 @@
                             @endforeach
                         </select>
                     </div>
-                    {{\App\Src\Html\Html::select_search('Специальность', 'specialties', $specialties,
-                       $cash_data ?(is_array($cash_data['specialties'])?$cash_data['specialties']:[$cash_data['specialties']]):[],
-                     'specialties_select', false, false,  $cash_data)}}
+                    <div class="form-group">
+                        <label>Специальность</label>
+                        <select class="specialties_select form-control" name="specialties" @if($cash_data) disabled @endif>
+                            <option value="">Не выбрано</option>
+                            @foreach($specialties as $id => $specialty)
+                                @if($cash_data && $id == $cash_data->getSpecialtiesId())
+                                    <option value="{{$id}}" selected>{{$specialty}}</option>
+                                @else
+                                    <option value="{{$id}}">{{$specialty}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="select_group_container">
 
                     </div>

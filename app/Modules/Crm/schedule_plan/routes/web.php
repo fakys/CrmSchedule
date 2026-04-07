@@ -102,3 +102,7 @@ Route::post(
     "$module/download-schedule-file",
     [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, 'downloadScheduleFile']
 )->name("$module.download_schedule_file");
+Route::post(
+    "$module/check-status-schedule-plan-cron",
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, 'checkStatusSchedulePlanCron']
+)->name("$module.check_status_schedule_plan_cron");

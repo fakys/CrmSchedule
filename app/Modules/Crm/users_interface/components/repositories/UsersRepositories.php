@@ -123,9 +123,23 @@ class UsersRepositories extends AbstractRepositories
             ->get();
     }
 
+    /**
+     * @param $id
+     * @return User
+     */
     public function getUserById($id)
     {
         $user = User::where(['id'=>$id])->first();
+        return $user;
+    }
+
+    /**
+     * @param $username
+     * @return User
+     */
+    public function getUserByUsername($username)
+    {
+        $user = User::where(['username'=>$username])->first();
         return $user;
     }
 

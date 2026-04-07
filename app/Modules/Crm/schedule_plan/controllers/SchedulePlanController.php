@@ -49,7 +49,7 @@ class SchedulePlanController extends AbstractController
         $specialties = BackendHelper::getRepositories()->getAllSpecialties();
         $cash_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
         return view('schedule_plan::schedule_plan.index', [
-            'title' => 'Плана расписания',
+            'title' => 'План расписания',
             'types' => $types,
             'cash_data' => $cash_data,
             'groups' => $groups,

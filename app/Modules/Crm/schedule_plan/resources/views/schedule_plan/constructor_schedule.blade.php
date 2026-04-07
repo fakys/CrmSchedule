@@ -1,6 +1,7 @@
 <?php
 /**
  * @var \App\Entity\PairNumber[] $pairs
+ * @var \App\Modules\Crm\schedule_plan\src\SchedulePlanReturnData $schedule_data
  */
 ?>
 
@@ -12,6 +13,8 @@
 <div id="set_schedule_plan_cash" data-url="{{ route('schedule_plan.set_schedule_plan_cash') }}"></div>
 <div id="get_new_card_name" data-url="{{ route('schedule_plan.get_new_card_name') }}"></div>
 <div id="validate_card" data-url="{{ route('schedule_plan.validate_card') }}"></div>
+<div id="download_schedule_file" data-url="{{route('schedule_plan.download_schedule_file')}}"></div>
+<div id="check_status_schedule_plan_cron" data-url="{{route('schedule_plan.check_status_schedule_plan_cron')}}"></div>
 <ul class="d-none pair_numbers">
     @foreach($pairs as $pair)
         <li data-number="{{$pair->number}}" data-time-start="{{$pair->time_start}}" data-time-end="{{$pair->time_end}}"></li>
@@ -27,6 +30,12 @@
         </div>
     </div>
 
+    @if($schedule_data->getErrorMessage())
+        <div class="alert alert-danger mt-3" id="ErrorAlert">
+            <strong>{{$schedule_data->getErrorMessage()}}</strong>
+        </div>
+    @endif
+
     <div class="row_construct_schedule">
         <div>
             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
@@ -37,25 +46,16 @@
 
         <div class="schedule_dashboard_container">
             <div>
-                <form action="{{route('schedule_plan.download_schedule_file')}}" method="post" enctype="multipart/form-data" class="input-group d-flex flex-column gap-2" id="add_plan_schedule_excel">
-                    @csrf
+                <div>
                     <label>Загрузить расписание через Excel:</label>
-                    <div class="d-flex gap-3">
-                        <input type="number" name="semester" style="display: none" value="{{$semester_id}}">
-                        <input type="number" name="plan_type" style="display: none" value="{{$plan_type_id}}">
-                        <select multiple name="groups[]" style="display: none">
-                            @foreach($groups_id as $group)
-                                <option selected value="{{$group}}"></option>
-                            @endforeach
-                        </select>
+                    <div class="d-flex gap-3 align-items-center">
                         <input type="file" name="file" class="form-control" id="download_schedule_file_input" style="width: 300px">
                         <div class="">
-                            <button type="submit" class="btn btn-secondary" id="download_schedule_file">Загрузить</button>
+                            <button class="btn btn-secondary" id="download_schedule_file_btn">
+                                Загрузить
+                            </button>
                         </div>
                     </div>
-                </form>
-                <div>
-                    <div class="text-primary cursor-pointer" id="download_template">Загрузить шаблон</div>
                 </div>
             </div>
 
@@ -84,13 +84,14 @@
                                             @foreach($week['week_end'] as $day => $week_end)
                                                 <div class="day-container">
                                                     <div class="day-header">
-                                                        <div>{{ $week_days[$day+1] }}</div>
+                                                        {{ $week_days[$day+1] }}
+                                                        <i class="fa fa-calendar" aria-hidden="true"></i>
                                                     </div>
                                                     @foreach($pairs as $number_pair)
                                                         <div class="d-flex flex-column align-items-center">
                                                             <div class="card-slot connectedSortable ui-sortable" data-week-day="{{$day}}" data-number="{{$number_pair->number}}" data-week-number="{{$key}}" data-group-id="{{$group->id}}">
                                                                 @if($schedule_data)
-                                                                    @foreach($schedule_data['schedule_data'] as $card)
+                                                                    @foreach($schedule_data->getScheduleData() as $card)
                                                                         @if($card['weekDay']==$day && $number_pair->number == $card['numberPair'] && $card['weekNumber']==$key && $card['groupId'] == $group->id)
                                                                                 <?php $count += 1; ?>
                                                                             <div

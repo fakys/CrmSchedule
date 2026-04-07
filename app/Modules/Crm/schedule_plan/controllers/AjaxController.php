@@ -7,12 +7,14 @@ use App\Entity\User;
 use App\Modules\Crm\schedule\components\tasks\CashScheduleTask;
 use App\Modules\Crm\schedule_plan\assets\SchedulePlanAssets;
 use App\Modules\Crm\schedule_plan\components\parse_schedule\ParseScheduleManager;
+use App\Modules\Crm\schedule_plan\components\tasks\ParseSchedulePlanFile;
 use App\Modules\Crm\schedule_plan\models\PairForm;
 use App\Modules\Crm\schedule_plan\models\ScheduleCardModel;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanFileModel;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanModel;
 use App\Modules\Crm\schedule_plan\models\SchedulePlanTypeModel;
 use App\Modules\Crm\schedule_plan\src\ExcelPlanSchedule;
+use App\Modules\Crm\schedule_plan\src\factories\SchedulePlanReturnDataFactory;
 use App\Modules\Crm\schedule_plan\src\SchedulePlanReturnData;
 use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
 use App\Services\Abstracts\Domain\Facades\ViewManager;
@@ -28,6 +30,7 @@ use App\Src\helpers\ArrayHelper;
 use App\Src\modules\controllers\AbstractController;
 use http\Env\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -89,16 +92,15 @@ class AjaxController extends AbstractController
         }
         $pairs = BackendHelper::getRepositories()->getNumberPair();
         $week_days = SchedulePlanTypeModel::WEEK_DAYS;
-        $schedule_data = null;
         if (BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id)) {
             $schedule_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
         } else {
-            $schedule_data = BackendHelper::getOperations()->formatScheduleCardsData(
-                BackendHelper::getOperations()->getPlanScheduleByGroupsCardFormatArray($groups_id, $semester_id),
-                $groups_id,
-                $plan_type_id,
+            $schedule_data = new SchedulePlanReturnData(
                 $semester_id,
-                $data[0]->specialty_id
+                $groups_id,
+                $data[0]->specialty_id,
+                $plan_type_id,
+                BackendHelper::getOperations()->getPlanScheduleByGroupsCardFormatArray($groups_id, $semester_id)
             );
         }
         return view(
@@ -129,16 +131,16 @@ class AjaxController extends AbstractController
             'groups',
             $groups,
             new LabelAdditionalParams('Группы'),
-            new SelectElementAdditionalParams(true, '', ['form-control', 'select_group']),
-            $cash_data['groups']??null
+            new SelectElementAdditionalParams(true, '', ['form-control', 'select_group'], (bool)$cash_data),
+            $cash_data?->getGroupsId()
         );
 
         $plan_type = new SelectSearch(
             'plan_type',
             $plan_types,
             new LabelAdditionalParams('Тип недель'),
-            new SelectElementAdditionalParams(false, '', ['form-control','plan_type']),
-            $cash_data['plan_type']??null
+            new SelectElementAdditionalParams(false, '', ['form-control','plan_type'], (bool)$cash_data),
+            $cash_data?->getPlanType()
         );
         ViewManager::appendElement($select);
         ViewManager::appendElement($plan_type);
@@ -165,7 +167,9 @@ class AjaxController extends AbstractController
     public function setSchedulePlanCash()
     {
         $data = request()->post('data');
-        BackendHelper::getOperations()->setSchedulePlanCash($data);
+        BackendHelper::getOperations()->setSchedulePlanCash(SchedulePlanReturnDataFactory::createCashSchedulePlanEntity(
+            $data
+        ));
         return json_encode(['result' => true]);
     }
 
@@ -193,7 +197,12 @@ class AjaxController extends AbstractController
 
     public function setPlanSchedule()
     {
+        //Обнуляем сообщение с ошибкой
         $cash_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
+        if ($cash_data && $cash_data->getErrorMessage()) {
+            $cash_data->setErrorMessage(null);
+            BackendHelper::getOperations()->setSchedulePlanCash($cash_data);
+        }
 
         if ($cash_data) {
             if (BackendHelper::getRepositories()->getPlanScheduleByGroups($cash_data['groups'], $cash_data['semester'])) {
@@ -239,6 +248,13 @@ class AjaxController extends AbstractController
 
     public function validateCard()
     {
+        //Обнуляем сообщение с ошибкой
+        $schedule_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
+        if ($schedule_data && $schedule_data->getErrorMessage()) {
+            $schedule_data->setErrorMessage(null);
+            BackendHelper::getOperations()->setSchedulePlanCash($schedule_data);
+        }
+
         $model = new ScheduleCardModel();
         $validator = Validator::make(request()->post('card_data'), $model->rules());
         $model->load($validator->validate());
@@ -257,55 +273,38 @@ class AjaxController extends AbstractController
         }
     }
 
-    public function downloadTemplate()
-    {
-        $groups = BackendHelper::getRepositories()->getStudentGroupByQuery(
-            'id',
-            explode(',', request()->get('select_group')),
-        );
-        $type = BackendHelper::getRepositories()->getSchedulePlanTypeById(request()->get('plan_type'));
-        return Excel::download(new ExcelPlanSchedule(
-            $groups->toArray(),
-            $type
-        ), 'schedule.xlsx');
-    }
-
     public function downloadScheduleFile()
     {
 
         $model = new SchedulePlanFileModel();
         $model->load(request()->all());
         $validate = Validator::make($model->getData(), $model->rules());
+        $file = request()->file('file');
         if ($validate->validate()) {
-            try {
-                $file = request()->file('file');
-                $spreadsheet = IOFactory::load($file->getRealPath());
-                $schedule_data_file = $spreadsheet->getActiveSheet()->toArray(null, true, false, false);
-
-                /** @var ParseScheduleManager $manager */
-                $manager = BackendHelper::getManager(ParseScheduleManager::ManagerName);
-                $data = $manager->parseFileDataByPlugin($schedule_data_file);
-                $schedule_data = BackendHelper::getOperations()->cardEntityConvertToArray($data, $model->plan_type, $model->groups);
-                $group = BackendHelper::getRepositories()->getStudentGroupById(is_array($model->groups) ? $model->groups[0]:$model->groups);
-                BackendHelper::getOperations()->setSchedulePlanCash([
-                    'semester' => $model->semester,
-                    'groups' => is_array($model->groups)?$model->groups:[$model->groups],
-                    'specialties' => $group->specialty_id,
-                    'plan_type' => $model->plan_type,
-                    'schedule_data' => $schedule_data
-                ]);
-                return redirect()->back();
-
-            } catch (\Throwable $throwable) {
-                $validate->errors()->add('file_error', 'Ошибка в содержимом файла: ' . $throwable->getMessage());
-                return redirect()->back()
-                    ->withErrors($validate)
-                    ->withInput();
+            //Обнуляем сообщение с ошибкой
+            $schedule_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
+            if ($schedule_data && $schedule_data->getErrorMessage()) {
+                $schedule_data->setErrorMessage(null);
+                BackendHelper::getOperations()->setSchedulePlanCash($schedule_data);
             }
+
+            BackendHelper::taskCreate(
+                'parse_schedule_plan_file',
+                [
+                    'plan_type' => $model->plan_type,
+                    'groups' => $model->groups,
+                    'semester' => $model->semester,
+                    'file_path' => Storage::disk('local')->putFileAs('private/runtime', $file, ParseSchedulePlanFile::FILE_NAME),
+                    'userName' => BackendHelper::getKernel()->getContext()->getUser()->username
+                ]);
         }
-        $validate->errors()->add('file_error', 'Ошибка валидации');
-        return redirect()->back()
-            ->withErrors($validate)
-            ->withInput();
+    }
+
+    public function checkStatusSchedulePlanCron()
+    {
+        if (BackendHelper::getRepositories()->hasActiveTaskByUserName('parse_schedule_plan_file', BackendHelper::getKernel()->getContext()->getUser()->username)) {
+            return 'pending';
+        }
+        return 'none';
     }
 }

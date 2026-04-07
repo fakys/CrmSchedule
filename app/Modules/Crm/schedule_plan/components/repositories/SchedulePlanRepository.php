@@ -132,22 +132,6 @@ class SchedulePlanRepository extends AbstractRepositories
         array $exceptionGroups
     )
     {
-//        dd(PlanSchedule::query()
-//            ->with('schedule')
-//            ->with('schedule.pairNumber')
-//            ->with('schedule.lesson')
-//            ->whereHas('schedule', function ($query) use ($exceptionGroups, $semester_id, $numberPair, $teacherId) {
-//                /** @var Builder $query */
-//                $query->whereIn('student_group_id', $exceptionGroups, 'and', true);
-//                $query->whereHas('pairNumber', function ($query) use ($numberPair) {
-//                    $query->where('number', $numberPair);
-//                });
-//                $query->whereHas('lesson', function ($query) use ($teacherId) {
-//                    $query->where('user_id', $teacherId);
-//                });
-//            })->where('semester_id', $semester_id)
-//            ->where('week_day', $week_day)
-//            ->where('week_number', $week_number)->ddRawSql());
         return PlanSchedule::query()
             ->with('schedule')
             ->with('schedule.pairNumber')

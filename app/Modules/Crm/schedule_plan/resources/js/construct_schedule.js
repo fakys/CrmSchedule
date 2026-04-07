@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     const $menu = $('#context-menu');
     const $target = $('.card-slot');
-    $target.on('contextmenu', function(e) {
+    $target.on('contextmenu', function (e) {
         e.preventDefault();
         const x = e.pageX - $(this).width();
         const y = e.pageY - $(this).height();
@@ -75,7 +75,7 @@ $(document).ready(function () {
                                     Object.values(result.errors[0]).pop()
                                 )
                                 addCardError(cardData.cardId, Object.values(result.errors[0]).pop())
-                            } else  {
+                            } else {
                                 error_alert(
                                     'Ошибка вставки!'
                                 )
@@ -96,7 +96,7 @@ $(document).ready(function () {
             left: x + 'px'
         }).show();
 
-        $(document).on('click', function() {
+        $(document).on('click', function () {
             $menu.hide();
         });
 
@@ -104,8 +104,7 @@ $(document).ready(function () {
     });
 
 
-    function insertCard(slot, cardData)
-    {
+    function insertCard(slot, cardData) {
         addCardUi(slot)
         let new_card = Object.values(schedule_data).pop()
         new_card.cardName = cardData.cardName
@@ -146,10 +145,8 @@ $(document).ready(function () {
                     checkBtnSave()
                     if (card_data.color) {
                         doc_card_elem.removeClass('bg-gradient-secondary')
-                        doc_card_elem.css({background:card_data.color});
+                        doc_card_elem.css({background: card_data.color});
                     }
-
-                    setScheduleCash()
                 } else {
                     error_alert('Ошибка изменения карточки')
                 }
@@ -159,8 +156,7 @@ $(document).ready(function () {
 
     checkBtnSave()
 
-    function cardToJson(cardId)
-    {
+    function cardToJson(cardId) {
         let cardData = schedule_data[cardId]
         return JSON.stringify(cardData)
     }
@@ -309,7 +305,7 @@ $(document).ready(function () {
             numberPair: numberPair,
             weekDay: weekDay,
             weekNumber: weekNumber,
-            teacherId:teacherId,
+            teacherId: teacherId,
             subjectId: subjectId,
             groupId: groupId,
             timeStart: timeStart,
@@ -359,8 +355,7 @@ $(document).ready(function () {
         )
     }
 
-    function addCardError(cardId, message, conflictCardId = null)
-    {
+    function addCardError(cardId, message, conflictCardId = null) {
         let card = schedule_data[cardId]
         card.errorMessage = message
         let doc_card_elem = $('div[data-card-id="' + cardId + '"]')
@@ -375,54 +370,54 @@ $(document).ready(function () {
 
     function checkBtnSave() {
         if ($('.cardError').length > 0) {
-            $('.save-plan_schedule').attr({disabled:true})
+            $('.save-plan_schedule').attr({disabled: true})
             $('.save-plan_schedule').addClass('disabled_btn')
         } else {
-            $('.save-plan_schedule').attr({disabled:false})
+            $('.save-plan_schedule').attr({disabled: false})
             $('.save-plan_schedule').removeClass('disabled_btn')
         }
     }
 
-   function addCardUi(card_container) {
-       if ($(card_container).find('.pair-card').length <= 0) {
-           let card_id = $('.pair-card').length + 1
-           let empty_card_id = $('.pair-empty').length + 1
-           $(card_container).append(`<div class="pair-card pair-empty text-white card bg-gradient-secondary mb-2" ` +
-               `data-week-day="${$(card_container).data('number')}" data-number-pair="${$(card_container).data('number')}"` +
-               `data-card-id="${card_id}"  data-group-id="${$(card_container).data('group-id')}" data-format-id="">` +
-               `<div class="card-header border-0 ui-sortable-handle" style="cursor: move;">` +
-               `<h3 class="card-pair-title">` +
-               `<i class="fa fa-users" aria-hidden="true"></i>` +
-               `<div class="card-name">Новое расписание №${empty_card_id}</div>` +
-               `</h3>` +
-               `</div>` +
-               `<div class="card-body-pair" data-bs-toggle="modal" data-bs-target="#card_model_data"> </div>` +
-               `</div>`)
+    function addCardUi(card_container) {
+        if ($(card_container).find('.pair-card').length <= 0) {
+            let card_id = $('.pair-card').length + 1
+            let empty_card_id = $('.pair-empty').length + 1
+            $(card_container).append(`<div class="pair-card pair-empty text-white card bg-gradient-secondary mb-2" ` +
+                `data-week-day="${$(card_container).data('number')}" data-number-pair="${$(card_container).data('number')}"` +
+                `data-card-id="${card_id}"  data-group-id="${$(card_container).data('group-id')}" data-format-id="">` +
+                `<div class="card-header border-0 ui-sortable-handle" style="cursor: move;">` +
+                `<h3 class="card-pair-title">` +
+                `<i class="fa fa-users" aria-hidden="true"></i>` +
+                `<div class="card-name">Новое расписание №${empty_card_id}</div>` +
+                `</h3>` +
+                `</div>` +
+                `<div class="card-body-pair" data-bs-toggle="modal" data-bs-target="#card_model_data"> </div>` +
+                `</div>`)
 
-           addCard(
-               empty_card_id,
-               'Новое расписание №' + empty_card_id,
-               $(card_container).data('number'),
-               $(card_container).data('weekDay'),
-               $(card_container).data('weekNumber'),
-               $(card_container).data('groupId'),
-               null,
-               null,
-               null,
-               null,
-               null,
-               plan_type,
-               null,
-               semester
-           )
-           $(card_container).find('.card-body-pair').on('click', function () {
-               openPairModal($(this).parent().data('cardId'))
-           })
-       }
-   }
+            addCard(
+                empty_card_id,
+                'Новое расписание №' + empty_card_id,
+                $(card_container).data('number'),
+                $(card_container).data('weekDay'),
+                $(card_container).data('weekNumber'),
+                $(card_container).data('groupId'),
+                null,
+                null,
+                null,
+                null,
+                null,
+                plan_type,
+                null,
+                semester
+            )
+            $(card_container).find('.card-body-pair').on('click', function () {
+                openPairModal($(this).parent().data('cardId'))
+            })
+        }
+    }
 
-    async function validateCard(card_data)
-    {
+    async function validateCard(card_data) {
+        $('#ErrorAlert').remove()
         let all_schedule_data = {}
         for (let key in schedule_data) {
             if (key != card_data.cardId) {
@@ -433,7 +428,12 @@ $(document).ready(function () {
         return $.ajax({
             url: $('#validate_card').data('url'),
             method: 'post',
-            data: {'card_data': card_data, 'all_schedule_data':all_schedule_data, 'groups': $('.select_group').val(), '_token': csrf},
+            data: {
+                'card_data': card_data,
+                'all_schedule_data': all_schedule_data,
+                'groups': $('.select_group').val(),
+                '_token': csrf
+            },
             success: function (data) {
 
             },
@@ -470,7 +470,7 @@ $(document).ready(function () {
                         for (let key in error) {
                             if (key === $(input).attr('name')) {
                                 $(`#${key}_error`).html(error[key])
-                                $(`#${key}_error`).css({display:'block'})
+                                $(`#${key}_error`).css({display: 'block'})
                             }
                         }
                     }
@@ -482,6 +482,7 @@ $(document).ready(function () {
             }
 
             restyleCard(card_id)
+            setScheduleCash()
             const modalElement = $('#card_model_data')[0];
             const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
             modal.hide();
@@ -530,20 +531,69 @@ $(document).ready(function () {
     $('#download_template').on('click', function () {
         window.open(
             $('#download_template_url').data('url') +
-            "?semester=" + $('#select_semester_schedule_plan').val()+"&" +
-            "plan_type=" + $('.plan_type').val()+"&" +
+            "?semester=" + $('#select_semester_schedule_plan').val() + "&" +
+            "plan_type=" + $('.plan_type').val() + "&" +
             "select_group=" + $('.select_group').val()
         )
     })
 
-    $('#download_schedule_file').on('click', function () {
-        let file = $('#download_schedule_file_input').val()
-        $.ajax({
-            url: $('#set_plan_schedule').data('url'),
-            method: 'post',
-            data: {'_token': csrf, 'file':file},
-            success: function (data) {
+    let update_document = false;
 
+    function checkBtnDownload() {
+        window.setTimeout(checkBtnDownload,5000);
+        $.ajax({
+            url: $('#check_status_schedule_plan_cron').data('url'),
+            method: 'post',
+            data: {'_token': csrf},
+            success: function (data) {
+                if (data === 'pending') {
+                    $('#download_schedule_file_btn').html(
+                        `<div class="d-flex gap-2">
+                            <div class="d-inline-block">
+                                <i class="fas fa-sync-alt text-white"
+                                   style="font-size: 14px; animation: fa-spin 2s infinite linear;"></i>
+                            </div>
+                            Идет загрузка расписания
+                        </div>`
+                    )
+                    $('#download_schedule_file_btn').attr({disabled: true})
+                    update_document = true
+                } else if (data === 'none') {
+                    if (update_document) {
+                        window.location.reload()
+                    }
+                }
+            },
+            error: function (err) {
+                error_alert(err.responseJSON.message)
+            }
+        });
+    }
+
+    checkBtnDownload()
+
+    $('#download_schedule_file_btn').on('click', function () {
+        setScheduleCash()
+        let files = $('#download_schedule_file_input')[0].files
+        if (files.length <= 0) {
+            error_alert('Сначала загрузите файл!')
+            return
+        }
+        var formData = new FormData();
+        formData.append('file', files[0]);
+        formData.append('semester', $('#select_semester_schedule_plan').val());
+        formData.append('groups[]', $('.select_group').val());
+        formData.append('plan_type', $('.plan_type').val());
+        formData.append('_token', csrf)
+
+        $.ajax({
+            url: $('#download_schedule_file').data('url'),
+            method: 'post',
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (data) {
+                checkBtnDownload()
             },
             error: function (err) {
                 error_alert(err.responseJSON.message)
@@ -551,13 +601,12 @@ $(document).ready(function () {
         });
     })
 
-    function getPairData(number)
-    {
-       let pairElement = $('.pair_numbers').children(`li[data-number="${number}"]`);
-       return {
-           number: pairElement.data('number'),
-           timeStart: pairElement.data('timeStart'),
-           timeEnd: pairElement.data('timeEnd')
-       }
+    function getPairData(number) {
+        let pairElement = $('.pair_numbers').children(`li[data-number="${number}"]`);
+        return {
+            number: pairElement.data('number'),
+            timeStart: pairElement.data('timeStart'),
+            timeEnd: pairElement.data('timeEnd')
+        }
     }
 })
