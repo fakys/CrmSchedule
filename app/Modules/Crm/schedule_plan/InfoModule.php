@@ -12,6 +12,7 @@ use App\Modules\Crm\schedule_plan\components\parse_schedule\plugins\BaseSchedule
 use App\Modules\Crm\schedule_plan\components\repositories\SchedulePlanRepository;
 use App\Modules\Crm\schedule_plan\components\repositories\SchedulePlanTypeRepository;
 use App\Modules\Crm\schedule_plan\components\tasks\ParseSchedulePlanFile;
+use App\Modules\Crm\schedule_plan\components\tasks\SaveSchedulePlanFile;
 use App\Modules\Crm\schedule_plan\controllers\SchedulePlanController;
 use App\Modules\Crm\schedule_plan\controllers\SchedulePlanTypeController;
 use App\Src\modules\InfoModuleModel;
@@ -57,7 +58,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     public static function tasks(): array
     {
         return  [
-            ParseSchedulePlanFile::class
+            ParseSchedulePlanFile::class,
+            SaveSchedulePlanFile::class
         ];
     }
 

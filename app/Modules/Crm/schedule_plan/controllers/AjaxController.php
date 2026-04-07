@@ -195,32 +195,24 @@ class AjaxController extends AbstractController
         ]);
     }
 
+    /** запускает таск для выгрузки */
     public function setPlanSchedule()
     {
-        //Обнуляем сообщение с ошибкой
-        $cash_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
-        if ($cash_data && $cash_data->getErrorMessage()) {
-            $cash_data->setErrorMessage(null);
-            BackendHelper::getOperations()->setSchedulePlanCash($cash_data);
-        }
+        BackendHelper::taskCreate(
+            'save_schedule_plan_file',
+            [
+                'userName' => BackendHelper::getKernel()->getContext()->getUser()->username
+            ]
+        );
+    }
 
-        if ($cash_data) {
-            if (BackendHelper::getRepositories()->getPlanScheduleByGroups($cash_data['groups'], $cash_data['semester'])) {
-                BackendHelper::getRepositories()->deletePlanScheduleByGroups($cash_data['groups'], $cash_data['semester']);
-            }
-            DB::beginTransaction();
-            try {
-                foreach ($cash_data['schedule_data'] as $card_data) {
-                    BackendHelper::getOperations()->saveSchedulePlan(BackendHelper::getOperations()->convertDataToCardEntity($card_data));
-                }
-            } catch (\Throwable $throwable) {
-                DB::rollBack();
-                throw $throwable;
-            }
-
-            DB::commit();
+    /** Проверяет выполнился ли таск */
+    public function checkStatusSaveSchedulePlanTask()
+    {
+        if (BackendHelper::getRepositories()->hasActiveTaskByUserName('save_schedule_plan_file', BackendHelper::getKernel()->getContext()->getUser()->username)) {
+            return 'pending';
         }
-        BackendHelper::getOperations()->deleteSchedulePlanCashByUserId();
+        return 'none';
     }
 
     public function getSubjectInput()

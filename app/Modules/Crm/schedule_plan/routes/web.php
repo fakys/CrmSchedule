@@ -106,3 +106,7 @@ Route::post(
     "$module/check-status-schedule-plan-cron",
     [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, 'checkStatusSchedulePlanCron']
 )->name("$module.check_status_schedule_plan_cron");
+Route::post(
+    "$module/check-status-save-schedule-plan-task",
+    [\App\Modules\Crm\schedule_plan\controllers\AjaxController::class, 'checkStatusSaveSchedulePlanTask']
+)->name("$module.check_status_save_schedule_plan_task");

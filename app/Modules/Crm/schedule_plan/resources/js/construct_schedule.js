@@ -499,6 +499,7 @@ $(document).ready(function () {
             method: 'post',
             data: {'_token': csrf},
             success: function (data) {
+                checkBtnSaveTask()
                 // window.location.reload()
             },
             error: function (err) {
@@ -538,7 +539,6 @@ $(document).ready(function () {
     })
 
     let update_document = false;
-
     function checkBtnDownload() {
         window.setTimeout(checkBtnDownload,5000);
         $.ajax({
@@ -569,8 +569,41 @@ $(document).ready(function () {
             }
         });
     }
-
     checkBtnDownload()
+
+    let update_document_save = false;
+    function checkBtnSaveTask() {
+        window.setTimeout(checkBtnSaveTask,5000);
+        $.ajax({
+            url: $('#check_status_save_schedule_plan_task').data('url'),
+            method: 'post',
+            data: {'_token': csrf},
+            success: function (data) {
+                if (data === 'pending') {
+                    $('.save-plan_schedule').html(
+                        `<div class="d-flex gap-2">
+                            <div class="d-inline-block">
+                                <i class="fas fa-sync-alt text-white"
+                                   style="font-size: 14px; animation: fa-spin 2s infinite linear;"></i>
+                            </div>
+                            Идет загрузка расписания
+                        </div>`
+                    )
+                    $('.save-plan_schedule').attr({disabled: true})
+                    update_document_save = true
+                } else if (data === 'none') {
+                    if (update_document_save) {
+                        window.location.reload()
+                    }
+                }
+            },
+            error: function (err) {
+                error_alert(err.responseJSON.message)
+            }
+        });
+    }
+
+    checkBtnSaveTask()
 
     $('#download_schedule_file_btn').on('click', function () {
         setScheduleCash()

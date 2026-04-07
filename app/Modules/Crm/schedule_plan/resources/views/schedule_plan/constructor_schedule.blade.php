@@ -15,6 +15,8 @@
 <div id="validate_card" data-url="{{ route('schedule_plan.validate_card') }}"></div>
 <div id="download_schedule_file" data-url="{{route('schedule_plan.download_schedule_file')}}"></div>
 <div id="check_status_schedule_plan_cron" data-url="{{route('schedule_plan.check_status_schedule_plan_cron')}}"></div>
+<div id="check_status_save_schedule_plan_task" data-url="{{route('schedule_plan.check_status_save_schedule_plan_task')}}"></div>
+
 <ul class="d-none pair_numbers">
     @foreach($pairs as $pair)
         <li data-number="{{$pair->number}}" data-time-start="{{$pair->time_start}}" data-time-end="{{$pair->time_end}}"></li>
