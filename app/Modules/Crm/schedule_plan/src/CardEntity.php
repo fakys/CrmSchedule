@@ -20,6 +20,7 @@ class CardEntity
     private $formatId;
     private $semesterId;
     private $errorMessage;
+    private $warningMessage;
 
 
     public function __construct(
@@ -38,6 +39,7 @@ class CardEntity
         $description = null,
         $formatId = null,
         $errorMessage = null,
+        $warningMessage = null
     )
     {
         $this->cardId = $cardId;
@@ -55,6 +57,7 @@ class CardEntity
         $this->formatId = $formatId;
         $this->semesterId = $semesterId;
         $this->errorMessage = $errorMessage;
+        $this->warningMessage = $warningMessage;
     }
 
     public function getCardId()
@@ -132,6 +135,16 @@ class CardEntity
         return $this->errorMessage;
     }
 
+    public function getWarningMessage()
+    {
+        return $this->warningMessage;
+    }
+
+    public function setWarningMassage($warningMassage)
+    {
+        $this->warningMessage = $warningMassage;
+    }
+
     public function toArray()
     {
         return [
@@ -150,6 +163,7 @@ class CardEntity
             'formatId' => $this->formatId,
             'description' => $this->description,
             'errorMessage' => $this->errorMessage,
+            'warningMessage' => $this->warningMessage
         ];
     }
 }

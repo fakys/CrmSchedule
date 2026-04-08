@@ -106,8 +106,10 @@
                                                                                 data-description="{{$card['description']??null}}" data-group-id="{{$card['groupId']??null}}"
                                                                                 data-format-id="{{$card['formatId']??null}}"
                                                                                 data-error-message="{{$card['errorMessage']}}"
+                                                                                data-warning-message="{{$card['warningMessage']}}"
                                                                                 @if(isset($card['teacherId'])) style="background: {{$all_users_style[$card['teacherId']]??''}};" @endif
-                                                                                class="pair-card pair-empty @if($card['errorMessage']) cardError @endif card mb-2 text-white @if(empty($card['teacherId'])) bg-gradient-secondary @endif">
+                                                                                class="pair-card pair-empty @if($card['errorMessage']) cardError @elseif($card['warningMessage']) cardWarning @endif card mb-2 text-white
+                                                                                @if(empty($card['teacherId']) || empty($card['subjectId'])) bg-gradient-secondary @endif">
                                                                                 <div class="card-header border-0 ui-sortable-handle"
                                                                                      style="cursor: move;">
                                                                                     <h3 class="card-pair-title">
@@ -126,6 +128,10 @@
                                                                                     @if($card['errorMessage'])
                                                                                         <div class="error-text-card">
                                                                                             {{$card['errorMessage']}}
+                                                                                        </div>
+                                                                                    @elseif($card['warningMessage'])
+                                                                                        <div class="warning-text-card">
+                                                                                            {{$card['warningMessage']}}
                                                                                         </div>
                                                                                     @endif
                                                                                 </div>
@@ -168,6 +174,25 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Назад</button>
                 <button type="button" class="btn btn-primary btn_save_schedule">Сохранить изменения</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="alert_before_save" tabindex="-1" aria-labelledby="card_model_data_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-white">
+                <h5 class="modal-title">В расписание есть замечания!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i
+                        class="fa fa-times" aria-hidden="true" style="color: black"></i></button>
+            </div>
+            <div class="modal-body">
+                Поправьте асе замечания что или они не будут сохранены!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Назад</button>
+                <button type="button" class="btn btn-warning btn_save_schedule_warning">Сохранить изменения</button>
             </div>
         </div>
     </div>

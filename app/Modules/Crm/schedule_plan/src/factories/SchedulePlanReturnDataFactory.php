@@ -11,7 +11,7 @@ class SchedulePlanReturnDataFactory {
             $data['groups'],
             $data['specialties'],
             $data['plan_type'],
-            $data['schedule_data'],
+            $data['schedule_data']??[],
             $data['error_message']?? null
         );
     }

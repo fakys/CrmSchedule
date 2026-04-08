@@ -3,6 +3,8 @@
 namespace App\Modules\Crm\schedule_plan\components\parse_schedule\plugins;
 
 
+use App\Entity\SchedulePlanType;
+use App\Entity\Semester;
 use App\Entity\StudentGroup;
 use App\Modules\Crm\schedule_plan\components\parse_schedule\ParseScheduleManager;
 use App\Modules\Crm\schedule_plan\components\parse_schedule\plugins\abstracts\AbstractScheduleParsePlugin;
@@ -27,8 +29,8 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
         6 => '11-12',
     ];
 
-    /** @var $week_count - количество недель */
-    protected $week_count;
+    protected SchedulePlanType $planType;
+    protected Semester $semester;
 
     public function getName(): string
     {
@@ -40,9 +42,14 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
         return ParseScheduleManager::ManagerName;
     }
 
-    public function setWeekCount(int $week_count)
+    public function setSemester(Semester $semester)
     {
-        $this->week_count = $week_count;
+        $this->semester = $semester;
+    }
+
+    public function setPlanType(SchedulePlanType $planType)
+    {
+        $this->planType = $planType;
     }
 
     public function parseFileData(array $data): array
@@ -107,7 +114,7 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
 
                                 if ($resCol) {
                                     $unique_fio_arr = [];
-                                    for ($i = 0; $i < $this->week_count; $i++) {
+                                    for ($i = 0; $i < count($this->planType->getWeeks()); $i++) {
                                         if ((bool)preg_match("/^[А-ЯЁA-Z][а-яёa-z-]+\s+[А-ЯЁA-Z]\.\s*[А-ЯЁA-Z]\.?$/iu", str_replace(',', '.', $resCol))) {
                                             if (empty($schedule[$group][$weekDay][$pairStartArr[$currentRow]][count($schedule[$group][$weekDay][$pairStartArr[$currentRow]]) - 1])) {
                                                 /** todo Предупреждение! */
@@ -158,23 +165,33 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
             foreach ($scheduleByGroup as $weekDay => $scheduleByWeek) {
                 foreach ($scheduleByWeek as $pairNumber => $pairsArr) {
                     foreach ($pairsArr as $weekNumber => $pairData) {
+                        $warningCard = '';
 
-                        $subject = BackendHelper::getRepositories()->getSubjectByName($pairData['subject']);
+                        $subject_id = null;
+                        if (isset($pairData['subject'])) {
+                            $subject = BackendHelper::getRepositories()->getSubjectByName($pairData['subject']);
 
-                        if (!$subject) {
-                            /** @todo Предупреждение !! */
-                            $subject_id = null;
+                            if ($subject) {
+                                $subject_id = $subject->id;
+                            } else {
+                                $warningCard = 'Предмет не был внесен в базу!';
+                            }
                         } else {
-                            $subject_id = $subject->id;
+                            $warningCard = 'Предмет не был задан или не внесен в базу!';
                         }
 
-                        $user = BackendHelper::getRepositories()->getUserByFioInInitials($pairData['fio']);
-
-                        if (!$user) {
-                            $user_id = null;
+                        $user_id = null;
+                        if (isset($pairData['fio'])) {
+                            $user = BackendHelper::getRepositories()->getUserByFioInInitials($pairData['fio']);
+                            if ($user) {
+                                $user_id = $user->id;
+                            } else {
+                                $warningCard = 'Преподаватель не был внесен в базу!';
+                            }
                         } else {
-                            $user_id = $user->id;
+                            $warningCard = 'Преподаватель не был задан или не внесен в базу!';
                         }
+
                         $entity = new CardEntity(
                             $cardId,
                             BackendHelper::getOperations()->cardName($user_id, $subject_id, $cardId),
@@ -182,14 +199,16 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
                             $weekDay,
                             $weekNumber + 1,
                             $group_id,
-                            2,
-                            1,
+                            $this->planType->id,
+                            $this->semester->id,
                             $user_id,
                             $subject_id,
                             $allPairData[$pairNumber]->time_start,
                             $allPairData[$pairNumber]->time_end,
                             '',
-                            $scheduleSettings->getDefaultFormat()
+                            $scheduleSettings->getDefaultFormat(),
+                            '',
+                            $warningCard
                         );
                         $return_data[] = $entity;
                         $cardId++;

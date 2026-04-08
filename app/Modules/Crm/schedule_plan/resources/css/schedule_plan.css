@@ -506,6 +506,17 @@
     text-align: center;
 }
 
+.cardWarning .card-header{
+    background: var(--warning);
+}
+.cardWarning .warning-text-card {
+    font-size: 12px;
+    background: var(--warning);
+    margin: 10px;
+    margin-top: auto;
+    text-align: center;
+}
+
 .construct_schedule_header .disabled_btn:hover {
     cursor: not-allowed;
 }

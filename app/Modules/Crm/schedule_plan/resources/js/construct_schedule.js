@@ -141,7 +141,10 @@ $(document).ready(function () {
                     doc_card_elem.find('.card-name').html(card_data.cardName)
                     doc_card_elem.find('.card-body-pair').html("<div class='card_time'>" + card_data.cardTime + "</div>")
                     doc_card_elem.removeClass('cardError')
+                    doc_card_elem.removeClass('cardWarning')
+
                     schedule_data[card_id].errorMessage = null
+                    schedule_data[card_id].cardWarning = null
                     checkBtnSave()
                     if (card_data.color) {
                         doc_card_elem.removeClass('bg-gradient-secondary')
@@ -175,28 +178,26 @@ $(document).ready(function () {
     }
 
     function setScheduleCash() {
-        if (Object.keys(schedule_data).length > 0) {
-            $.ajax({
-                url: $('#set_schedule_plan_cash').data('url'),
-                method: 'post',
+        $.ajax({
+            url: $('#set_schedule_plan_cash').data('url'),
+            method: 'post',
+            data: {
                 data: {
-                    data: {
-                        'schedule_data': schedule_data,
-                        'semester': $('#select_semester_schedule_plan').val(),
-                        'plan_type': $(".plan_type").val(),
-                        'groups': $(".select_group").val(),
-                        'specialties': $(".specialties_select").val(),
-                    }, '_token': csrf
-                },
-                success: function (data) {
-                    if (JSON.parse(data).result) {
-                        // success_alert('Данные успешно сохранены в кеше')
-                    } else {
-                        error_alert('Ошибка сохранения в кеше')
-                    }
+                    'schedule_data': schedule_data,
+                    'semester': $('#select_semester_schedule_plan').val(),
+                    'plan_type': $(".plan_type").val(),
+                    'groups': $(".select_group").val(),
+                    'specialties': $(".specialties_select").val(),
+                }, '_token': csrf
+            },
+            success: function (data) {
+                if (JSON.parse(data).result) {
+                    // success_alert('Данные успешно сохранены в кеше')
+                } else {
+                    error_alert('Ошибка сохранения в кеше')
                 }
-            });
-        }
+            }
+        });
     }
 
     $(function () {
@@ -297,7 +298,8 @@ $(document).ready(function () {
         planTypeId,
         formatId,
         semesterId,
-        errorMessage = null
+        errorMessage = null,
+        warningMessage = null,
     ) {
         schedule_data[card_id] = {
             cardId: card_id,
@@ -314,7 +316,8 @@ $(document).ready(function () {
             planTypeId: planTypeId,
             semesterId: semesterId,
             formatId: formatId,
-            errorMessage: errorMessage
+            errorMessage: errorMessage,
+            warningMessage: warningMessage,
         }
     }
 
@@ -351,7 +354,8 @@ $(document).ready(function () {
             plan_type,
             $(card).data('formatId'),
             semester,
-            $(card).data('errorMessage')
+            $(card).data('errorMessage'),
+            $(card).data('warningMessage')
         )
     }
 
@@ -372,9 +376,13 @@ $(document).ready(function () {
         if ($('.cardError').length > 0) {
             $('.save-plan_schedule').attr({disabled: true})
             $('.save-plan_schedule').addClass('disabled_btn')
+            $('.btn_save_schedule_warning').attr({disabled: true})
+            $('.btn_save_schedule_warning').addClass('disabled_btn')
         } else {
             $('.save-plan_schedule').attr({disabled: false})
             $('.save-plan_schedule').removeClass('disabled_btn')
+            $('.btn_save_schedule_warning').attr({disabled: false})
+            $('.btn_save_schedule_warning').removeClass('disabled_btn')
         }
     }
 
@@ -494,6 +502,26 @@ $(document).ready(function () {
         if ($(this).hasClass('disabled_btn')) {
             return;
         }
+        if ($('.cardWarning').length > 0) {
+            const modalElement = $('#alert_before_save')[0];
+            const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+            modal.show();
+            return;
+        }
+        saveSchedule()
+    })
+
+    $('.btn_save_schedule_warning').on('click', function () {
+        if ($(this).hasClass('disabled_btn')) {
+            return;
+        }
+        saveSchedule()
+        const modalElement = $('#alert_before_save')[0];
+        const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+        modal.hide()
+    })
+
+    function saveSchedule() {
         $.ajax({
             url: $('#set_plan_schedule').data('url'),
             method: 'post',
@@ -506,7 +534,7 @@ $(document).ready(function () {
                 error_alert(err.responseJSON.message)
             }
         });
-    })
+    }
 
     $('.btn-open-construct').on('click', function () {
         let status = $(this).data('status')
@@ -529,18 +557,9 @@ $(document).ready(function () {
         openPairModal($(this).parent().data('cardId'))
     })
 
-    $('#download_template').on('click', function () {
-        window.open(
-            $('#download_template_url').data('url') +
-            "?semester=" + $('#select_semester_schedule_plan').val() + "&" +
-            "plan_type=" + $('.plan_type').val() + "&" +
-            "select_group=" + $('.select_group').val()
-        )
-    })
-
     let update_document = false;
     function checkBtnDownload() {
-        window.setTimeout(checkBtnDownload,5000);
+        window.setTimeout(checkBtnDownload,10000);
         $.ajax({
             url: $('#check_status_schedule_plan_cron').data('url'),
             method: 'post',
@@ -573,7 +592,7 @@ $(document).ready(function () {
 
     let update_document_save = false;
     function checkBtnSaveTask() {
-        window.setTimeout(checkBtnSaveTask,5000);
+        window.setTimeout(checkBtnSaveTask,10000);
         $.ajax({
             url: $('#check_status_save_schedule_plan_task').data('url'),
             method: 'post',
@@ -604,14 +623,14 @@ $(document).ready(function () {
     }
 
     checkBtnSaveTask()
-
     $('#download_schedule_file_btn').on('click', function () {
-        setScheduleCash()
+
         let files = $('#download_schedule_file_input')[0].files
         if (files.length <= 0) {
             error_alert('Сначала загрузите файл!')
             return
         }
+        setScheduleCash()
         var formData = new FormData();
         formData.append('file', files[0]);
         formData.append('semester', $('#select_semester_schedule_plan').val());
