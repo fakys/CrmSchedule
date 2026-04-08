@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\schedule_plan\components\parse_schedule;
 
 use App\Modules\Crm\schedule_plan\components\parse_schedule\plugins\abstracts\AbstractScheduleParsePlugin;
+use App\Modules\Crm\schedule_plan\src\CardEntity;
 use App\Src\BackendHelper;
 use App\Src\modules\plugins\mangers\AbstractManger;
 
@@ -14,6 +15,13 @@ class ParseScheduleManager extends AbstractManger
         return self::ManagerName;
     }
 
+    /**
+     * @param array $data
+     * @param $semesterId
+     * @param $planTypeId
+     * @param $pluginName
+     * @return CardEntity[]
+     */
     public function parseFileDataByPlugin(array $data, $semesterId, $planTypeId, $pluginName = 'BaseScheduleParsePlugin')
     {
         /** @var AbstractScheduleParsePlugin[] $plugins */
@@ -28,6 +36,6 @@ class ParseScheduleManager extends AbstractManger
             }
         }
 
-        return false;
+        return [];
     }
 }

@@ -135,6 +135,11 @@ class CardEntity
         return $this->errorMessage;
     }
 
+    public function setErrorMessage($errorMessage)
+    {
+        $this->errorMessage = $errorMessage;
+    }
+
     public function getWarningMessage()
     {
         return $this->warningMessage;
@@ -165,5 +170,10 @@ class CardEntity
             'errorMessage' => $this->errorMessage,
             'warningMessage' => $this->warningMessage
         ];
+    }
+
+    public function cardFillOut()
+    {
+        return $this->teacherId && $this->groupId && $this->subjectId && $this->timeStart && $this->timeEnd;
     }
 }

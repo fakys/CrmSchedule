@@ -94,44 +94,44 @@
                                                             <div class="card-slot connectedSortable ui-sortable" data-week-day="{{$day}}" data-number="{{$number_pair->number}}" data-week-number="{{$key}}" data-group-id="{{$group->id}}">
                                                                 @if($schedule_data)
                                                                     @foreach($schedule_data->getScheduleData() as $card)
-                                                                        @if($card['weekDay']==$day && $number_pair->number == $card['numberPair'] && $card['weekNumber']==$key && $card['groupId'] == $group->id)
+                                                                        @if($card->getWeekDay()==$day && $number_pair->number == $card->getNumberPair() && $card->getWeekNumber() == $key && $card->getGroupId() == $group->id)
                                                                                 <?php $count += 1; ?>
                                                                             <div
                                                                                 data-week-day="{{$day}}" data-number-pair="{{$number_pair->number}}"
                                                                                 data-week-number="{{$key}}" data-card-id="{{$count}}"
-                                                                                data-subject-id="{{$card['subjectId']}}"
-                                                                                data-teacher-id="{{$card['teacherId']}}"
+                                                                                data-subject-id="{{$card->getSubjectId()}}"
+                                                                                data-teacher-id="{{$card->getTeacherId()}}"
                                                                                 {{--                                                                    Все тут импользуется чисто при загрузке--}}
-                                                                                data-time-start="{{$card['timeStart']??null}}" data-time-end="{{$card['timeEnd']??null}}"
-                                                                                data-description="{{$card['description']??null}}" data-group-id="{{$card['groupId']??null}}"
-                                                                                data-format-id="{{$card['formatId']??null}}"
-                                                                                data-error-message="{{$card['errorMessage']}}"
-                                                                                data-warning-message="{{$card['warningMessage']}}"
-                                                                                @if(isset($card['teacherId'])) style="background: {{$all_users_style[$card['teacherId']]??''}};" @endif
-                                                                                class="pair-card pair-empty @if($card['errorMessage']) cardError @elseif($card['warningMessage']) cardWarning @endif card mb-2 text-white
-                                                                                @if(empty($card['teacherId']) || empty($card['subjectId'])) bg-gradient-secondary @endif">
+                                                                                data-time-start="{{$card->getTimeStart()}}" data-time-end="{{$card->getTimeEnd()}}"
+                                                                                data-description="{{$card->getDescription()}}" data-group-id="{{$card->getGroupId()}}"
+                                                                                data-format-id="{{$card->getFormatId()}}"
+                                                                                data-error-message="{{$card->getErrorMessage()}}"
+                                                                                data-warning-message="{{$card->getWarningMessage()}}"
+                                                                                @if($card->getTeacherId()) style="background: {{$all_users_style[$card->getTeacherId()]??''}};" @endif
+                                                                                class="pair-card pair-empty @if($card->getErrorMessage()) cardError @elseif($card->getWarningMessage()) cardWarning @endif card mb-2 text-white
+                                                                                @if(!$card->cardFillOut()) bg-gradient-secondary @endif">
                                                                                 <div class="card-header border-0 ui-sortable-handle"
                                                                                      style="cursor: move;">
                                                                                     <h3 class="card-pair-title">
                                                                                         <i class="fa fa-users"
                                                                                            aria-hidden="true"></i>
                                                                                         <div class="card-name">
-                                                                                            {{$card['cardName']??''}}
+                                                                                            {{$card->getCardName()}}
                                                                                         </div>
                                                                                     </h3>
                                                                                 </div>
                                                                                 <div class="card-body-pair" data-bs-toggle="modal"
                                                                                      data-bs-target="#card_model_data">
                                                                                     <div class='card_time'>
-                                                                                        {{sprintf('%s - %s', $card['timeStart']??null, $card['timeEnd']??null)}}
+                                                                                        {{sprintf('%s - %s', $card->getTimeStart(), $card->getTimeEnd())}}
                                                                                     </div>
-                                                                                    @if($card['errorMessage'])
+                                                                                    @if($card->getErrorMessage())
                                                                                         <div class="error-text-card">
-                                                                                            {{$card['errorMessage']}}
+                                                                                            {{$card->getErrorMessage()}}
                                                                                         </div>
-                                                                                    @elseif($card['warningMessage'])
+                                                                                    @elseif($card->getWarningMessage())
                                                                                         <div class="warning-text-card">
-                                                                                            {{$card['warningMessage']}}
+                                                                                            {{$card->getWarningMessage()}}
                                                                                         </div>
                                                                                     @endif
                                                                                 </div>

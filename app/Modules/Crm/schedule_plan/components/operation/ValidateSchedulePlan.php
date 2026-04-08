@@ -44,8 +44,10 @@ class ValidateSchedulePlan extends AbstractOperation
     }
 
     /**
+     * метод проверки карты
      * @param CardEntity $card_data
      * @param CardEntity[] $all_schedule_data
+     * @param array $all_groups
      * @return array
      * @throws \DateMalformedStringException
      */

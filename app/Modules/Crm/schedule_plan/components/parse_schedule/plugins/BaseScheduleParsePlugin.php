@@ -13,6 +13,7 @@ use App\Modules\Crm\schedule_plan\src\CardEntity;
 use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
 use App\Src\BackendHelper;
 use App\Src\helpers\ArrayHelper;
+use Illuminate\Support\Facades\Log;
 
 /** Парсер стандартного расписания аквт */
 class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
@@ -75,7 +76,6 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
             }
         }
 
-        /** todo тут не уверен что правильно, надо что-то придумать */
         $dayCount = count($pairStartArr) / max($pairStartArr);
 
 
@@ -116,10 +116,6 @@ class BaseScheduleParsePlugin extends AbstractScheduleParsePlugin
                                     $unique_fio_arr = [];
                                     for ($i = 0; $i < count($this->planType->getWeeks()); $i++) {
                                         if ((bool)preg_match("/^[А-ЯЁA-Z][а-яёa-z-]+\s+[А-ЯЁA-Z]\.\s*[А-ЯЁA-Z]\.?$/iu", str_replace(',', '.', $resCol))) {
-                                            if (empty($schedule[$group][$weekDay][$pairStartArr[$currentRow]][count($schedule[$group][$weekDay][$pairStartArr[$currentRow]]) - 1])) {
-                                                /** todo Предупреждение! */
-                                            }
-
                                             if (isset($schedule[$group][$weekDay][$pairStartArr[$currentRow]][$i]['fio'])) {
                                                 if (empty($unique_fio_arr[$this->fioFormater($resCol)])) {
                                                     $unique_fio_arr[$this->fioFormater($resCol)] = true;

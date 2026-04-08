@@ -167,7 +167,7 @@ class AjaxController extends AbstractController
     public function setSchedulePlanCash()
     {
         $data = request()->post('data');
-        BackendHelper::getOperations()->setSchedulePlanCash(SchedulePlanReturnDataFactory::createCashSchedulePlanEntity(
+        BackendHelper::getOperations()->setSchedulePlanCash(SchedulePlanReturnDataFactory::createCashSchedulePlanReturnData(
             $data
         ));
         return json_encode(['result' => true]);

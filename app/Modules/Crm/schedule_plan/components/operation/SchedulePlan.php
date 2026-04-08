@@ -8,6 +8,7 @@ use App\Modules\Crm\schedule_plan\src\factories\SchedulePlanReturnDataFactory;
 use App\Src\BackendHelper;
 use App\Src\modules\operations\AbstractOperation;
 use App\Src\redis\RedisManager;
+use Illuminate\Support\Facades\Log;
 
 class SchedulePlan extends AbstractOperation{
 
@@ -97,29 +98,9 @@ class SchedulePlan extends AbstractOperation{
         $redis = new RedisManager();
         $json = $redis->redis->get(self::SchedulePlanRedis);
         if (isset(json_decode($json, true)[$user_id])) {
-            return SchedulePlanReturnDataFactory::createCashSchedulePlanEntity(json_decode($json, true)[$user_id]);
+            return SchedulePlanReturnDataFactory::createCashSchedulePlanReturnData(json_decode($json, true)[$user_id]);
         }
         return null;
-    }
-
-    /**
-     * @param CardEntity[] $parseData
-     * @param int $plan_schedule_id
-     * @param array $groups
-     * @return array
-     */
-    public function cardEntityConvertToArray(array $parseData, $plan_schedule_id, array $groups)
-    {
-        $main_data = [];
-        $plan_schedule = BackendHelper::getRepositories()->getSchedulePlanTypeById($plan_schedule_id);
-        $weeks = $plan_schedule->getWeeks();
-        foreach ($parseData as $entity) {
-            if (in_array($entity->getGroupId(), $groups) && isset($weeks[$entity->getWeekNumber()])) {
-                $main_data[] = $entity->toArray();
-            }
-        }
-
-        return $main_data;
     }
 
     public function getName(): string
