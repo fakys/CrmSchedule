@@ -28,11 +28,16 @@
 
                     </div>
                     @enderror
-                    @if($cash_data)<div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Удалить сессию
-                        </button>
-                    </div>@endif
+                    <div id="deleteCashContainer">
+                        @if($cash_data)
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Удалить сессию
+                                </button>
+                            </div>
+                        @endif
+                    </div>
+
                     <div class="form-group">
                         <label>Семестр</label>
                         <select class="semester-select form-control" name="semester" id="select_semester_schedule_plan" @if($cash_data) disabled @endif>

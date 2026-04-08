@@ -309,12 +309,6 @@ interface RepositoryInterface{
     public function createSchedule($duration_lesson_id, $pair_number_id, $student_group_id, $lessons_id, $description = '');
 
     /**
-     * Возвращает все семестры
-     * @return Semester[]
-     */
-    public function getAllSemesters();
-
-    /**
      * Удаляет сестер
      * @param $id
      * @return false

@@ -37,7 +37,7 @@ class ParseSchedulePlanFile extends AbstractTask
             $manager = BackendHelper::getManager(ParseScheduleManager::ManagerName);
             $data = $manager->parseFileDataByPlugin($schedule_data_file, $semester, $plan_type);
             $schedule_data = BackendHelper::getOperations()->cardEntityConvertToArray($data, $plan_type, $groups);
-            $group = BackendHelper::getRepositories()->getStudentGroupById($groups);
+            $group = BackendHelper::getRepositories()->getStudentGroupById($groups[0]);
             BackendHelper::getOperations()->setSchedulePlanCashForUser(
                 new SchedulePlanReturnData($semester, $groups, $group->specialty_id, $plan_type, $schedule_data),
                 $user->id

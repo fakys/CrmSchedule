@@ -45,7 +45,7 @@ class SchedulePlanController extends AbstractController
         AssetBundleManager::appendBundle(new SchedulePlanAssets());
         $types = BackendHelper::getRepositories()->allSchedulePlanType();
         $groups = BackendHelper::getRepositories()->getFullStudentGroups();
-        $semesters = BackendHelper::getRepositories()->getAllSemesters();
+        $semesters = BackendHelper::getRepositories()->getSemestersQuery()->orderBy('id', 'desc')->get();
         $specialties = BackendHelper::getRepositories()->getAllSpecialties();
         $cash_data = BackendHelper::getOperations()->getSchedulePlanCashByUserId(BackendHelper::getKernel()->getContext()->getUser()->id);
         return view('schedule_plan::schedule_plan.index', [

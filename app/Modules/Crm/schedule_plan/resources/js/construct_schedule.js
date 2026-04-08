@@ -178,6 +178,7 @@ $(document).ready(function () {
     }
 
     function setScheduleCash() {
+        console.log(12)
         $.ajax({
             url: $('#set_schedule_plan_cash').data('url'),
             method: 'post',
@@ -192,7 +193,17 @@ $(document).ready(function () {
             },
             success: function (data) {
                 if (JSON.parse(data).result) {
-                    // success_alert('Данные успешно сохранены в кеше')
+                    $('#select_semester_schedule_plan').attr({'disabled':true})
+                    $('.plan_type').attr({'disabled':true})
+                    $('.select_group').attr({'disabled':true})
+                    $('.specialties_select').attr({'disabled':true})
+                    $('#deleteCashContainer').html(
+                        `<div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Удалить сессию
+                                </button>
+                            </div>`
+                    )
                 } else {
                     error_alert('Ошибка сохранения в кеше')
                 }
@@ -634,9 +645,16 @@ $(document).ready(function () {
         var formData = new FormData();
         formData.append('file', files[0]);
         formData.append('semester', $('#select_semester_schedule_plan').val());
+        var groups = $('.select_group').val();
+
+        groups.forEach(function(groupId) {
+            formData.append('groups[]', groupId);
+        });
         formData.append('groups[]', $('.select_group').val());
         formData.append('plan_type', $('.plan_type').val());
         formData.append('_token', csrf)
+
+        console.log(formData)
 
         $.ajax({
             url: $('#download_schedule_file').data('url'),

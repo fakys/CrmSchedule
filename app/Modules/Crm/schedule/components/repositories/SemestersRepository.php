@@ -18,6 +18,11 @@ class SemestersRepository extends AbstractRepositories
         return Semester::all();
     }
 
+    public function getSemestersQuery()
+    {
+        return Semester::query();
+    }
+
     /**
      * @param SemestersModel $model
      * @return Semester|bool
