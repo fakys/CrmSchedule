@@ -7,6 +7,7 @@ use App\Modules\Crm\schedule\components\operations\ScheduleApiOperation;
 use App\Modules\Crm\schedule\components\operations\ScheduleManagerOperation;
 use App\Modules\Crm\schedule\components\operations\SemestersOperation;
 use App\Modules\Crm\schedule\components\operations\TimeOperation;
+use App\Modules\Crm\schedule\components\repositories\CorrectionScheduleRepository;
 use App\Modules\Crm\schedule\components\repositories\ScheduleRepository;
 use App\Modules\Crm\schedule\components\repositories\SemestersRepository;
 use App\Modules\Crm\schedule\components\schedule_manger\plugins\BaseSchedulePlugin;
@@ -41,7 +42,8 @@ class InfoModule extends InfoModuleModel implements  InterfaceInfoModule
     {
         return [
             ScheduleRepository::class,
-            SemestersRepository::class
+            SemestersRepository::class,
+            CorrectionScheduleRepository::class
         ];
     }
 

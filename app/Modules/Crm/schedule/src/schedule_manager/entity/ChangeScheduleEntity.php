@@ -2,7 +2,7 @@
 namespace App\Modules\Crm\schedule\src\schedule_manager\entity;
 
 use App\Entity\Schedule;
-use App\Modules\Crm\schedule\src\schedule_manager\ScheduleUnit;
+use App\Modules\Crm\schedule\Entity\CorrectionSchedule;
 use DateTime;
 
 class ChangeScheduleEntity
@@ -10,13 +10,15 @@ class ChangeScheduleEntity
     private $schedules = [];
 
     /**
-     * @param Schedule[] $schedules
+     * @param CorrectionSchedule[] $CorrectionSchedules
      */
-    public function __construct($schedules)
+    public function __construct($CorrectionSchedules)
     {
-        foreach ($schedules as $schedule) {
+        foreach ($CorrectionSchedules as $correctionSchedule) {
+            /** @var Schedule $schedule */
+            $schedule = $correctionSchedule->schedule()->first();
             $this->schedules[$schedule->student_group_id]
-            [date('Y-m-d', strtotime($schedule->getDuration()->date_start))]
+            [date('Y-m-d', strtotime($correctionSchedule->date_start))]
             [$schedule->getPairNumber()->number] = $schedule;
         }
     }

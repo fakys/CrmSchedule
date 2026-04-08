@@ -449,23 +449,6 @@ ORDER BY date DESC;";
         return Schedule::where(['id' => $id])->first()->delete();
     }
 
-    /**
-     * Возвращает расписание по группе за дату
-     * @param $group_id
-     * @param $date_start
-     * @param $date_end
-     * @return mixed
-     */
-    public function getScheduleByGroupAndDate($group_id, $date_start, $date_end)
-    {
-        $schedule = Schedule::whereIn('student_group_id', $group_id)
-            ->where('duration_lessons.date_start', '>=', $date_start)
-            ->where('duration_lessons.date_start', '<=', $date_end)
-            ->join('duration_lessons', 'duration_lessons.id', '=', 'duration_lesson_id');
-
-        return $schedule->get();
-    }
-
     public function getName(): string
     {
         return 'schedule_repository';

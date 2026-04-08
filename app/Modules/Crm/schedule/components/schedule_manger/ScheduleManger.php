@@ -48,7 +48,7 @@ class ScheduleManger extends AbstractManger
             );
 
             $plugin->setChangeScheduleEntity(new ChangeScheduleEntity(
-                BackendHelper::getRepositories()->getScheduleByGroupAndDate($searchData->getGroupsId(), $searchData->getDateStart()->format('Y-m-d'), $searchData->getDateEnd()->format('Y-m-d'))
+                BackendHelper::getRepositories()->getCorrectionScheduleByGroupAndDate($searchData->getGroupsId(), $searchData->getDateStart()->format('Y-m-d'), $searchData->getDateEnd()->format('Y-m-d'))
             ));
             $plugin->Execute();
         }
@@ -59,10 +59,8 @@ class ScheduleManger extends AbstractManger
     {
         $data = [];
         foreach ($semesters_id as $semester_id) {
-            foreach ($groups_id as $group_id) {
-                foreach (BackendHelper::getRepositories()->getPlanScheduleByGroups($group_id, $semester_id) as $planSchedule) {
-                    $data[] = $planSchedule;
-                }
+            foreach (BackendHelper::getRepositories()->getPlanScheduleByGroups($groups_id, $semester_id) as $planSchedule) {
+                $data[] = $planSchedule;
             }
         }
         return $data;

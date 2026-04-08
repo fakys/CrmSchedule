@@ -4,6 +4,7 @@ namespace App\Modules\Crm\schedule\components\schedule_manger\plugins;
 
 use App\Entity\PlanSchedule;
 use App\Modules\Crm\schedule\components\schedule_manger\plugins\abstracts\AbstractSchedulePlugin;
+use App\Modules\Crm\schedule\Entity\CorrectionSchedule;
 use App\Modules\Crm\schedule\exceptions\ScheduleManagerException;
 use App\Src\BackendHelper;
 
@@ -61,7 +62,7 @@ class BaseSchedulePlugin extends AbstractSchedulePlugin
                     $unit->setBaseSchedule(true);
                     $unit->setSchedulePlanType($schedule_plan_type_by_semester[$current_semester['id']][$groupId]);
 
-                    /** @var PlanSchedule $schedule */
+                    /** @var CorrectionSchedule $schedule */
                     $schedule = $this->getChangeScheduleEntity()->getScheduleByData(
                         $groupId,
                         $current_date,
@@ -69,7 +70,7 @@ class BaseSchedulePlugin extends AbstractSchedulePlugin
                     );
 
                     if (!$schedule) {
-                        /** @var PlanSchedule $schedule */
+                        /** @var CorrectionSchedule $schedule */
                         $schedule = $this->getSchedulePlan()->getPlanScheduleByData(
                             $current_semester['id'],
                             $unit->getGroup(),
@@ -79,12 +80,12 @@ class BaseSchedulePlugin extends AbstractSchedulePlugin
                         );
                     }
                     if ($schedule) {
-                        $unit->setTimeStart($schedule->getDuration()->time_start);
-                        $unit->setTimeEnd($schedule->getDuration()->time_end);
-                        $unit->setSubject($schedule->getLesson()->subject_id);
-                        $unit->setUser($schedule->getLesson()->user_id);
-                        $unit->setDescription($schedule->description);
-                        $unit->setFormatPair($schedule->format_lesson_id);
+                        $unit->setTimeStart($schedule->schedule()->first()->getDuration()->time_start);
+                        $unit->setTimeEnd($schedule->schedule()->first()->getDuration()->time_end);
+                        $unit->setSubject($schedule->schedule()->first()->getLesson()->subject_id);
+                        $unit->setUser($schedule->schedule()->first()->getLesson()->user_id);
+                        $unit->setDescription($schedule->schedule()->first()->description);
+                        $unit->setFormatPair($schedule->schedule()->first()->format_lesson_id);
                         $unit->setBaseSchedule(false);
                     }
                 }

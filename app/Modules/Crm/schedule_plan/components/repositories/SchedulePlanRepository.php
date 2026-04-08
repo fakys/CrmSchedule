@@ -152,7 +152,7 @@ class SchedulePlanRepository extends AbstractRepositories
 
     /**
      * Получает план по группам и семестру
-     * @param $groups_id
+     * @param array $groups_id
      * @param $semester_id
      * @return  PlanSchedule[]
      *

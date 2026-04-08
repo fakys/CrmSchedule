@@ -43,7 +43,7 @@ class SchedulePlanTypeRepository extends AbstractRepositories
      */
     public function getSchedulePlanTypeById($id)
     {
-        return SchedulePlanType::where(['id'=>$id])->first();
+        return SchedulePlanType::where(['id' => $id])->first();
     }
 
     /**
@@ -55,7 +55,7 @@ class SchedulePlanTypeRepository extends AbstractRepositories
      */
     public function editSchedulePlanTypeById($id, $name, $data)
     {
-        $type = SchedulePlanType::where(['id'=>$id])->first();
+        $type = SchedulePlanType::where(['id' => $id])->first();
         $type->name = $name;
         $type->plan_type_data = json_encode($data);
         if ($type->save()) {
@@ -77,11 +77,12 @@ class SchedulePlanTypeRepository extends AbstractRepositories
             type.name,
             type.plan_type_data
          FROM plan_schedule schedule
-         LEFT JOIN schedule_plan_type type on schedule.plan_type_id = type.id
-         WHERE schedule.student_group_id = :group_id AND schedule.semester_id = :semester_id
+            LEFT JOIN schedule_plan_type type on schedule.plan_type_id = type.id
+            JOIN schedules sched on schedule.schedule_id = sched.id
+         WHERE sched.student_group_id = :group_id AND schedule.semester_id = :semester_id
          ORDER BY schedule.id DESC LIMIT 1";
 
-        $args_arr = [':group_id'=>$group_id, ':semester_id'=>$semester_id];
+        $args_arr = [':group_id' => $group_id, ':semester_id' => $semester_id];
         return DB::selectOne($sql, $args_arr);
     }
 

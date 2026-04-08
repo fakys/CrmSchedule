@@ -2,6 +2,7 @@
 namespace App\Modules\Crm\schedule\src\schedule_manager\entity;
 
 use App\Entity\PlanSchedule;
+use App\Entity\Schedule;
 use App\Src\BackendHelper;
 
 /** Сущность для плана пар из репозитория */
@@ -15,8 +16,10 @@ class PlanScheduleEntity
     public function __construct($planSchedule)
     {
         foreach ($planSchedule as $item) {
+            /** @var Schedule $schedule */
+            $schedule = $item->schedule()->first();
             $this->planSchedule[$item->semester_id]
-            [$item->student_group_id][$item->getDuration()->week_number][$item->getDuration()->week_day][$item->getPairNumber()->number] = $item;
+            [$schedule->student_group_id][$item->week_number][$item->week_day][$schedule->getPairNumber()->number] = $item;
         }
 
     }

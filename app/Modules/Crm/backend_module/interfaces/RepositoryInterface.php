@@ -20,6 +20,7 @@ use App\Modules\Crm\backend_module\repositories\CronRepository;
 use App\Modules\Crm\backend_module\repositories\TaskRepository;
 use App\Modules\Crm\lessons\components\repositories\SubjectsRepository;
 use App\Modules\Crm\reports\repositories\ReportsRepository;
+use App\Modules\Crm\schedule\components\repositories\CorrectionScheduleRepository;
 use App\Modules\Crm\schedule\components\repositories\ScheduleRepository;
 use App\Modules\Crm\schedule\components\repositories\SemestersRepository;
 use App\Modules\Crm\schedule_plan\components\repositories\SchedulePlanRepository;
@@ -41,6 +42,7 @@ use App\Modules\Crm\users_interface\components\repositories\UsersRepositories;
  * @mixin UserGroupsRepositories
  * @mixin SemestersRepository
  * @mixin SubjectsRepository
+ * @mixin CorrectionScheduleRepository
  *
  */
 interface RepositoryInterface{
