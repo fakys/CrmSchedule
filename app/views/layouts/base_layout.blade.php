@@ -296,5 +296,9 @@ use App\Src\BackendHelper;
 <!-- ./wrapper -->
 
 {{$assetsBundleManager->registerBodyFiles()}}
+
+{{$assetsBundleManager->registerFile('resources/plugins/js/jquery-ui.min.js')}}
+{{$assetsBundleManager->registerFile('resources/plugins/fullcalendar/main.min.js')}}
+
 </body>
 </html>

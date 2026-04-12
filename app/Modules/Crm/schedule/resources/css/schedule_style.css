@@ -139,3 +139,58 @@
     background: var(--success);
     padding: 2px;
 }
+
+/* Увеличиваем высоту каждой строки времени (слота) */
+.fc-timegrid-slot {
+    height: 80px !important; /* Было ~50px, ставим 80px или больше */
+    min-height: 80px !important;
+}
+
+/* Опционально: делаем шрифт чуть крупнее, чтобы соответствовал размеру */
+.fc-timegrid-axis-cushion,
+.fc-timegrid-slot-label-cushion {
+    font-size: 14px;
+    padding: 4px;
+}
+
+.custom-context-menu {
+    position: absolute;
+    z-index: 1000;
+    width: 150px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    padding: 5px 0;
+    display: none; /* Скрыто по умолчанию */
+}
+
+.custom-context-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.custom-context-menu li {
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.custom-context-menu li:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.card-schedule-title {
+    font-size: 10px;
+}
+
+.pair-number-card {
+    margin-left: auto;
+    margin-right: 5px;
+    background: var(--c-main-white-blue);
+    padding: 2px;
+    border-radius: 2px;
+}

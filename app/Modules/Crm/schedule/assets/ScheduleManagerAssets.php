@@ -10,14 +10,17 @@ class ScheduleManagerAssets extends AbstractAssets
     public function headerFiles(): array
     {
         return [
-            'app/Modules/Crm/schedule_plan/resources/css/schedule_plan.css'
+            'resources/plugins/fullcalendar/main.css',
+            'app/Modules/Crm/schedule/resources/css/schedule_style.css'
         ];
     }
 
     public function bodyFiles(): array
     {
         return [
-            'app/Modules/Crm/schedule/resources/js/schedule_manager.js'
+            'resources/plugins/js/jquery-ui.min.js',
+            'app/Modules/Crm/schedule/resources/js/schedule_manager.js',
+            'resources/plugins/fullcalendar/main.min.js'
         ];
     }
 

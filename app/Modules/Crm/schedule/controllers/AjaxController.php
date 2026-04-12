@@ -4,9 +4,13 @@ namespace App\Modules\Crm\schedule\controllers;
 use App\Modules\Crm\schedule\components\schedule_manger\ScheduleManger;
 use App\Modules\Crm\schedule\components\tasks\CashScheduleTask;
 use App\Modules\Crm\schedule\exceptions\ScheduleEditValidException;
+use App\Modules\Crm\schedule\models\CorrectionPairForm;
+use App\Modules\Crm\schedule\models\CorrectionScheduleCardModel;
 use App\Modules\Crm\schedule\models\EditScheduleModel;
 use App\Modules\Crm\schedule\models\ScheduleManagerModel;
 use App\Modules\Crm\system_settings\components\settings\ScheduleSetting;
+use App\Services\Abstracts\Domain\Facades\ViewManager;
+use App\Services\Forms\Infrastructure\Services\AdditionalParams\FormAdditionalParam;
 use App\Src\BackendHelper;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -25,6 +29,22 @@ class AjaxController extends Controller
         }
 
         return view('schedule::schedule_manager.schedule_manager_menu', []);
+    }
+
+    public function getFormForSchedulePair()
+    {
+        $data = request()->post('data');
+        $model = new CorrectionScheduleCardModel();
+        $validator = Validator::make($data, $model->rules());
+        $model->load($validator->validate());
+        $entity = $model->toEntity();
+
+        $form = new CorrectionPairForm('form', new FormAdditionalParam(), $entity);
+        ViewManager::appendElement($form);
+
+        $id = $entity->getId();
+
+        return view('schedule::schedule_manager.pair_from', compact('data', 'id'));
     }
 
     public function addScheduleManagerMenu()
@@ -101,6 +121,7 @@ class AjaxController extends Controller
             $users = BackendHelper::getRepositories()->getAllTeachers();
             $pair_format = BackendHelper::getRepositories()->getFullFormatLessons();
             $student_groups = BackendHelper::getRepositories()->getFullStudentGroups();
+            $pairs = BackendHelper::getRepositories()->getNumberPair();
             return view('schedule::schedule_manager.has_schedule', [
                 'schedules' => $schedules,
                 'subjects' => $subjects,
@@ -108,6 +129,7 @@ class AjaxController extends Controller
                 'users' => $users,
                 'pair_format' => $pair_format,
                 'student_groups' => $student_groups,
+                'pairs' => $pairs
             ]);
         }
         abort(500, 'Ошибка сервера');

@@ -33,8 +33,6 @@ function get_schedule() {
             method: 'post',
             data: {'_token':document.querySelector('input[name="_token"]').value},
             success: function(data){
-                console.log(21)
-                console.log(data)
                 $('.menu-container-data').empty()
                 $('.menu-container-data').append(data)
             },

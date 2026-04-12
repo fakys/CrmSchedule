@@ -66,6 +66,12 @@ Route::post(
         [\App\Modules\Crm\schedule\controllers\AjaxController::class, "hasScheduleManagerMenu"]
     )->name("$module.has_schedule_manager_menu")
 )->description('Страница просмотра расписания');
+
+Route::post(
+    "$module/get-pair-form",
+    [\App\Modules\Crm\schedule\controllers\AjaxController::class, "getFormForSchedulePair"]
+)->name("$module.get_pair_form");
+
 Route::get(
     "$module/has-schedule-cash-task",
     [\App\Modules\Crm\schedule\controllers\AjaxController::class, "checkCashScheduleTask"]

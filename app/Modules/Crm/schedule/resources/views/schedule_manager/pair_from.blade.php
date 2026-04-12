@@ -6,7 +6,7 @@
 
 <div>
     {{$assetsBundleManager->registerHeaderFiles()}}
-    <div id="card_id_pair_form" data-card-id="{{$card_id}}"></div>
+    <div id="card_id_pair_form" data-id="{{$id}}"></div>
     {{$viewManager->renderElement($viewManager->getElementByTag('form')->startForm())}}
     @if($viewManager->getElementByTag('form')->hasElement('teacherId'))
         {{$viewManager->renderElement($viewManager->getElementByTag('form')->getElementByTag('teacherId'))}}
