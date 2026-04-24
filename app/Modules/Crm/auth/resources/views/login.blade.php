@@ -15,6 +15,7 @@
             <div class="card-header text-center">
                 <div class="h1">CRM</div>
             </div>
+
             <div class="card-body">
                 {{$viewManager->renderElement($viewManager->getElementByTag('login_form')->startForm())}}
                 @if($viewManager->getElementByTag('login_form')->hasElement('login'))

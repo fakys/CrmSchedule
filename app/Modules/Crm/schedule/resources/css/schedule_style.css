@@ -183,6 +183,13 @@
     color: white;
 }
 
+.card-schedule {
+    width: 100%;
+    color: white;
+    border-radius: 3px;
+    padding: 5px;
+}
+
 .card-schedule-title {
     font-size: 10px;
 }

@@ -115,7 +115,10 @@ class AjaxController extends Controller
         if (request()->post() && $searchData) {
             /** @var ScheduleManger $manager */
             $manager = BackendHelper::getManager('schedule_manger');
+
+
             $schedules = $manager->constrictSchedule($searchData)->getSchedule();
+
             $subjects = BackendHelper::getRepositories()->getFullSubject();
             $pair_number = BackendHelper::getRepositories()->getNumberPair();
             $users = BackendHelper::getRepositories()->getAllTeachers();
