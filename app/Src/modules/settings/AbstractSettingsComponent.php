@@ -5,6 +5,7 @@ use App\Entity\SystemSetting;
 use App\Src\modules\components\AbstractComponents;
 use App\Src\modules\exceptions\BackendException;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 abstract class AbstractSettingsComponent extends AbstractComponents
 {
@@ -13,8 +14,15 @@ abstract class AbstractSettingsComponent extends AbstractComponents
     public function __construct($kernel)
     {
         parent::__construct($kernel);
-        /** @var SystemSetting $settings */
-        $settings = SystemSetting::where('name', $this->getName())->where('active', true)->orderBy('id', 'desc')->first();
+        /** todo Придумать что-нибудь */
+        $settings='';
+        try {
+            /** @var SystemSetting $settings */
+            $settings = SystemSetting::where('name', $this->getName())->where('active', true)->orderBy('id', 'desc')->first();
+        } catch (Throwable $exception) {
+
+        }
+
         if (!$settings) {
             $this->settings = $this->getDefaultSettings();
         } else {

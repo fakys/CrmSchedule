@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     zip unzip \
     libzip-dev \
     libfreetype6-dev \
-    cron
+    cron \
+    nano
 
 RUN docker-php-ext-install zip
 
@@ -30,6 +31,9 @@ RUN pecl install redis \
 
 COPY App/php.ini /usr/local/etc/php/conf.d/php.ini
 
+RUN groupadd -g 1001 www
+RUN useradd -u 1000 -g www www
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY App/cron/schedule-task-cron /etc/cron.d/schedule-task-cron
@@ -43,3 +47,6 @@ RUN chmod 0644 /etc/cron.d/schedule-cron && \
     chown root:root /etc/cron.d/schedule-cron && \
     touch /var/log/cron_schedule.log && \
     chmod 0666 /var/log/cron_schedule.log
+
+
+USER www
