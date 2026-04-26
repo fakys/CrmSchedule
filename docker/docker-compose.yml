@@ -8,7 +8,8 @@ services:
             - ./nginx/conf.d:/etc/nginx/conf.d
             - ../:/var/app/
         ports:
-            - 80:80
+#            todo Временно !
+            - 81:80
         depends_on:
             -   app
 
