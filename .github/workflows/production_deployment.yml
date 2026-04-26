@@ -18,7 +18,7 @@ jobs:
             cd /var/www/CrmSchedule/docker
             docker compose down
             cd ../
-            git pull origin main
+            git pull origin master
             cd docker
             docker compose build
 #            docker compose up -d
