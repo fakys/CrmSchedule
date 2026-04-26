@@ -15,8 +15,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            cd /var/www/CrmSchedule
-            cd docker
+            cd /var/www/CrmSchedule/docker
             docker compose down
             cd ../
             git pull origin main
