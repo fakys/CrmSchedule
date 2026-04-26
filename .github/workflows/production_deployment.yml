@@ -22,3 +22,7 @@ jobs:
             cd docker
             docker compose build
             docker compose up -d
+            docker-compose exec app bash
+            composer install
+            composer update
+            php artisan migrate
