@@ -16,6 +16,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             cd /var/www/CrmSchedule/docker
+            cat docker-compose.yml
             docker compose down
             cd ../
             git pull origin main
