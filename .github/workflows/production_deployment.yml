@@ -15,11 +15,11 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            cd /var/www/CrmSchedule/docker
+            cd /var/www/app/releases/
             docker compose down
             cd ../
             git pull origin master
             cd docker
             docker compose build
-            docker compose up -d
+            docker compose -f docker-compose.prod.yml up -d
             docker compose exec app sh -c "composer install && composer update"
