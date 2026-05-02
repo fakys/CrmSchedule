@@ -31,7 +31,7 @@ RUN pecl install redis \
 
 COPY App/php.ini /usr/local/etc/php/conf.d/php.ini
 
-RUN groupadd -g 1000 www
+RUN groupadd -g 1001 www
 RUN useradd -u 1000 -g www www
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
