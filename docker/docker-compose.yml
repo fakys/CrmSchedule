@@ -6,7 +6,7 @@ services:
         image: nginx:latest
         volumes:
             - ./nginx/conf.d:/etc/nginx/conf.d
-            - ../:/var/app/
+            - ../../:/var/app/
         ports:
 #            todo Временно !
             - 81:80
@@ -18,7 +18,7 @@ services:
             context: .
             dockerfile: App/Dockerfile
         volumes:
-            - ../:/var/app/
+            - ../../:/var/app/
         depends_on:
             - db
 
@@ -27,7 +27,7 @@ services:
             context: .
             dockerfile: App/Dockerfile
         volumes:
-            - ../:/var/app/
+            - ../../:/var/app/
             - ../.env.testing:/var/app/.env
         depends_on:
             - test-db
