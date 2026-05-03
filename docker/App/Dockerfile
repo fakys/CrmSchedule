@@ -1,6 +1,6 @@
 FROM php:8.2-fpm
 
-WORKDIR /var/app/relese
+WORKDIR /var/app
 
 RUN apt-get update && apt-get install -y \
     apt-utils \
