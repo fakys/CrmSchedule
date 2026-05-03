@@ -18,7 +18,7 @@ services:
             dockerfile: App/Dockerfile
         volumes:
             - ../:/var/app/
-            - ../../shared/storage:var/app/storage
+            - /var/www/CrmSchedule/shared/storage:/var/app/storage
         depends_on:
             - db
 
