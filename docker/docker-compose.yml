@@ -19,6 +19,7 @@ services:
         volumes:
             - ../:/var/app/
             - /var/www/CrmSchedule/shared/storage:/var/app/storage
+            - /var/www/CrmSchedule/shared/.env:/var/app/.env
         depends_on:
             - db
 
