@@ -17,7 +17,8 @@ class SettingsController extends AbstractController
             ->setText('Настройка модулей')
             ->setIcon('fa fa-microchip')
             ->RmLink('holidays_settings')
-            ->setText('Праздничныe дни');
+            ->setText('Праздничныe дни')
+            ->setLink(route(\App\Modules\Crm\holidays\InfoModule::getNameModule().'.settings'));
     }
 
     static function assets(): array

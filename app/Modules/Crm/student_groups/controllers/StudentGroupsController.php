@@ -61,8 +61,8 @@ class StudentGroupsController extends AbstractController
 
         $kernel->getControllerLoader()->RmGroup('rm_administrator')
             ->RmGroupList('operations')
-            ->RmLink('masse_add_students_group')->setText('Массовое добавление групп студентов');
-//            ->setLink(route('student_groups.masse_add_students_group'));
+            ->RmLink('masse_add_students_group')->setText('Массовое добавление групп студентов')
+            ->setLink(route('student_groups.masse_add_students_group'));
     }
 
     static function assets(): array

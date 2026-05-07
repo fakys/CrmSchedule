@@ -105,7 +105,9 @@ abstract class AbstractModulesProvider extends ServiceProvider
      */
     public function register(): void
     {
-
+        $this->registrationMigration();
+        $this->registrationRoutes();
+        $this->registrationViews();
     }
 
     /**
@@ -136,9 +138,5 @@ abstract class AbstractModulesProvider extends ServiceProvider
                 $module_entity->setStatus($status->active);
             }
         }
-
-        $this->registrationMigration();
-        $this->registrationRoutes();
-        $this->registrationViews();
     }
 }
