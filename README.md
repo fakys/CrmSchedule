@@ -17,7 +17,7 @@ docker compose -f docker/docker-compose.yml exec app bash -c "composer install &
 ```
 5. Заполняем базу данных необходимыми данными
 ```shell script
-docker compose -f docker/docker-compose.yml exec -T db psql -U schedule -d schedule < docker/postgres/seeder_base_data/seeder_base_data.sql 
+`docker compose -f docker/docker-compose.yml exec -T db psql -U schedule -d schedule < docker/postgres/seeder_base_data/seeder_base_data.sql `
 ``` 
 
 6. Создаём директории кэша затёртые при подключении volume

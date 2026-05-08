@@ -8,7 +8,7 @@ services:
             - ./nginx/conf.d:/etc/nginx/conf.d
             - ../:/var/app/
         ports:
-            - 81:80
+            - 80:80
         depends_on:
             -   app
 
@@ -26,9 +26,9 @@ services:
     db:
         image: postgres:latest
         environment:
-            POSTGRES_DB: "schedule"
-            POSTGRES_USER: "schedule"
-            POSTGRES_PASSWORD: "root"
+            POSTGRES_DB: ${DB_DATABASE}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
         ports:
             - 5432:5432
         volumes:
@@ -49,10 +49,10 @@ services:
         ports:
             - "6379:6379"
         environment:
-            - REDIS_USERNAME=schedule
-            - REDIS_USER_PASSWORD=root
-            - REDIS_PASSWORD=root
-            - REDIS_PORT=6379
+            - REDIS_USERNAME=${REDIS_USERNAME}
+            - REDIS_USER_PASSWORD=${REDIS_PASSWORD}
+            - REDIS_PASSWORD=${REDIS_PASSWORD}
+            - REDIS_PORT=${REDIS_PORT}
         volumes:
             - redis_data:/data
             - ../redis.conf:/usr/local/etc/redis/redis.conf

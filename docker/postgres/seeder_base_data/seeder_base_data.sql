@@ -8,10 +8,10 @@ VALUES (
         '$2y$12$l9dcQj7D2M/bnY9V8mCxEuGuVhqf3XJtEvI3vyVdMn5PaaSnJ3DEG');
 
 INSERT INTO users_documents(user_id)
-VALUES (3);
+VALUES (1);
 
 INSERT INTO users_info(user_id)
-VALUES (3);
+VALUES (1);
 
 -- Добавляем системную группу
 INSERT INTO user_groups(
@@ -25,11 +25,11 @@ VALUES ('system',
 INSERT INTO groups_users(
                          user_group_id,
                          users_id)
-VALUES ( 1, 3);
+VALUES ( 1, 1);
 -- Добавляем в настройки, что пользователь системный
 INSERT INTO system_settings(
                             name,
                             settings,
                             create_user_id)
-VALUES ( 'system_settings', '{"system_users":["3"],"system_user_groups":["1"]}', 3);
+VALUES ( 'system_settings', '{"system_users":["1"],"system_user_groups":["1"]}', 1);
 COMMIT;
