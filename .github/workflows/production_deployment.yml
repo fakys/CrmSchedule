@@ -15,11 +15,5 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            cd /var/www/app/releases/
-            docker compose down
-            cd ../
-            git pull origin master
-            cd docker
-            docker compose build
-            docker compose -f docker-compose.prod.yml up -d
-            docker compose exec app sh -c "composer install && composer update"
+            cd /var/www/deploy
+            dep deploy -o repository=${{vars.CRM_SCHEDULE_URL}} -o deploy_path=${{vars.CRM_SCHEDULE_PATH}} -o http_user=${{vars.CRM_SCHEDULE_USER}} -vvv
